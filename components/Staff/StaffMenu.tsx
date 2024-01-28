@@ -16,8 +16,8 @@ const StaffMenu = () => {
     fetchDemoPage();
   }, []);
   return (
-    <div className="h-[calc(100vh-3rem)] w-full bg-gradient-to-b from-gray-100 to-gray-300 content-center overflow-y-hidden  rounded-lg flex flex-col">
-      <div className="bg-white h-full  items-center w-full left-0 right-0 overflow-y-scroll round-lg">
+    <div className="h-[calc(100vh-3rem)] w-full bg-gradient-to-b from-gray-100 to-gray-300 content-center overflow-y-hidden  flex flex-col">
+      <div className="bg-white h-full  items-center w-full left-0 right-0 overflow-y-scroll ">
         {demoPage}
       </div>
     </div>

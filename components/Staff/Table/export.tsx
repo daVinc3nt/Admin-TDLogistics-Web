@@ -16,9 +16,11 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <section className=" mt-3 ml-3">
+    <section className="">
       <div className="container">
-        <h1 className="mb-6 text-3xl font-bold">Nhân Viên</h1>
+        <div className=" text-3xl font-bold pl-3 py-3 shadow-sm bg-gradient-to-r from-cyan-500 to-blue-500">
+          <div className="text-white">Nhân viên</div>
+        </div>
         <DataTable columns={columns} data={data} />
       </div>
     </section>

@@ -17,3 +17,4 @@ export { default as WalletIcon} from "./WalletIcon";
 export { default as HelpIcon} from "./HelpIcon";
 export { default as HelpContact} from "./HelpContact";
 export { default as UploadIcon} from "./UploadIcon";
+export { default as StaffIcon} from "./StaffIcon";

@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search by name"
+          placeholder="Tìm kiếm theo tên"
           value={
             (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
           }
@@ -129,11 +129,11 @@ export function DataTable<TData, TValue>({
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-          className="px-2 w-20 bg-slate-200 drop-shadow-md hover:drop-shadow-xl hover:bg-slate-300  rounded-md "
+          className="px-2 w-20 bg-gradient-to-r from-cyan-500 to-blue-500 drop-shadow-md hover:drop-shadow-xl hover:bg-slate-300 hover:shadow-md  rounded-md text-xs md:text-base"
         >
           <span>Previous</span>
         </Button>
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1 text-xs md:text-base">
           | Go to page:
           <input
             type="number"
@@ -150,25 +150,30 @@ export function DataTable<TData, TValue>({
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-          className="px-2 w-20 bg-slate-200 drop-shadow-md hover:drop-shadow-xl hover:bg-slate-300  rounded-md"
+          className="px-2 w-20 bg-gradient-to-r from-cyan-500 to-blue-500 border drop-shadow-md hover:drop-shadow-xl hover:bg-slate-300 hover:shadow-md  rounded-md text-xs md:text-base"
         >
           <span>Next</span>
         </Button>
         <select
+          className="text-xs md:text-base"
           value={table.getState().pagination.pageSize}
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
+            <option
+              key={pageSize}
+              value={pageSize}
+              className="text-xs md:text-base"
+            >
               Show {pageSize}
             </option>
           ))}
         </select>
         <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
+          <div className="text-xs md:text-base">Page</div>
+          <strong className="text-xs md:text-base">
             {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </strong>

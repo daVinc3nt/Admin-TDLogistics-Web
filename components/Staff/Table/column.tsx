@@ -10,10 +10,14 @@ import { LogoIcon, UsersIcon } from "@/components/Icons";
 export type Staff = {
   number: string;
   staffName: string;
+  staffAccountName: string;
   staffKey: string;
   staffRole: string;
   staffPhone: string;
   staffKPI: number;
+  staffSalary: number;
+  staffSalaryPaid: number;
+  staffDeposit: number;
 };
 
 export const columns: ColumnDef<Staff>[] = [
@@ -88,7 +92,7 @@ export const columns: ColumnDef<Staff>[] = [
       };
 
       return (
-        <div className="relative rounded-lg h- w-1/2">
+        <div className="relative rounded-lg ">
           <Button
             onClick={openModal}
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
@@ -100,33 +104,38 @@ export const columns: ColumnDef<Staff>[] = [
             onRequestClose={closeModal}
             contentLabel="Thông tin chi tiết nhân viên"
           >
-            <LogoIcon className=" w-12 h-12" />
-            <div className="absolute top-0 right-0">
-              <button
-                className="bg-red-500 text-white rounded-md w-12 h-8"
-                onClick={closeModal}
-              >
-                Đóng
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 mt-4 mx-4">
-              {/* Hiển thị thông tin chi tiết của nhân viên ở đây */}
-              {/* Ví dụ: */}
-              <div>
-                <div className="font-bold text-lg ">Ảnh đại diện</div>
-                <UsersIcon className=" w-12 h-12" />
+            <div>
+              <LogoIcon className=" w-12 h-12" />
+              <div className="absolute top-0 right-0">
+                <button
+                  className="bg-red-500 text-white w-12 h-8"
+                  onClick={closeModal}
+                >
+                  Đóng
+                </button>
               </div>
-              <div>
-                <p className="mt-3 font-bold text-lg">
-                  Thông tin chi tiết nhân viên :
-                </p>
-                <p>-Staff ID: {row.original.number}</p>
-                <p>-Staff Name: {row.original.staffName}</p>
-                <p>-Staff Key: {row.original.staffKey}</p>
-                <p>-Staff Role: {row.original.staffRole}</p>
-                <p>-Staff KPI: {row.original.staffKPI}</p>
-                <p>-Staff Role: {row.original.staffPhone}</p>
+
+              <div className="grid grid-cols-2 mt-4">
+                {/* Hiển thị thông tin chi tiết của nhân viên ở đây */}
+                {/* Ví dụ: */}
+                <div>
+                  <div className="font-bold text-lg ">Ảnh đại diện</div>
+                  <UsersIcon className=" w-12 h-12" />
+                </div>
+                <div>
+                  <p className=" font-bold text-lg">
+                    Thông tin chi tiết nhân viên :
+                  </p>
+                  <p>-Staff ID: {row.original.number}</p>
+                  <p>-Staff Name: {row.original.staffName}</p>
+                  <p>-Staff AccountName: {row.original.staffAccountName}</p>
+                  <p>-Staff Key: {row.original.staffKey}</p>
+                  <p>-Staff Role: {row.original.staffRole}</p>
+                  <p>-Staff KPI: {row.original.staffKPI}</p>
+                  <p>-Staff Salary: {row.original.staffSalary}</p>
+                  <p>-Staff SalaryPaid: {row.original.staffSalaryPaid}</p>
+                  <p>-Staff Deposit: {row.original.staffDeposit}</p>
+                </div>
               </div>
             </div>
           </Modal>
