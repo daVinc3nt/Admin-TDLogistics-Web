@@ -1,6 +1,8 @@
 import React, { ReactNode, useState } from "react";
-import Sidebar from "./Sidebar";
+import SideBar from "./Top&SideBar/SideBar"
+import Sidebar from "./Sidebarold";
 import MobileMenu from "./NavigationBar/MobileMenu";
+import { Box} from "@mui/material";
 import {
   NotifyIcon,
   GlobseIcon
@@ -19,29 +21,25 @@ const Wrapper = ({ children }: LayoutProps) => {
     setToggleCollapseMobile(!toggleCollapseMobile);
   };
   return (
-    <div className="flex ">
-      <Sidebar toggleCollapseMobile={toggleCollapseMobile}/>
-      <div className="flex-1 flex flex-col h-screen bg-red-800">
-        <div className="flex flex-col">
-          <header className="h-12 flex justify-end w-full items-center px-4 xl:px-2">
-            <div className="flex items-center">
-                <div className="flex items-center">
-                  <div className="flex md:flex-row-reverse flex-row gap-2">
-                    <LangSelector/>
-                    <NotifyIcon/>
-                  </div>
-                    <MobileMenu toggle ={handleSidebarToggleMobile}/>
+   <div className="flex">
+      <SideBar />
+      <div className="flex-1 flex flex-col h-screen ">
+      <div className="flex">
+        <header className="h-16 flex justify-end w-full bg-[#111319] items-center px-4 xl:px-2">
+          <div className="flex items-center">
+              <div className="flex items-center">
+                <div className="flex md:flex-row-reverse flex-row gap-2">
+                  <LangSelector/>
+                  <NotifyIcon/>
                 </div>
-            </div>
-          </header>
-        </div>
-        {!toggleCollapseMobile && 
-        <div className="lg:hidden flex-1 flex z-40 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm">
-        </div>}
-
-        <div className="bg-primary flex flex-1 text-black">
-            {children}
-        </div>
+                  <MobileMenu toggle ={handleSidebarToggleMobile}/>
+              </div>
+          </div>
+        </header>
+      </div>
+      <div className="bg-[#111319] flex flex-1 text-gray-800">
+          {children}
+      </div>
       </div>
     </div>
   );

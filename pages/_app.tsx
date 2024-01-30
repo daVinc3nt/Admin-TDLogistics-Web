@@ -12,39 +12,12 @@ import { Spinner } from "@material-tailwind/react";
 
 const googleMapsLibraries: Libraries = ["places"];
 
-interface UserLocation {
-  lat: number;
-  lng: number;
-}
-
-interface UserLocationContextProps {
-  userLocation: UserLocation;
-  updateUserLocation: (newLocation: UserLocation) => void;
-}
-
 function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
   const messages = {
     vi,
     en,
   };
-  const [userLocation, setUserLocation] = useState<UserLocation>({
-    lat: 10.816360162758764,
-    lng: 106.62860159222816,
-  });
-
-  const getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setUserLocation({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-    });
-  };
-
-  useEffect(() => {
-    getUserLocation();
-  }, []);
 
   return (
     <>
