@@ -63,12 +63,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Tìm kiếm theo tên"
+          placeholder="Tìm kiếm theo tên file"
           value={
-            (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("fileName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("staffName")?.setFilterValue(event.target.value)
+            table.getColumn("fileName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

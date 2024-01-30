@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import DemoPage from "./Table/export";
 import LoadingSkeleton from "../LoadingSkeleton";
-const StaffMenu = () => {
+const FileMenu = () => {
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const StaffMenu = () => {
   return (
     <div className="h-[calc(100vh-3rem)] w-full bg-gradient-to-b from-gray-100 to-gray-300 content-center overflow-y-hidden  flex flex-col">
       <div className=" text-3xl font-bold pl-3 py-3 shadow-sm backgroundtitle">
-        <div className="text-white">Nhân viên</div>
+        <div className="text-white">Quản lý file</div>
       </div>
       <div className="bg-white h-full  items-center w-full left-0 right-0 overflow-y-scroll ">
         {demoPage}
@@ -25,4 +25,4 @@ const StaffMenu = () => {
   );
 };
 
-export default StaffMenu;
+export default FileMenu;

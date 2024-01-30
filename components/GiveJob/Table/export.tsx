@@ -6,7 +6,7 @@ async function getData(): Promise<Staff[]> {
   // Fetch data from your API here.
 
   const res = await fetch(
-    "https://65a8eb68219bfa371867ef13.mockapi.io/fakeapi/staff"
+    "https://65a8eb68219bfa371867ef13.mockapi.io/fakeapi/GiveJob"
   );
   const data = await res.json();
   return data;
