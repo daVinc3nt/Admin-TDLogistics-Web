@@ -18,7 +18,7 @@ export default function mDisplayItems({menuItems}) {
   const [dropdown, Setdropdown] = useState(false)
   return (
 
-  <div className="h-screen z-50 top-0 bottom-0 flex flex-col w-80 p-2 overflow-y-auto text-center bg-gray-900">
+  <div className="h-screen z-50 top-0 bottom-0 flex flex-col w-80 overflow-y-auto text-center bg-gray-900">
     {/* logo */}
       <div className="text-gray-100 text-xl">
         <div className="p-2.5 mt-1 flex items-center">

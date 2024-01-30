@@ -36,7 +36,7 @@ const Wrapper = ({ children }: LayoutProps) => {
           </div>
         </header>
       </div>
-      <div className="bg-[#111319] flex flex-1 text-gray-300">
+      <div className="bg-[#111319] flex flex-1 ">
           {children}
       </div>
       </div>
