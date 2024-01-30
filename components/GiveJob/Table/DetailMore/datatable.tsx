@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { StringDecoder } from "string_decoder";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -63,12 +64,10 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Tìm kiếm theo tên"
-          value={
-            (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
-          }
+          placeholder="Tìm kiếm theo Mã đơn hàng"
+          value={(table.getColumn("Code")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("staffName")?.setFilterValue(event.target.value)
+            table.getColumn("Code")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

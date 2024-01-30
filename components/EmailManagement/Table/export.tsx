@@ -1,12 +1,12 @@
-import { Staff, columns } from "./column";
+import { FileData, columns } from "./column";
 import { DataTable } from "./datatable";
 import https from "https";
 
-async function getData(): Promise<Staff[]> {
+async function getData(): Promise<FileData[]> {
   // Fetch data from your API here.
 
   const res = await fetch(
-    "https://65a8eb68219bfa371867ef13.mockapi.io/fakeapi/staff"
+    "https://65b75fb446324d531d5468b0.mockapi.io/none/EmailManagement"
   );
   const data = await res.json();
   return data;

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+
 import {
   ColumnDef,
   SortingState,
@@ -64,11 +65,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Tìm kiếm theo tên"
-          value={
-            (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
-          }
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("staffName")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

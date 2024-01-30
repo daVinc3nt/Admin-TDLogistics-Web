@@ -28,3 +28,11 @@ html {
 .custom-img {
     background-image: url(/shipper.jpg)
 }
+
+.backgroundtitle{
+    @apply bg-gradient-to-r from-cyan-500 to-blue-500 ;
+}
+
+.buttonprenext{
+    @apply bg-gray-300 ;
+}
