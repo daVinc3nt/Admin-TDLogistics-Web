@@ -1,6 +1,5 @@
 import React, { ReactNode, useState } from "react";
 import SideBar from "./Top&SideBar/SideBar"
-import Sidebar from "./Sidebarold";
 import MobileMenu from "./NavigationBar/MobileMenu";
 import { Box} from "@mui/material";
 import {
@@ -37,7 +36,7 @@ const Wrapper = ({ children }: LayoutProps) => {
           </div>
         </header>
       </div>
-      <div className="bg-[#111319] flex flex-1 text-gray-800">
+      <div className="bg-[#111319] flex flex-1 text-gray-300">
           {children}
       </div>
       </div>

@@ -22,7 +22,7 @@ const SubItems: React.FC<MenuItem>  = (menuItems) => {
         >
             {menuItems.icon}
             <div className="flex justify-between gap-3 w-full items-center">
-                <span className="text-xs lg:text-md ml-4 text-gray-200 font-bold">
+                <span className="text-xs hidden md:block lg:text-lg ml-4 text-gray-200 font-bold">
                     {menuItems.title}
                 </span>
                 <span className={`text-sm ease-in-out duration-200 transition-all ${dropdown ? "rotate-180" : "rotate-0"}`}>

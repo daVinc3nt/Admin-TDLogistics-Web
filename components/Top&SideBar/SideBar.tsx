@@ -10,59 +10,60 @@ import {ReceiptLong,
         LocalShipping,
         BusinessCenter,
         AlternateEmail,
-        Folder
+        Folder,
+        LogoutOutlined
 }from '@mui/icons-material';
 const SideItemData=[
   {
     title:"Đơn hàng",
     url:"/",
-    icon:<ReceiptLong />
+    icon: <LogoutOutlined className="scale-75 lg:block"/>
   },
   {
     title:"Lô hàng",
     url:"/",
-    icon:<Inventory />
+    icon:<Inventory className="scale-75 lg:block"/>
   },
   {
     title:"Nội vụ",
-    icon:<Assistant />,
+    icon:<Assistant className="scale-75 lg:block"/>,
     submenus:[
       {
         title:"Nhân viên",
         url:"/",
-        icon:<People />
+        icon:<People className="scale-75 lg:block"/>
       },
       {
         title:"Thống kê",
         url:"/",
-        icon:<PieChart />
+        icon:<PieChart className="scale-75 lg:block"/>
       },
       {
         title:"Lịch trình",
         url:"/",
-        icon:<PendingActions />
+        icon:<PendingActions className="scale-75 lg:block"/>
       },
       {
         title:"Phương Tiện",
         url:"/",
-        icon:<LocalShipping />
+        icon:<LocalShipping className="scale-75 lg:block"/>
       },
     ]
   },
   {
     title:"Đa nhiệm",
     url:"/",
-    icon:<BusinessCenter />,
+    icon:<BusinessCenter className="scale-75 lg:block"/>,
     submenus:[
       {
         title:"Gửi mail",
         url:"/",
-        icon:<AlternateEmail/>
+        icon:<AlternateEmail className="scale-75 lg:block"/>
       },
       {
         title:"Quản lý file",
         url:"/",
-        icon:<Folder />
+        icon:<Folder className="scale-75 lg:block"/>
       }
     ]
   },
