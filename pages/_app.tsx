@@ -33,19 +33,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     lng: 106.62860159222816,
   });
 
-  const getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setUserLocation({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-    });
-  };
-
-  useEffect(() => {
-    getUserLocation();
-  }, []);
-
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>
