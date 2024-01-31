@@ -54,7 +54,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
     }
   );
   const wrapperClassesMobile = classNames(
-    "h-screen flex z-50 fixed overflow-y-scroll bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 bg-light justify-between flex-col",
+    "h-screen flex z-50 fixed bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 justify-between flex-col",
     {
       ["w-52"]: !toggleCollapseMobile,
       ["w-0 px-0"]: toggleCollapseMobile,
