@@ -21,7 +21,7 @@ const Wrapper = ({ children }: LayoutProps) => {
   };
   return (
    <div className="flex">
-      <SideBar />
+      <SideBar toggleCollapseMobile={toggleCollapseMobile}/>
       <div className="flex-1 flex flex-col h-screen ">
       <div className="flex">
         <header className="h-16 flex justify-end w-full bg-[#111319] items-center px-4 xl:px-2">
@@ -36,6 +36,9 @@ const Wrapper = ({ children }: LayoutProps) => {
           </div>
         </header>
       </div>
+      {!toggleCollapseMobile && 
+        <div className="lg:hidden flex-1 flex z-40 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm">
+        </div>}
       <div className="bg-[#111319] flex flex-1 ">
           {children}
       </div>

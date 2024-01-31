@@ -9,14 +9,16 @@ interface MenuItem {
 
 const Item: React.FC<MenuItem>  = (menuItems) => {
   return (
+    <div className="w-full">
     <Link href={menuItems.url}>
     <div
-    className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white "
+    className="p-2.5 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-black hover:text-[#e1201c] "
   >
     {menuItems.icon}
-    <span className="text-xs lg:text-lg ml-4 text-gray-200 hidden md:block font-bold">{menuItems.title}</span>
+    <span className="text-xs lg:text-lg ml-4 font-medium">{menuItems.title}</span>
   </div>
   </Link>
+  </div>
   );
 };
 

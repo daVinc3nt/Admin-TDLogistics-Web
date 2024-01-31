@@ -17,12 +17,12 @@ const SubItems: React.FC<MenuItem>  = (menuItems) => {
     <>
     <div className="w-full">
         <button
-                className="p-2.5 mt-3 flex items-center w-full rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white"
+                className="p-2.5 mt-1 flex items-center w-full rounded-md px-4 duration-300 cursor-pointer hover:bg-black hover:text-[#e1201c]"
             onClick={() => Setdropdown(!dropdown)}
         >
             {menuItems.icon}
             <div className="flex justify-between gap-3 w-full items-center">
-                <span className="text-xs hidden md:block lg:text-lg ml-4 text-gray-200 font-bold">
+                <span className="text-xs lg:text-lg ml-4  font-medium">
                     {menuItems.title}
                 </span>
                 <span className={`text-sm ease-in-out duration-200 transition-all ${dropdown ? "rotate-180" : "rotate-0"}`}>
@@ -31,7 +31,7 @@ const SubItems: React.FC<MenuItem>  = (menuItems) => {
             </div>
         </button>
         <div
-            className={`text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold ${dropdown ? "" : "hidden"}`}
+            className={`text-left text-sm mt-2 w-4/5 mx-auto  font-bold ${dropdown ? "" : "hidden"}`}
         >
             {menuItems.submenus?.map((menu, index) => (
                     menu.submenus ? (

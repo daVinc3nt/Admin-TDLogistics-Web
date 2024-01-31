@@ -1,7 +1,5 @@
 import { useState } from "react";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DisplayItems from './ForSideBar/DisplayItems'
-import Sidebar from './Side'
+import Side from './Side'
 import {ReceiptLong,
         Inventory,
         Assistant,
@@ -14,12 +12,13 @@ import {ReceiptLong,
         Folder,
         LogoutOutlined
 }from '@mui/icons-material';
+import MenuHambuger from "./MenuHambuger";
 const SideItemData=[
   {
     id: 1,
     title:"Đơn hàng",
     url:"/",
-    icon: <LogoutOutlined className="scale-75 lg:block"/>
+    icon: <ReceiptLong className="scale-75 lg:block"/>
   },
   {
     id: 2,
@@ -79,9 +78,9 @@ const SideItemData=[
     ]
   },
 ]
-export default function SideBar() {
+export default function SideBar({toggleCollapseMobile}) {
   const [dropdown, Setdropdown] = useState(false)
   return (
-    <Sidebar menuItems={SideItemData}/>
+    <Side menuItems={SideItemData} toggleCollapseMobile={toggleCollapseMobile}/>
   );
 }
