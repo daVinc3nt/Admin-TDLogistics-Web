@@ -47,7 +47,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
   }
 
   const wrapperClasses = classNames(
-    "h-screen hidden lg:px-4 lg:flex pt-8 pb-4 bg-[#1a1b23] justify-between flex-col",
+    "h-screen hidden lg:px-4  lg:flex pt-8 pb-4 bg-[#1a1b23] justify-between flex-col",
     {
       ["lg:w-80"]: !toggleCollapse,
       ["lg:w-20"]: toggleCollapse,

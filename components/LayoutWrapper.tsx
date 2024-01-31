@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import SideBar from "./Top&SideBar/SideBar"
-import MobileMenu from "./NavigationBar/MobileMenu";
+import MenuHambuger from "./Top&SideBar/MenuHambuger";
 import { Box} from "@mui/material";
 import {
   NotifyIcon,
@@ -20,10 +20,10 @@ const Wrapper = ({ children }: LayoutProps) => {
     setToggleCollapseMobile(!toggleCollapseMobile);
   };
   return (
-   <div className="flex">
+   <div className="flex overflow-hidden">
       <SideBar toggleCollapseMobile={toggleCollapseMobile}/>
       <div className="flex-1 flex flex-col h-screen ">
-      <div className="flex">
+      <div className="flex flex-col">
         <header className="h-16 flex justify-end w-full bg-[#111319] items-center px-4 xl:px-2">
           <div className="flex items-center">
               <div className="flex items-center">
@@ -31,7 +31,7 @@ const Wrapper = ({ children }: LayoutProps) => {
                   <LangSelector/>
                   <NotifyIcon/>
                 </div>
-                  <MobileMenu toggle ={handleSidebarToggleMobile}/>
+                  <MenuHambuger toggle ={handleSidebarToggleMobile}/>
               </div>
           </div>
         </header>
