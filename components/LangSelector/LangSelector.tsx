@@ -7,7 +7,7 @@ import {
   FiGlobe
 } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { IntlProvider, useIntl } from "react-intl";
 
@@ -21,17 +21,35 @@ const LangSelector = () => {
   const locale: string = router.locale === "en" ? "English" : "Tiếng Việt"
   const [display, setDisplay]= useState<string>(locale)
   const handleOnClick= (text: string) => {
-    setOpen(false); 
     setDisplay(text); 
     router.push(router.asPath, router.asPath, { locale: Name2CountryCode[text]})
   }
+  const langRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        langRef.current &&
+        event.target &&
+        (event.target as HTMLElement).id !== "langRefButton"
+      ) {
+        setOpen(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [langRef]);
   return (
-      <motion.div animate={open ? "open" : "closed"} className="relative">
+      <motion.div animate={open ? "open" : "closed"} className="relative z-10">
         <button
-          onClick={() => setOpen((pv) => !pv)}
-          className="flex items-center z-50 gap-4 px-3 py-1 rounded-lg w-20 text-indigo-50 bg-blue-700 hover:bg-indigo-500 transition-colors"
+          id="langRefButton" ref={langRef} onClick={() => setOpen((pv) => !pv)}
+          className="flex items-center h-5/6 mt-[0.23rem] z-50 gap-4 px-3 rounded-lg w-20 text-indigo-50 bg-indigo-600 hover:bg-indigo-700 transition-colors relative"
         >
-           <FiGlobe size={30}/>
+          <div id="langRefButton" className="absolute bg-transparent w-full h-full"></div>
+          <FiGlobe size={30} />
           <motion.span variants={iconVariants}>
             <FiChevronDown />
           </motion.span>
@@ -40,8 +58,9 @@ const LangSelector = () => {
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
-          style={{ originY: "top", translateX: "-50%" }}
-          className="flex flex-col gap-2 p-2  z-50  rounded-lg bg-white shadow-xl absolute top-[120%] left-[50%] w-full overflow-hidden"
+          style={{ originY: "top", translateX: "-50%" }}  
+          transition={{ duration: 0.1 }}
+          className="flex flex-col gap-2 p-1 z-50 rounded-lg bg-white shadow-xl absolute top-[120%] left-[50%] w-full overflow-hidden"
         >
           <Option handle={handleOnClick} Icon={FiEdit} text="English" />
           <Option handle={handleOnClick} Icon={FiPlusSquare} text="Tiếng Việt" />
@@ -54,10 +73,11 @@ const Option = ({ text, Icon, handle }) => {
   return (
     <motion.li
       variants={itemVariants}
+      transition={{ duration: 0.1 }}
       onClick={() => { handle(text) }}
       className="flex z-50 items-center gap-2 w-full py-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-indigo-100 text-slate-700 hover:text-indigo-500 transition-colors cursor-pointer"
     >
-      <motion.span variants={actionIconVariants}>
+      <motion.span variants={actionIconVariants} >
       </motion.span>
       <span>{text}</span>
     </motion.li>

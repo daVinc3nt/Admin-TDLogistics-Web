@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 // const fetchNotifications = async () => {
@@ -30,21 +30,38 @@ const notifications = [
 const NotifyIcon = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleClick = () => {
-    setShowDropdown(!showDropdown);
-  };
   const [open, setOpen] = useState(false);
+
+  const notiRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notiRef.current &&
+        event.target &&
+        (event.target as HTMLElement).id !== "notiRefButton"
+      ) {
+        setOpen(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [notiRef]);
   return (
-    <div className="z-40 pl-3">
+    <div className="z-40 pl-2 mr-1">
     <motion.div animate={open ? "open" : "closed"} className="relative">   
       <button
-        className="rounded-full focus:outline-none"
+        id="notiRefButton" ref={notiRef}
+        className="rounded-full focus:outline-none p-1.5 m-0.5 bg-indigo-600 hover:bg-indigo-700 relative"
         onClick={() => setOpen((pv) => !pv)}
       >
-        {/* draw icon noti here */}
+        <div className="w-full h-full bg-transparent absolute" id="notiRefButton" ref={notiRef}></div>
         <svg
-          width="35"
-          height="35"
+          width="24"
+          height="24"
           strokeWidth="2.0"
           viewBox="0 0 24 24"
           fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +80,7 @@ const NotifyIcon = () => {
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
           style={{ originY: "top", translateX: "-50%" }}
-          className="flex flex-col p-2 rounded-lg bg-white shadow-xl absolute top-[120%]  md:left-12  w-40 overflow-hidden"
+          className="flex flex-col p-2 rounded-lg bg-white shadow-xl absolute top-[120%] md:-right-20 w-40 overflow-hidden"
         >
               {notifications.map((notification) => (
                 <div key={notification.id}>
@@ -92,7 +109,6 @@ const wrapperVariants = {
     scaleY: 1,
     transition: {
       when: "beforeChildren",
-      staggerChildren: 0.1,
     },
   },
   closed: {
@@ -119,14 +135,9 @@ const itemVariants = {
   },
   closed: {
     opacity: 0,
-    y: -15,
+    y: 0,
     transition: {
       when: "afterChildren",
     },
   },
-};
-
-const actionIconVariants = {
-  open: { scale: 1, y: 0 },
-  closed: { scale: 0, y: -7 },
 };
