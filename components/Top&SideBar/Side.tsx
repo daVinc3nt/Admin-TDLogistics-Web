@@ -47,14 +47,14 @@ export default function Side({menuItems, toggleCollapseMobile }) {
   }
 
   const wrapperClasses = classNames(
-    "h-screen hidden lg:px-4  lg:flex pt-8 pb-4 bg-[#1a1b23] justify-between flex-col",
+    "h-screen hidden lg:px-4  lg:flex pt-8 pb-4 bg-[#1a1b23] justify-between flex-col border-r border-gray-700",
     {
       ["lg:w-80"]: !toggleCollapse,
       ["lg:w-20"]: toggleCollapse,
     }
   );
   const wrapperClassesMobile = classNames(
-    "h-screen flex z-50 fixed bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 justify-between flex-col",
+    "h-screen flex z-50 fixed bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 justify-between flex-col border-r border-gray-700",
     {
       ["w-52"]: !toggleCollapseMobile,
       ["w-0 px-0"]: toggleCollapseMobile,

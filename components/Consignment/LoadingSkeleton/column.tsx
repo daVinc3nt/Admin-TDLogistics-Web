@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import DetailNoti from "./detailNoti";
 
 interface Order {
   orderId: string;
@@ -27,7 +26,6 @@ export type Consignment = {
   container: string;
   consState: number;
   consCode: string;
-  orders: Order[];
   carrierName: string;
   mass: number;
   id: number;
@@ -52,7 +50,7 @@ export const columns: ColumnDef<Consignment>[] = [
       const index = row.index + 1;
 
       return (
-        <>{index}</>
+        <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{index}</span>  
       );
     },
   },
@@ -68,6 +66,10 @@ export const columns: ColumnDef<Consignment>[] = [
           Mã lô hàng
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{row.original.consignmentCode}</span>  
       );
     },
   },
@@ -86,6 +88,10 @@ export const columns: ColumnDef<Consignment>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{row.original.deliveryManName}</span>  
+      );
+    },
   },
   {
     accessorKey: "carrierName",
@@ -102,6 +108,10 @@ export const columns: ColumnDef<Consignment>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{row.original.carrierName}</span>  
+      );
+    },
   },
   {
     accessorKey: "mass",
@@ -116,6 +126,10 @@ export const columns: ColumnDef<Consignment>[] = [
           Khối lượng (kg)
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{row.original.mass}</span>  
       );
     },
   },
@@ -136,31 +150,25 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: ({ row }) => {
       const consState = row.original.consState;
       let statusLabel = "";
-      let statusColor = "";
 
       switch (consState) {
         case 1:
           statusLabel = "Đang vận chuyển";
-          statusColor = "text-green-600";
           break;
         case 2:
           statusLabel = "Đang lấy hàng";
-          statusColor = "text-green-700";
           break;
         case 3:
           statusLabel = "Đã giao";
-          statusColor = "text-green-500";
           break;
         case 4:
           statusLabel = "Đã hủy";
-          statusColor = "text-red-500";
           break;
         default:
           statusLabel = "Unknown";
       }
 
-      return (
-        <span className={statusColor}>{statusLabel}</span>
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{statusLabel}</span>  
       );
     },
   },
@@ -172,26 +180,13 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
     cell: ({ row }) => {
-      const [modalIsOpen, setModalIsOpen] = useState(false);
-
-      const openModal = () => {
-        setModalIsOpen(true);
-        console.log(row.original)
-      };
-
-      const closeModal = () => {
-        setModalIsOpen(false);
-      };
-
       return (
         <div className="relative flex justify-end mr-2">
           <Button
-            onClick={openModal}
             className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
           >
             +
           </Button>
-          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original}/>}
         </div>
       );
     },
