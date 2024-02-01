@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
                   onChange={(event) =>
                     table.getColumn("staffKey")?.setFilterValue(event.target.value)
                   }
-                  className={`peer h-10 self-center w-full border border-gray-300 rounded focus:outline-none focus:border-blue-500 truncate bg-white
+                  className={`peer h-10 self-center w-full border border-gray-300 rounded focus:outline-none focus:border-blue-500 truncate bg-black
                         text-left placeholder-transparent pl-3 pt-2 text-black pr-12 text-sm`}
                   placeholder=""
                 />

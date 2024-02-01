@@ -72,7 +72,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
     return classNames(
       "flex items-center jutify-center cursor-pointer rounded w-full overflow-hidden whitespace-nowrap",
       {
-        ["bg-black"]: activeMenu?.id === menu.id,
+        ["bg-black text-[#e1201c]"]: activeMenu?.id === menu.id,
       }
     );
   };
