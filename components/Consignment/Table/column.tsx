@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import DetailNoti from "./detailNoti";
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Order {
   orderId: string;
@@ -34,11 +35,33 @@ export type Consignment = {
 };
 export const columns: ColumnDef<Consignment>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: "number",
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -48,9 +71,7 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
     cell: ({ row }) => {
-      // The index will be used to generate sequential numbers starting from 1
       const index = row.index + 1;
-
       return (
         <>{index}</>
       );
@@ -61,7 +82,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -77,7 +98,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -93,7 +114,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -109,7 +130,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -124,7 +145,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded-xl px-1"
+          className="rounded"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
