@@ -1,10 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown} from "lucide-react";
 import { Button } from "@nextui-org/react";
-import React, { useState, useEffect } from "react";
-import DetailNoti from "../LoadingSkeleton/detailNoti";
+import React from "react";
 
 interface Order {
   orderId: string;
