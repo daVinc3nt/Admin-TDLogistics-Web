@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import DetailNoti from "./detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox"
-
+import {FormattedMessage} from "react-intl"
 interface Order {
   orderId: string;
   mass: number;

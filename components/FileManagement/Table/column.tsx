@@ -4,8 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import { LogoIcon, UsersIcon } from "@/components/Icons";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
 export type FileData = {
   ID: number;

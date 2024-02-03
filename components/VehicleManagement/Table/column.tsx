@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/components/TableUI/checkbox";
 export type Staff = {
   number: string;
   staffName: string;
