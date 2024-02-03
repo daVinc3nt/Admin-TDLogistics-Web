@@ -3,6 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
+import EditField from "./editField";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 interface Order {
   orderId: string;
@@ -41,7 +43,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
   const [data, setData] = useState(dataInitial);
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [delMulti, setDelMulti] = useState(false);
-
+  const [isDataModified, setIsDataModified] = useState(false);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
@@ -59,6 +61,20 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    if (data != dataInitial){
+      setIsDataModified(true)
+    }
+    else setIsDataModified(false)
+  }, [data]);
+
+  const handleCancelChanges = () => {
+    setData(dataInitial);
+    setSelectedOrders([]);
+    setDelMulti(false);
+    setIsDataModified(false);
+  };
 
   const handleClose = () => {
     setIsVisible(false);
@@ -80,7 +96,6 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
     else {
       setDelMulti(true)
     }
-
   };
 
   const handleCheckboxChange = (orderId: string) => {
@@ -91,6 +106,16 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
         return [...prevSelected, orderId];
       }
     });
+  };
+
+  const handleOrderFieldChange = (orderId: string, field: string, value: string | number) => {
+    const updatedOrders = data.orders.map((order) => {
+      if (order.orderId === orderId) {
+        return { ...order, [field]: value };
+      }
+      return order;
+    });
+    setData({ ...data, orders: updatedOrders });
   };
 
   return (
@@ -123,16 +148,34 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white">
           <div className="flex flex-col">
             <div className="text-center text-lg sm:text-xl font-semibold">Mã lô hàng: {data.consignmentCode}</div>
-            <div className={`flex flex-col sm:flex-row justify-between pt-2 pl-2`}>
+            <div className={`flex flex-col xl:flex-row justify-between pt-2 pl-2`}>
               <div className="w-full mr-2">
-                <div>+ Mã vạch: {data.barcode}</div>
-                <div>+ Khối lượng (kg): {data.mass}</div>
-                <div>+ Container: {data.container}</div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Mã vạch:</span>
+                  <EditField data={data.barcode} setData={(value) => setData({ ...data, barcode: value.toString() })} type="text" />
+                </div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Khối lượng (kg):</span>
+                  <EditField data={data.mass} setData={(value) => setData({ ...data, mass: Number(value) })} type="number" />
+                </div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Container:</span>
+                  <EditField data={data.container} setData={(value) => setData({ ...data, container: value.toString() })} type="text" />
+                </div>
               </div>
               <div className="w-full">
-                <div>+ Đối tác vận chuyển: {data.carrierName}</div>
-                <div>+ Người giao hàng: {data.deliveryManName}</div>
-                <div>+ Biển số xe: {data.licensePlate}</div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Đối tác vận chuyển:</span>
+                  <EditField data={data.carrierName} setData={(value) => setData({ ...data, carrierName: value.toString() })} type="text" />
+                </div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Người giao hàng:</span>
+                  <EditField data={data.deliveryManName} setData={(value) => setData({ ...data, deliveryManName: value.toString() })} type="text" />
+                </div>
+                <div className="flex items-center">
+                  <span className="mr-2">+ Biển số xe:</span>
+                  <EditField data={data.licensePlate} setData={(value) => setData({ ...data, licensePlate: value.toString() })} type="text" />
+                </div>
               </div>
             </div>
             <div className="text-center text-lg mt-2">
@@ -191,16 +234,38 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
                   onClick={() => {delMulti? handleCheckboxChange(order.orderId) : {}}}
                 >
                   <div className="text-center font-semibold pb-2">ID: {order.orderId}</div>
-                  <div>+ Khối lượng: {order.mass}</div>
-                  <div className="flex flex-col sm:flex-row">
-                    <div className="pr-4">+ Dài: {order.length}</div>
-                    <div className="pr-4">+ Rộng: {order.width}</div>
-                    <div>+ Cao: {order.height}</div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Khối lượng:</span>
+                    <EditField data={order.mass} setData={(value) => handleOrderFieldChange(order.orderId, 'mass', value)} type="number" />
                   </div>
-                  <div>+ Điểm gửi: {order.pickupLocation}</div>
-                  <div>+ Điểm nhận: {order.deliveryLocation}</div>
-                  <div>+ Phí: {order.fee}</div>
-                  <div>+ COD: {order.cod}</div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Dài:</span>
+                    <EditField data={order.length} setData={(value) => handleOrderFieldChange(order.orderId, 'length', value)} type="number" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Rộng:</span>
+                    <EditField data={order.width} setData={(value) => handleOrderFieldChange(order.orderId, 'width', value)} type="number" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Cao:</span>
+                    <EditField data={order.height} setData={(value) => handleOrderFieldChange(order.orderId, 'height', value)} type="number" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Điểm gửi:</span>
+                    <EditField data={order.pickupLocation} setData={(value) => handleOrderFieldChange(order.orderId, 'pickupLocation', value)} type="text" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Điểm nhận:</span>
+                    <EditField data={order.deliveryLocation} setData={(value) => handleOrderFieldChange(order.orderId, 'deliveryLocation', value)} type="text" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ Phí:</span>
+                    <EditField data={order.fee} setData={(value) => handleOrderFieldChange(order.orderId, 'fee', value)} type="number" />
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">+ COD:</span>
+                    <EditField data={order.cod} setData={(value) => handleOrderFieldChange(order.orderId, 'cod', value)} type="number" />
+                  </div>
                   <div className="text-center">
                     Trạng thái:{" "}
                     {(() => {
@@ -234,12 +299,22 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
         </div>
         <div className="w-full flex">
           <Button
-            className="w-full rounded-lg mt-5 mb-1 py-3 border-red-700 hover:bg-red-700 text-red-500
+            className={`w-full rounded-lg mt-5 mb-1 py-3 ${isDataModified ? 'border-orange-500 hover:bg-orange-500 text-orange-500' : 'border-red-700 hover:bg-red-700 text-red-500'}
               bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
-              hover:shadow-md mr-2"
+              hover:shadow-md mr-2`}
+            onClick={isDataModified ? handleCancelChanges : ()=>alert("Đã xóa lô hàng")}
           >
-            <FaTrash className="xs:mr-2" />
-            <span className="hidden xs:block">Xóa lô hàng</span>
+            {isDataModified ? (
+              <>
+                <RiArrowGoBackFill className="xs:mr-2 mt-[0.3px] " />
+                <span className="hidden xs:block">Hủy thay đổi</span>
+              </>
+            ) : (
+              <>
+                <FaTrash className="xs:mr-2" />
+                <span className="hidden xs:block">Xóa lô hàng</span>
+              </>
+            )}
           </Button>
           <Button
             className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500

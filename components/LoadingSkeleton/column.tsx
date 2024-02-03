@@ -20,9 +20,11 @@ export const columns: ColumnDef<Consignment>[] = [
     accessorKey: "number",
     cell: () => {
       return (
-        <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
-          "aaaaaaaaaaaaaaaa"
-        </span>
+        <div className="py-1">
+          <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
+            "aaaaaaaaaa"
+          </span>
+        </div>
       );
     },
   },
@@ -42,7 +44,7 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: () => {
       return (
         <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
-          "aaaaaaaaaaaaaaaa"
+          "aaaaaaaaaaaa"
         </span>
       );
     },
@@ -53,7 +55,7 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: () => {
       return (
         <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
-          "aaaaaaaaaaaaaaaa"
+          "aaaaaaaa"
         </span>
       );
     },
@@ -74,7 +76,7 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: () => {
       return (
         <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
-          "aaaaaaaaaaaaaaaa"
+          "aaaaaaaaaaaaaa"
         </span>
       );
     },
@@ -84,7 +86,7 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: () => {
       return (
         <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>
-          "aaaaaaaaaaaaaaaa"
+          "aaaaaaaaaaaa"
         </span>
       );
     },
