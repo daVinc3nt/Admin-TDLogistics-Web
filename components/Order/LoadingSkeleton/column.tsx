@@ -1,11 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown} from "lucide-react";
 import { Button } from "@nextui-org/react";
-import React, { useState, useEffect } from "react";
-import DetailNoti from "./detailNoti";
-import { Checkbox } from "@/components/TableUI/checkbox"
+import React from "react";
 
 interface Order {
   orderId: string;
@@ -28,40 +26,17 @@ export type Consignment = {
   container: string;
   consState: number;
   consCode: string;
-  orders: Order[];
   carrierName: string;
   mass: number;
   id: number;
 };
 export const columns: ColumnDef<Consignment>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "number",
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -71,9 +46,11 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
     cell: ({ row }) => {
+      // The index will be used to generate sequential numbers starting from 1
       const index = row.index + 1;
+
       return (
-        <>{index}</>
+        <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{index}</span>  
       );
     },
   },
@@ -82,13 +59,17 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Mã lô hàng
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{row.original.consignmentCode}</span>  
       );
     },
   },
@@ -98,13 +79,17 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nhân viên vận chuyển
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{row.original.deliveryManName}</span>  
       );
     },
   },
@@ -114,13 +99,17 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Đối tác vận chuyển
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{row.original.carrierName}</span>  
       );
     },
   },
@@ -130,7 +119,7 @@ export const columns: ColumnDef<Consignment>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -139,13 +128,17 @@ export const columns: ColumnDef<Consignment>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return ( <span className={`bg-gray-500 text-gray-500 animate-pulse rounded`}>{row.original.mass}</span>  
+      );
+    },
   },
   {
     accessorKey: "consState",
     header: ({ column }) => {
       return (
         <Button
-          className="rounded"
+          className="rounded-xl px-1"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -157,31 +150,25 @@ export const columns: ColumnDef<Consignment>[] = [
     cell: ({ row }) => {
       const consState = row.original.consState;
       let statusLabel = "";
-      let statusColor = "";
 
       switch (consState) {
         case 1:
           statusLabel = "Đang vận chuyển";
-          statusColor = "text-green-600";
           break;
         case 2:
           statusLabel = "Đang lấy hàng";
-          statusColor = "text-green-700";
           break;
         case 3:
           statusLabel = "Đã giao";
-          statusColor = "text-green-500";
           break;
         case 4:
           statusLabel = "Đã hủy";
-          statusColor = "text-red-500";
           break;
         default:
           statusLabel = "Unknown";
       }
 
-      return (
-        <span className={statusColor}>{statusLabel}</span>
+      return ( <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>{statusLabel}</span>  
       );
     },
   },
@@ -193,26 +180,13 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
     cell: ({ row }) => {
-      const [modalIsOpen, setModalIsOpen] = useState(false);
-
-      const openModal = () => {
-        setModalIsOpen(true);
-        console.log(row.original)
-      };
-
-      const closeModal = () => {
-        setModalIsOpen(false);
-      };
-
       return (
         <div className="relative flex justify-end mr-2">
           <Button
-            onClick={openModal}
             className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
           >
             +
           </Button>
-          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original}/>}
         </div>
       );
     },

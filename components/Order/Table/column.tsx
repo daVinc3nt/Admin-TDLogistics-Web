@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import DetailNoti from "./detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox"
 
-interface Order {
+export type Order = {
   orderId: string;
   mass: number;
   length: number;
@@ -17,23 +17,11 @@ interface Order {
   deliveryLocation: string;
   fee: number;
   cod: number;
+  consCodes: number;
   status: number;
 }
-
-export type Consignment = {
-  consignmentCode: string;
-  barcode: string;
-  deliveryManName: string;
-  licensePlate: string;
-  container: string;
-  consState: number;
-  consCode: string;
-  orders: Order[];
-  carrierName: string;
-  mass: number;
-  id: number;
-};
-export const columns: ColumnDef<Consignment>[] = [
+export const columns: ColumnDef<Order>[] = [
+//select
   {
     id: "select",
     header: ({ table }) => (
@@ -56,6 +44,7 @@ export const columns: ColumnDef<Consignment>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+//number
   {
     accessorKey: "number",
     header: ({ column }) => {
@@ -77,8 +66,9 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
   },
+//orderid
   {
-    accessorKey: "consignmentCode",
+    accessorKey: "orderId",
     header: ({ column }) => {
       return (
         <Button
@@ -86,14 +76,15 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã lô hàng
+          Mã đơn hàng
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
     },
   },
+//pickuplocation
   {
-    accessorKey: "deliveryManName",
+    accessorKey: "pickupLocation",
 
     header: ({ column }) => {
       return (
@@ -102,28 +93,30 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nhân viên vận chuyển
+          Điểm nhận
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-  {
-    accessorKey: "carrierName",
+//deliveryLocation
+{
+  accessorKey: "deliveryLocation",
 
-    header: ({ column }) => {
-      return (
-        <Button
-          className="rounded"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Đối tác vận chuyển
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+  header: ({ column }) => {
+    return (
+      <Button
+        className="rounded"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Điểm nhận
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    );
   },
+},
+//mass
   {
     accessorKey: "mass",
 
@@ -140,8 +133,9 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
   },
+// status
   {
-    accessorKey: "consState",
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button
@@ -155,18 +149,18 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
     cell: ({ row }) => {
-      const consState = row.original.consState;
+      const consState = row.original.status;
       let statusLabel = "";
       let statusColor = "";
 
       switch (consState) {
         case 1:
           statusLabel = "Đang vận chuyển";
-          statusColor = "text-green-600";
+          statusColor = "text-yellow-600";
           break;
         case 2:
           statusLabel = "Đang lấy hàng";
-          statusColor = "text-green-700";
+          statusColor = "text-gray-700";
           break;
         case 3:
           statusLabel = "Đã giao";
@@ -185,6 +179,7 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
   },
+//detail
   {
     accessorKey: "Chi tiết",
     header: () => {

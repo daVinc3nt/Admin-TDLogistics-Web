@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import { Button } from "@nextui-org/react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/TableUI/input";
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/TableUI/table";
 import { StringDecoder } from "string_decoder";
 
 interface DataTableProps<TData, TValue> {
