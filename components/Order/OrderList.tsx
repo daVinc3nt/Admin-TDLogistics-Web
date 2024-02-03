@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import DemoPage from "./Table/export";
-import LoadingSkeleton from "./LoadingSkeleton/loadingSkeleton";
+import LoadingSkeleton from "../LoadingSkeleton/loadingSkeleton";
 
 const OrderList = () => {
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
