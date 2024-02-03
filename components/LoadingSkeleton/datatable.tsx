@@ -21,7 +21,13 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,7 +39,9 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const table = useReactTable({
     data,
     columns,
@@ -66,10 +74,14 @@ export function DataTable<TData, TValue>({
               id="consSearch"
               type="text"
               value={
-                (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
+                (table
+                  .getColumn("consignmentCode")
+                  ?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
+                table
+                  .getColumn("consignmentCode")
+                  ?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
@@ -80,9 +92,7 @@ export function DataTable<TData, TValue>({
               className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
-            >
-              Tìm kiếm theo mã lô hàng
-            </label>
+            ></label>
           </div>
           <Dropdown className="z-30">
             <DropdownTrigger>
@@ -90,7 +100,7 @@ export function DataTable<TData, TValue>({
                 className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
                 aria-label="Show items per page"
               >
-                Show {table.getState().pagination.pageSize}
+                {/* Show {table.getState().pagination.pageSize} */}
               </Button>
             </DropdownTrigger>
             <DropdownMenu
@@ -98,7 +108,10 @@ export function DataTable<TData, TValue>({
               aria-labelledby="dropdownMenuButton"
             >
               {[10, 20, 30, 40, 50].map((pageSize, index) => (
-                <DropdownItem key={pageSize} textValue={`Show ${pageSize} items per page`}>
+                <DropdownItem
+                  key={pageSize}
+                  textValue={`Show ${pageSize} items per page`}
+                >
                   <Button
                     onClick={() => table.setPageSize(pageSize)}
                     variant="bordered"
@@ -119,16 +132,7 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-gray-700">
                 {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
-                  );
+                  return <TableHead key={header.id}></TableHead>;
                 })}
               </TableRow>
             ))}

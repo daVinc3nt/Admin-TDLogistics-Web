@@ -15,11 +15,5 @@ async function getData(): Promise<FileData[]> {
 export default async function DemoPage() {
   const data = await getData();
 
-  return (
-    <section className="">
-      <div className="container">
-        <DataTable columns={columns} data={data} />
-      </div>
-    </section>
-  );
+  return <DataTable columns={columns} data={data} />;
 }

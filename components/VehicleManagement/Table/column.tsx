@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
+import { Checkbox } from "@/components/ui/checkbox";
 export type Staff = {
   number: string;
   staffName: string;
@@ -21,6 +22,28 @@ export type Staff = {
 };
 
 export const columns: ColumnDef<Staff>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "number",
     header: ({ column }) => {

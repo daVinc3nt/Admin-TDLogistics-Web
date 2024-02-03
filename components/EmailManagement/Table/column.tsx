@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import DetailEmail from "./detailEmail";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
 export type FileData = {
@@ -78,10 +79,13 @@ export const columns: ColumnDef<FileData>[] = [
         <div className="relative rounded-lg ">
           <Button
             onClick={openModal}
-            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
           >
-            Xem thêm
+            +
           </Button>
+          {modalIsOpen && (
+            <DetailEmail onClose={closeModal} dataInitial={row.original} />
+          )}
         </div>
       );
     },
