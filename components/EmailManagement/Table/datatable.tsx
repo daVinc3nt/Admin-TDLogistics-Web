@@ -29,7 +29,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-
+import { FormattedMessage } from "react-intl";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -97,7 +97,7 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              Tìm kiếm theo tên mail
+              <FormattedMessage id="Sreach Email by name" />
             </label>
           </div>
           <Dropdown className="z-30">

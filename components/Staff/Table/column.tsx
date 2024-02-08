@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 import DetailStaff from "./detailStaff";
 import { Checkbox } from "@/components/TableUI/checkbox";
+import { FormattedMessage } from "react-intl";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn\
 interface Staffdetail {
   number: string;
@@ -65,7 +66,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          <FormattedMessage id="Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -79,7 +80,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên nhân viên
+          <FormattedMessage id="Staff Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -93,7 +94,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã nhân viên
+          <FormattedMessage id="Staff ID" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -108,7 +109,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Chức vụ
+          <FormattedMessage id="Staff Position" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -116,6 +117,9 @@ export const columns: ColumnDef<Staff>[] = [
   },
   {
     accessorKey: "Chi tiết",
+    header: () => {
+      return <FormattedMessage id="Detail" />;
+    },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
 

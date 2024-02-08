@@ -4,106 +4,94 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import { LogoIcon, UsersIcon } from "@/components/Icons";
-import DetailStaff from "./deltaiVehicle";
+import { FormattedMessage } from "react-intl";
+import DetailVehicle from "./deltaiVehicle";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
-import { Checkbox } from "@/components/TableUI/checkbox";
-export type Staff = {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffKey: string;
-  staffRole: string;
-  staffPhone: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
+
+export type VehicleData = {
+  VehicleName: string;
+  VehicleType: string;
+  VehicleID: string;
+  VehicleStatus: boolean;
+  id: string;
 };
 
-export const columns: ColumnDef<Staff>[] = [
+export const columns: ColumnDef<VehicleData>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "number",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          <FormattedMessage id="Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "staffName",
+    accessorKey: "VehicleName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div>
+          <FormattedMessage id="Vehicle Name" />
+        </div>
       );
     },
   },
   {
-    accessorKey: "staffKey",
+    accessorKey: "VehicleType",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Key
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div>
+          <FormattedMessage id="Vehicle Type" />
+        </div>
       );
     },
   },
   {
-    accessorKey: "staffRole",
+    accessorKey: "VehicleID",
+    header: ({ column }) => {
+      return (
+        <div>
+          <FormattedMessage id="Vehicle ID" />
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "VehicleStatus",
+    header: ({ column }) => {
+      return (
+        <div>
+          <FormattedMessage id="Vehicle Status" />
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.VehicleStatus ? (
+            <div className="text-green-500">
+              <FormattedMessage id="Active" />
+            </div>
+          ) : (
+            <div className="text-red-500">
+              <FormattedMessage id="Inactive" />
+            </div>
+          )}
+        </div>
+      );
+    },
+  },
 
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Role
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
   {
-    accessorKey: "Detail",
+    accessorKey: "Thông tin chi tiết",
+    header: ({ column }) => {
+      return <FormattedMessage id="Detail" />;
+    },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -116,7 +104,7 @@ export const columns: ColumnDef<Staff>[] = [
       };
 
       return (
-        <div className="relative flex  mr-2">
+        <div className="relative rounded-lg ">
           <Button
             onClick={openModal}
             className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
@@ -124,7 +112,7 @@ export const columns: ColumnDef<Staff>[] = [
             +
           </Button>
           {modalIsOpen && (
-            <DetailStaff onClose={closeModal} dataInitial={row.original} />
+            <DetailVehicle onClose={closeModal} dataInitial={row.original} />
           )}
         </div>
       );
