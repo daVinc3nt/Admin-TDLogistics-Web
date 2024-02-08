@@ -37,10 +37,10 @@
     "order.detail": "Chi tiết",
 
     "Staff":"Nhân viên",
-    "Staff Management":"Quản lý nhân viên",
-    "Add Staff":"Thêm nhân viên",
-    "Sreach Staff by name":"Tìm kiếm theo tên nhân viên",
-    "Staff Name":"Tên nhân viên",
+    "Staff.Management":"Quản lý nhân viên",
+    "Staff.Add":"Thêm nhân viên",
+    "Staff.Search":"Tìm kiếm theo tên nhân viên",
+    "Staff.Name":"Tên nhân viên",
     "Staff ID":"Mã nhân viên",
     "Number":"Thứ tự",
     "Staff Phone":"Số điện thoại nhân viên",
@@ -57,7 +57,7 @@
     "Staff Deposit":"Tiền đặt cọc",
     "Staff Information":"Thông tin nhân viên",
     "Edit":"Chỉnh sửa",
-    "Staff Delete":"Xóa n   hân viên",
+    "Staff Delete":"Xóa nhân viên",
     "Staff Add":"Thêm nhân viên",
     "Save":"Lưu",
     
