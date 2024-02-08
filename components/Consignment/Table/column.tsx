@@ -197,7 +197,6 @@ export const columns: ColumnDef<Consignment>[] = [
 
       const openModal = () => {
         setModalIsOpen(true);
-        console.log(row.original)
       };
 
       const closeModal = () => {
