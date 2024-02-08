@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-
+import EditField from "./editField";
 interface Order {
   onClose: () => void;
   dataInitial: {
@@ -57,16 +57,6 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
     }
   };
 
-  const handleCheckboxChange = (orderId: string) => {
-    setSelectedOrders((prevSelected) => {
-      if (prevSelected.includes(orderId)) {
-        return prevSelected.filter((selectedId) => selectedId !== orderId);
-      } else {
-        return [...prevSelected, orderId];
-      }
-    });
-  };
-
   return (
     <motion.div
       className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 text-[#545e7b]`}
@@ -81,7 +71,7 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-6/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
           ${isShaking ? 'animate-shake' : ''}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -94,8 +84,7 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white">
-          <div className="pt-2 grid lg:grid-cols-2 gap-2">
+        <div className="h-screen_3/5 overflow-y-scroll text-2xl mt-4 justify-center items-center no-scrollbar flex flex-col  p-2 rounded-md text-white">
             <AnimatePresence initial={false}>
                 <motion.div
                   key={data.orderId}
@@ -103,22 +92,31 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`border border-[#545e7b] rounded-lg p-2 bg-[#1a1b23] flex flex-col ${
-                    selectedOrders.includes(data.orderId) ? 'bg-gray-700' : ''
-                  }`}
-                  onClick={() => {delMulti? handleCheckboxChange(data.orderId) : {}}}
+                  className={` p-2  flex flex-col`}
                 >
                   <div className="text-center font-semibold pb-2">ID: {data.orderId}</div>
-                  <div>+ Khối lượng: {data.mass}</div>
-                  <div className="flex flex-col sm:flex-row">
-                    <div className="pr-4">+ Dài: {data.length}</div>
-                    <div className="pr-4">+ Rộng: {data.width}</div>
-                    <div>+ Cao: {data.height}</div>
+                  <span className="mr-2">+ Khối lượng:</span>
+                  <EditField inputlen="100" data={data.mass} setData={(value) => setData({ ...data, mass: Number(value) })} type="text" />
+                  <div className="flex flex-col sm:flex-row whitespace-nowrap overflow-hidden justify-between">
+                    <div className="pr-4">
+                      <span className="mr-2">+ Dài:</span>
+                      <EditField inputlen={"100"} data={data.length} setData={(value) => setData({ ...data, length: Number(value) })} type="text" />
+                    </div>
+                    <div className="pr-4">
+                      <span className="mr-2">+ Rộng:</span>
+                      <EditField inputlen={"100"} data={data.width} setData={(value) => setData({ ...data, width: Number(value) })} type="text" />
+                    </div>
+                    <div className="pr-4">
+                      <span className="mr-2">+ Cao:</span>
+                      <EditField inputlen={"100"} data={data.height} setData={(value) => setData({ ...data, height: Number(value) })} type="text" />
+                    </div>
                   </div>
-                  <div>+ Điểm gửi: {data.pickupLocation}</div>
-                  <div>+ Điểm nhận: {data.deliveryLocation}</div>
-                  <div>+ Phí: {data.fee}</div>
-                  <div>+ COD: {data.cod}</div>
+                  <div>+ Điểm gửi: {<EditField inputlen={"500"} data={data.pickupLocation} setData={(value) => setData({ ...data, pickupLocation: value.toString() })} type="text" />}</div>
+                  <div>+ Điểm nhận: {<EditField inputlen={"500"} data={data.deliveryLocation} setData={(value) => setData({ ...data,  deliveryLocation: value.toString() })} type="text" />}</div>
+                  <div className="flex flex-col sm:flex-row gap-6">
+                  <div>+ Phí: {<EditField inputlen={"100"} data={data.fee} setData={(value) => setData({ ...data,  fee: Number(value) })} type="text" />}</div>
+                  <div>+ COD: {<EditField inputlen={"90"} data={data.cod} setData={(value) => setData({ ...data,  cod: Number(value) })} type="text" />}</div>
+                  </div>
                   <div className="text-center">
                     Trạng thái:{" "}
                     {(() => {
@@ -147,7 +145,6 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
                   </div>
                 </motion.div>
             </AnimatePresence>
-          </div>
         </div>
         <div className="w-full flex">
           <Button

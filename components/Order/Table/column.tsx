@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import DetailNoti from "./detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox"
-
+import {FormattedMessage} from "react-intl"
 export type Order = {
   orderId: string;
   mass: number;
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          STT
+           <FormattedMessage id="order.ord"/>
           <ArrowUpDown className="ml-2 h-4 w-4"/>
         </Button>
       );
@@ -76,7 +76,7 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã đơn hàng
+          <FormattedMessage id="order.Id"/>
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
@@ -93,7 +93,7 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Điểm nhận
+          <FormattedMessage id="order.pickuplocation"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -110,7 +110,7 @@ export const columns: ColumnDef<Order>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Điểm nhận
+        <FormattedMessage id="order.receive"/>
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     );
@@ -127,7 +127,7 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Khối lượng (kg)
+          <FormattedMessage id="order.mass"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -143,7 +143,7 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Trạng thái
+          <FormattedMessage id="order.status"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -184,7 +184,9 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: "Chi tiết",
     header: () => {
       return (
-        <div className="text-right whitespace-nowrap">Chi tiết</div>
+        <div className="text-right whitespace-nowrap">
+          <FormattedMessage id="order.detail"/>
+        </div>
       );
     },
     cell: ({ row }) => {
