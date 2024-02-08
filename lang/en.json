@@ -28,7 +28,7 @@
     "order.Id": "Id",
     "order.pickuplocation": "From",
     "order.receive": "To",
-    "order.mass": "Mass(kg)",
+    "order.mass": "Mass (kg)",
     "order.status": "Status",
     "order.status.cancel": "Cancelled",
     "order.status.pending": "Picking up",

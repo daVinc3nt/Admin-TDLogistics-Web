@@ -160,7 +160,7 @@ export const columns: ColumnDef<Order>[] = [
           break;
         case 2:
           statusLabel = "Đang lấy hàng";
-          statusColor = "text-gray-700";
+          statusColor = "text-gray-500";
           break;
         case 3:
           statusLabel = "Đã giao";

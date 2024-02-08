@@ -162,11 +162,11 @@ export const columns: ColumnDef<Consignment>[] = [
       switch (consState) {
         case 1:
           statusLabel = "Đang vận chuyển";
-          statusColor = "text-green-600";
+          statusColor = "text-yellow-600";
           break;
         case 2:
           statusLabel = "Đang lấy hàng";
-          statusColor = "text-green-700";
+          statusColor = "text-gray-500";
           break;
         case 3:
           statusLabel = "Đã giao";

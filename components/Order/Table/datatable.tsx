@@ -76,20 +76,20 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="mt-10 sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
           <div>
-            <div className="text-lg">Đã giao:</div>
-            <div className="text-green-600">
+            <div className="text-lg">Đã giao</div>
+            <div className="text-green-600 text-center">
               {done}
             </div>
           </div>
           <div>
-            <div className="text-lg">Đang xử lý:</div>
-            <div className="text-yellow-600">
+            <div className="text-lg">Đang xử lý</div>
+            <div className="text-yellow-600 text-center">
               {pending}
             </div>
           </div>
           <div>
-            <div className="text-lg">Đã huỷ:</div>
-            <div className="text-red-600">
+            <div className="text-lg">Đã huỷ</div>
+            <div className="text-red-600 text-center">
               {cancel}
             </div>
           </div>

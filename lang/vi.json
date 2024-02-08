@@ -28,7 +28,7 @@
     "order.Id": "Mã đơn hàng",
     "order.pickuplocation": "Điểm gửi",
     "order.receive": "Điểm đến",
-    "order.mass": "Khối lượng(kg)",
+    "order.mass": "Khối lượng (kg)",
     "order.status": "Trạng thái",
     "order.status.cancel": "Đã huỷ",
     "order.status.pending": "Đang lấy hàng",
