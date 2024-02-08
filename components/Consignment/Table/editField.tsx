@@ -1,55 +1,45 @@
 // EditField.tsx
 import React, { useState, useEffect, useRef } from "react";
 
+
 interface EditFieldProps {
   data: string | number;
-  setData: (value: string | number) => void;
+  handleEdit: (value: string | number) => void;
   type: string;
+  isEditing: boolean; // New prop to handle editing mode
 }
 
-const EditField: React.FC<EditFieldProps> = ({ data, setData, type }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const EditableField: React.FC<EditFieldProps> = ({ data, handleEdit, type, isEditing }) => {
   const [editedData, setEditedData] = useState(data);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedData(e.target.value);
   };
 
   const handleEditComplete = () => {
-    setData(editedData);
-    setIsEditing(false);
+    handleEdit(editedData);
   };
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
 
   const inputWidth = type === 'number' ? 'w-[70px]' : 'w-[200px] pr-5';
 
   return (
     <div>
-      {!isEditing ? (
-        <span className={`${
-            typeof data === 'string' && data.length === 0
-              ? 'pr-[200px] border-b-2 border-red-500'
-              : 'pr-10'}`} onClick={() => setIsEditing(true)}>{data}</span>
+      {isEditing ? ( // Render input field if in editing mode
+        <input
+          className={`bg-transparent outline-none border-b-2 border-[#545e7b] text-white ${inputWidth}`}
+          type={type}
+          value={editedData}
+          onChange={handleInputChange}
+          onBlur={handleEditComplete}
+        />
       ) : (
-        <div>
-          <input
-            ref={inputRef}
-            className={`bg-transparent outline-none border-b-2 border-[#545e7b] text-white ${inputWidth}`}
-            type={type}
-            value={editedData}
-            onChange={handleInputChange}
-            onBlur={handleEditComplete}
-          />
-        </div>
+        <span className={`${
+          typeof data === 'string' && data.length === 0
+            ? 'pr-[200px] border-b-2 border-red-500' 
+            : 'pr-10'}`}>{data}</span>
       )}
     </div>
   );
 };
 
-export default EditField;
+export default EditableField;

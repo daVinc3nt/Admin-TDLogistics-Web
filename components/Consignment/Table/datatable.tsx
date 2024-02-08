@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { TbMinusVertical } from "react-icons/tb";
 import {
   ColumnDef,
@@ -13,7 +13,6 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Input } from "./input";
 import {
   Table,
   TableBody,
@@ -23,6 +22,7 @@ import {
   TableRow,
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import AddNoti from "./addNoti";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,6 +57,16 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
     paginationButtons.push(
@@ -69,34 +79,33 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <div className="w-full flex">
-          <div className="relative w-full sm:w-1/2 lg:w-1/3">
-            <Input
-              id="consSearch"
-              type="text"
-              value={
-                (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
-              }
-              className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-                    text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
-              placeholder=""
-            />
-            <label
-              htmlFor="consSearch"
-              className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
-                    peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
-                    peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
-            >
-              Tìm kiếm theo mã lô hàng
-            </label>
-          </div>
+      <div className="w-full flex flex-col sm:flex-row">
+        <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
+          <input
+            id="consSearch"
+            type="text"
+            value={
+              (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
+            }
+            className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
+              text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
+            placeholder=""
+          />
+          <label
+            htmlFor="consSearch"
+            className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
+              peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
+              peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
+          >
+            Tìm kiếm theo mã lô hàng
+          </label>
           <Dropdown className="z-30">
             <DropdownTrigger>
               <Button
-                className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
+                className="text-xs md:text-sm border border-gray-600 rounded ml-2 w-24 text-center"
                 aria-label="Show items per page"
               >
                 Show {table.getState().pagination.pageSize}
@@ -121,6 +130,15 @@ export function DataTable<TData, TValue>({
             </DropdownMenu>
           </Dropdown>
         </div>
+        
+        <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+          <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+          onClick={openModal}>
+            Thêm lô hàng
+          </Button>
+          {modalIsOpen && <AddNoti onClose={closeModal}/>}
+        </div>
+      </div>
       </div>
       <div className="rounded-md border border-gray-700">
         <Table>

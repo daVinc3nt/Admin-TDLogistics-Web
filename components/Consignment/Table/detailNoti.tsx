@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-import EditField from "./editField";
 import { RiArrowGoBackFill } from "react-icons/ri";
+import EditableField from "./editField";
 
 interface Order {
   orderId: string;
@@ -44,15 +44,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [delMulti, setDelMulti] = useState(false);
   const [isDataModified, setIsDataModified] = useState(false);
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
-      setIsShaking(true);
-      setTimeout(() => {
-        setIsShaking(false);
-      }, 300);
-    }
-  };
+  const [isEditing, setIsEditing] = useState(false); // New state to manage editing mode
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -63,17 +55,28 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
   }, [onClose]);
 
   useEffect(() => {
-    if (data != dataInitial){
-      setIsDataModified(true)
+    if (data !== dataInitial) {
+      setIsDataModified(true);
+    } else {
+      setIsDataModified(false);
     }
-    else setIsDataModified(false)
-  }, [data]);
+  }, [data, dataInitial]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+      setIsShaking(true);
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 300);
+    }
+  };
 
   const handleCancelChanges = () => {
     setData(dataInitial);
     setSelectedOrders([]);
     setDelMulti(false);
     setIsDataModified(false);
+    setIsEditing(false);
   };
 
   const handleClose = () => {
@@ -91,10 +94,9 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
       const updatedOrders = data.orders.filter((order) => !selectedOrders.includes(order.orderId));
       setData({ ...data, orders: updatedOrders });
       setSelectedOrders([]);
-      setDelMulti(false)
-    }
-    else {
-      setDelMulti(true)
+      setDelMulti(false);
+    } else {
+      setDelMulti(true);
     }
   };
 
@@ -116,6 +118,16 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
       return order;
     });
     setData({ ...data, orders: updatedOrders });
+  };
+
+  const handleEditField = (value: string | number, field: string) => {
+    setData({ ...data, [field]: value });
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+    dataInitial = data;
+    setIsDataModified(false);
   };
 
   return (
@@ -152,29 +164,29 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
               <div className="w-full mr-2">
                 <div className="flex items-center">
                   <span className="mr-2">+ Mã vạch:</span>
-                  <EditField data={data.barcode} setData={(value) => setData({ ...data, barcode: value.toString() })} type="text" />
+                  <EditableField data={data.barcode} handleEdit={(value) => handleEditField(value, 'barcode')} type="text" isEditing={isEditing} />
                 </div>
                 <div className="flex items-center">
                   <span className="mr-2">+ Khối lượng (kg):</span>
-                  <EditField data={data.mass} setData={(value) => setData({ ...data, mass: Number(value) })} type="number" />
+                  <EditableField data={data.mass} handleEdit={(value) => handleEditField(value, 'mass')} type="number" isEditing={isEditing} />
                 </div>
                 <div className="flex items-center">
                   <span className="mr-2">+ Container:</span>
-                  <EditField data={data.container} setData={(value) => setData({ ...data, container: value.toString() })} type="text" />
+                  <EditableField data={data.container} handleEdit={(value) => handleEditField(value, 'container')} type="text" isEditing={isEditing} />
                 </div>
               </div>
               <div className="w-full">
                 <div className="flex items-center">
                   <span className="mr-2">+ Đối tác vận chuyển:</span>
-                  <EditField data={data.carrierName} setData={(value) => setData({ ...data, carrierName: value.toString() })} type="text" />
+                  <EditableField data={data.carrierName} handleEdit={(value) => handleEditField(value, 'carrierName')} type="text" isEditing={isEditing} />
                 </div>
                 <div className="flex items-center">
                   <span className="mr-2">+ Người giao hàng:</span>
-                  <EditField data={data.deliveryManName} setData={(value) => setData({ ...data, deliveryManName: value.toString() })} type="text" />
+                  <EditableField data={data.deliveryManName} handleEdit={(value) => handleEditField(value, 'deliveryManName')} type="text" isEditing={isEditing} />
                 </div>
                 <div className="flex items-center">
                   <span className="mr-2">+ Biển số xe:</span>
-                  <EditField data={data.licensePlate} setData={(value) => setData({ ...data, licensePlate: value.toString() })} type="text" />
+                  <EditableField data={data.licensePlate} handleEdit={(value) => handleEditField(value, 'licensePlate')} type="text" isEditing={isEditing} />
                 </div>
               </div>
             </div>
@@ -236,35 +248,35 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
                   <div className="text-center font-semibold pb-2">ID: {order.orderId}</div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Khối lượng:</span>
-                    <EditField data={order.mass} setData={(value) => handleOrderFieldChange(order.orderId, 'mass', value)} type="number" />
+                    <EditableField data={order.mass} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'mass', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Dài:</span>
-                    <EditField data={order.length} setData={(value) => handleOrderFieldChange(order.orderId, 'length', value)} type="number" />
+                    <EditableField data={order.length} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'length', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Rộng:</span>
-                    <EditField data={order.width} setData={(value) => handleOrderFieldChange(order.orderId, 'width', value)} type="number" />
+                    <EditableField data={order.width} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'width', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Cao:</span>
-                    <EditField data={order.height} setData={(value) => handleOrderFieldChange(order.orderId, 'height', value)} type="number" />
+                    <EditableField data={order.height} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'height', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Điểm gửi:</span>
-                    <EditField data={order.pickupLocation} setData={(value) => handleOrderFieldChange(order.orderId, 'pickupLocation', value)} type="text" />
+                    <EditableField data={order.pickupLocation} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'pickupLocation', value)} type="text" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Điểm nhận:</span>
-                    <EditField data={order.deliveryLocation} setData={(value) => handleOrderFieldChange(order.orderId, 'deliveryLocation', value)} type="text" />
+                    <EditableField data={order.deliveryLocation} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'deliveryLocation', value)} type="text" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ Phí:</span>
-                    <EditField data={order.fee} setData={(value) => handleOrderFieldChange(order.orderId, 'fee', value)} type="number" />
+                    <EditableField data={order.fee} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'fee', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">+ COD:</span>
-                    <EditField data={order.cod} setData={(value) => handleOrderFieldChange(order.orderId, 'cod', value)} type="number" />
+                    <EditableField data={order.cod} handleEdit={(value) => handleOrderFieldChange(order.orderId, 'cod', value)} type="number" isEditing={isEditing} />
                   </div>
                   <div className="text-center">
                     Trạng thái:{" "}
@@ -320,9 +332,19 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
             className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
               bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
               hover:shadow-md"
+            onClick={handleEditClick} // Change button functionality to toggle editing mode
           >
-            <FaPen className="xs:mr-2" />
-            <span className="hidden xs:block">Lưu chỉnh sửa</span>
+            {isEditing ? (
+              <>
+                <FaPen className="xs:mr-2" />
+                <span className="hidden xs:block">Lưu chỉnh sửa</span>
+              </>
+            ) : (
+              <>
+                <FaPen className="xs:mr-2" />
+                <span className="hidden xs:block">Chỉnh sửa</span>
+              </>
+            )}
           </Button>
         </div>
       </motion.div>
