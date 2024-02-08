@@ -29,6 +29,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import { FormattedMessage } from "react-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -101,7 +102,7 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              Tìm kiếm theo tên nhân viên
+              <FormattedMessage id="Sreach Staff by name" />
             </label>
           </div>
           <Dropdown className="z-30">
@@ -161,8 +162,9 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="border-gray-700"
+                  className={`border-gray-700 ${
+                    row.getIsSelected() ? "bg-gray-700" : ""
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

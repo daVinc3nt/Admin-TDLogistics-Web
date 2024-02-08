@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import DetailEmail from "./detailEmail";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
+import { FormattedMessage } from "react-intl";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
 export type FileData = {
   ID: number;
@@ -38,7 +39,7 @@ export const columns: ColumnDef<FileData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên
+          <FormattedMessage id="Email Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -52,7 +53,7 @@ export const columns: ColumnDef<FileData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Ngày tạo
+          <FormattedMessage id="Created Date" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -64,6 +65,9 @@ export const columns: ColumnDef<FileData>[] = [
 
   {
     accessorKey: "Thông tin chi tiết",
+    header: ({ column }) => {
+      return <FormattedMessage id="Detail" />;
+    },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
 

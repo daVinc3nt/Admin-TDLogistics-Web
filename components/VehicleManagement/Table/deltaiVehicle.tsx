@@ -4,25 +4,23 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
-interface Staffdetail {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffKey: string;
-  staffRole: string;
-  staffPhone: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
+interface VehicleData {
+  VehicleName: string;
+  VehicleType: string;
+  VehicleID: string;
+  VehicleStatus: boolean;
+  id: string;
 }
 
-interface DetailStaffProps {
+interface DetailVehicleProps {
   onClose: () => void;
-  dataInitial: Staffdetail;
+  dataInitial: VehicleData;
 }
 
-const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
+const DetailVehicle: React.FC<DetailVehicleProps> = ({
+  onClose,
+  dataInitial,
+}) => {
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -90,7 +88,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin nhân viên
+            Thông tin phương tiện
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -100,160 +98,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className="grid grid-cols-2 ">
-            <div>
-              <div className="flex flex-col gap-5">
-                <div>
-                  <div className="font-bold text-base">Ảnh đại diện</div>
-                  <div>
-                    <User className="w-20 h-20  md:w-80 md:h-80" />
-                  </div>
-                </div>
-                <div className="flex gap-5">
-                  <div className="font-bold text-base">Mã nhân viên</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.number}
-                      onChange={(e) =>
-                        setData({ ...data, number: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.number}</div>
-                  )}
-                </div>
-                <div className="flex gap-5">
-                  <div className=" font-bold text-base ">Tên nhân viên</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.staffName}
-                      onChange={(e) =>
-                        setData({ ...data, staffName: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffName}</div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="">
-              <div className="flex flex-col gap-5">
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Tài khoản</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.staffAccountName}
-                      onChange={(e) =>
-                        setData({ ...data, staffAccountName: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffAccountName}</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Chức vụ</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.staffRole}
-                      onChange={(e) =>
-                        setData({ ...data, staffRole: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffRole}</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Số điện thoại</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.staffPhone}
-                      onChange={(e) =>
-                        setData({ ...data, staffPhone: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffPhone}</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">KPI</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.staffKPI}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          staffKPI: parseFloat(e.target.value),
-                        })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffKPI}</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Lương</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.staffSalary}
-                      onChange={(e) =>
-                        setData({ ...data, staffSalary: +e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffSalary} vnđ</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Lương đã trả</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.staffSalaryPaid}
-                      onChange={(e) =>
-                        setData({ ...data, staffSalaryPaid: +e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffSalaryPaid} vnđ</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Tiền cọc</div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.staffDeposit}
-                      onChange={(e) =>
-                        setData({ ...data, staffDeposit: +e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.staffDeposit} vnđ</div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="grid grid-cols-2 "></div>
         </div>
 
         <div className="w-full flex">
@@ -284,4 +129,4 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   );
 };
 
-export default DetailStaff;
+export default DetailVehicle;

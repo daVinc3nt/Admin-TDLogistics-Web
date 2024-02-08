@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
-
+import { FormattedMessage } from "react-intl";
 interface Emaiil {
   ID: number;
   name: string;
@@ -85,7 +85,7 @@ const DetailEmail: React.FC<DetailEmailProps> = ({ onClose, dataInitial }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin Email
+            <FormattedMessage id="Email Information" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -105,17 +105,21 @@ const DetailEmail: React.FC<DetailEmailProps> = ({ onClose, dataInitial }) => {
               onClick={handleEditClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Chỉnh sửa</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Edit" />
+              </span>
             </Button>
           ) : (
             <Button
-              className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
+              className="w-full rounded-lg mt-5 mb-1 py-3 border-blue-500 hover:bg-blue-500 text-blue-500
     bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
     hover:shadow-md"
               onClick={handleSaveClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Lưu</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Save" />
+              </span>
             </Button>
           )}
         </div>

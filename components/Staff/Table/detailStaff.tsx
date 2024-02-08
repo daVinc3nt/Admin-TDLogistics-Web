@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
+import { FormattedMessage } from "react-intl";
 interface Staffdetail {
   number: string;
   staffName: string;
@@ -90,7 +91,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin nhân viên
+            <FormattedMessage id="Staff Information" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -104,13 +105,17 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
             <div>
               <div className="flex flex-col gap-5">
                 <div>
-                  <div className="font-bold text-base">Ảnh đại diện</div>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="Staff Image" />
+                  </div>
                   <div>
                     <User className="w-20 h-20  md:w-80 md:h-80" />
                   </div>
                 </div>
                 <div className="flex gap-5">
-                  <div className="font-bold text-base">Mã nhân viên</div>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="Staff ID" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -125,7 +130,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex gap-5">
-                  <div className=" font-bold text-base ">Tên nhân viên</div>
+                  <div className=" font-bold text-base ">
+                    <FormattedMessage id="Staff Name" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -144,7 +151,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
             <div className="">
               <div className="flex flex-col gap-5">
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Tài khoản</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Account" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -159,7 +168,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Chức vụ</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Position" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -174,7 +185,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Số điện thoại</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Phone" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -207,7 +220,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Lương</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Salary" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -222,7 +237,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Lương đã trả</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Salary Paid" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -237,7 +254,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Tiền cọc</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff Deposit" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -265,7 +284,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               onClick={handleEditClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Chỉnh sửa</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Edit" />
+              </span>
             </Button>
           ) : (
             <Button
@@ -275,7 +296,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               onClick={handleSaveClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Lưu</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Save" />
+              </span>
             </Button>
           )}
         </div>

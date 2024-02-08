@@ -4,105 +4,94 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import { LogoIcon, UsersIcon } from "@/components/Icons";
+import { FormattedMessage } from "react-intl";
+import DetailVehicle from "./deltaiVehicle";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
-import { Checkbox } from "@/components/TableUI/checkbox";
-export type Staff = {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffKey: string;
-  staffRole: string;
-  staffPhone: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
+
+export type VehicleData = {
+  VehicleName: string;
+  VehicleType: string;
+  VehicleID: string;
+  VehicleStatus: boolean;
+  id: string;
 };
 
-export const columns: ColumnDef<Staff>[] = [
+export const columns: ColumnDef<VehicleData>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "number",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          <FormattedMessage id="Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "staffName",
+    accessorKey: "VehicleName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div>
+          <FormattedMessage id="Vehicle Name" />
+        </div>
       );
     },
   },
   {
-    accessorKey: "staffKey",
+    accessorKey: "VehicleType",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Key
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div>
+          <FormattedMessage id="Vehicle Type" />
+        </div>
       );
     },
   },
   {
-    accessorKey: "staffRole",
+    accessorKey: "VehicleID",
+    header: ({ column }) => {
+      return (
+        <div>
+          <FormattedMessage id="Vehicle ID" />
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "VehicleStatus",
+    header: ({ column }) => {
+      return (
+        <div>
+          <FormattedMessage id="Vehicle Status" />
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.VehicleStatus ? (
+            <div className="text-green-500">
+              <FormattedMessage id="Active" />
+            </div>
+          ) : (
+            <div className="text-red-500">
+              <FormattedMessage id="Inactive" />
+            </div>
+          )}
+        </div>
+      );
+    },
+  },
 
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Staff Role
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
   {
-    accessorKey: "Detail",
+    accessorKey: "Thông tin chi tiết",
+    header: ({ column }) => {
+      return <FormattedMessage id="Detail" />;
+    },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -118,50 +107,13 @@ export const columns: ColumnDef<Staff>[] = [
         <div className="relative rounded-lg ">
           <Button
             onClick={openModal}
-            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
           >
-            Xem chi tiết
+            +
           </Button>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel="Thông tin chi tiết nhân viên"
-          >
-            <div>
-              <LogoIcon className=" w-12 h-12" />
-              <div className="absolute top-0 right-0">
-                <button
-                  className="bg-red-500 text-white w-12 h-8"
-                  onClick={closeModal}
-                >
-                  Đóng
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 mt-4">
-                {/* Hiển thị thông tin chi tiết của nhân viên ở đây */}
-                {/* Ví dụ: */}
-                <div>
-                  <div className="font-bold text-lg ">Ảnh đại diện</div>
-                  <UsersIcon className=" w-12 h-12" />
-                </div>
-                <div>
-                  <p className=" font-bold text-lg">
-                    Thông tin chi tiết nhân viên :
-                  </p>
-                  <p>-Staff ID: {row.original.number}</p>
-                  <p>-Staff Name: {row.original.staffName}</p>
-                  <p>-Staff AccountName: {row.original.staffAccountName}</p>
-                  <p>-Staff Key: {row.original.staffKey}</p>
-                  <p>-Staff Role: {row.original.staffRole}</p>
-                  <p>-Staff KPI: {row.original.staffKPI}</p>
-                  <p>-Staff Salary: {row.original.staffSalary}</p>
-                  <p>-Staff SalaryPaid: {row.original.staffSalaryPaid}</p>
-                  <p>-Staff Deposit: {row.original.staffDeposit}</p>
-                </div>
-              </div>
-            </div>
-          </Modal>
+          {modalIsOpen && (
+            <DetailVehicle onClose={closeModal} dataInitial={row.original} />
+          )}
         </div>
       );
     },
