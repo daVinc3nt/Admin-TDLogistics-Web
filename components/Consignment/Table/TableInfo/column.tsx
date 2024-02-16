@@ -4,9 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import DetailNoti from "./detailNoti";
+import DetailNoti from "../Detail/detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, useIntl} from "react-intl"
 interface Order {
   orderId: string;
   mass: number;
@@ -65,7 +65,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          STT
+          <FormattedMessage id="Consignment.Row1"/>
           <ArrowUpDown className="ml-2 h-4 w-4"/>
         </Button>
       );
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã lô hàng
+          <FormattedMessage id="Consignment.Row2"/>
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
@@ -102,7 +102,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nhân viên vận chuyển
+          <FormattedMessage id="Consignment.Row3"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -118,7 +118,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Đối tác vận chuyển
+          <FormattedMessage id="Consignment.Row4"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -134,7 +134,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Khối lượng (kg)
+          <FormattedMessage id="Consignment.Row5"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -149,7 +149,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Trạng thái
+          <FormattedMessage id="Consignment.Row6"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -158,22 +158,23 @@ export const columns: ColumnDef<Consignment>[] = [
       const consState = row.original.consState;
       let statusLabel = "";
       let statusColor = "";
+      const intl = useIntl(); 
 
       switch (consState) {
         case 1:
-          statusLabel = "Đang vận chuyển";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Ongoing' });
           statusColor = "text-yellow-600";
           break;
         case 2:
-          statusLabel = "Đang lấy hàng";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Pending' });
           statusColor = "text-gray-500";
           break;
         case 3:
-          statusLabel = "Đã giao";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Done' });
           statusColor = "text-green-500";
           break;
         case 4:
-          statusLabel = "Đã hủy";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Cancel' });
           statusColor = "text-red-500";
           break;
         default:
@@ -189,7 +190,7 @@ export const columns: ColumnDef<Consignment>[] = [
     accessorKey: "Chi tiết",
     header: () => {
       return (
-        <div className="text-right whitespace-nowrap">Chi tiết</div>
+        <div className="text-right whitespace-nowrap"><FormattedMessage id="Consignment.Row7"/></div>
       );
     },
     cell: ({ row }) => {
