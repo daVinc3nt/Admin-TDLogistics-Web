@@ -11,3 +11,9 @@ export type Order = {
   consCodes: number;
   status: number;
 }
+export type Task = {
+  taskId: number;
+  description: string;
+  status: boolean;
+  deadline: string;
+}

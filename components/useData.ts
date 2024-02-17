@@ -1,9 +1,9 @@
 import useSWR, { mutate } from 'swr';
-import { Order } from './types';
+import { Task } from './types';
 
-const url = 'https://65cfd4b8bdb50d5e5f5bdf8e.mockapi.io';
+const url = 'https://65cfd4b8bdb50d5e5f5bdf8e.mockapi.io/task';
 
-async function updateRequest(id: number, data: Order) {
+async function updateRequest(id: number, data: Task) {
   const response = await fetch(`${url}/${id}`, {
     method: 'PUT',
     headers: {
@@ -14,7 +14,7 @@ async function updateRequest(id: number, data: Order) {
   return response.json();
 }
 
-async function addRequest(data: Order) {
+async function addRequest(data: Task) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -36,16 +36,15 @@ async function deleteRequest(id: number) {
 }
 
 async function getRequest() {
-  const res = await fetch(`${url}/consignment`);
+  const res = await fetch(url);
   const data = await res.json();
-  const orders: Order[] = data.flatMap((consignment) => consignment.orders);
-  return orders;
+  return data;
 }
 
 export default function useData() {
   const { data, isValidating } = useSWR(url, getRequest);
 
-  const updateRow = async (id: number, postData: Order) => {
+  const updateRow = async (id: number, postData: Task) => {
     await updateRequest(id, postData);
     mutate(url);
   };
@@ -55,7 +54,7 @@ export default function useData() {
     mutate(url);
   };
 
-  const addRow = async (postData: Order) => {
+  const addRow = async (postData: Task) => {
     await addRequest(postData);
     mutate(url);
   };

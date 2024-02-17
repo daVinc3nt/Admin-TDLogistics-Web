@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Student } from "./types";
+import React from "react";
+import {  Task } from "@/components/types";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import {
   Table,
   TableBody,
@@ -10,20 +12,29 @@ import {
   TableFooter
 } from "./table";
 import {
+  ColumnDef,
+  SortingState,
   flexRender,
+  ColumnFiltersState,
   getCoreRowModel,
   useReactTable,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+  VisibilityState,
 } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { FooterCell } from "./FooterCell";
-import useStudents from "./useStudents";
-
+import useData from "@/components/useData";
 export const Schedule = () => {
-  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useStudents();
-  const [data, setData] = useState<Student[]>([]);
+  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useData();
+  const [data, setData] = useState<Task[]>([]);
   const [editedRows, setEditedRows] = useState({});
   const [validRows, setValidRows] = useState({});
-
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
   useEffect(() => {
     if (isValidating) return;
     setData([...originalData]);
@@ -34,6 +45,18 @@ export const Schedule = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     enableRowSelection: true,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
     meta: {
       editedRows,
       setEditedRows,
@@ -47,7 +70,7 @@ export const Schedule = () => {
         );
       },
       updateRow: (rowIndex: number) => {
-        updateRow(data[rowIndex].id, data[rowIndex]);
+        updateRow(data[rowIndex].taskId, data[rowIndex]);
       },
       updateData: (rowIndex: number, columnId: string, value: string, isValid: boolean) => {
         setData((old) =>
@@ -68,26 +91,24 @@ export const Schedule = () => {
       },
       addRow: () => {
         const id = Math.floor(Math.random() * 10000);
-        const newRow: Student = {
-          id,
-          studentNumber: id,
-          name: "",
-          dateOfBirth: "",
-          major: ""
+        const newRow: Task = {
+          taskId: id,
+          description: "",
+          deadline: "",
+          status: false
         };
         addRow(newRow);
       },
       removeRow: (rowIndex: number) => {
-        deleteRow(data[rowIndex].id);
+        deleteRow(data[rowIndex].taskId);
       },
       removeSelectedRows: (selectedRows: number[]) => {
         selectedRows.forEach((rowIndex) => {
-          deleteRow(data[rowIndex].id);
+          deleteRow(data[rowIndex].taskId);
         });
       },
     },
   });
-
   return (
     <div className="rounded-md border border-gray-700">
     <Table>
