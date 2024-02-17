@@ -13,7 +13,7 @@ async function getData(): Promise<Consignment[]> {
 }
 
 export default async function DemoPage() {
-  const data = await getData()
+  const data = await getData();
 
   return (
       <DataTable columns={columns} data={data} />

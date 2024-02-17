@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import DemoPage from "./Table/export";
+import DemoPage from "./Table/TableInfo/export";
 import LoadingSkeleton from "components/LoadingSkeleton/loadingSkeleton";
+import { FormattedMessage } from "react-intl";
 
 const ConsignmentMenu = () => {
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
@@ -19,7 +20,7 @@ const ConsignmentMenu = () => {
           <div className="container shadow-sm rounded-xl px-3 text-white bg-[#1a1b23]">
             <div className="relative text-3xl font-bold border-b-[1px] border-gray-600">
               <div className=" font-bold text-xl sm:text-3xl pt-3 pb-2 text-center">
-                - Lô hàng -
+                - <FormattedMessage id="Consignment.Title"/> -
               </div>
             </div>
             {demoPage}

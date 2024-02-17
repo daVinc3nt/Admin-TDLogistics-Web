@@ -21,9 +21,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>
+        <LoadScript
+          language={locale}
+          region="VN"
+          libraries={googleMapsLibraries}
+          googleMapsApiKey={"AIzaSyDQ0pDRDKSyAO4lm10ttEXa2_uoZmWQzHc"}
+        >
           <Wrapper>
             <Component {...pageProps} />
           </Wrapper>
+        </LoadScript>
       </IntlProvider>
     </>
   );

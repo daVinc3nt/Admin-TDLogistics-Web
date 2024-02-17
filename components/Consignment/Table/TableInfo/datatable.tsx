@@ -22,7 +22,8 @@ import {
   TableRow,
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import AddNoti from "./addNoti";
+import AddNoti from "../Add/addNoti";
+import { FormattedMessage } from "react-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -100,7 +101,7 @@ export function DataTable<TData, TValue>({
               peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
               peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
           >
-            Tìm kiếm theo mã lô hàng
+            <FormattedMessage id="Consignment.SearchBox"/>
           </label>
           <Dropdown className="z-30">
             <DropdownTrigger>
@@ -134,7 +135,7 @@ export function DataTable<TData, TValue>({
         <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
           <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
           onClick={openModal}>
-            Thêm lô hàng
+            <FormattedMessage id="Consignment.AddButton"/>
           </Button>
           {modalIsOpen && <AddNoti onClose={closeModal}/>}
         </div>
