@@ -150,7 +150,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
                 "text-lg font-medium "
               )}
             >
-              <FormattedMessage id="Sidebar.option6"/>
+              <FormattedMessage id="Sidebar.option11"/>
             </span>
           )}
         </div>
@@ -220,7 +220,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
                 "text-md font-medium"
               )}
             >
-             <FormattedMessage id="Sidebar.option6"/>
+             <FormattedMessage id="Sidebar.option11"/>
             </span>
           )}
         </div>

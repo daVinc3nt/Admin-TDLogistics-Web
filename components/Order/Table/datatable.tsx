@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
-import { Order } from "./column";
 import {
   ColumnDef,
   SortingState,
@@ -24,7 +23,7 @@ import {
   TableRow,
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-
+import { FormattedMessage, useIntl } from "react-intl";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -40,6 +39,7 @@ export function DataTable<TData, TValue>({
   cancel,
   pending
 }: DataTableProps<TData, TValue>) {
+  const intl = useIntl();
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -63,6 +63,7 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
+    
   });
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
@@ -74,21 +75,21 @@ export function DataTable<TData, TValue>({
   }
   return (
     <div>
-      <div className="mt-10 sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
+      <div className="mt-10 uppercase sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
           <div>
-            <div className="text-lg">Đã giao</div>
+            <div className="text-lg">{<FormattedMessage id="order.status.done"/>}</div>
             <div className="text-green-600 text-center">
               {done}
             </div>
           </div>
           <div>
-            <div className="text-lg">Đang xử lý</div>
+            <div className="text-lg">{<FormattedMessage id="order.status.ongoing"/>}</div>
             <div className="text-yellow-600 text-center">
               {pending}
             </div>
           </div>
           <div>
-            <div className="text-lg">Đã huỷ</div>
+            <div className="text-lg">{<FormattedMessage id="order.status.cancel"/>}</div>
             <div className="text-red-600 text-center">
               {cancel}
             </div>
@@ -116,7 +117,7 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              Tìm kiếm theo mã đơn hàng
+              {<FormattedMessage id="order.searchbyid"/>}
             </label>
           </div>
           <Dropdown className="z-30">
@@ -209,18 +210,18 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>Prev</span>
+          <span>{<FormattedMessage id="prev"/>}</span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">Page</div>
+          <div className="text-xs md:text-base">{<FormattedMessage id="page"/>}</div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of"/> {" "}
             {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
         <span className="flex items-center gap-1 text-xs md:text-base whitespace-nowrap">
-          Go to page:
+          {<FormattedMessage id="gotopage"/>}
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -241,7 +242,7 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>Next</span>
+          <span>{<FormattedMessage id="next"/>}</span>
         </Button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import EditField from "./editField";
+import {FormattedMessage, useIntl } from "react-intl"
 interface Order {
   onClose: () => void;
   dataInitial: {
@@ -22,6 +23,7 @@ interface Order {
 
 
 const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
+  const intl =useIntl();
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -95,51 +97,54 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
                   className={` p-2  flex flex-col`}
                 >
                   <div className="text-center font-semibold pb-2">ID: {data.orderId}</div>
-                  <span className="mr-2">+ Khối lượng:</span>
+                  <span className="mr-2">+ <FormattedMessage id="order.mass"/> :</span>
                   <EditField inputlen="100" data={data.mass} setData={(value) => setData({ ...data, mass: Number(value) })} type="text" />
                   <div className="flex flex-col sm:flex-row whitespace-nowrap overflow-hidden justify-between">
                     <div className="pr-4">
-                      <span className="mr-2">+ Dài:</span>
+                      <span className="mr-2">+ <FormattedMessage id="order.length"/>:</span>
                       <EditField inputlen={"100"} data={data.length} setData={(value) => setData({ ...data, length: Number(value) })} type="text" />
                     </div>
                     <div className="pr-4">
-                      <span className="mr-2">+ Rộng:</span>
+                      <span className="mr-2">+ <FormattedMessage id="order.width"/>:</span>
                       <EditField inputlen={"100"} data={data.width} setData={(value) => setData({ ...data, width: Number(value) })} type="text" />
                     </div>
                     <div className="pr-4">
-                      <span className="mr-2">+ Cao:</span>
+                      <span className="mr-2">+ <FormattedMessage id="order.height"/>:</span>
                       <EditField inputlen={"100"} data={data.height} setData={(value) => setData({ ...data, height: Number(value) })} type="text" />
                     </div>
                   </div>
-                  <div>+ Điểm gửi: {<EditField inputlen={"500"} data={data.pickupLocation} setData={(value) => setData({ ...data, pickupLocation: value.toString() })} type="text" />}</div>
-                  <div>+ Điểm nhận: {<EditField inputlen={"500"} data={data.deliveryLocation} setData={(value) => setData({ ...data,  deliveryLocation: value.toString() })} type="text" />}</div>
+                  <div>+ <FormattedMessage id="order.pickuplocation"/>: {<EditField inputlen={"900"} data={data.pickupLocation} setData={(value) => setData({ ...data, pickupLocation: value.toString() })} type="text" />}</div>
+                  <div>+ <FormattedMessage id="order.receive"/>: {<EditField inputlen={"900"} data={data.deliveryLocation} setData={(value) => setData({ ...data,  deliveryLocation: value.toString() })} type="text" />}</div>
                   <div className="flex flex-col sm:flex-row gap-6">
-                  <div>+ Phí: {<EditField inputlen={"100"} data={data.fee} setData={(value) => setData({ ...data,  fee: Number(value) })} type="text" />}</div>
-                  <div>+ COD: {<EditField inputlen={"90"} data={data.cod} setData={(value) => setData({ ...data,  cod: Number(value) })} type="text" />}</div>
+                  <div>+ <FormattedMessage id="order.fee"/>: {<EditField inputlen={"100"} data={data.fee} setData={(value) => setData({ ...data,  fee: Number(value) })} type="text" />}</div>
+                  <div>+ COD: {<EditField inputlen={"100"} data={data.cod} setData={(value) => setData({ ...data,  cod: Number(value) })} type="text" />}</div>
                   </div>
                   <div className="text-center">
-                    Trạng thái:{" "}
+                  <FormattedMessage id="order.status"/>:{" "}
                     {(() => {
                       let statusLabel = "";
                       let statusColor = "";
 
                       switch (data.status) {
                         case 1:
-                          statusLabel = "Đang vận chuyển";
-                          statusColor = "text-green-600";
+                          statusLabel = intl.formatMessage({ id: 'order.status.ongoing' });
+                          statusColor = "text-yellow-600";
                           break;
                         case 2:
-                          statusLabel = "Đã giao";
-                          statusColor = "text-green-500";
+                          statusLabel = intl.formatMessage({ id: 'order.status.pending' });
+                          statusColor = "text-gray-500";
                           break;
                         case 3:
-                          statusLabel = "Đã hủy";
+                          statusLabel = intl.formatMessage({ id: 'order.status.done' });
+                          statusColor = "text-green-500";
+                          break;
+                        case 4:
+                          statusLabel = intl.formatMessage({ id: 'order.status.cancel' });
                           statusColor = "text-red-500";
                           break;
                         default:
                           statusLabel = "Unknown";
                       }
-
                       return <span className={`${statusColor} font-semibold`}>{statusLabel}</span>;
                     })()}
                   </div>

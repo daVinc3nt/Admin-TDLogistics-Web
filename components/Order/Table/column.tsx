@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import DetailNoti from "./detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, useIntl } from "react-intl"
 export type Order = {
   orderId: string;
   mass: number;
@@ -149,25 +149,26 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
     cell: ({ row }) => {
+      const intl =useIntl();
       const consState = row.original.status;
       let statusLabel = "";
       let statusColor = "";
 
       switch (consState) {
         case 1:
-          statusLabel = "Đang vận chuyển";
+          statusLabel = intl.formatMessage({ id: 'order.status.ongoing' });
           statusColor = "text-yellow-600";
           break;
         case 2:
-          statusLabel = "Đang lấy hàng";
+          statusLabel = intl.formatMessage({ id: 'order.status.pending' });
           statusColor = "text-gray-500";
           break;
         case 3:
-          statusLabel = "Đã giao";
+          statusLabel = intl.formatMessage({ id: 'order.status.done' });
           statusColor = "text-green-500";
           break;
         case 4:
-          statusLabel = "Đã hủy";
+          statusLabel = intl.formatMessage({ id: 'order.status.cancel' });
           statusColor = "text-red-500";
           break;
         default:
@@ -194,7 +195,6 @@ export const columns: ColumnDef<Order>[] = [
 
       const openModal = () => {
         setModalIsOpen(true);
-        console.log(row.original)
       };
 
       const closeModal = () => {

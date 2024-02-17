@@ -12,46 +12,47 @@ import {ReceiptLong,
         Folder,
         LogoutOutlined
 }from '@mui/icons-material';
+import { FormattedMessage } from "react-intl";
 import MenuHambuger from "./MenuHambuger";
 const SideItemData=[
   {
     id: 1,
-    title:"Đơn hàng",
+    title:<FormattedMessage id="Sidebar.option1"/>,
     url:"/dashboard/order",
     icon: <ReceiptLong className="scale-75 lg:block"/>
   },
   {
     id: 2,
-    title:"Lô hàng",
+    title:<FormattedMessage id="Sidebar.option2"/>,
     url:"/dashboard/consignment",
     icon:<Inventory className="scale-75 lg:block"/>
   },
   {
     id: 3,
-    title:"Nội vụ",
+    title:<FormattedMessage id="Sidebar.option3"/>,
     icon:<Assistant className="scale-75 lg:block"/>,
     submenus:[
       {
         id: 4,
-        title:"Nhân viên",
+        title:<FormattedMessage id="Sidebar.option4"/>,
         url:"/dashboard/staff",
         icon:<People className="scale-75 lg:block"/>
       },
       {
         id: 5,
-        title:"Thống kê",
-        url:"/dashboard/",
+        title:<FormattedMessage id="Sidebar.option5"/>,
+        url:"/dashboard/statistics",
         icon:<PieChart className="scale-75 lg:block"/>
       },
       {
         id: 6,
-        title:"Lịch trình",
-        url:"/dashboard",
+        title:<FormattedMessage id="Sidebar.option6"/>,
+        url:"/dashboard/schedule",
         icon:<PendingActions className="scale-75 lg:block"/>
       },
       {
         id: 7,
-        title:"Phương Tiện",
+        title:<FormattedMessage id="Sidebar.option7"/>,
         url:"/dashboard/vehicle",
         icon:<LocalShipping className="scale-75 lg:block"/>
       },
@@ -59,18 +60,18 @@ const SideItemData=[
   },
   {
     id: 8,
-    title:"Đa nhiệm",
+    title:<FormattedMessage id="Sidebar.option8"/>,
     icon:<BusinessCenter className="scale-75 lg:block"/>,
     submenus:[
       {
         id: 9,
-        title:"Quản lý mail",
+        title:<FormattedMessage id="Sidebar.option9"/>,
         url:"/dashboard/email",
         icon:<AlternateEmail className="scale-75 lg:block"/>
       },
       {
         id: 10,
-        title:"Quản lý file",
+        title:<FormattedMessage id="Sidebar.option10"/>,
         url:"/dashboard/file",
         icon:<Folder className="scale-75 lg:block"/>
       }
