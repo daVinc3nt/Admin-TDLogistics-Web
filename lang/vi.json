@@ -146,9 +146,11 @@
     "Consignment.Info.Delete1": "Xóa hàng loạt",
     "Consignment.Info.Confirm": "Xác nhận",
     "Consignment.Info.Delete2": "Xóa lô hàng",
-    "Consignment.Info.Edit": "Chỉnh sửa",
+    "Consignment.Info.Submit": "Xác nhận",
     "Consignment.Info.SaveEdit": "Lưu chỉnh sửa",
     "Consignment.Info.CancelEdit": "Hủy thay đổi",
+    "Consignment.Info.Add1": "Thêm thủ công",
+    "Consignment.Info.Add2": "Quét mã",
     "Consignment.Add.Title": "Thêm lô hàng",
     "Consignment.Add.SubTitle1": "Chọn đơn vị vận chuyển",
     "Consignment.Add.SubTitle2": "Chọn mã tỉnh",
@@ -161,6 +163,6 @@
     "Consignment.Add.Option6": "Chọn điểm đến chi tiết",
     "Consignment.Add.Button": "Thêm lô hàng",
     "Consignment.Add.Submit": "Xác nhận"
-    
+
 }
  

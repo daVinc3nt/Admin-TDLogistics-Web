@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { TbMinusVertical } from "react-icons/tb";
 import {
   ColumnDef,
@@ -13,6 +12,7 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
+import { Input } from "./input";
 import {
   Table,
   TableBody,
@@ -22,24 +22,27 @@ import {
   TableRow,
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import AddNoti from "../Add/addNoti";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  selectedOrders: TData[]; // Thêm props selectedOrders để truyền danh sách các đơn hàng đã được chọn
+  setSelectedOrders
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  selectedOrders,
+  setSelectedOrders,
 }: DataTableProps<TData, TValue>) {
+  const intl = useIntl();
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
   const table = useReactTable({
     data,
     columns,
@@ -58,15 +61,6 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
 
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
@@ -77,36 +71,37 @@ export function DataTable<TData, TValue>({
     );
   }
 
+  useEffect(() => {
+    setSelectedOrders(table.getFilteredSelectedRowModel().flatRows.map(row => row.original));
+  }, [table.getFilteredSelectedRowModel()]);
+
   return (
     <div>
       <div className="flex items-center py-4">
-      <div className="w-full flex flex-col sm:flex-row">
-        <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
-          <input
-            id="consSearch"
-            type="text"
-            value={
-              (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
-            }
-            className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-              text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
-            placeholder=""
-          />
-          <label
-            htmlFor="consSearch"
-            className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
-              peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
-              peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
-          >
-            <FormattedMessage id="Consignment.SearchBox"/>
-          </label>
+        <div className="w-full flex">
+          <div className="relative w-full sm:w-1/2 lg:w-1/3">
+            <Input
+              id="consSearch"
+              type="text"
+              value={(table.getColumn("orderId")?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn("orderId")?.setFilterValue(event.target.value)}
+              className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
+                text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
+              placeholder=""
+            />
+            <label
+              htmlFor="consSearch"
+              className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
+                peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
+                peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
+            >
+              {<FormattedMessage id="order.searchbyid"/>}
+            </label>
+          </div>
           <Dropdown className="z-30">
             <DropdownTrigger>
               <Button
-                className="text-xs md:text-sm border border-gray-600 rounded ml-2 w-24 text-center"
+                className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
                 aria-label="Show items per page"
               >
                 Show {table.getState().pagination.pageSize}
@@ -131,33 +126,19 @@ export function DataTable<TData, TValue>({
             </DropdownMenu>
           </Dropdown>
         </div>
-        
-        <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
-          <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
-          onClick={openModal}>
-            <FormattedMessage id="Consignment.AddButton"/>
-          </Button>
-          {modalIsOpen && <AddNoti onClose={closeModal}/>}
-        </div>
-      </div>
       </div>
       <div className="rounded-md border border-gray-700">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-gray-700">
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -170,20 +151,14 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -198,9 +173,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+            drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+            hover:shadow-md md:text-base focus:outline-none font-normal
+            text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="prev"/>}</span>
         </Button>
@@ -227,12 +202,12 @@ export function DataTable<TData, TValue>({
         <Button
           variant="light"
           size="sm"
-          onClick={() => table.nextPage()}
+          onClick={ () => table.nextPage() }
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+            drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+            hover:shadow-md md:text-base focus:outline-none font-normal
+            text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="next"/>}</span>
         </Button>
