@@ -20,10 +20,9 @@ async function getData(): Promise<Order[]> {
 interface AddNotificationProps {
     onClose: () => void;
     addOrders: (orders: Order[]) => void;
-    existingOrder: Order[];
 }
 
-const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders, existingOrder }) => {
+const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) => {
     const [isShaking, setIsShaking] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(true);
