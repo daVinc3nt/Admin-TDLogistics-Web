@@ -38,6 +38,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
+    cell: TableCell,
   },
   {
     accessorKey: "priority",
@@ -53,45 +54,22 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "status",
-
-    header: ({ column }) => {
-      return (
-        <Button
-          className="rounded"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    meta: {
+      type: 'number',
     },
-    cell: ({ row }) => {
-      const State = row.original.status;
-      let statusLabel = "";
-      let statusColor = "";
-      if (State)
-      {
-        statusLabel = "Done";
-        statusColor = "text-green-500";
-      }
-      else 
-      {
-        statusLabel = "On going";
-        statusColor = "text-gray-500";
-      }
-      return (
-        <span className={statusColor}>{statusLabel}</span>
-      );
-    },
+    cell: TableCell
   },
   {
     accessorKey: "deadline",
     meta: {
       type: "date",
+      required: true,
+      validate: (value: string) => {
+        const date = new Date(value);
+        const today = new Date();
+        return date <= today;
+      },
+      validationMessage: 'Date cannot be in the future',
     },
     header: ({ column }) => {
       return (
@@ -105,6 +83,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
+    cell: TableCell,
   },
   columnHelper.display({
     id: 'edit',

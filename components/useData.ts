@@ -35,7 +35,7 @@ async function deleteRequest(id: number) {
   return response.json();
 }
 
-async function getRequest() {
+export async function getRequest() {
   const res = await fetch(url);
   const data = await res.json();
   return data;

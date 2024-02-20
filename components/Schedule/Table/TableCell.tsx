@@ -5,7 +5,7 @@ type Option = {
   value: string;
 };
 
-export const TableCell = ({ getValue, row, column, table }) => {
+export const TableCell = ({ getValue, row, column, table}) => {
   const initialValue = getValue();
   const columnMeta = column.columnDef.meta;
   const tableMeta = table.options.meta;
@@ -65,6 +65,7 @@ export const TableCell = ({ getValue, row, column, table }) => {
     ) : (
       <input
         value={value}
+        className={`bg-gray-700`}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         type={columnMeta?.type || "text"}

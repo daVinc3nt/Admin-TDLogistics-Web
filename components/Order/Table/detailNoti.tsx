@@ -28,8 +28,6 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
-  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-  const [delMulti, setDelMulti] = useState(false);
 
 
   const handleClickOutside = (event: MouseEvent) => {

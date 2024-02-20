@@ -17,7 +17,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     vi,
     en,
   };
-
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>

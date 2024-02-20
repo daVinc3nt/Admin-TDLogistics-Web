@@ -23,12 +23,22 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-import { columns } from "./columns";
+import { columns } from "./column";
 import { FooterCell } from "./FooterCell";
 import useData from "@/components/useData";
-export const Schedule = () => {
-  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useData();
-  const [data, setData] = useState<Task[]>([]);
+interface DataTableProps {
+  columns: ColumnDef<Task, any>[];
+  originalData: Task[];
+}
+
+export function DataTable({
+  columns,
+  originalData
+}: DataTableProps) {
+  const {data: originalData2, isValidating, addRow, updateRow, deleteRow } = useData();
+  const [data, setData] = useState<Task[]>(originalData);
+  // console.log(originalData);
+  // console.log("hello",data);
   const [editedRows, setEditedRows] = useState({});
   const [validRows, setValidRows] = useState({});
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -37,7 +47,7 @@ export const Schedule = () => {
   const [rowSelection, setRowSelection] = React.useState({})
   useEffect(() => {
     if (isValidating) return;
-    setData([...originalData]);
+    setData([...originalData2]);
   }, [isValidating]);
 
   const table = useReactTable({
@@ -65,7 +75,7 @@ export const Schedule = () => {
       revertData: (rowIndex: number) => {
         setData((old) =>
           old.map((row, index) =>
-            index === rowIndex ? originalData[rowIndex] : row
+            index === rowIndex ? originalData2[rowIndex] : row
           )
         );
       },

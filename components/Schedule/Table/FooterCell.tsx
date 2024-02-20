@@ -10,13 +10,13 @@ export const FooterCell = ({ table }: any) => {
   };
 
   return (
-    <div className="footer-buttons">
+    <div className="bg-transparent border-none flex jutify-end items-center gap-7 p-5">
       {selectedRows.length > 0 ? (
-        <button className="remove-button" onClick={removeRows}>
+        <button className="bg-[#e44747] rounded-md p-2" onClick={removeRows}>
           Remove Selected x
         </button>
       ) : null}
-      <button className="add-button" onClick={meta?.addRow}>
+      <button className="bg-[#4bbd7f] rounded-md p-2" onClick={meta?.addRow}>
         Add New +
       </button>
     </div>

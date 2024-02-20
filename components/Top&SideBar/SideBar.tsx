@@ -40,18 +40,12 @@ const SideItemData=[
       },
       {
         id: 5,
-        title:<FormattedMessage id="Sidebar.option5"/>,
-        url:"/dashboard/statistics",
-        icon:<PieChart className="scale-75 lg:block"/>
-      },
-      {
-        id: 6,
         title:<FormattedMessage id="Sidebar.option6"/>,
         url:"/dashboard/schedule",
         icon:<PendingActions className="scale-75 lg:block"/>
       },
       {
-        id: 7,
+        id: 6,
         title:<FormattedMessage id="Sidebar.option7"/>,
         url:"/dashboard/vehicle",
         icon:<LocalShipping className="scale-75 lg:block"/>
@@ -59,18 +53,18 @@ const SideItemData=[
     ]
   },
   {
-    id: 8,
+    id: 7,
     title:<FormattedMessage id="Sidebar.option8"/>,
     icon:<BusinessCenter className="scale-75 lg:block"/>,
     submenus:[
       {
-        id: 9,
+        id: 8,
         title:<FormattedMessage id="Sidebar.option9"/>,
         url:"/dashboard/email",
         icon:<AlternateEmail className="scale-75 lg:block"/>
       },
       {
-        id: 10,
+        id: 9,
         title:<FormattedMessage id="Sidebar.option10"/>,
         url:"/dashboard/file",
         icon:<Folder className="scale-75 lg:block"/>

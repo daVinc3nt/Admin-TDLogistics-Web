@@ -52,6 +52,7 @@
     "order.status.done": "Done",
     "order.detail": "Detail",
     "order.searchbyid": "Search by ID",
+    "order.add": "Add order",
 
     "Consignment.Title": "Consignment",
     "Consignment.SearchBox": "Search by consignment code",

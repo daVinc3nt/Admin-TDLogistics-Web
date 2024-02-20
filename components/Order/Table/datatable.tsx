@@ -1,6 +1,4 @@
 "use client";
-import React from "react";
-import { TbMinusVertical } from "react-icons/tb";
 import {
   ColumnDef,
   SortingState,
@@ -13,7 +11,6 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Input } from "./input";
 import {
   Table,
   TableBody,
@@ -22,8 +19,16 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
+import React from "react";
+import { TbMinusVertical } from "react-icons/tb";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Input } from "./input";
+import AddNoti from "../Add/addNoti";
+import BasicPopover from "@/components/Common/Popover";
+import Filter from "@/components/Common/Filters";
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -46,6 +51,15 @@ export function DataTable<TData, TValue>({
   )
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [modalIsOpen, setModalIsOpen] =  React.useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
   const table = useReactTable({
     data,
     columns,
@@ -95,7 +109,7 @@ export function DataTable<TData, TValue>({
             </div>
           </div>
       </div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 px-4">
         <div className="w-full flex">
           <div className="relative w-full sm:w-1/2 lg:w-1/3">
             <Input
@@ -147,10 +161,23 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenu>
           </Dropdown>
+          <BasicPopover icon={<FilterAltIcon/>} >
+            <Filter column={table.getColumn("mass")} table={table} title="Mass" />
+            <Filter column={table.getColumn("pickupLocation")} table={table} title="Origin" />
+            <Filter column={table.getColumn("status")} table={table} title="Status" />
+          </BasicPopover>
+          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+          <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+          onClick={openModal}>
+            <FormattedMessage id="Consignment.AddButton"/>
+          </Button>
+          {modalIsOpen && <AddNoti onClose={closeModal}/>}
         </div>
+        </div>
+        
       </div>
       <div className="rounded-md border border-gray-700">
-        <Table>
+        <table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-gray-700">
@@ -159,9 +186,16 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
+                        : 
+                        (
+                          <>
+                            <div>
+                            {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                            )}
+                            </div>
+                          </>
                         )}
                     </TableHead>
                   );
@@ -197,7 +231,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
-        </Table>
+        </table>
       </div>
       <div className="flex items-center justify-center space-x-2 py-4">
         <Button

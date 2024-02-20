@@ -52,6 +52,7 @@
     "order.status.done": "Hoàn thành",
     "order.detail": "Chi tiết",
     "order.searchbyid": "Tìm kiếm theo mã đơn hàng",
+    "order.add": "Thêm đơn hàng",
 
     "Staff":"Nhân viên",
     "Staff.Management":"Quản lý nhân viên",
@@ -160,6 +161,6 @@
     "Consignment.Add.Option6": "Chọn điểm đến chi tiết",
     "Consignment.Add.Button": "Thêm lô hàng",
     "Consignment.Add.Submit": "Xác nhận"
-
+    
 }
  
