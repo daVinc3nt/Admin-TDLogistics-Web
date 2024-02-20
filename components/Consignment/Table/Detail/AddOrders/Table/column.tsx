@@ -1,14 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Button } from "@nextui-org/react";
-import React, { useState, useEffect } from "react";
-import DetailNoti from "../Detail/detailNoti";
+import React from "react";
 import { Checkbox } from "@/components/TableUI/checkbox"
-import {FormattedMessage, useIntl} from "react-intl"
-import Consignment from "@/pages/dashboard/consignment";
-export interface Order {
+import {FormattedMessage, useIntl } from "react-intl"
+export type Order = {
   orderId: string;
   mass: number;
   length: number;
@@ -20,21 +18,8 @@ export interface Order {
   cod: number;
   status: number;
 }
-
-export type Consignment = {
-  consignmentCode: string;
-  barcode: string;
-  deliveryManName: string;
-  licensePlate: string;
-  container: string;
-  consState: number;
-  consCode: string;
-  orders: Order[];
-  carrierName: string;
-  mass: number;
-  id: number;
-};
-export const columns: ColumnDef<Consignment>[] = [
+export const columns: ColumnDef<Order>[] = [
+//select
   {
     id: "select",
     header: ({ table }) => (
@@ -57,6 +42,7 @@ export const columns: ColumnDef<Consignment>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+//number
   {
     accessorKey: "number",
     header: ({ column }) => {
@@ -66,7 +52,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row1"/>
+           <FormattedMessage id="order.ord"/>
           <ArrowUpDown className="ml-2 h-4 w-4"/>
         </Button>
       );
@@ -78,8 +64,9 @@ export const columns: ColumnDef<Consignment>[] = [
       );
     },
   },
+//orderid
   {
-    accessorKey: "consignmentCode",
+    accessorKey: "orderId",
     header: ({ column }) => {
       return (
         <Button
@@ -87,14 +74,15 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row2"/>
+          <FormattedMessage id="order.Id"/>
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
     },
   },
+//pickuplocation
   {
-    accessorKey: "deliveryManName",
+    accessorKey: "pickupLocation",
 
     header: ({ column }) => {
       return (
@@ -103,28 +91,30 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row3"/>
+          <FormattedMessage id="order.pickuplocation"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-  {
-    accessorKey: "carrierName",
+//deliveryLocation
+{
+  accessorKey: "deliveryLocation",
 
-    header: ({ column }) => {
-      return (
-        <Button
-          className="rounded"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          <FormattedMessage id="Consignment.Row4"/>
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+  header: ({ column }) => {
+    return (
+      <Button
+        className="rounded"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <FormattedMessage id="order.receive"/>
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    );
   },
+},
+//mass
   {
     accessorKey: "mass",
 
@@ -135,14 +125,15 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row5"/>
+          <FormattedMessage id="order.mass"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
+// status
   {
-    accessorKey: "consState",
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button
@@ -150,32 +141,32 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row6"/>
+          <FormattedMessage id="order.status"/>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const consState = row.original.consState;
+      const intl =useIntl();
+      const consState = row.original.status;
       let statusLabel = "";
       let statusColor = "";
-      const intl = useIntl(); 
 
       switch (consState) {
         case 1:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Ongoing' });
+          statusLabel = intl.formatMessage({ id: 'order.status.ongoing' });
           statusColor = "text-yellow-600";
           break;
         case 2:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Pending' });
+          statusLabel = intl.formatMessage({ id: 'order.status.pending' });
           statusColor = "text-gray-500";
           break;
         case 3:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Done' });
+          statusLabel = intl.formatMessage({ id: 'order.status.done' });
           statusColor = "text-green-500";
           break;
         case 4:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Cancel' });
+          statusLabel = intl.formatMessage({ id: 'order.status.cancel' });
           statusColor = "text-red-500";
           break;
         default:
@@ -186,35 +177,5 @@ export const columns: ColumnDef<Consignment>[] = [
         <span className={statusColor}>{statusLabel}</span>
       );
     },
-  },
-  {
-    accessorKey: "Chi tiết",
-    header: () => {
-      return (
-        <div className="text-right whitespace-nowrap"><FormattedMessage id="Consignment.Row7"/></div>
-      );
-    },
-    cell: ({ row }) => {
-      const [modalIsOpen, setModalIsOpen] = useState(false);
-      const openModal = () => {
-        setModalIsOpen(true);
-      };
-
-      const closeModal = () => {
-        setModalIsOpen(false);
-      };
-
-      return (
-        <div className="relative flex justify-end mr-2">
-          <Button
-            onClick={openModal}
-            className="bg-transparent hover:bg-white font-bold hover:text-black py-1 px-[0.65rem] border border-gray-600 hover:border-transparent rounded-full"
-          >
-            +
-          </Button>
-          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original}/>}
-        </div>
-      );
-    },
-  },
+  }
 ];
