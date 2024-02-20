@@ -4,27 +4,25 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
-interface VehicleData {
-  id: string;
-  codeAgency: string;
-  codeStaff: string;
-  role: string;
-  GPLX: File;
-  maxWeight: string;
-  BKS: string;
-  Active: boolean;
-  nameVehicle: string;
+import { FormattedMessage } from "react-intl";
+interface Postdetail {
+  number: string;
+  postName: string;
+  postMail: string;
+  postIncome: string;
+  postRate: string;
+  postPhone: string;
+  postAddress: string;
+  postBankAccount: string;
+  postBankName: string;
 }
 
-interface DetailVehicleProps {
+interface DetailStaffProps {
   onClose: () => void;
-  dataInitial: VehicleData;
+  dataInitial: Postdetail;
 }
 
-const DetailVehicle: React.FC<DetailVehicleProps> = ({
-  onClose,
-  dataInitial,
-}) => {
+const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -92,7 +90,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin phương tiện
+            Thông tin bưu cục-đại lý
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -102,150 +100,127 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className=" grid grid-cols-2 gap-3 ">
+          <div className="grid grid-cols-2">
             <div className="flex gap-5">
-              <div className="font-bold text-base">Mã đối tác</div>
+              <div className="font-bold text-base">Tên bưu cục-đại lý:</div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.codeAgency}
+                  value={data.postName}
                   onChange={(e) =>
-                    setData({ ...data, codeAgency: e.target.value })
+                    setData({ ...data, postName: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.codeAgency}</div>
+                <div>{data.postName}</div>
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Mã nhân viên</div>
+              <div className="font-bold text-base">Số điện thoại:</div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.codeStaff}
+                  value={data.postPhone}
                   onChange={(e) =>
-                    setData({ ...data, codeStaff: e.target.value })
+                    setData({ ...data, postPhone: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.codeStaff}</div>
+                <div>{data.postPhone}</div>
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Loại công việc</div>
+              <div className="font-bold text-base">Email:</div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.role}
-                  onChange={(e) => setData({ ...data, role: e.target.value })}
-                />
-              ) : (
-                <div>{data.role}</div>
-              )}
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">Trọng tải tối đa</div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
-                  value={data.maxWeight}
+                  value={data.postMail}
                   onChange={(e) =>
-                    setData({ ...data, maxWeight: e.target.value })
+                    setData({ ...data, postMail: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.maxWeight}</div>
+                <div>{data.postMail}</div>
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Biển kiểm soát</div>
+              <div className="font-bold text-base">Địa chỉ:</div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.BKS}
-                  onChange={(e) => setData({ ...data, BKS: e.target.value })}
-                />
-              ) : (
-                <div>{data.BKS}</div>
-              )}
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">Tên phương tiện</div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
-                  value={data.nameVehicle}
+                  value={data.postAddress}
                   onChange={(e) =>
-                    setData({ ...data, nameVehicle: e.target.value })
+                    setData({ ...data, postAddress: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.nameVehicle}</div>
+                <div>{data.postAddress}</div>
               )}
             </div>
-            <div className="flex">
-              <div className=" font-bold text-base mr-2">
-                Trạng thái hoạt động :
-              </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Doanh thu:</div>
               {isEditing ? (
-                <div className=" bg-transparent font-bold border-b-2 border-[#545e7b] text-white flex flex-row gap-3 ml-2">
-                  <input
-                    type="radio"
-                    name="Active"
-                    value={true.toString()} // Convert boolean value to string
-                    checked={data.Active === true}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        Active: JSON.parse(e.target.value),
-                      })
-                    }
-                  />
-                  Hoạt động
-                  <input
-                    type="radio"
-                    name="Active"
-                    value={false.toString()}
-                    checked={data.Active === false}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        Active: JSON.parse(e.target.value),
-                      })
-                    }
-                  />
-                  Đã nghỉ việc
-                </div>
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={data.postIncome}
+                  onChange={(e) =>
+                    setData({ ...data, postIncome: e.target.value })
+                  }
+                />
               ) : (
-                <div className="font-bold ">
-                  {data.Active ? "Hoạt động" : "Đã nghỉ việc"}
-                </div>
+                <div>{data.postIncome}</div>
               )}
             </div>
-          </div>
-          <div className="mt-3">
-            <div className="font-bold text-base mb-3">Giấy phép lái xe</div>
-            {isEditing ? (
-              <input
-                className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white mt-3"
-                type="file"
-                onChange={(e) => setData({ ...data, GPLX: e.target.files[0] })}
-              />
-            ) : (
-              <>
-                {typeof data.GPLX === "string" ? (
-                  <img src={data.GPLX} alt="" />
-                ) : (
-                  <img src="placeholder-image.jpg" alt="Placeholder" />
-                )}
-              </>
-            )}
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Tỉ lệ hoa hồng:</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={data.postRate}
+                  onChange={(e) =>
+                    setData({ ...data, postRate: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{data.postRate}</div>
+              )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Tên ngân hàng:</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={data.postBankName}
+                  onChange={(e) =>
+                    setData({ ...data, postBankName: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{data.postBankName}</div>
+              )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Số tài khoản:</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={data.postBankAccount}
+                  onChange={(e) =>
+                    setData({ ...data, postBankAccount: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{data.postBankAccount}</div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -258,7 +233,9 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
               onClick={handleEditClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Chỉnh sửa</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Edit" />
+              </span>
             </Button>
           ) : (
             <Button
@@ -268,7 +245,9 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
               onClick={handleSaveClick}
             >
               <FaPen className="xs:mr-2" />
-              <span className="hidden xs:block">Lưu</span>
+              <span className="hidden xs:block">
+                <FormattedMessage id="Save" />
+              </span>
             </Button>
           )}
         </div>
@@ -277,4 +256,4 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
   );
 };
 
-export default DetailVehicle;
+export default DetailPost;

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
+import { useState } from "react";
 import {
   ColumnDef,
   SortingState,
@@ -30,6 +31,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { FormattedMessage } from "react-intl";
+import AddVehicle from "./AddVehicle/addvehicle";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -60,6 +62,15 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
     paginationButtons.push(
@@ -76,13 +87,29 @@ export function DataTable<TData, TValue>({
       //chỉ cần truyền row.original.id vào là được
     });
   };
+  const confirmDelete = () => {
+    return window.confirm("Are you sure you want to delete?");
+  };
+  const deleteRows = () => {
+    // Gọi hàm confirmDelete và lưu kết quả vào biến result
+    const result = confirmDelete();
+    // Nếu result là true, tức là người dùng nhấn yes
+    if (result) {
+      // Gọi hàm handleDeleteRowsSelected để xóa các hàng đã chọn
+      handleDeleteRowsSelected();
+    }
+    // Nếu result là false, tức là người dùng nhấn no
+    else {
+      // Không làm gì cả
+    }
+  };
 
   return (
     <div>
       <div className="flex items-center py-4">
-        <div className="w-full flex">
-          <div className="relative w-full sm:w-1/2 lg:w-1/3">
-            <Input
+        <div className="w-full flex flex-col sm:flex-row">
+          <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
+            <input
               id="staffSearch"
               type="text"
               value={
@@ -103,37 +130,46 @@ export function DataTable<TData, TValue>({
             >
               <FormattedMessage id="Search Vehicle by name" />
             </label>
-          </div>
-          <Dropdown className="z-30">
-            <DropdownTrigger>
-              <Button
-                className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
-                aria-label="Show items per page"
-              >
-                Show {table.getState().pagination.pageSize}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              className="bg-[#1a1b23] border border-gray-300 rounded w-24"
-              aria-labelledby="dropdownMenuButton"
-            >
-              {[10, 20, 30, 40, 50].map((pageSize, index) => (
-                <DropdownItem
-                  key={pageSize}
-                  textValue={`Show ${pageSize} items per page`}
+            <Dropdown className="z-30">
+              <DropdownTrigger>
+                <Button
+                  className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
+                  aria-label="Show items per page"
                 >
-                  <Button
-                    onClick={() => table.setPageSize(pageSize)}
-                    variant="bordered"
-                    aria-label={`Show ${pageSize}`}
-                    className="text-center  text-white w-full"
+                  Show {table.getState().pagination.pageSize}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                aria-labelledby="dropdownMenuButton"
+              >
+                {[10, 20, 30, 40, 50].map((pageSize, index) => (
+                  <DropdownItem
+                    key={pageSize}
+                    textValue={`Show ${pageSize} items per page`}
                   >
-                    Show {pageSize}
-                  </Button>
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+                    <Button
+                      onClick={() => table.setPageSize(pageSize)}
+                      variant="bordered"
+                      aria-label={`Show ${pageSize}`}
+                      className="text-center  text-white w-full"
+                    >
+                      Show {pageSize}
+                    </Button>
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+            <Button
+              className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+              onClick={openModal}
+            >
+              Thêm phương tiện
+            </Button>
+            {modalIsOpen && <AddVehicle onClose={closeModal} />}
+          </div>
         </div>
       </div>
       <div className="rounded-md border border-gray-700">
@@ -190,11 +226,16 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className="justify-self-start text-muted-foreground"
-          onClick={handleDeleteRowsSelected}
+          className={`text-xs md:text-sm justify-self-start text-muted-foreground rounded-lg border px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          ${
+            table.getFilteredSelectedRowModel().rows.length > 0
+              ? "border-red-500"
+              : "border-gray-600"
+          }`}
+          onClick={deleteRows}
         >
-          Xóa {table.getFilteredSelectedRowModel().rows.length} trên{" "}
-          {table.getFilteredRowModel().rows.length} nhân viên được chọn.
+          Xóa {table.getFilteredSelectedRowModel().rows.length}/
+          {table.getFilteredRowModel().rows.length}
         </button>
         <Button
           variant="light"

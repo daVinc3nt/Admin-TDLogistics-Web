@@ -2,7 +2,7 @@
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
 import { useState } from "react";
-import AddStaff from "./AddStaff/addstaff";
+import AddOffice from "./AddOffice/addoffice";
 import {
   ColumnDef,
   SortingState,
@@ -111,25 +111,25 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex flex-col sm:flex-row">
           <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
             <input
-              id="staffSearch"
+              id="postSearch"
               type="text"
               value={
-                (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("postName")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("staffName")?.setFilterValue(event.target.value)
+                table.getColumn("postName")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
               placeholder=""
             />
             <label
-              htmlFor="staffSearch"
+              htmlFor="postSearch"
               className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              <FormattedMessage id="Sreach Staff by name" />
+              Tìm kiếm theo tên bưu cục
             </label>
             <Dropdown className="z-30">
               <DropdownTrigger>
@@ -167,9 +167,9 @@ export function DataTable<TData, TValue>({
               className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
               onClick={openModal}
             >
-              Thêm Nhân Viên
+              Thêm Bưu cục
             </Button>
-            {modalIsOpen && <AddStaff onClose={closeModal} />}
+            {modalIsOpen && <AddOffice onClose={closeModal} />}
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-sm justify-self-start rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"

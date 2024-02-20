@@ -6,17 +6,44 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import DetailVehicle from "./deltaiVehicle";
+import { Checkbox } from "@/components/TableUI/checkbox";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
 
 export type VehicleData = {
-  VehicleName: string;
-  VehicleType: string;
-  VehicleID: string;
-  VehicleStatus: boolean;
   id: string;
+  codeAgency: string;
+  codeStaff: string;
+  role: string;
+  GPLX: File;
+  maxWeight: string;
+  BKS: string;
+  Active: boolean;
+  nameVehicle: string;
 };
 
 export const columns: ColumnDef<VehicleData>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -25,55 +52,71 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Number" />
+          Thứ tự
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "VehicleName",
+    accessorKey: "codeAgency",
     header: ({ column }) => {
       return (
-        <div>
-          <FormattedMessage id="Vehicle Name" />
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Mã đối tác
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
   {
-    accessorKey: "VehicleType",
+    accessorKey: "codeStaff",
     header: ({ column }) => {
       return (
-        <div>
-          <FormattedMessage id="Vehicle Type" />
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Mã nhân viên
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
   {
-    accessorKey: "VehicleID",
+    accessorKey: "role",
     header: ({ column }) => {
       return (
-        <div>
-          <FormattedMessage id="Vehicle ID" />
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Loại công việc
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
   {
-    accessorKey: "VehicleStatus",
+    accessorKey: "Active",
     header: ({ column }) => {
       return (
-        <div>
-          <FormattedMessage id="Vehicle Status" />
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Trạng thái hoạt động
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
     cell: ({ row }) => {
       return (
         <div>
-          {row.original.VehicleStatus ? (
+          {row.original.Active ? (
             <div className="text-green-500">
               <FormattedMessage id="Active" />
             </div>

@@ -16,6 +16,7 @@ interface Staffdetail {
   staffSalary: number;
   staffSalaryPaid: number;
   staffDeposit: number;
+  staffActive: boolean;
 }
 
 interface DetailStaffProps {
@@ -202,6 +203,54 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex">
+                  <div className="w-1/2 font-bold text-base">
+                    Địa chỉ nhân viên
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.staffPhone}
+                      onChange={(e) =>
+                        setData({ ...data, staffPhone: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.staffPhone}</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">Bin</div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.staffPhone}
+                      onChange={(e) =>
+                        setData({ ...data, staffPhone: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.staffPhone}</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">Ngân hàng</div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.staffPhone}
+                      onChange={(e) =>
+                        setData({ ...data, staffPhone: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.staffPhone}</div>
+                  )}
+                </div>
+
+                <div className="flex">
                   <div className="w-1/2 font-bold text-base">KPI</div>
                   {isEditing ? (
                     <input
@@ -268,6 +317,43 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     />
                   ) : (
                     <div>{data.staffDeposit} vnđ</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">
+                    Trạng thái hoạt động
+                  </div>
+                  {isEditing ? (
+                    <div className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white flex flex-row gap-5">
+                      <input
+                        type="radio"
+                        name="staffActive"
+                        value={true.toString()} // Convert boolean value to string
+                        checked={data.staffActive === true}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            staffActive: JSON.parse(e.target.value),
+                          })
+                        }
+                      />
+                      Hoạt động
+                      <input
+                        type="radio"
+                        name="staffActive"
+                        value={false.toString()}
+                        checked={data.staffActive === false}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            staffActive: JSON.parse(e.target.value),
+                          })
+                        }
+                      />
+                      Đã nghỉ việc
+                    </div>
+                  ) : (
+                    <div>{data.staffActive ? "Hoạt động" : "Đã nghỉ việc"}</div>
                   )}
                 </div>
               </div>
