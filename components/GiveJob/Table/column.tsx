@@ -5,7 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import LoadingSkeleton from "@/components/LoadingSkeleton/loadingSkeleton";
 import OrderList from "./DetailMore/export";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
