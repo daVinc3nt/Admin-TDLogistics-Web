@@ -135,6 +135,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     (district) => district.Id === selectedDistrict
   );
   const wards = selectedDistrictObj ? selectedDistrictObj.Wards : [];
+
   const roleSelectAgency = [
     "AGENCY_MANAGER",
     "AGENCY_HUMAN_RESOURCE_MANAGER",
@@ -143,6 +144,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     "AGENCY_DRIVER",
     "AGENCY_SHIPPER",
   ];
+
   const roleSelectAdmin = [
     "MANAGER",
     "HUMAN_RESOURCE_MANAGER",
@@ -157,6 +159,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     "AGENCY_DRIVER",
     "AGENCY_SHIPPER",
   ];
+
   const roleSelect = () => {
     if (Staffdata.role === "AGENCY_MANAGER") {
       return roleSelectAgency;
@@ -340,7 +343,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thêm nhân viên
+            <FormattedMessage id="Staff.AddButton" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -352,28 +355,34 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
           <div className="w-[98%] sm:w-10/12">
             <h1 className="font-semibold pb-2 text-center">
-              Thông tin cá nhân
+              <FormattedMessage id="Staff.PersonalDetail" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.fullname ? "border-red-500" : ""}`}
-                placeholder="Họ và tên"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.Fullname",
+                })}
                 onChange={(e) => handleInputChange("fullname", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.age ? "border-red-500" : ""}`}
-                placeholder="Tuổi"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.Age",
+                })}
                 onChange={(e) => handleInputChange("age", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.phone ? "border-red-500" : ""}`}
-                placeholder="Số điện thoại"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.Phone",
+                })}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
               />
             </div>
@@ -382,7 +391,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 type="date"
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.dateofbirth ? "border-red-500" : ""}`}
-                placeholder="Ngày sinh"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.DateOfBirth",
+                })}
                 onChange={(e) =>
                   handleInputChange("dateofbirth", e.target.value)
                 }
@@ -391,7 +402,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.cccd ? "border-red-500" : ""}`}
-                placeholder="Căn cước/CMND"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.CCCD",
+                })}
                 onChange={(e) => handleInputChange("cccd", e.target.value)}
               />
               <input
@@ -411,7 +424,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 value={selectedCity}
                 onChange={handleCityChange}
               >
-                <option value="">Chọn tỉnh thành</option>
+                <option value="">
+                  <FormattedMessage id="Staff.PersonalDetail.SelectProvince" />
+                </option>
                 {cities.map((city) => (
                   <option key={city.Id} value={city.Id}>
                     {city.Name}
@@ -427,7 +442,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 value={selectedDistrict}
                 onChange={handleDistrictChange}
               >
-                <option value="">Chọn quận huyện</option>
+                <option value="">
+                  <FormattedMessage id="Staff.PersonalDetail.SelectDistrict" />
+                </option>
                 {districts.map((district) => (
                   <option key={district.Id} value={district.Id}>
                     {district.Name}
@@ -441,7 +458,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 aria-label=".form-select-sm"
                 onChange={(e) => handleInputChange("town", e.target.value)}
               >
-                <option value="">Chọn phường xã</option>
+                <option value="">
+                  <FormattedMessage id="Staff.PersonalDetail.SelectWard" />
+                </option>
                 {wards.map((ward) => (
                   <option key={ward.Id} value={ward.Id}>
                     {ward.Name}
@@ -453,7 +472,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.detail_address ? "border-red-500" : ""}`}
-                placeholder="Số nhà- tên đường"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.Address",
+                })}
                 onChange={(e) =>
                   handleInputChange("detail_address", e.target.value)
                 }
@@ -462,20 +483,24 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
           </div>
 
           <div className="w-[98%] sm:w-10/12 mt-5">
-            <h1 className="font-semibold pb-2 text-center">Tạo tài khoản</h1>
+            <h1 className="font-semibold pb-2 text-center">
+              <FormattedMessage id="Staff.CreateAccount" />
+            </h1>
             <div className="flex-row gap-">
               <div>
                 <input
                   type=""
                   className={`text-xs md:text-sm border w-full border-gray-600 rounded  bg-[#14141a] h-10 p-2 
                   ${checkmissing.username ? "border-red-500" : ""}`}
-                  placeholder="Tên đăng nhập"
+                  placeholder={intl.formatMessage({
+                    id: "Staff.CreateAccount.Username",
+                  })}
                   onChange={(e) =>
                     handleInputChange("username", e.target.value)
                   }
                 />
                 <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  Sử dụng ít nhất 8 ký tự và không chứa ký tự đặc biệt
+                  <FormattedMessage id="RegexUsername" />
                 </p>
               </div>
 
@@ -483,7 +508,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 <div className="relative">
                   <input
                     type={Showpassword ? "text" : "password"}
-                    placeholder="Mật khẩu"
+                    placeholder={intl.formatMessage({
+                      id: "Staff.CreateAccount.Password",
+                    })}
                     id="password"
                     value={Staffdata.password}
                     onChange={(e) =>
@@ -498,8 +525,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                   </button>
                 </div>
                 <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  Dùng ít nhất 8 ký tự, trong đó có ít nhất 1 ký tự viết hoa và
-                  1 ký tự đặc biệt : * ! @ # $ % ^ &
+                  <FormattedMessage id="RegexPassword" />
                 </p>
               </div>
 
@@ -507,7 +533,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 <div className="relative">
                   <input
                     type={Showpassword2 ? "text" : "password"}
-                    placeholder="Xác nhận mật khẩu"
+                    placeholder={intl.formatMessage({
+                      id: "Staff.CreateAccount.ConfirmPassword",
+                    })}
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
@@ -532,7 +560,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 ${checkmissing.role ? "border-red-500" : ""}`}
               >
                 <CustomDropdown
-                  label="Chức vụ"
+                  label={intl.formatMessage({ id: "Staff.Position" })}
                   options={roleSelect()}
                   selectedOption={Staffdata.role}
                   onSelectOption={(option) => handleInputChange("role", option)}
@@ -542,14 +570,18 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.position ? "border-red-500" : ""}`}
-                placeholder="Chức vụ cụ thể"
+                placeholder={intl.formatMessage({
+                  id: "Staff.PersonalDetail.Role",
+                })}
                 onChange={(e) => handleInputChange("position", e.target.value)}
               />
               <input
                 type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.salary ? "border-red-500" : ""}`}
-                placeholder="Lương cơ bản (vnđ)"
+                placeholder={intl.formatMessage({
+                  id: "Staff.Salary",
+                })}
                 onChange={(e) => handleInputChange("salary", e.target.value)}
               />
             </div>
@@ -560,7 +592,9 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
         bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
           onClick={handleSubmit}
         >
-          <span className="hidden xs:block">Thêm nhân viên</span>
+          <span className="hidden xs:block">
+            <FormattedMessage id="Staff.AddButton" />
+          </span>
         </Button>
         <div className=" flex place-content-center text-red-500 font-bold ">
           {error && <p>{error}</p>}

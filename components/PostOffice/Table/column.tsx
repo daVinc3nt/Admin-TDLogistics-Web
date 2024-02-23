@@ -67,7 +67,7 @@ export const columns: ColumnDef<PostOffice>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên bưu cục
+          <FormattedMessage id="PostOffice.Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -96,7 +96,7 @@ export const columns: ColumnDef<PostOffice>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Doanh thu
+          <FormattedMessage id="PostOffice.Income" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -110,7 +110,7 @@ export const columns: ColumnDef<PostOffice>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tỉ lệ
+          <FormattedMessage id="PostOffice.Rate" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -119,7 +119,7 @@ export const columns: ColumnDef<PostOffice>[] = [
   {
     accessorKey: "Chi tiết",
     header: () => {
-      return <FormattedMessage id="Detail" />;
+      return <FormattedMessage id="PostOffice.Detail" />;
     },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);

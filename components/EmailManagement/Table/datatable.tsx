@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
+import { useState } from "react";
+import AddMail from "./addmail";
 import {
   ColumnDef,
   SortingState,
@@ -64,6 +66,15 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
     paginationButtons.push(
@@ -72,13 +83,36 @@ export function DataTable<TData, TValue>({
       </Button>
     );
   }
+  const handleDeleteRowsSelected = () => {
+    table.getFilteredSelectedRowModel().rows.forEach((row) => {
+      console.log(row.original);
+      // Chỗ này call API về sever để xóa nhân viên nè m
+      //chỉ cần truyền row.original.id vào là được
+    });
+  };
+  const confirmDelete = () => {
+    return window.confirm("Are you sure you want to delete?");
+  };
+  const deleteRows = () => {
+    // Gọi hàm confirmDelete và lưu kết quả vào biến result
+    const result = confirmDelete();
+    // Nếu result là true, tức là người dùng nhấn yes
+    if (result) {
+      // Gọi hàm handleDeleteRowsSelected để xóa các hàng đã chọn
+      handleDeleteRowsSelected();
+    }
+    // Nếu result là false, tức là người dùng nhấn no
+    else {
+      // Không làm gì cả
+    }
+  };
 
   return (
     <div>
       <div className="flex items-center py-4">
-        <div className="w-full flex">
-          <div className="relative w-full sm:w-1/2 lg:w-1/3">
-            <Input
+        <div className="w-full flex flex-col sm:flex-row">
+          <div className="relative w-full sm:w-1/2 lg:w-1/3  flex">
+            <input
               id="consSearch"
               type="text"
               value={
@@ -97,39 +131,48 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              <FormattedMessage id="Sreach Email by name" />
+              <FormattedMessage id="Email.SearchBox" />
             </label>
-          </div>
-          <Dropdown className="z-30">
-            <DropdownTrigger>
-              <Button
-                className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
-                aria-label="Show items per page"
-              >
-                Show {table.getState().pagination.pageSize}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              className="bg-[#1a1b23] border border-gray-300 rounded w-24"
-              aria-labelledby="dropdownMenuButton"
-            >
-              {[10, 20, 30, 40, 50].map((pageSize, index) => (
-                <DropdownItem
-                  key={pageSize}
-                  textValue={`Show ${pageSize} items per page`}
+            <Dropdown className="z-30">
+              <DropdownTrigger>
+                <Button
+                  className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
+                  aria-label="Show items per page"
                 >
-                  <Button
-                    onClick={() => table.setPageSize(pageSize)}
-                    variant="bordered"
-                    aria-label={`Show ${pageSize}`}
-                    className="text-center  text-white w-full"
+                  Show {table.getState().pagination.pageSize}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                aria-labelledby="dropdownMenuButton"
+              >
+                {[10, 20, 30, 40, 50].map((pageSize, index) => (
+                  <DropdownItem
+                    key={pageSize}
+                    textValue={`Show ${pageSize} items per page`}
                   >
-                    Show {pageSize}
-                  </Button>
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+                    <Button
+                      onClick={() => table.setPageSize(pageSize)}
+                      variant="bordered"
+                      aria-label={`Show ${pageSize}`}
+                      className="text-center  text-white w-full"
+                    >
+                      Show {pageSize}
+                    </Button>
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+            <Button
+              className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+              onClick={openModal}
+            >
+              <FormattedMessage id="Email.AddButton" />
+            </Button>
+            {modalIsOpen && <AddMail onClose={closeModal} />}
+          </div>
         </div>
       </div>
       <div className="rounded-md border border-gray-700">
@@ -185,6 +228,19 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="flex items-center justify-center space-x-2 py-4">
+        <button
+          className={`text-xs md:text-sm justify-self-start rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          ${
+            table.getFilteredSelectedRowModel().rows.length > 0
+              ? "border-red-500"
+              : "border-gray-600"
+          }`}
+          onClick={deleteRows}
+        >
+          <FormattedMessage id="Delete" />{" "}
+          {table.getFilteredSelectedRowModel().rows.length}/
+          {table.getFilteredRowModel().rows.length}
+        </button>
         <Button
           variant="light"
           size="sm"
@@ -195,18 +251,22 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>Prev</span>
+          <span>
+            <FormattedMessage id="prev" />
+          </span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">Page</div>
+          <div className="text-xs md:text-base">
+            <FormattedMessage id="page" />
+          </div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1}{" "}
+            <FormattedMessage id="of" /> {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
         <span className="flex items-center gap-1 text-xs md:text-base whitespace-nowrap">
-          Go to page:
+          <FormattedMessage id="gotopage" />
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -227,7 +287,9 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>Next</span>
+          <span>
+            <FormattedMessage id="next" />
+          </span>
         </Button>
       </div>
     </div>
