@@ -54,7 +54,7 @@ const SideItemData = [
       },
       {
         id: 10,
-        title: "Bưu cục-Đại lý",
+        title: <FormattedMessage id="Sidebar.option12" />,
         url: "/dashboard/postoffice",
         icon: <MapsHomeWork className="scale-75 lg:block" />,
       },

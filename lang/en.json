@@ -25,6 +25,7 @@
     "Sidebar.option9":"Mail management",
     "Sidebar.option10":"File management",
     "Sidebar.option11":"Log out",
+    "Sidebar.option12":"Post Office-Agency",
     
     "sms.getback": "Get back",
     "sms.wait": "Excuse me!",
@@ -55,7 +56,7 @@
     "order.status.done": "Done",
     "order.detail": "Detail",
     "order.searchbyid": "Search by ID",
-    "order.add": "Add order",
+    "order.AddButton": "Add order",
 
     "Consignment.Title": "Consignment",
     "Consignment.SearchBox": "Search by consignment code",
