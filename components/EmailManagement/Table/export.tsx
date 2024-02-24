@@ -1,8 +1,6 @@
-import { FileData, columns } from "./column";
+import { EmailData, columns } from "./column";
 import { DataTable } from "./datatable";
-import https from "https";
-
-async function getData(): Promise<FileData[]> {
+async function getData(): Promise<EmailData[]> {
   // Fetch data from your API here.
 
   const res = await fetch(
