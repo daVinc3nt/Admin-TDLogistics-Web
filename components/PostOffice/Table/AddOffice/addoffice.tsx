@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
-import CustomDropdown from "./dropdown";
-import { FaMapMarkedAlt } from "react-icons/fa";
 import { FormattedMessage, useIntl } from "react-intl";
 import PasswordToggle from "./PasswordToggle";
 import axios from "axios";
@@ -302,7 +300,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thêm Bưu cục
+            <FormattedMessage id="PostOffice.AddButton" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -314,28 +312,28 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
           <div className="w-[98%] sm:w-10/12">
             <h1 className="font-semibold pb-2 text-center">
-              Thông tin cá nhân người đứng đầu bưu cục
+              <FormattedMessage id="PostOffice.Leader" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.fullname ? "border-red-500" : ""}`}
-                placeholder="Họ và tên"
+                placeholder={intl.formatMessage({ id: "Fullname" })}
                 onChange={(e) => handleInputChange("fullname", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full 
                 ${checkmissing.age ? "border-red-500" : ""}`}
-                placeholder="Tuổi"
+                placeholder={intl.formatMessage({ id: "Age" })}
                 onChange={(e) => handleInputChange("age", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.phone ? "border-red-500" : ""}`}
-                placeholder="Số điện thoại"
+                placeholder={intl.formatMessage({ id: "Phone" })}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
               />
             </div>
@@ -353,7 +351,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.cccd ? "border-red-500" : ""}`}
-                placeholder="Căn cước/CMND"
+                placeholder={intl.formatMessage({ id: "CCCD" })}
                 onChange={(e) => handleInputChange("cccd", e.target.value)}
               />
               <input
@@ -369,14 +367,14 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.nameBankOffice ? "border-red-500" : ""}`}
-                placeholder="Tên ngân hàng"
+                placeholder={intl.formatMessage({ id: "BankName" })}
                 onChange={(e) => handleInputChange("province", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.accountBankOffice ? "border-red-500" : ""}`}
-                placeholder="Số tài khoản ngân hàng"
+                placeholder={intl.formatMessage({ id: "BankNumber" })}
                 onChange={(e) => handleInputChange("province", e.target.value)}
               />
             </div>
@@ -389,7 +387,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 value={selectedCity}
                 onChange={handleCityChange}
               >
-                <option value="">Chọn tỉnh thành</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Province" })}
+                </option>
                 {cities.map((city) => (
                   <option key={city.Id} value={city.Id}>
                     {city.Name}
@@ -405,7 +405,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 value={selectedDistrict}
                 onChange={handleDistrictChange}
               >
-                <option value="">Chọn quận huyện</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose District" })}
+                </option>
                 {districts.map((district) => (
                   <option key={district.Id} value={district.Id}>
                     {district.Name}
@@ -419,7 +421,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 aria-label=".form-select-sm"
                 onChange={(e) => handleInputChange("town", e.target.value)}
               >
-                <option value="">Chọn phường xã</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Ward" })}
+                </option>
                 {wards.map((ward) => (
                   <option key={ward.Id} value={ward.Id}>
                     {ward.Name}
@@ -440,20 +444,22 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
           </div>
 
           <div className="w-[98%] sm:w-10/12 mt-5">
-            <h1 className="font-semibold pb-2 text-center">Tạo tài khoản</h1>
+            <h1 className="font-semibold pb-2 text-center">
+              <FormattedMessage id="Create Account" />
+            </h1>
             <div className="flex-row gap-">
               <div>
                 <input
                   type=""
                   className={`ext-xs md:text-sm border w-full border-gray-600 rounded  bg-[#14141a] h-10 p-2
                   ${checkmissing.username ? "border-red-500" : ""}`}
-                  placeholder="Tên đăng nhập"
+                  placeholder={intl.formatMessage({ id: "Username" })}
                   onChange={(e) =>
                     handleInputChange("username", e.target.value)
                   }
                 />
                 <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  Sử dụng từ 8~20 ký tự và không chứa ký tự đặc biệt
+                  <FormattedMessage id="RegexUsername" />
                 </p>
               </div>
 
@@ -461,7 +467,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 <div className="relative">
                   <input
                     type={Showpassword ? "text" : "password"}
-                    placeholder="Mật khẩu"
+                    placeholder={intl.formatMessage({ id: "Password" })}
                     id="password"
                     value={OfficeData.password}
                     onChange={(e) =>
@@ -476,8 +482,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                   </button>
                 </div>
                 <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  Dùng từ 8~20 ký tự, trong đó có ít nhất 1 ký tự viết hoa và 1
-                  ký tự đặc biệt : * ! @ # $ % ^ &
+                  <FormattedMessage id="RegexPassword" />
                 </p>
               </div>
 
@@ -485,7 +490,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 <div className="relative">
                   <input
                     type={Showpassword2 ? "text" : "password"}
-                    placeholder="Xác nhận mật khẩu"
+                    placeholder={intl.formatMessage({ id: "ConfirmPassword" })}
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
@@ -509,42 +514,46 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.role ? "border-red-500" : ""}`}
-                placeholder="Chức vụ cụ thể"
+                placeholder={intl.formatMessage({ id: "Role" })}
                 onChange={(e) => handleInputChange("position", e.target.value)}
               />
               <input
                 type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.salary ? "border-red-500" : ""}`}
-                placeholder="Lương cơ bản (vnđ)"
+                placeholder={intl.formatMessage({ id: "Salary" })}
                 onChange={(e) => handleInputChange("salary", e.target.value)}
               />
             </div>
           </div>
           <div className="w-[98%] sm:w-10/12 mt-5">
             <h1 className="font-semibold pb-2 text-center">
-              Thông tin bưu cục
+              <FormattedMessage id="PostOffice.Infomation" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.typeOffice ? "border-red-500" : ""}`}
-                placeholder="Loại bưu cục"
+                placeholder={intl.formatMessage({ id: "PostOffice.Info.Type" })}
                 onChange={(e) => handleInputChange("fullname", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.levelOffice ? "border-red-500" : ""}`}
-                placeholder="Cấp bưu cục"
+                placeholder={intl.formatMessage({
+                  id: "PostOffice.Info.Level",
+                })}
                 onChange={(e) => handleInputChange("age", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.postalCode ? "border-red-500" : ""}`}
-                placeholder="Mã bưu chính"
+                placeholder={intl.formatMessage({
+                  id: "PostOffice.Info.PostalCode",
+                })}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
               />
             </div>
@@ -553,7 +562,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.phoneOffice ? "border-red-500" : ""}`}
-                placeholder="Số điện thoại bưu cục"
+                placeholder={intl.formatMessage({ id: "Phone" })}
                 onChange={(e) =>
                   handleInputChange("dateofbirth", e.target.value)
                 }
@@ -562,14 +571,14 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.rateCommission ? "border-red-500" : ""}`}
-                placeholder="Tỉ lệ hoa hồng"
+                placeholder={intl.formatMessage({ id: "PostOffice.Rate" })}
                 onChange={(e) => handleInputChange("cccd", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.emailOffice ? "border-red-500" : ""}`}
-                placeholder="Email Bưu cục"
+                placeholder="Email"
                 onChange={(e) => handleInputChange("email", e.target.value)}
               />
             </div>
@@ -582,7 +591,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 value={selectedCityOffice}
                 onChange={handleCityChangeOffice}
               >
-                <option value="">Chọn tỉnh thành</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Province" })}
+                </option>
                 {citiesOffice.map((city) => (
                   <option key={city.Id} value={city.Id}>
                     {city.Name}
@@ -598,7 +609,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 value={selectedDistrictOffice}
                 onChange={handleDistrictChangeOffice}
               >
-                <option value="">Chọn quận huyện</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose District" })}
+                </option>
                 {districtsOffice.map((district) => (
                   <option key={district.Id} value={district.Id}>
                     {district.Name}
@@ -614,7 +627,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                   handleInputChange("townOffice", e.target.value)
                 }
               >
-                <option value="">Chọn phường xã</option>
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Ward" })}
+                </option>
                 {wardsOffice.map((ward) => (
                   <option key={ward.Id} value={ward.Id}>
                     {ward.Name}
@@ -626,7 +641,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.detail_addressOffice ? "border-red-500" : ""}`}
-                placeholder="Số nhà- tên đường"
+                placeholder={intl.formatMessage({ id: "Address" })}
                 onChange={(e) =>
                   handleInputChange("detail_addressOffice", e.target.value)
                 }
@@ -637,7 +652,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.nameBankOffice ? "border-red-500" : ""}`}
-                placeholder="Tên ngân hàng"
+                placeholder={intl.formatMessage({ id: "BankName" })}
                 onChange={(e) =>
                   handleInputChange("nameBankOffice", e.target.value)
                 }
@@ -646,7 +661,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.accountBankOffice ? "border-red-500" : ""}`}
-                placeholder="Số tài khoản ngân hàng"
+                placeholder={intl.formatMessage({ id: "BankNumber" })}
                 onChange={(e) =>
                   handleInputChange("accountBankOffice", e.target.value)
                 }
@@ -659,7 +674,9 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
         bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
           onClick={handleSubmit}
         >
-          <span className="hidden xs:block">Thêm Bưu cục</span>
+          <span className="hidden xs:block">
+            <FormattedMessage id="PostOffice.AddButton" />
+          </span>
         </Button>
         <div className=" flex place-content-center text-red-500 font-bold ">
           {error && <p>{error}</p>}

@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
+import { Checkbox } from "@/components/TableUI/checkbox";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn
 export type FileData = {
   ID: number;
@@ -15,6 +16,28 @@ export type FileData = {
 
 export const columns: ColumnDef<FileData>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: "ID",
     header: ({ column }) => {
       return (
@@ -22,7 +45,7 @@ export const columns: ColumnDef<FileData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Number" />
+          <FormattedMessage id="File.Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -36,7 +59,7 @@ export const columns: ColumnDef<FileData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="File Name" />
+          <FormattedMessage id="File.Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -50,7 +73,7 @@ export const columns: ColumnDef<FileData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Created Date" />
+          <FormattedMessage id="File.Date" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

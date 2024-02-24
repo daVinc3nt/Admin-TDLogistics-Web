@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
 interface Postdetail {
   number: string;
@@ -90,7 +89,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin bưu cục-đại lý
+            <FormattedMessage id="PostOffice.Infomation" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -102,7 +101,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
           <div className="grid grid-cols-2">
             <div className="flex gap-5">
-              <div className="font-bold text-base">Tên bưu cục-đại lý:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.Name" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -117,7 +118,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Số điện thoại:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.Phone" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -147,7 +150,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Địa chỉ:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.Address" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -162,7 +167,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Doanh thu:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.Income" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -177,7 +184,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Tỉ lệ hoa hồng:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.Rate" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -192,7 +201,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Tên ngân hàng:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.BankName" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -207,7 +218,9 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               )}
             </div>
             <div className="flex gap-5">
-              <div className="font-bold text-base">Số tài khoản:</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="PostOffice.BankNumber" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"

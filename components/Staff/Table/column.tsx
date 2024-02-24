@@ -10,31 +10,27 @@ import DetailStaff from "./detailStaff";
 import { Checkbox } from "@/components/TableUI/checkbox";
 import { FormattedMessage } from "react-intl";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn\
-interface Staffdetail {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffKey: string;
-  staffRole: string;
-  staffPhone: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
-  staffActive: boolean;
-}
+
 export type Staff = {
   number: string;
   staffName: string;
   staffAccountName: string;
-  staffKey: string;
-  staffRole: string;
+  staffPassword: string;
+  staffdateOfBirth: Date;
+  staffCCCD: string;
   staffPhone: string;
+  staffRole: string;
+  staffPosition: string;
+  staffProvince: string;
+  staffDistrict: string;
+  staffWard: string;
+  staffAddress: string;
   staffKPI: number;
   staffSalary: number;
   staffSalaryPaid: number;
   staffDeposit: number;
   staffActive: boolean;
+  agency_id: string;
 };
 
 export const columns: ColumnDef<Staff>[] = [
@@ -68,7 +64,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Number" />
+          <FormattedMessage id="Staff.Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -82,21 +78,21 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Staff Name" />
+          <FormattedMessage id="Staff.Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "staffKey",
+    accessorKey: "staffPhone",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Staff ID" />
+          <FormattedMessage id="Staff.Phone" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -111,7 +107,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Staff Position" />
+          <FormattedMessage id="Staff.Position" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -125,7 +121,7 @@ export const columns: ColumnDef<Staff>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Trạng thái hoạt động
+          <FormattedMessage id="Staff.Status" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -134,9 +130,13 @@ export const columns: ColumnDef<Staff>[] = [
       return (
         <div className="flex items-center">
           {row.original.staffActive ? (
-            <span className=" text-green-500">Đang hoạt động</span>
+            <span className=" text-green-500">
+              <FormattedMessage id="isActive" />
+            </span>
           ) : (
-            <span className=" text-red-500">Đã nghỉ việc</span>
+            <span className=" text-red-500">
+              <FormattedMessage id="isInActive" />
+            </span>
           )}
         </div>
       );
@@ -145,7 +145,7 @@ export const columns: ColumnDef<Staff>[] = [
   {
     accessorKey: "Chi tiết",
     header: () => {
-      return <FormattedMessage id="Detail" />;
+      return <FormattedMessage id="Staff.Detail" />;
     },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);

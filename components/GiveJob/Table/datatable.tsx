@@ -133,7 +133,7 @@ export function DataTable<TData, TValue>({
           <span>Previous</span>
         </Button>
         <span className="flex items-center gap-1 text-xs md:text-base">
-          | Go to page:
+          | <FormattedMessage id="gotopage" />
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}

@@ -5,19 +5,29 @@ import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
+
 interface Staffdetail {
   number: string;
   staffName: string;
   staffAccountName: string;
-  staffKey: string;
+  staffPassword: string;
+  staffdateOfBirth: Date;
+  staffCCCD: string;
   staffRole: string;
+  staffPosition: string;
+  staffProvince: string;
+  staffDistrict: string;
+  staffWard: string;
+  staffAddress: string;
   staffPhone: string;
   staffKPI: number;
   staffSalary: number;
   staffSalaryPaid: number;
   staffDeposit: number;
   staffActive: boolean;
+  agency_id: string;
 }
+const Admin = "Admin";
 
 interface DetailStaffProps {
   onClose: () => void;
@@ -25,11 +35,12 @@ interface DetailStaffProps {
 }
 
 const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
+  const [admin, setAdmin] = useState(Admin);
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
-
+  let staffdateOfBirth = new Date(data.staffdateOfBirth);
   const handleClickOutside = (event: MouseEvent) => {
     if (
       notificationRef.current &&
@@ -107,32 +118,36 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               <div className="flex flex-col gap-5">
                 <div>
                   <div className="font-bold text-base">
-                    <FormattedMessage id="Staff Image" />
+                    <FormattedMessage id="Staff.Image" />
                   </div>
                   <div>
                     <User className="w-20 h-20  md:w-80 md:h-80" />
                   </div>
                 </div>
-                <div className="flex gap-5">
-                  <div className="font-bold text-base">
-                    <FormattedMessage id="Staff ID" />
+                {admin === "Admin" ? (
+                  <div className="flex gap-5">
+                    <div className="font-bold text-base">
+                      <FormattedMessage id="Staff.Agency_ID" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="text"
+                        value={data.agency_id}
+                        onChange={(e) =>
+                          setData({ ...data, agency_id: e.target.value })
+                        }
+                      />
+                    ) : (
+                      <div>{data.agency_id}</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.number}
-                      onChange={(e) =>
-                        setData({ ...data, number: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.number}</div>
-                  )}
-                </div>
+                ) : (
+                  ""
+                )}
                 <div className="flex gap-5">
                   <div className=" font-bold text-base ">
-                    <FormattedMessage id="Staff Name" />
+                    <FormattedMessage id="Staff.Name" />
                   </div>
                   {isEditing ? (
                     <input
@@ -153,7 +168,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               <div className="flex flex-col gap-5">
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff Account" />
+                    <FormattedMessage id="Staff.Account" />
                   </div>
                   {isEditing ? (
                     <input
@@ -170,7 +185,44 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 </div>
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff Position" />
+                    <FormattedMessage id="Staff.Password" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.staffPassword}
+                      onChange={(e) =>
+                        setData({ ...data, staffPassword: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.staffPassword}</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff.DateOfBirth" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="date"
+                      value={staffdateOfBirth.toLocaleDateString()} // Convert the date to a string
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          staffdateOfBirth: new Date(e.target.value),
+                        })
+                      }
+                    />
+                  ) : (
+                    <div>{staffdateOfBirth.toLocaleDateString()}</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff.Position" />
                   </div>
                   {isEditing ? (
                     <input
@@ -187,7 +239,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 </div>
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff Phone" />
+                    <FormattedMessage id="Staff.Phone" />
                   </div>
                   {isEditing ? (
                     <input
@@ -204,7 +256,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 </div>
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    Địa chỉ nhân viên
+                    <FormattedMessage id="Staff.Address" />
                   </div>
                   {isEditing ? (
                     <input
@@ -234,7 +286,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <div>{data.staffPhone}</div>
                   )}
                 </div>
-                <div className="flex">
+                {/* <div className="flex">
                   <div className="w-1/2 font-bold text-base">Ngân hàng</div>
                   {isEditing ? (
                     <input
@@ -248,9 +300,9 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   ) : (
                     <div>{data.staffPhone}</div>
                   )}
-                </div>
+                </div> */}
 
-                <div className="flex">
+                {/* <div className="flex">
                   <div className="w-1/2 font-bold text-base">KPI</div>
                   {isEditing ? (
                     <input
@@ -267,10 +319,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   ) : (
                     <div>{data.staffKPI}</div>
                   )}
-                </div>
+                </div> */}
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff Salary" />
+                    <FormattedMessage id="Staff.Salary" />
                   </div>
                   {isEditing ? (
                     <input
@@ -287,7 +339,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 </div>
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff Salary Paid" />
+                    <FormattedMessage id="Staff.Paid" />
                   </div>
                   {isEditing ? (
                     <input
@@ -302,7 +354,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <div>{data.staffSalaryPaid} vnđ</div>
                   )}
                 </div>
-                <div className="flex">
+                {/* <div className="flex">
                   <div className="w-1/2 font-bold text-base">
                     <FormattedMessage id="Staff Deposit" />
                   </div>
@@ -318,10 +370,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   ) : (
                     <div>{data.staffDeposit} vnđ</div>
                   )}
-                </div>
+                </div> */}
                 <div className="flex">
                   <div className="w-1/2 font-bold text-base">
-                    Trạng thái hoạt động
+                    <FormattedMessage id="Staff.Status" />
                   </div>
                   {isEditing ? (
                     <div className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white flex flex-row gap-5">

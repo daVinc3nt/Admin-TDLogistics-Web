@@ -8,7 +8,6 @@ import * as vi from "@/lang/vi.json";
 import { Libraries, LoadScript, LoadScriptProps } from "@react-google-maps/api";
 import { Spinner } from "@material-tailwind/react";
 
-
 const googleMapsLibraries: Libraries = ["places"];
 
 function MyApp({ Component, pageProps }: AppProps) {
