@@ -1,5 +1,6 @@
 import {  Table, Column} from "@tanstack/react-table"
 import React from "react"
+import CustomDropdown from "./dropdown"
 // use for setting times bettween API calls, that is to say, 
 // after  debounce=500 the api would be fired then
 export function DebouncedInput({
@@ -37,16 +38,20 @@ export function DebouncedInput({
 export default function Filter({
     column,
     table,
-    title
+    title,
+    type,
+    options,
   }: {
     column: Column<any, unknown>
     table: Table<any>,
-    title: string
+    title: string,
+    type: string,
+    options?: { [key: string]: any }
   }) {
     const firstValue = table
       .getPreFilteredRowModel()
       .flatRows[0]?.getValue(column.id)
-  
+  console.log
     const columnFilterValue = column.getFilterValue()
   
     const sortedUniqueValues = React.useMemo(
@@ -56,64 +61,73 @@ export default function Filter({
           : Array.from(column.getFacetedUniqueValues().keys()).sort(),
       [column.getFacetedUniqueValues()]
     )
-  
     return (
-      <div className="text-white font-base flex gap-3">
+      <div className="text-white font-base flex mt-5 gap-3">
       {title}:
       {
-      typeof firstValue === 'number' ? (
-      <div>
-        <div className="flex space-x-2">
+      type === 'selection' ? 
+      <CustomDropdown
+        label="Chọn"
+        options={Object.keys(options)}
+        selectedOption={(columnFilterValue ?? '') as string}
+        onSelectOption={value =>{column.setFilterValue([options[value], options[value]]) }}
+      /> : 
+      (
+        type === 'range' ?
+        <div>
+          <div className="flex space-x-2">
+            <DebouncedInput
+              type="number"
+              min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+              max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+              value={(columnFilterValue as [number, number])?.[0] ?? ''}
+              onChange={value =>
+                column.setFilterValue((old: [number, number]) => [value, old?.[1]])
+              }
+              placeholder={`From ${
+                column.getFacetedMinMaxValues()?.[0]
+                  ? `(${column.getFacetedMinMaxValues()?.[0]})`
+                  : ''
+              }`}
+              className="w-24 border shadow rounded text-black"
+            />
+            <DebouncedInput
+              type="number"
+              min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+              max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+              value={(columnFilterValue as [number, number])?.[1] ?? ''}
+              onChange={value =>
+                column.setFilterValue((old: [number, number]) => [old?.[0], value])
+              }
+              placeholder={`To ${
+                column.getFacetedMinMaxValues()?.[1]
+                  ? `(${column.getFacetedMinMaxValues()?.[1]})`
+                  : ''
+              }`}
+              className="w-24 border shadow rounded text-black"
+            />
+          </div>
+          <div className="h-1" />
+        </div> : 
+        (
+        <>
+          <datalist id={column.id + 'list'}>
+            {sortedUniqueValues.slice(0, 5000).map((value: any) => (
+              <option value={value} key={value} />
+            ))}
+          </datalist>
           <DebouncedInput
-            type="number"
-            min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-            max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-            value={(columnFilterValue as [number, number])?.[0] ?? ''}
-            onChange={value =>
-              column.setFilterValue((old: [number, number]) => [value, old?.[1]])
-            }
-            placeholder={`From ${
-              column.getFacetedMinMaxValues()?.[0]
-                ? `(${column.getFacetedMinMaxValues()?.[0]})`
-                : ''
-            }`}
-            className="w-24 border shadow rounded text-black"
+            type="text"
+            value={(columnFilterValue ?? '') as string}
+            onChange={value => column.setFilterValue(value )}
+            placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
+            className="w-36 border shadow rounded text-black"
+            list={column.id + 'list'}
           />
-          <DebouncedInput
-            type="number"
-            min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-            max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-            value={(columnFilterValue as [number, number])?.[1] ?? ''}
-            onChange={value =>
-              column.setFilterValue((old: [number, number]) => [old?.[0], value])
-            }
-            placeholder={`To ${
-              column.getFacetedMinMaxValues()?.[1]
-                ? `(${column.getFacetedMinMaxValues()?.[1]})`
-                : ''
-            }`}
-            className="w-24 border shadow rounded text-black"
-          />
-        </div>
-        <div className="h-1" />
-      </div>
-      ) : (
-      <>
-        <datalist id={column.id + 'list'}>
-          {sortedUniqueValues.slice(0, 5000).map((value: any) => (
-            <option value={value} key={value} />
-          ))}
-        </datalist>
-        <DebouncedInput
-          type="text"
-          value={(columnFilterValue ?? '') as string}
-          onChange={value => column.setFilterValue(value)}
-          placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-          className="w-36 border shadow rounded text-black"
-          list={column.id + 'list'}
-        />
-        <div className="h-1" />
-      </>)
+          <div className="h-1" />
+        </>
+        )
+      )
       }
       </div>
     )

@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4 px-4">
         <div className="w-full flex">
           <div className="relative w-full sm:w-1/2 lg:w-1/3">
-            <Input
+            <input
               id="consSearch"
               type="text"
               value={
@@ -162,14 +162,14 @@ export function DataTable<TData, TValue>({
             </DropdownMenu>
           </Dropdown>
           <BasicPopover icon={<FilterAltIcon/>} >
-            <Filter column={table.getColumn("mass")} table={table} title="Mass" />
-            <Filter column={table.getColumn("pickupLocation")} table={table} title="Origin" />
-            <Filter column={table.getColumn("status")} table={table} title="Status" />
+            <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
+            <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
+            <Filter type="selection" options={{Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4}} column={table.getColumn("status")} table={table} title="Status" />
           </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
           <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
           onClick={openModal}>
-            <FormattedMessage id="Consignment.AddButton"/>
+            <FormattedMessage id="order.AddButton"/>
           </Button>
           {modalIsOpen && <AddNoti onClose={closeModal}/>}
         </div>

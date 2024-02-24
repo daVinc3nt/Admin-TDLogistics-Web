@@ -46,7 +46,7 @@ const LangSelector = () => {
       <motion.div animate={open ? "open" : "closed"} className="relative z-10">
         <button
           id="langRefButton" ref={langRef} onClick={() => setOpen((pv) => !pv)}
-          className="flex items-center h-5/6 mt-[0.23rem] z-50 gap-4 px-3 rounded-lg w-20 text-indigo-50 bg-indigo-600 hover:bg-indigo-700 transition-colors relative"
+          className="flex items-center h-5/6 mt-[0.23rem] z-50 gap-4 px-3 rounded-lg w-20 text-indigo-50 bg-red-600 hover:bg-red-700 transition-colors relative"
         >
           <div id="langRefButton" className="absolute bg-transparent w-full h-full"></div>
           <FiGlobe size={30} />
@@ -75,7 +75,7 @@ const Option = ({ text, Icon, handle }) => {
       variants={itemVariants}
       transition={{ duration: 0.1 }}
       onClick={() => { handle(text) }}
-      className="flex z-50 items-center gap-2 w-full py-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-indigo-100 text-slate-700 hover:text-indigo-500 transition-colors cursor-pointer"
+      className="flex z-50 items-center gap-2 w-full py-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-red-100 text-slate-700 hover:text-red-500 transition-colors cursor-pointer"
     >
       <motion.span variants={actionIconVariants} >
       </motion.span>

@@ -17,7 +17,7 @@ const SubItems: React.FC<MenuItem>  = (menuItems) => {
     <>
     <div className="w-full">
         <button
-                className="p-2.5 mt-1 flex items-center w-full rounded-md px-4 duration-300 cursor-pointer hover:bg-black hover:text-[#e1201c]"
+                className="p-3 mt-1 flex items-center w-full rounded-md duration-300 cursor-pointer hover:bg-black hover:text-[#e1201c]"
             onClick={() => Setdropdown(!dropdown)}
         >
             {menuItems.icon}

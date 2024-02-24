@@ -1,6 +1,6 @@
 import React from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-
+import { useState } from "react";
 interface CustomDropdownProps {
   label: string;
   options: string[];
@@ -14,6 +14,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   selectedOption,
   onSelectOption,
 }) => {
+  const [selected, setSelected] =useState(label)
   return (
     <Dropdown className="z-30">
       <DropdownTrigger>
@@ -21,7 +22,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
           className="text-xs md:text-sm border border-gray-600 rounded h-10 w-full"
           aria-label={label}
         >
-          {selectedOption || label}
+          {selected}
         </Button>
       </DropdownTrigger>
       <DropdownMenu
@@ -31,7 +32,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         {options.map((option, index) => (
           <DropdownItem key={index} textValue={option}>
             <Button
-              onClick={() => onSelectOption(option)}
+              onClick={() => {onSelectOption(option); setSelected(option)}}
               aria-label={option}
               className="text-center text-white w-full"
             >

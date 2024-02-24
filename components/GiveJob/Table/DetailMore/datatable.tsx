@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
+        <input
           placeholder="Tìm kiếm theo Mã đơn hàng"
           value={(table.getColumn("Code")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>

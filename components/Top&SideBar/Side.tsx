@@ -62,7 +62,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
   );
 
   const collapseIconClasses = classNames(
-    "p-3 rounded bg-light-lighter absolute right-0 hidden lg:block",
+    "p-3 rounded bg-[#373839] text-white absolute right-0 hidden lg:block",
     {
       "rotate-180": toggleCollapse,
     }

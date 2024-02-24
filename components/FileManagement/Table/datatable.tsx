@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <div className="w-full flex">
           <div className="relative w-full sm:w-1/2 lg:w-1/3">
-            <Input
+            <input
               id="consSearch"
               type="text"
               value={

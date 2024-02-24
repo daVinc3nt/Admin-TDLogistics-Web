@@ -55,7 +55,7 @@ const NotifyIcon = () => {
     <motion.div animate={open ? "open" : "closed"} className="relative">   
       <button
         id="notiRefButton" ref={notiRef}
-        className="rounded-full focus:outline-none p-1.5 m-0.5 bg-indigo-600 hover:bg-indigo-700 relative"
+        className="rounded-full focus:outline-none p-1.5 m-0.5 bg-red-600 hover:bg-red-700 relative"
         onClick={() => setOpen((pv) => !pv)}
       >
         <div className="w-full h-full bg-transparent absolute" id="notiRefButton" ref={notiRef}></div>

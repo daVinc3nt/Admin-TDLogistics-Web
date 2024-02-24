@@ -209,7 +209,7 @@ export const columns: ColumnDef<Order>[] = [
           >
             +
           </Button>
-          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original}/>}
+          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original} />}
         </div>
       );
     },

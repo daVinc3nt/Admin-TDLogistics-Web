@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-import EditField from "./editField";
-import {FormattedMessage, useIntl } from "react-intl"
+import { User, Pencil } from "lucide-react";
+import { FormattedMessage } from "react-intl";
 interface Order {
   onClose: () => void;
   dataInitial: {
@@ -21,17 +21,17 @@ interface Order {
   }
 }
 
-
-const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
-  const intl =useIntl();
+const DetailStaff: React.FC<Order> = ({ onClose, dataInitial }) => {
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
 
-
   const handleClickOutside = (event: MouseEvent) => {
-    if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target as Node)
+    ) {
       setIsShaking(true);
       setTimeout(() => {
         setIsShaking(false);
@@ -56,6 +56,15 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
       onClose();
     }
   };
+  const [isEditing, setIsEditing] = useState(false);
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+  const handleSaveClick = () => {
+    // Gửi API về server để cập nhật dữ liệu
+    // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+    setIsEditing(false);
+  };
 
   return (
     <motion.div
@@ -66,110 +75,255 @@ const DetailNotification: React.FC<Order> = ({ onClose, dataInitial }) => {
       transition={{ duration: 0.5 }}
       onAnimationComplete={handleAnimationComplete}
       style={{
-        backdropFilter: "blur(12px)"
+        backdropFilter: "blur(12px)",
       }}
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-6/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
-          ${isShaking ? 'animate-shake' : ''}`}
+        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+          ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
         exit={{ scale: 0 }}
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">Thông tin lô hàng</div>
-          <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+            <FormattedMessage id="Staff Information" />
+          </div>
+          <Button
+            className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
+            onClick={handleClose}
+          >
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll text-2xl mt-4 justify-center items-center no-scrollbar flex flex-col  p-2 rounded-md text-white">
-            <AnimatePresence initial={false}>
-                <motion.div
-                  key={data.orderId}
-                  initial={{ opacity: 1 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={` p-2  flex flex-col`}
-                >
-                  <div className="text-center font-semibold pb-2">ID: {data.orderId}</div>
-                  <span className="mr-2">+ <FormattedMessage id="order.mass"/> :</span>
-                  <EditField inputlen="100" data={data.mass} setData={(value) => setData({ ...data, mass: Number(value) })} type="text" />
-                  <div className="flex flex-col sm:flex-row whitespace-nowrap overflow-hidden justify-between">
-                    <div className="pr-4">
-                      <span className="mr-2">+ <FormattedMessage id="order.length"/>:</span>
-                      <EditField inputlen={"100"} data={data.length} setData={(value) => setData({ ...data, length: Number(value) })} type="text" />
-                    </div>
-                    <div className="pr-4">
-                      <span className="mr-2">+ <FormattedMessage id="order.width"/>:</span>
-                      <EditField inputlen={"100"} data={data.width} setData={(value) => setData({ ...data, width: Number(value) })} type="text" />
-                    </div>
-                    <div className="pr-4">
-                      <span className="mr-2">+ <FormattedMessage id="order.height"/>:</span>
-                      <EditField inputlen={"100"} data={data.height} setData={(value) => setData({ ...data, height: Number(value) })} type="text" />
-                    </div>
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
+          <div className="grid grid-cols-2 ">
+            <div>
+              <div className="flex flex-col gap-5">
+                <div>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="order.image" />
                   </div>
-                  <div>+ <FormattedMessage id="order.pickuplocation"/>: {<EditField inputlen={"900"} data={data.pickupLocation} setData={(value) => setData({ ...data, pickupLocation: value.toString() })} type="text" />}</div>
-                  <div>+ <FormattedMessage id="order.receive"/>: {<EditField inputlen={"900"} data={data.deliveryLocation} setData={(value) => setData({ ...data,  deliveryLocation: value.toString() })} type="text" />}</div>
-                  <div className="flex flex-col sm:flex-row gap-6">
-                  <div>+ <FormattedMessage id="order.fee"/>: {<EditField inputlen={"100"} data={data.fee} setData={(value) => setData({ ...data,  fee: Number(value) })} type="text" />}</div>
-                  <div>+ COD: {<EditField inputlen={"100"} data={data.cod} setData={(value) => setData({ ...data,  cod: Number(value) })} type="text" />}</div>
+                  <div>
+                    <User className="w-20 h-20  md:w-80 md:h-80" />
                   </div>
-                  <div className="text-center">
-                  <FormattedMessage id="order.status"/>:{" "}
-                    {(() => {
-                      let statusLabel = "";
-                      let statusColor = "";
-
-                      switch (data.status) {
-                        case 1:
-                          statusLabel = intl.formatMessage({ id: 'order.status.ongoing' });
-                          statusColor = "text-yellow-600";
-                          break;
-                        case 2:
-                          statusLabel = intl.formatMessage({ id: 'order.status.pending' });
-                          statusColor = "text-gray-500";
-                          break;
-                        case 3:
-                          statusLabel = intl.formatMessage({ id: 'order.status.done' });
-                          statusColor = "text-green-500";
-                          break;
-                        case 4:
-                          statusLabel = intl.formatMessage({ id: 'order.status.cancel' });
-                          statusColor = "text-red-500";
-                          break;
-                        default:
-                          statusLabel = "Unknown";
+                </div>
+                <div className="flex gap-5">
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="order.Id" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="number"
+                      value={data.orderId}
+                    />
+                  ) : (
+                    <div>{data.orderId}</div>
+                  )}
+                </div>
+                <div className="flex gap-5">
+                  <div className=" font-bold text-base ">
+                    <FormattedMessage id="order.length" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.length}
+                      onChange={(e) =>
+                        setData({ ...data, length: parseFloat
+(e.target.value)  })
                       }
-                      return <span className={`${statusColor} font-semibold`}>{statusLabel}</span>;
-                    })()}
+                    />
+                  ) : (
+                    <div>{data.length}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="">
+              <div className="flex flex-col gap-4">
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.mass" />
                   </div>
-                </motion.div>
-            </AnimatePresence>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.mass}
+                      onChange={(e) =>
+                        setData({ ...data, mass: parseFloat
+(e.target.value)  })
+                      }
+                    />
+                  ) : (
+                    <div>{data.mass}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.length" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.length}
+                      onChange={(e) =>
+                        setData({ ...data, length: parseFloat
+(e.target.value) })
+                      }
+                    />
+                  ) : (
+                    <div>{data.height}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.width" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.width}
+                      onChange={(e) =>
+                        setData({ ...data, width: parseFloat
+(e.target.value)  })
+                      }
+                    />
+                  ) : (
+                    <div>{data.width}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.height" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.height}
+                      onChange={(e) =>
+                        setData({ ...data, height: parseFloat
+(e.target.value) })
+                      }
+                    />
+                  ) : (
+                    <div>{data.height}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.pickuplocation" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.pickupLocation}
+                      onChange={(e) =>
+                        setData({ ...data, pickupLocation: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.pickupLocation}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                  <FormattedMessage id="order.receive" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.deliveryLocation}
+                      onChange={(e) =>
+                        setData({ ...data, deliveryLocation: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.deliveryLocation}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                  <FormattedMessage id="order.fee" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="number"
+                      value={data.fee}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          fee: parseFloat(e.target.value),
+                        })
+                      }
+                    />
+                  ) : (
+                    <div>{data.fee}</div>
+                  )}
+                </div>
+                <div className="flex ">
+                  <div className=" w-1/3 font-bold text-base">
+                    COD
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="number"
+                      value={data.cod}
+                      onChange={(e) =>
+                        setData({ ...data, cod: parseFloat(e.target.value) })
+                      }
+                    />
+                  ) : (
+                    <div>{data.cod}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div className="w-full flex">
-          <Button
-            className="w-full rounded-lg mt-5 mb-1 py-3 border-red-700 hover:bg-red-700 text-red-500
-              bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
-              hover:shadow-md mr-2"
-          >
-            <FaTrash className="xs:mr-2" />
-            <span className="hidden xs:block">Xóa lô hàng</span>
-          </Button>
-          <Button
-            className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
+          {!isEditing ? (
+            <Button
+              className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
               bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
               hover:shadow-md"
-          >
-            <FaPen className="xs:mr-2" />
-            <span className="hidden xs:block">Lưu chỉnh sửa</span>
-          </Button>
+              onClick={handleEditClick}
+            >
+              <FaPen className="xs:mr-2" />
+              <span className="hidden xs:block">
+                <FormattedMessage id="Edit" />
+              </span>
+            </Button>
+          ) : (
+            <Button
+              className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
+    bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
+    hover:shadow-md"
+              onClick={handleSaveClick}
+            >
+              <FaPen className="xs:mr-2" />
+              <span className="hidden xs:block">
+                <FormattedMessage id="Save" />
+              </span>
+            </Button>
+          )}
         </div>
       </motion.div>
     </motion.div>
   );
 };
 
-export default DetailNotification;
+export default DetailStaff;
