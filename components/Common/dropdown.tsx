@@ -1,6 +1,11 @@
 import React from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { useState } from "react";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 interface CustomDropdownProps {
   label: string;
   options: string[];
@@ -16,7 +21,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 }) => {
   const [selected, setSelected] =useState(label)
   return (
-    <Dropdown className="z-30">
+    <>
+    <Dropdown className="z-50">
       <DropdownTrigger>
         <Button
           className="text-xs md:text-sm border border-gray-600 rounded h-10 w-full"
@@ -42,6 +48,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         ))}
       </DropdownMenu>
     </Dropdown>
+    </>
   );
 };
 

@@ -51,7 +51,6 @@ export default function Filter({
     const firstValue = table
       .getPreFilteredRowModel()
       .flatRows[0]?.getValue(column.id)
-  console.log
     const columnFilterValue = column.getFilterValue()
   
     const sortedUniqueValues = React.useMemo(
