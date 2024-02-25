@@ -88,11 +88,11 @@ const SignupForm = () => {
     {setshake(false);}
   };
   const SignUp = () =>{
-    const {name, email, phoneNumber} = formValues;
-    handleName(name);
-    handleEmail(email);
-    handleNum(phoneNumber);
-    const {nameEr, emailEr, phoneNumberEr} = formErrors;
+    // const {name, email, phoneNumber} = formValues;
+    // handleName(name);
+    // handleEmail(email);
+    // handleNum(phoneNumber);
+    // const {nameEr, emailEr, phoneNumberEr} = formErrors;
     // if ( nameEr !== "" || emailEr !== "" || phoneNumberEr !== "") {setshake(true);return;}
     // else {
     // setshowOtp(!showOtp);
