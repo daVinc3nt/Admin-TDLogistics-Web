@@ -61,7 +61,6 @@ const SigninForm = () => {
     const updatedFormValues = { ...formValues, name: value };
     setFormValues(updatedFormValues);
     validate(updatedFormValues, 1);
-    console.log(formErrors);
   };
   const signIn = () =>{
     const {email, phoneNumber} = formValues;
@@ -77,7 +76,7 @@ const SigninForm = () => {
     }
     else {
       const staffsAuthenticate = new StaffsAuthenticate();
-      console.log("hello")
+      console.log(formValues.name, formValues.pass)
       staffsAuthenticate.login(formValues.name, formValues.pass)
       .then(result => console.log(result))
       .catch(error => console.log(error));
