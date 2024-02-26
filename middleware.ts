@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(protectedRoutes) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
   ) {
+    console.log("if 1")
     request.cookies.delete("currentUser");
     const response = NextResponse.redirect(new URL(`${request.nextUrl.locale === "en" ? "en":""}/log`, request.url));
     response.cookies.delete("currentUser");
@@ -19,6 +20,7 @@ export function middleware(request: NextRequest) {
   }
   console.log(currentUser)
   if (request.nextUrl.pathname.startsWith(authRoutes) && currentUser) {
+    console.log("if 2")
     return NextResponse.redirect(new URL("/dashboard", request.url));
 
   }
