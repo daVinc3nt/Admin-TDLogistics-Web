@@ -4,11 +4,10 @@ import type { NextRequest } from "next/server";
 
 
 const protectedRoutes = "/dashboard";
-const authRoutes = "/login";
+const authRoutes = "/log";
 
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("connect.sid")?.value;
-  console.log()
   if (
     request.nextUrl.pathname.startsWith(protectedRoutes) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
