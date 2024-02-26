@@ -33,7 +33,7 @@ const SigninForm = () => {
   const [showOtp, setshowOtp] = useState(false);
   const [shake, setshake] = useState(false);
   const buttonstyle = classNames(
-    "mt-7 py-3 px-4  w-[calc(95%)] rounded-full text-white font-bold uppercase text-xs text-center block focus:outline-none cursor-pointer sm:mt-10 sm:text-sm transition duration-150",
+    "mt-7 py-3 px-4  w-[calc(95%)] rounded-full text-white font-bold uppercase text-xs text-center block focus:outline-none cursor-pointer active:scale-110 sm:mt-10 sm:text-sm transition duration-150",
     {
       ["bg-indigo-200 animate-shake"]: shake,
       ["bg-indigo-600"]: !shake,
