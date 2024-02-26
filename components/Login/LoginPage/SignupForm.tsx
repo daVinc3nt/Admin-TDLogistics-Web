@@ -102,10 +102,10 @@ const SignupForm = () => {
     Test();
   }
   const Test =() => {
-    const staffsAuthenticate = new StaffsAuthenticate();
     const username = "ntdung@tdlogistics";
     const password = "NTDung@tdlogistics2k24";
 
+    const staffsAuthenticate = new StaffsAuthenticate();
     staffsAuthenticate.login(username, password)
     .then(result => console.log(result))
     .catch(error => console.log(error));

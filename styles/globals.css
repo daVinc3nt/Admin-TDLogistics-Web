@@ -36,6 +36,87 @@ html {
 .buttonprenext{
     @apply bg-gray-300 ;
 }
+@media screen {
+    [data-aos=fade-up] {
+         -webkit-transform: translate3d(0, 10px, 0);
+         transform: translate3d(0, 10px, 0);
+     }
+ 
+    [data-aos=fade-down] {
+         -webkit-transform: translate3d(0, -10px, 0);
+         transform: translate3d(0, -10px, 0);
+     }
+ 
+    [data-aos=fade-right] {
+         -webkit-transform: translate3d(-10px, 0, 0);
+         transform: translate3d(-10px, 0, 0);
+     }
+ 
+    [data-aos=fade-left] {
+         -webkit-transform: translate3d(10px, 0, 0);
+         transform: translate3d(10px, 0, 0);
+     }
+ 
+    [data-aos=fade-up-right] {
+         -webkit-transform: translate3d(-10px, 10px, 0);
+         transform: translate3d(-10px, 10px, 0);
+     }
+ 
+    [data-aos=fade-up-left] {
+         -webkit-transform: translate3d(10px, 10px, 0);
+         transform: translate3d(10px, 10px, 0);
+     }
+ 
+    [data-aos=fade-down-right] {
+         -webkit-transform: translate3d(-10px, -10px, 0);
+         transform: translate3d(-10px, -10px, 0);
+     }
+ 
+    [data-aos=fade-down-left] {
+         -webkit-transform: translate3d(10px, -10px, 0);
+         transform: translate3d(10px, -10px, 0);
+     }
+ 
+    [data-aos=zoom-in-up] {
+         -webkit-transform: translate3d(0, 10px, 0) scale(.6);
+         transform: translate3d(0, 10px, 0) scale(.6);
+     }
+ 
+    [data-aos=zoom-in-down] {
+         -webkit-transform: translate3d(0, -10px, 0) scale(.6);
+         transform: translate3d(0, -10px, 0) scale(.6);
+     }
+ 
+    [data-aos=zoom-in-right] {
+         -webkit-transform: translate3d(-10px, 0, 0) scale(.6);
+         transform: translate3d(-10px, 0, 0) scale(.6);
+     }
+ 
+    [data-aos=zoom-in-left] {
+         -webkit-transform: translate3d(10px, 0, 0) scale(.6);
+         transform: translate3d(10px, 0, 0) scale(.6);
+     }
+ 
+    [data-aos=zoom-out-up] {
+         -webkit-transform: translate3d(0, 10px, 0) scale(1.2);
+         transform: translate3d(0, 10px, 0) scale(1.2);
+     }
+ 
+    [data-aos=zoom-out-down] {
+         -webkit-transform: translate3d(0, -10px, 0) scale(1.2);
+         transform: translate3d(0, -10px, 0) scale(1.2);
+     }
+ 
+    [data-aos=zoom-out-right] {
+         -webkit-transform: translate3d(-10px, 0, 0) scale(1.2);
+         transform: translate3d(-10px, 0, 0) scale(1.2);
+     }
+ 
+    [data-aos=zoom-out-left] {
+         -webkit-transform: translate3d(10px, 0, 0) scale(1.2);
+         transform: translate3d(10px, 0, 0) scale(1.2);
+     }
+ }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

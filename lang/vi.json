@@ -1,10 +1,13 @@
 {
     "signup.welcome.message": "XIN CHÀO,",
+    "signup.welcomeboss.message": "CHÀO SẾP,",
     "signup.phonenumber": "Số điện thoại",
     "signup.verify": "Xác minh sms",
     "signup.dont_have_account": "Chưa có tài khoản",
     "signup.create_new": "Đăng ký mới nhé!",
     "signup.signup": "ĐĂNG KÝ",
+    "signup.password": "Mật khẩu",
+    "signup.username": "Tên tài khoản",
 
     "signinpage.createaccount": "Tạo tài khoản mới",
     "signinpage.name": "Họ và tên",
@@ -15,7 +18,7 @@
     "signinpage.signup": "Đăng nhập",
 
     "sms.getback": "Quay lại",
-    "sms.wait": "Chờ xíu!",
+    "sms.wait": "kiểm tra điện thoại bạn nhé!",
 
     "Sidebar.option1":"Kiện hàng",
     "Sidebar.option2":"Lô hàng",

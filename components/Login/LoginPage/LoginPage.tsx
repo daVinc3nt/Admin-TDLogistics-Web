@@ -18,7 +18,7 @@ const LoginPage = () => {
           <div
             id="signin"
             className={`bg-white absolute left-0 h-[calc(100%)] w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out z-20 ${
-              isAnimated ? "translate-x-full opacity-0" : ""
+              isAnimated ? "translate-x-full  opacity-0" : ""
             }`}
           >
             <SigninForm />
