@@ -39,6 +39,9 @@ const SigninForm = () => {
       ["bg-indigo-600"]: !shake,
     }
   );
+  const buttonstyle2 = classNames(
+    "mt-7 py-3 px-4  w-[calc(95%)] rounded-full text-white font-bold uppercase text-xs text-center block focus:outline-none cursor-pointer active:scale-110 sm:mt-10 sm:text-sm transition duration-150 bg-indigo-600",
+  );
   const handleEmail = async (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, email: value };
@@ -145,12 +148,12 @@ const SigninForm = () => {
           <div className="p-6 sm:p-8 flex-1">
             <div className="mx-auto overflow-hidden">
               <div className="text-center">
-                <h1 className="text-2xl sm:text-5xl font-bold text-indigo-900">
-                  <FormattedMessage id="signup.welcome.message" />
+                <h1 className="text-2xl sm:text-5xl font-bold text-indigo-900 mb-10">
+                  <FormattedMessage id="signup.whatRole" />
                 </h1>
                 <CustomDropdown
                   label="Chọn"
-                  options={["Admin", "Nhân viên"]}
+                  options={["Admin", "Staff"]}
                   selectedOption={formValues.role ? formValues.role :""}
                   onSelectOption={value =>{setRole(value)}}
                 />
@@ -204,7 +207,13 @@ const SigninForm = () => {
                         {/* <p className="text-red-500 fixed mt-2 text-xxs sm:text-sm">{formErrors.phoneNumberEr}</p> */}
                       </div>
                     </form>
-                    <div className="">
+                    <div className="flex gap-4">
+                    <button
+                          onClick={e => setRole("")}
+                          className={buttonstyle2}
+                        >
+                          <FormattedMessage id="sms.getback" />
+                      </button>
                       <button
                           onClick={signIn}
                           className={buttonstyle}
@@ -261,7 +270,13 @@ const SigninForm = () => {
                         <p className="text-red-500 fixed mt-2 text-xxs sm:text-sm">{formErrors.phoneNumberEr}</p>
                       </div>
                     </form>
-                    <div className="">
+                    <div className="flex gap-4">
+                    <button
+                          onClick={e => setRole("")}
+                          className={buttonstyle2}
+                        >
+                          <FormattedMessage id="sms.getback" />
+                      </button>
                       <button
                           onClick={signIn}
                           className={buttonstyle}

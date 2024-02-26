@@ -8,6 +8,7 @@
     "signup.signup": "Sign up",
     "signup.password": "Password",
     "signup.username": "Username",
+    "signup.whatRole": "Who might you be?",
 
     "signinpage.createaccount": "Create an account",
     "signinpage.name": "Full name",
@@ -16,6 +17,9 @@
     "signinpage.have_account": "Already have an account?",
     "signinpage.create_new": "Let's log in",
     "signinpage.signup": "Sign in",
+    
+    "sms.getback": "Get back",
+    "sms.wait": "Please check your phone!",
 
 
     "Sidebar.option1":"Packages",
@@ -30,9 +34,6 @@
     "Sidebar.option10":"File management",
     "Sidebar.option11":"Log out",
     "Sidebar.option12":"Post Office-Agency",
-    
-    "sms.getback": "Get back",
-    "sms.wait": "Please check your phone!",
 
     "page": "Page",
     "prev": "Prev",
