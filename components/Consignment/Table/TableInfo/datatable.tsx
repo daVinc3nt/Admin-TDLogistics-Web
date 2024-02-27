@@ -23,7 +23,10 @@ import {
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import AddNoti from "../Add/addNoti";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
+import BasicPopover from "@/components/Common/Popover";
+import Filter from "@/components/Common/Filters";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +43,13 @@ export function DataTable<TData, TValue>({
   )
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const intl = useIntl()
+  const options = {
+    [intl.formatMessage({ id: 'Consignment.Status.Done' })]: 3,
+    [intl.formatMessage({ id: 'Consignment.Status.Ongoing' })]: 1,
+    [intl.formatMessage({ id: 'Consignment.Status.Pending' })]: 2,
+    [intl.formatMessage({ id: 'Consignment.Status.Cancel' })]: 4
+  };
   const table = useReactTable({
     data,
     columns,
@@ -80,66 +90,70 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-      <div className="w-full flex flex-col sm:flex-row">
-        <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
-          <input
-            id="consSearch"
-            type="text"
-            value={
-              (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
-            }
-            className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
+        <div className="w-full flex flex-col sm:flex-row">
+          <div className="relative w-full lg:w-1/2 flex">
+            <input
+              id="consSearch"
+              type="text"
+              value={
+                (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
+              }
+              className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
               text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
-            placeholder=""
-          />
-          <label
-            htmlFor="consSearch"
-            className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
+              placeholder=""
+            />
+            <label
+              htmlFor="consSearch"
+              className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
               peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
               peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
-          >
-            <FormattedMessage id="Consignment.SearchBox"/>
-          </label>
-          <Dropdown className="z-30">
-            <DropdownTrigger>
-              <Button
-                className="text-xs md:text-sm border border-gray-600 rounded ml-2 w-24 text-center"
-                aria-label="Show items per page"
-              >
-                Show {table.getState().pagination.pageSize}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              className="bg-[#1a1b23] border border-gray-300 rounded w-24"
-              aria-labelledby="dropdownMenuButton"
             >
-              {[10, 20, 30, 40, 50].map((pageSize, index) => (
-                <DropdownItem key={pageSize} textValue={`Show ${pageSize} items per page`}>
-                  <Button
-                    onClick={() => table.setPageSize(pageSize)}
-                    variant="bordered"
-                    aria-label={`Show ${pageSize}`}
-                    className="text-center  text-white w-full"
-                  >
-                    Show {pageSize}
-                  </Button>
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
+              <FormattedMessage id="Consignment.SearchBox" />
+            </label>
+            <Dropdown className="z-30">
+              <DropdownTrigger>
+                <Button
+                  className="text-xs md:text-sm border border-gray-600 rounded ml-2 w-40 text-center"
+                  aria-label="Show items per page"
+                >
+                  Show {table.getState().pagination.pageSize}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                aria-labelledby="dropdownMenuButton"
+              >
+                {[10, 20, 30, 40, 50].map((pageSize, index) => (
+                  <DropdownItem key={pageSize} textValue={`Show ${pageSize} items per page`}>
+                    <Button
+                      onClick={() => table.setPageSize(pageSize)}
+                      variant="bordered"
+                      aria-label={`Show ${pageSize}`}
+                      className="text-center  text-white w-full"
+                    >
+                      Show {pageSize}
+                    </Button>
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <BasicPopover icon={<FilterAltIcon />}>
+              <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
+              <Filter type="selection" options={options} column={table.getColumn("consState")} table={table} title="Status" />
+            </BasicPopover>
+          </div>
+
+          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+            <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+              onClick={openModal}>
+              <FormattedMessage id="Consignment.AddButton" />
+            </Button>
+            {modalIsOpen && <AddNoti onClose={closeModal} />}
+          </div>
         </div>
-        
-        <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
-          <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
-          onClick={openModal}>
-            <FormattedMessage id="Consignment.AddButton"/>
-          </Button>
-          {modalIsOpen && <AddNoti onClose={closeModal}/>}
-        </div>
-      </div>
       </div>
       <div className="rounded-md border border-gray-700">
         <Table>
@@ -166,7 +180,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected()? 'bg-gray-700':''}`}
+                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-700' : ''}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -202,18 +216,18 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="prev"/>}</span>
+          <span>{<FormattedMessage id="prev" />}</span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">{<FormattedMessage id="page"/>}</div>
+          <div className="text-xs md:text-base">{<FormattedMessage id="page" />}</div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of"/> {" "}
+            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of" /> {" "}
             {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
         <span className="flex items-center gap-1 text-xs md:text-base whitespace-nowrap">
-          {<FormattedMessage id="gotopage"/>}
+          {<FormattedMessage id="gotopage" />}
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -234,7 +248,7 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="next"/>}</span>
+          <span>{<FormattedMessage id="next" />}</span>
         </Button>
       </div>
     </div>

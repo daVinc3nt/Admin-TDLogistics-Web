@@ -1,16 +1,16 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import {Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 interface Props {
-    children: ReactNode;
-    icon: any;
-  } 
-  //reactNode is a dataType of react, its can be JSX, 
-  //component or any fragment
+  children: ReactNode;
+  icon: any;
+}
+//reactNode is a dataType of react, its can be JSX, 
+//component or any fragment
 
 
-export default function BasicPopover({ children, icon= null }:  Props) {
+export default function BasicPopover({ children, icon = null }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,9 +26,9 @@ export default function BasicPopover({ children, icon= null }:  Props) {
 
   return (
     <div>
-      <Button 
-        className="text-xs h-10 md:text-base  border border-gray-600 rounded ml-2 w-24 text-center" 
-        aria-describedby={id} 
+      <Button
+        className="text-xs h-10 md:text-base  border border-gray-600 rounded ml-2 w-24 text-center"
+        aria-describedby={id}
         onClick={handleClick}>
         {icon}
         Filter
@@ -42,9 +42,10 @@ export default function BasicPopover({ children, icon= null }:  Props) {
           vertical: 'bottom',
           horizontal: 'left',
         }}
+        className='mt-3'
       >
-        <div className="bg-[#1a1b23] border border-gray-300 rounded p-10">
-            {children}
+        <div className="bg-[#1a1b23] border border-gray-300 rounded px-4 pb-4">
+          {children}
         </div>
       </Popover>
     </div>

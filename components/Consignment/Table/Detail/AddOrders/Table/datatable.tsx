@@ -17,12 +17,15 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead, 
+  TableHead,
   TableHeader,
   TableRow,
 } from "./table";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { FormattedMessage, useIntl } from "react-intl";
+import BasicPopover from "@/components/Common/Popover";
+import Filter from "@/components/Common/Filters";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,6 +45,12 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const options = {
+    [intl.formatMessage({ id: 'order.status.done' })]: 3,
+    [intl.formatMessage({ id: 'order.status.ongoing' })]: 1,
+    [intl.formatMessage({ id: 'order.status.pending' })]: 2,
+    [intl.formatMessage({ id: 'order.status.cancel' })]: 4
+  };
 
   const table = useReactTable({
     data,
@@ -95,7 +104,7 @@ export function DataTable<TData, TValue>({
                 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                 peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              {<FormattedMessage id="order.searchbyid"/>}
+              {<FormattedMessage id="order.searchbyid" />}
             </label>
           </div>
           <Dropdown className="z-30">
@@ -125,6 +134,11 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenu>
           </Dropdown>
+          <BasicPopover icon={<FilterAltIcon />}>
+            <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
+            <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
+            <Filter type="selection" options={options} column={table.getColumn("status")} table={table} title="Status" />
+          </BasicPopover>
         </div>
       </div>
       <div className="rounded-md border border-gray-700">
@@ -147,7 +161,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected()? 'bg-gray-700':''}`}
+                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-700' : ''}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -177,18 +191,18 @@ export function DataTable<TData, TValue>({
             hover:shadow-md md:text-base focus:outline-none font-normal
             text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="prev"/>}</span>
+          <span>{<FormattedMessage id="prev" />}</span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">{<FormattedMessage id="page"/>}</div>
+          <div className="text-xs md:text-base">{<FormattedMessage id="page" />}</div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of"/> {" "}
+            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of" /> {" "}
             {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
         <span className="flex items-center gap-1 text-xs md:text-base whitespace-nowrap">
-          {<FormattedMessage id="gotopage"/>}
+          {<FormattedMessage id="gotopage" />}
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -202,14 +216,14 @@ export function DataTable<TData, TValue>({
         <Button
           variant="light"
           size="sm"
-          onClick={ () => table.nextPage() }
+          onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
             drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
             hover:shadow-md md:text-base focus:outline-none font-normal
             text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="next"/>}</span>
+          <span>{<FormattedMessage id="next" />}</span>
         </Button>
       </div>
     </div>

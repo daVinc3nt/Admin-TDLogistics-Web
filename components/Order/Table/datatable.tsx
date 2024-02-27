@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
   )
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [modalIsOpen, setModalIsOpen] =  React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-    
+
   });
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
@@ -90,24 +90,24 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="mt-10 uppercase sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
-          <div>
-            <div className="text-lg">{<FormattedMessage id="order.status.done"/>}</div>
-            <div className="text-green-600 text-center">
-              {done}
-            </div>
+        <div>
+          <div className="text-lg">{<FormattedMessage id="order.status.done" />}</div>
+          <div className="text-green-600 text-center">
+            {done}
           </div>
-          <div>
-            <div className="text-lg">{<FormattedMessage id="order.status.ongoing"/>}</div>
-            <div className="text-yellow-600 text-center">
-              {pending}
-            </div>
+        </div>
+        <div>
+          <div className="text-lg">{<FormattedMessage id="order.status.ongoing" />}</div>
+          <div className="text-yellow-600 text-center">
+            {pending}
           </div>
-          <div>
-            <div className="text-lg">{<FormattedMessage id="order.status.cancel"/>}</div>
-            <div className="text-red-600 text-center">
-              {cancel}
-            </div>
+        </div>
+        <div>
+          <div className="text-lg">{<FormattedMessage id="order.status.cancel" />}</div>
+          <div className="text-red-600 text-center">
+            {cancel}
           </div>
+        </div>
       </div>
       <div className="flex items-center py-4 px-4">
         <div className="w-full flex">
@@ -131,7 +131,7 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              {<FormattedMessage id="order.searchbyid"/>}
+              {<FormattedMessage id="order.searchbyid" />}
             </label>
           </div>
           <Dropdown className="z-30">
@@ -161,20 +161,20 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenu>
           </Dropdown>
-          <BasicPopover icon={<FilterAltIcon/>} >
+          <BasicPopover icon={<FilterAltIcon />} >
             <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
             <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
-            <Filter type="selection" options={{Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4}} column={table.getColumn("status")} table={table} title="Status" />
+            <Filter type="selection" options={{ Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4 }} column={table.getColumn("status")} table={table} title="Status" />
           </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
-          <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
-          onClick={openModal}>
-            <FormattedMessage id="order.AddButton"/>
-          </Button>
-          {modalIsOpen && <AddNoti onClose={closeModal}/>}
+            <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+              onClick={openModal}>
+              <FormattedMessage id="order.AddButton" />
+            </Button>
+            {modalIsOpen && <AddNoti onClose={closeModal} />}
+          </div>
         </div>
-        </div>
-        
+
       </div>
       <div className="rounded-md border border-gray-700">
         <table>
@@ -186,14 +186,14 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : 
+                        :
                         (
                           <>
                             <div>
-                            {flexRender(
+                              {flexRender(
                                 header.column.columnDef.header,
                                 header.getContext()
-                            )}
+                              )}
                             </div>
                           </>
                         )}
@@ -208,7 +208,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected()? 'bg-gray-700':''}`}
+                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-700' : ''}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -244,18 +244,18 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="prev"/>}</span>
+          <span>{<FormattedMessage id="prev" />}</span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">{<FormattedMessage id="page"/>}</div>
+          <div className="text-xs md:text-base">{<FormattedMessage id="page" />}</div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of"/> {" "}
+            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of" /> {" "}
             {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
         <span className="flex items-center gap-1 text-xs md:text-base whitespace-nowrap">
-          {<FormattedMessage id="gotopage"/>}
+          {<FormattedMessage id="gotopage" />}
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -276,7 +276,7 @@ export function DataTable<TData, TValue>({
           hover:shadow-md md:text-base focus:outline-none font-normal
           text-white rounded-md text-sm text-center me-2"
         >
-          <span>{<FormattedMessage id="next"/>}</span>
+          <span>{<FormattedMessage id="next" />}</span>
         </Button>
       </div>
     </div>
