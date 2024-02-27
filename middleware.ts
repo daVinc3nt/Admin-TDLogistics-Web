@@ -17,11 +17,10 @@ export function middleware(request: NextRequest) {
     response.cookies.delete("currentUser");
     return response;
   }
-  console.log(request.nextUrl.pathname.startsWith(authRoutes) && currentUser);
   if (request.nextUrl.pathname.startsWith(authRoutes) && currentUser) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 }
 export const config = {
-    matcher: ['/:path*'],
+    matcher: ['/:path*','/'],
   }
