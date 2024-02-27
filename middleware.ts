@@ -1,14 +1,17 @@
+import { truncateSync } from "fs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
+import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 
 const protectedRoutes = "/dashboard";
 const authRoutes = "/log";
+let cookie;
 export function middleware(request: NextRequest) {
-  const currentUser = request.cookies.get("connect.sid")?.value;
+  const currentUser = request.cookies?.get("connect.sid")?.value;
 //when the user wanna get in dashboard but dont have the cookie
 //or the one is expired, the page would redirect to login page
+
   if (
     request.nextUrl.pathname.startsWith(protectedRoutes) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
@@ -29,4 +32,4 @@ export function middleware(request: NextRequest) {
 }
 export const config = {
     matcher: ['/:path*'],
-  }
+}
