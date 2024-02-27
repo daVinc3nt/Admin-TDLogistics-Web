@@ -113,7 +113,7 @@ const SigninForm = () => {
   {
     const staffsAuthenticate = new StaffsAuthenticate();
     staffsAuthenticate.login(formValues.name, formValues.pass)
-    .then(result => console.log(result))
+    .then(result => console.log(document.cookie))
     .catch(error => console.log(error));
   }
   const staffAuth =() => {
