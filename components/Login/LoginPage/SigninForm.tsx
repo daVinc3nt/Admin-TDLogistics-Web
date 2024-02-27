@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {useRouter } from "next/navigation";
 import OTPField from "../OtpField";
-import Link from "next/link";
 import { StaffsAuthenticate } from "@/TDLib/tdlogistics";
 import CustomDropdown from "@/components/Common/dropdown";
 import { OTP, User } from "./fetching";
@@ -32,6 +31,8 @@ const SigninForm = () => {
   const [role, setRole]=useState("");
   const [showOtp, setshowOtp] = useState(false);
   const [shake, setshake] = useState(false);
+  const router =useRouter();
+
   const buttonstyle = classNames(
     "mt-7 py-3 px-4  w-[calc(95%)] rounded-full text-white font-bold uppercase text-xs text-center block focus:outline-none cursor-pointer active:scale-110 sm:mt-10 sm:text-sm transition duration-150",
     {
@@ -42,29 +43,54 @@ const SigninForm = () => {
   const buttonstyle2 = classNames(
     "mt-7 py-3 px-4  w-[calc(95%)] rounded-full text-white font-bold uppercase text-xs text-center block focus:outline-none cursor-pointer active:scale-110 sm:mt-10 sm:text-sm transition duration-150 bg-indigo-600",
   );
+
+
+
+  
   const handleEmail = async (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, email: value };
     setFormValues(updatedFormValues);
     validate(updatedFormValues, 2);
   };
+
+
+
+
+
   const handlePass = async (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, pass: value };
     setFormValues(updatedFormValues);
   };
+
+
+
+
+
   const handleNum = (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, phoneNumber: value };
     setFormValues(updatedFormValues);
     validate(updatedFormValues, 3);
   };
+
+
+
+
+
+
   const handleName = async (change: string) => {
     const value = change
     const updatedFormValues = { ...formValues, name: value };
     setFormValues(updatedFormValues);
     validate(updatedFormValues, 1);
   };
+
+
+
+
+
   const signIn = () =>{
     const {email, phoneNumber} = formValues;
     handleEmail(email);
@@ -84,6 +110,7 @@ const SigninForm = () => {
       .then(result => console.log(result))
       .catch(error => console.log(error));
     }
+    router.push("/dashboard");
   }
   const Auth =() => {
     const {email, phoneNumber} = formValues;

@@ -5,9 +5,10 @@ import type { NextRequest } from "next/server";
 
 const protectedRoutes = "/dashboard";
 const authRoutes = "/log";
-
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("connect.sid")?.value;
+//when the user wanna get in dashboard but dont have the cookie
+//or the one is expired, the page would redirect to login page
   if (
     request.nextUrl.pathname.startsWith(protectedRoutes) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
@@ -17,10 +18,15 @@ export function middleware(request: NextRequest) {
     response.cookies.delete("currentUser");
     return response;
   }
-  if (request.nextUrl.pathname.startsWith(authRoutes) && currentUser) {
+
+//when the user wanna go back to the login page but the cookie has
+//been caught, the page will automatically get into the dashboard
+  else if ((request.nextUrl.pathname.startsWith(authRoutes)) 
+     && currentUser) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
+  else return NextResponse.next();
 }
 export const config = {
-    matcher: ['/:path*','/'],
+    matcher: ['/:path*'],
   }
