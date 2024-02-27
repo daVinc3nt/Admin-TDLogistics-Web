@@ -91,7 +91,7 @@ const SigninForm = () => {
 
 
 
-  const signIn = () =>{
+  const signIn = async () =>{
     const {email, phoneNumber} = formValues;
     handleEmail(email);
     handleNum(phoneNumber);
@@ -100,19 +100,22 @@ const SigninForm = () => {
       if ( emailEr !== "" || phoneNumberEr !== "") {setshake(true);return;}
       else {
       setshowOtp(!showOtp);
-      Auth();
+      await staffAuth();
       }
     }
     else {
-      const staffsAuthenticate = new StaffsAuthenticate();
-      console.log(formValues.name, formValues.pass)
-      staffsAuthenticate.login(formValues.name, formValues.pass)
-      .then(result => console.log(result))
-      .catch(error => console.log(error));
+      await adAuth();
     }
     router.push("/dashboard");
+  } 
+  const adAuth = async () =>
+  {
+    const staffsAuthenticate = new StaffsAuthenticate();
+    await staffsAuthenticate.login(formValues.name, formValues.pass)
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
   }
-  const Auth =() => {
+  const staffAuth =() => {
     const {email, phoneNumber} = formValues;
     if (!email || !phoneNumber)
       return null;
