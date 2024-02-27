@@ -13,6 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  VisibilityState,
 } from "@tanstack/react-table";
 import { Input } from "./input";
 import {
@@ -32,7 +33,10 @@ import {
   Button,
 } from "@nextui-org/react";
 import { FormattedMessage } from "react-intl";
+import Filter from "@/components/Common/Filters";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
+import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -46,6 +50,8 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const table = useReactTable({
     data,
@@ -55,11 +61,14 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+
+      columnVisibility,
       rowSelection,
     },
   });
@@ -162,6 +171,20 @@ export function DataTable<TData, TValue>({
               </DropdownMenu>
             </Dropdown>
           </div>
+          <BasicPopover icon={<FilterAltIcon />}>
+            <Filter
+              type="search"
+              column={table.getColumn("postIncome")}
+              table={table}
+              title="Doanh thu"
+            />
+            <Filter
+              type="search"
+              column={table.getColumn("postMail")}
+              table={table}
+              title="Email"
+            />
+          </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
             <Button
               className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-44 text-center h-full"

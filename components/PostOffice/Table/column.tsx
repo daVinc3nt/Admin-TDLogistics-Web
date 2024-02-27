@@ -13,8 +13,8 @@ export type PostOffice = {
   number: string;
   postName: string;
   postMail: string;
-  postIncome: string;
-  postRate: string;
+  postIncome: number;
+  postRate: number;
   postPhone: string;
   postAddress: string;
   postBankAccount: string;
