@@ -12,6 +12,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 const googleMapsLibraries: Libraries = ["places"];
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   function Loading() {
     const router = useRouter();

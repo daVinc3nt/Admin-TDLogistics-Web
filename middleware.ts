@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
 //been caught, the page will automatically get into the dashboard
   else if ((request.nextUrl.pathname.startsWith(authRoutes)) 
      && currentUser) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.next();
   }
   else return NextResponse.next();
 }
