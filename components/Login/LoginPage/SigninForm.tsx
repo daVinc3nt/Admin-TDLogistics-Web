@@ -111,7 +111,7 @@ const SigninForm = () => {
   const adAuth = async () =>
   {
     const staffsAuthenticate = new StaffsAuthenticate();
-    await staffsAuthenticate.login(formValues.name, formValues.pass)
+    staffsAuthenticate.login(formValues.name, formValues.pass)
     .then(result => console.log(result))
     .catch(error => console.log(error));
   }
