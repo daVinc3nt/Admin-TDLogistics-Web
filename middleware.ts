@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
      && (currentUser|| cookie)) {
     return NextResponse.redirect(new URL(`${request.nextUrl.locale === "en" ? "en":""}/dashboard`, request.url));
   }
-   return NextResponse.next();
+   else return NextResponse.next();
 }
 export const config = {
     matcher: ['/:path*'],
