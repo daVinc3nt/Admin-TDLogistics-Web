@@ -32,6 +32,10 @@ import {
 } from "@nextui-org/react";
 import { FormattedMessage } from "react-intl";
 import AddVehicle from "./AddVehicle/addvehicle";
+import Filter from "@/components/Common/Filters";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+
+import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -161,6 +165,20 @@ export function DataTable<TData, TValue>({
               </DropdownMenu>
             </Dropdown>
           </div>
+          <BasicPopover icon={<FilterAltIcon />}>
+            <Filter
+              type="role"
+              column={table.getColumn("codeAgency")}
+              table={table}
+              title="Mã đơn vị"
+            />
+            <Filter
+              type="search"
+              column={table.getColumn("codeStaff")}
+              table={table}
+              title="Mã nhân viên"
+            />
+          </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
             <Button
               className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"

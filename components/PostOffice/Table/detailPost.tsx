@@ -8,8 +8,8 @@ interface Postdetail {
   number: string;
   postName: string;
   postMail: string;
-  postIncome: string;
-  postRate: string;
+  postIncome: number;
+  postRate: number;
   postPhone: string;
   postAddress: string;
   postBankAccount: string;
@@ -173,10 +173,10 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
+                  type="number"
                   value={data.postIncome}
                   onChange={(e) =>
-                    setData({ ...data, postIncome: e.target.value })
+                    setData({ ...data, postIncome: Number(e.target.value) })
                   }
                 />
               ) : (
@@ -190,10 +190,10 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
+                  type="number"
                   value={data.postRate}
                   onChange={(e) =>
-                    setData({ ...data, postRate: e.target.value })
+                    setData({ ...data, postRate: Number(e.target.value) })
                   }
                 />
               ) : (

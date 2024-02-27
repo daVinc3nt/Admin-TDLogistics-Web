@@ -170,6 +170,7 @@
     "PostOffice.Info.Type": "Post office type",
     "PostOffice.Info.Level": "Post office level",
     "PostOffice.Info.PostalCode": "Postal code",
+
     "File.Title": "File management",
     "File.SearchBox": "Search by file name",
     "File.AddButton": "Add file",
@@ -178,6 +179,16 @@
     "File.Date": "Date created",
     "File.Detail": "Detail",
     "File.Info": "File information",
+
+    "Email.Title": "Email management",
+    "Email.SearchBox": "Search by sender name",
+    "Email.AddButton": "Add email",
+    "Email.Number": "No.",
+    "Email.Name": "Sender name",
+    "Email.Content": "Content",
+    "Email.Time": "Time",
+    "Email.Detail": "Detail",
+    "Email.Infomation": "Email information",
 
     
     "RegexUsername":"Username does not contain special characters and spaces, at least 8 characters and no more than 20 characters",
