@@ -105,6 +105,8 @@ const SigninForm = () => {
     }
     else {
       await adAuth();
+      console.log("cút ki ở đây")
+      console.log(document.cookie)
     }
     router.push("/dashboard");
   } 
