@@ -28,7 +28,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   return (
     <>
-      <Dropdown className="z-50">
+      <Dropdown className="z-50" shouldCloseOnInteractOutside={(e) => false}>
         <DropdownTrigger>
           <Button
             className="text-xs md:text-sm border border-gray-600 rounded h-10 w-full"
@@ -42,7 +42,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
           aria-labelledby="dropdownMenuButton"
         >
           {options.map((option, index) => (
-            <DropdownItem key={index} textValue={option}>
+            <DropdownItem key={index} textValue={option} >
               <Button
                 onClick={() => handleOptionClick(option)}
                 aria-label={option}

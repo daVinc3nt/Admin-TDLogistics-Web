@@ -117,7 +117,7 @@ export default function Filter({
                     type="text"
                     value={(columnFilterValue ?? '') as string}
                     onChange={value => column.setFilterValue(value)}
-                    placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
+                    placeholder={`Search...`}
                     className="w-36 border shadow rounded text-black pl-2"
                     list={column.id + 'list'}
                   />
