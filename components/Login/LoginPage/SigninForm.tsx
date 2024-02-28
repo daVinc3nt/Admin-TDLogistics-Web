@@ -105,10 +105,8 @@ const SigninForm = () => {
       }
     }
     else {
-      await adAuth();
+      await adAuth()
     }
-    const c = Cookies.get("connect.sid");
-    Cookies.set('connect.sid',c)
   } 
   const adAuth = async () =>
   {
@@ -117,6 +115,11 @@ const SigninForm = () => {
     .then(result => console.log(result))
     .catch(error => console.log(error));
   }
+
+
+
+
+
   const staffAuth =() => {
     const {email, phoneNumber} = formValues;
     if (!email || !phoneNumber)
@@ -128,6 +131,13 @@ const SigninForm = () => {
     .then(message => console.log(message))
     .catch(error => console.log(error));
   }
+
+
+
+
+
+
+
   const validate = (values: FormValues, type: number)=> {
     var errors: string = "";
     const NameRegex =/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+)((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+){1,})$/i;

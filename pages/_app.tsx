@@ -6,8 +6,7 @@ import { useRouter } from "next/router";
 import { IntlProvider } from "react-intl";
 import * as en from "@/lang/en.json";
 import * as vi from "@/lang/vi.json";
-import { Libraries, LoadScript, LoadScriptProps } from "@react-google-maps/api";
-import { Spinner } from "@material-tailwind/react";
+import { Libraries, LoadScript} from "@react-google-maps/api";
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 const googleMapsLibraries: Libraries = ["places"];

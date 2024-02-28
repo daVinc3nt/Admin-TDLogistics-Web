@@ -3,13 +3,13 @@
     "signup.welcome.message": "WELCOME,",
     "signup.phonenumber": "Phone number",
     "signup.verify": "Verify",
-    "signup.dont_have_account": "Don't have an account?",
-    "signup.create_new": "Let's create new one",
+    "signup.warning": "Be aware!",
+    "signup.whatRole": "Who might you be?",
+    "signup.nosupport": "No support for mobile",
     "signup.signup": "Sign up",
     "signup.password": "Password",
     "signup.username": "Username",
-    "signup.whatRole": "Who might you be?",
-
+    
     "signinpage.createaccount": "Create an account",
     "signinpage.name": "Full name",
     "signinpage.phoneNumber": "Phone number",
