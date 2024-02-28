@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
 import OTPField from "../OtpField";
 import { StaffsAuthenticate } from "@/TDLib/tdlogistics";
 import CustomDropdown from "@/components/Common/dropdown";
@@ -105,15 +106,22 @@ const SigninForm = () => {
     }
     else {
       await adAuth();
-      console.log(document.cookie)
+
     }
+    const c = Cookies.get();
+    console.log(c);
+    Cookies.set(c);
     router.push("/dashboard");
   } 
+  useEffect(function mount() {
+    const c = document.cookie;
+    console.log(c);
+   });
   const adAuth = async () =>
   {
     const staffsAuthenticate = new StaffsAuthenticate();
     staffsAuthenticate.login(formValues.name, formValues.pass)
-    .then(result => console.log("cút ki nè:",document.cookie))
+    .then(result => console.log(result)).then(e =>console.log("cút ki"))
     .catch(error => console.log(error));
   }
   const staffAuth =() => {
@@ -127,7 +135,6 @@ const SigninForm = () => {
     .then(message => console.log(message))
     .catch(error => console.log(error));
   }
-
   const validate = (values: FormValues, type: number)=> {
     var errors: string = "";
     const NameRegex =/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+)((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+){1,})$/i;
@@ -167,6 +174,7 @@ const SigninForm = () => {
     if (!formErrors.phoneNumberEr && !formErrors.emailEr)
     {setshake(false);}
   };
+
   return (
     <div>
     <div className="pl-8">

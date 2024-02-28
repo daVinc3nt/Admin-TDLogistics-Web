@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 //when the user wanna get in dashboard but dont have the cookie
 //or the one is expired, the page would redirect to login page
   if (
-    request.nextUrl.pathname.startsWith(protectedRoutes) && !cookie &&
+    request.nextUrl.pathname.startsWith(protectedRoutes) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
   ) {
     request.cookies.delete("currentUser");
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 //when the user wanna go back to the login page but the cookie has
 //been caught, the page will automatically get into the dashboard
   else if ((request.nextUrl.pathname.startsWith(authRoutes)) 
-     && (currentUser|| cookie)) {
+     && (currentUser)) {
     return NextResponse.redirect(new URL(`${request.nextUrl.locale === "en" ? "en":""}/dashboard`, request.url));
   }
    else return NextResponse.next();
