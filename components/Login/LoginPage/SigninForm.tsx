@@ -109,7 +109,7 @@ const SigninForm = () => {
 
     }
     const c = Cookies.get("connect.sid");
-    console.log(c);
+    console.log("cút ki nè:",c);
     Cookies.set(c);
     router.push("/dashboard");
   } 
