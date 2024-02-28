@@ -106,10 +106,9 @@ const SigninForm = () => {
     }
     else {
       await adAuth();
-
     }
     const c = Cookies.get("connect.sid");
-    console.log("cút ki nè:",c);
+    Cookies.set('connect.sid',c)
   } 
   const adAuth = async () =>
   {
