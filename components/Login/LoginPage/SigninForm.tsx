@@ -108,15 +108,11 @@ const SigninForm = () => {
       await adAuth();
 
     }
-    const c = Cookies.get();
+    const c = Cookies.get("connect.sid");
     console.log(c);
     Cookies.set(c);
     router.push("/dashboard");
   } 
-  useEffect(function mount() {
-    const c = document.cookie;
-    console.log(c);
-   });
   const adAuth = async () =>
   {
     const staffsAuthenticate = new StaffsAuthenticate();
