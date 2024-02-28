@@ -121,7 +121,7 @@ const SigninForm = () => {
   {
     const staffsAuthenticate = new StaffsAuthenticate();
     staffsAuthenticate.login(formValues.name, formValues.pass)
-    .then(result => console.log(result)).then(e =>console.log("cút ki"))
+    .then(result => console.log(result))
     .catch(error => console.log(error));
   }
   const staffAuth =() => {
