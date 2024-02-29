@@ -6,7 +6,6 @@ import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 const protectedRoutes = "/dashboard";
 const authRoutes = "/log";
-let cookie;
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies?.get("connect.sid")?.value;
 //when the user wanna get in dashboard but dont have the cookie
@@ -18,7 +17,6 @@ export function middleware(request: NextRequest) {
     request.cookies.delete("currentUser");
     const response = NextResponse.redirect(new URL(`${request.nextUrl.locale === "en" ? "en":""}/log`, request.url));
     response.cookies.delete("currentUser");
-    cookie = request.cookies;
     return response;
   }
 
