@@ -19,7 +19,6 @@ export function middleware(request: NextRequest) {
     response.cookies.delete("currentUser");
     return response;
   }
-
 //when the user wanna go back to the login page but the cookie has
 //been caught, the page will automatically get into the dashboard
   else if ((request.nextUrl.pathname.startsWith(authRoutes)) 
