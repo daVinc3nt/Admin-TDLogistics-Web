@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 //or the one is expired, the page would redirect to login page
   if (
     request.nextUrl.pathname.startsWith(protectedRoutes) &&
-    (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
+    (!currentUser)
   ) {
     request.cookies.delete("currentUser");
     const response = NextResponse.redirect(new URL(`${request.nextUrl.locale === "en" ? "en":""}/log`, request.url));
