@@ -10,6 +10,7 @@ const Consignment: NextPage = () => {
     <SourceContext.Provider value={{source, setSource}}>
       <DestinationContext.Provider value={{destination, setDestination}}>
         <div className="w-full no-scrollbar">
+          <ConsignmentMenu />
         </div>
       </DestinationContext.Provider>
     </SourceContext.Provider>
