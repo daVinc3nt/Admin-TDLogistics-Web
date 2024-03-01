@@ -132,14 +132,14 @@ interface UpdatingUserCondition {
 class UsersOperation {
     private baseUrl: string;
 
-    constructor(phoneNumber: string) {
+    constructor() {
         this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
         // this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
-    async findByUser(condition: FindingUserByUserCondition) : Promise<any> {
+    async findByUser() : Promise<any> {
         try {
-            const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, condition, {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, {}, {
                 withCredentials: true,
             });
             
