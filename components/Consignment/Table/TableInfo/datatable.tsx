@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
                 table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-              text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
+              text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm dark:text-white`}
               placeholder=""
             />
             <label
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-700' : ''}`}
+                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-300 dark:bg-gray-700' : ''}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -212,9 +212,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="prev" />}</span>
         </Button>
@@ -244,9 +244,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal text-black
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="next" />}</span>
         </Button>

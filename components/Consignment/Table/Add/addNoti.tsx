@@ -92,16 +92,16 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       {modalIsOpen && <MapNoti onClose={closeModal} type={type}/>}
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-[#14141a] rounded-xl p-4 overflow-y-auto ${isShaking ? 'animate-shake' : ''}`}
+        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-white dark:bg-[#14141a] rounded-xl p-4 overflow-y-auto ${isShaking ? 'animate-shake' : ''}`}
         initial={{ scale: 0 }} animate={{ scale: isVisible ? 1 : 0 }} exit={{ scale: 0 }} transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center"><FormattedMessage id="Consignment.Add.Title"/></div>
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center"><FormattedMessage id="Consignment.Add.Title"/></div>
           <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
             <IoMdClose className="w-5/6 h-5/6"/>
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
+        <div className="h-screen_3/5 overflow-y-scroll border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white">
           <div className="w-[98%] sm:w-10/12">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle1"/></h1>
             <div className="w-full flex gap-2">

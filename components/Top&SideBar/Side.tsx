@@ -47,14 +47,14 @@ export default function Side({menuItems, toggleCollapseMobile }) {
   }
 
   const wrapperClasses = classNames(
-    "h-screen hidden lg:px-4  lg:flex pt-8 pb-4 bg-[#1a1b23] justify-between flex-col border-r border-gray-700",
+    "h-screen hidden lg:px-4 lg:flex pt-8 pb-4 bg-white dark:bg-[#1a1b23] justify-between flex-col border-r border-gray-700",
     {
       ["lg:w-80"]: !toggleCollapse,
       ["lg:w-20"]: toggleCollapse,
     }
   );
   const wrapperClassesMobile = classNames(
-    "h-screen flex z-50 fixed bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 justify-between flex-col border-r border-gray-700",
+    "h-screen flex z-50 fixed dark:bg-[#1a1b23] lg:hidden px-4 pt-8 pb-4 justify-between flex-col border-r border-gray-700",
     {
       ["w-52"]: !toggleCollapseMobile,
       ["w-0 px-0"]: toggleCollapseMobile,
@@ -62,7 +62,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
   );
 
   const collapseIconClasses = classNames(
-    "p-3 rounded bg-[#373839] text-white absolute right-0 hidden lg:block",
+    "p-3 rounded bg-gray-400 dark:bg-[#373839] absolute right-0 hidden lg:block",
     {
       "rotate-180": toggleCollapse,
     }
@@ -72,7 +72,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
     return classNames(
       "flex items-center jutify-center cursor-pointer rounded w-full overflow-hidden whitespace-nowrap",
       {
-        ["bg-black text-[#e1201c]"]: activeMenu?.id === menu.id,
+        ["bg-red-200 dark:bg-black text-[#e1201c]"]: activeMenu?.id === menu.id,
       }
     );
   };
@@ -109,7 +109,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
             {!toggleCollapse && <motion.span
               variants={leftSideVariant} initial="initial" animate="enter"
               transition={{ duration: 0.5, delay: 0.2 }}
-              className={classNames("mt-2 text-3xl font-bold text-white")}
+              className={classNames("mt-2 text-3xl font-bold")}
             >
               TDLogistics
             </motion.span>}
@@ -140,7 +140,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
       </div>
 
       <div className={`${getNavItemClasses({})}`}>
-        <div className="flex py-4 px-3 items-center w-full h-full text-[#545e7b] hover:bg-black hover:text-[#e1201c]">
+        <div className="flex py-4 px-3 items-center w-full h-full text-[#545e7b] hover:bg-red-200 dark:hover:bg-black hover:text-[#e1201c]">
           <div style={ !toggleCollapse? { width: "2.5rem" }: { width: "0rem" }}>
             <LogoutOutlined />
           </div>
@@ -176,7 +176,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
             {!toggleCollapseMobile && <motion.span
               variants={leftSideVariantMobile} initial="initial" animate="enter"
               transition={{ duration: 0.5, delay: 0.2 }}
-              className={classNames("mt-2 text-xl font-bold text-white", {
+              className={classNames("mt-2 text-xl font-bold ", {
               hidden: toggleCollapseMobile,
               })}
             >

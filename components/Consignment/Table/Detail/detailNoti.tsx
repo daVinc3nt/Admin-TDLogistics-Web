@@ -150,7 +150,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
       {modalIsOpen && <AddOrders onClose={closeModal} addOrders={addOrders}/>}
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 bg-white dark:bg-[#14141a] rounded-xl p-4 overflow-y-auto
           ${isShaking ? 'animate-shake' : ''}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -158,12 +158,12 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center"><FormattedMessage id="Consignment.Info.Title"/></div>
+          <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center"><FormattedMessage id="Consignment.Info.Title"/></div>
           <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
             <IoMdClose className="w-5/6 h-5/6" />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white">
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white">
           <div className="flex flex-col">
             <div className="text-center text-lg sm:text-xl font-semibold"><FormattedMessage id="Consignment.Info.Info1"/>: {data.consignmentCode}</div>
             <div className={`flex flex-col xl:flex-row justify-between pt-2 pl-2`}>
@@ -269,7 +269,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ onClose, dataIn
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`border border-[#545e7b] rounded-lg p-2 bg-[#1a1b23] flex flex-col ${
+                  className={`border border-[#545e7b] rounded-lg p-2 bg-gray-300 dark:bg-[#1a1b23] flex flex-col ${
                     selectedOrders.includes(order.orderId) ? 'bg-gray-700' : ''
                   }`}
                   onClick={() => {delMulti? handleCheckboxChange(order.orderId) : {}}}

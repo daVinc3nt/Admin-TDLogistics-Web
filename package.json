@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next-themes": "^0.2.1",
     "@emotion/styled": "^11.11.0",
     "@material-tailwind/react": "^2.1.8",
     "@mui/icons-material": "^5.15.6",

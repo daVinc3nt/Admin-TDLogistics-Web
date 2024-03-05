@@ -38,7 +38,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
           </Button>
         </DropdownTrigger>
         <DropdownMenu
-          className="bg-[#1a1b23] border border-gray-300 no-scrollbar rounded w-full max-h-80 overflow-y-auto"
+          className="dark:bg-[#1a1b23] bg-white border border-gray-300 no-scrollbar rounded w-full max-h-80 overflow-y-auto"
           aria-labelledby="dropdownMenuButton"
         >
           {options.map((option, index) => (
@@ -46,7 +46,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
               <Button
                 onClick={() => handleOptionClick(option)}
                 aria-label={option}
-                className={`text-center text-white w-full px-2 ${selected === option ? 'bg-blue-400/50 rounded' : ''}`}
+                className={`text-center text-black dark:text-white w-full px-2 ${selected === option ? 'bg-blue-400/50 rounded' : ''}`}
               >
                 {option}
               </Button>

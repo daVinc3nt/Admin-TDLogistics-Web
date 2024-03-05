@@ -1,7 +1,8 @@
 import React, { ReactNode, useState } from "react";
 import SideBar from "./Top&SideBar/SideBar"
 import MenuHambuger from "./Top&SideBar/MenuHambuger";
-import { Box} from "@mui/material";
+import ThemeSwitcher from "./Theme/ThemeSwitch";
+import Provider from "./Theme/Provider";
 import {
   NotifyIcon,
   GlobseIcon
@@ -20,16 +21,18 @@ const Wrapper = ({ children }: LayoutProps) => {
     setToggleCollapseMobile(!toggleCollapseMobile);
   };
   return (
+  <Provider>
    <div className="flex overflow-hidden">
       <SideBar toggleCollapseMobile={toggleCollapseMobile}/>
       <div className="flex-1 flex flex-col h-screen ">
       <div className="flex flex-col">
-        <header className="h-14 flex justify-end w-full bg-[#111319] items-center px-4 xl:px-2 border-b border-gray-700">
+        <header className="h-14 flex justify-end w-full bg-red-800 dark:bg-[#111319] items-center px-4 xl:px-2 border-b border-red-200 dark:border-gray-700">
           <div className="flex items-center">
               <div className="flex items-center">
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 items-center">
                   <LangSelector/>
                   <NotifyIcon/>
+                  <ThemeSwitcher/>
                 </div>
                   <MenuHambuger toggle ={handleSidebarToggleMobile}/>
               </div>
@@ -39,11 +42,12 @@ const Wrapper = ({ children }: LayoutProps) => {
       {!toggleCollapseMobile && 
         <div className="lg:hidden flex-1 flex z-40 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm">
         </div>}
-      <div className="bg-[#111319] flex flex-1 ">
+      <div className="bg-red-800 dark:bg-[#111319] flex flex-1 ">
           {children}
       </div>
       </div>
     </div>
+  </Provider>
   );
 };
 
