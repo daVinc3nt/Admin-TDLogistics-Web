@@ -5,8 +5,8 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import DetailNoti from "../Detail/detailNoti";
-import { Checkbox } from "@/components/TableUI/checkbox"
-import {FormattedMessage, useIntl} from "react-intl"
+import { Checkbox } from "@/components/TableUI/checkbox";
+import { FormattedMessage, useIntl } from "react-intl";
 import Consignment from "@/pages/dashboard/consignment";
 export interface Order {
   orderId: string;
@@ -66,16 +66,14 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row1"/>
-          <ArrowUpDown className="ml-2 h-4 w-4"/>
+          <FormattedMessage id="Consignment.Row1" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const index = row.index + 1;
-      return (
-        <>{index}</>
-      );
+      return <>{index}</>;
     },
   },
   {
@@ -87,7 +85,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row2"/>
+          <FormattedMessage id="Consignment.Row2" />
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
@@ -103,7 +101,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row3"/>
+          <FormattedMessage id="Consignment.Row3" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -119,7 +117,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row4"/>
+          <FormattedMessage id="Consignment.Row4" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -135,7 +133,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row5"/>
+          <FormattedMessage id="Consignment.Row5" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -150,7 +148,7 @@ export const columns: ColumnDef<Consignment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Consignment.Row6"/>
+          <FormattedMessage id="Consignment.Row6" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -159,39 +157,43 @@ export const columns: ColumnDef<Consignment>[] = [
       const consState = row.original.consState;
       let statusLabel = "";
       let statusColor = "";
-      const intl = useIntl(); 
+      const intl = useIntl();
 
       switch (consState) {
         case 1:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Ongoing' });
+          statusLabel = intl.formatMessage({
+            id: "Consignment.Status.Ongoing",
+          });
           statusColor = "text-yellow-600";
           break;
         case 2:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Pending' });
+          statusLabel = intl.formatMessage({
+            id: "Consignment.Status.Pending",
+          });
           statusColor = "text-gray-500";
           break;
         case 3:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Done' });
+          statusLabel = intl.formatMessage({ id: "Consignment.Status.Done" });
           statusColor = "text-green-500";
           break;
         case 4:
-          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Cancel' });
+          statusLabel = intl.formatMessage({ id: "Consignment.Status.Cancel" });
           statusColor = "text-red-500";
           break;
         default:
           statusLabel = "Unknown";
       }
 
-      return (
-        <span className={statusColor}>{statusLabel}</span>
-      );
+      return <span className={statusColor}>{statusLabel}</span>;
     },
   },
   {
-    accessorKey: "Chi tiết",
+    accessorKey: "Chi tiết/Sửa đổi",
     header: () => {
       return (
-        <div className="text-right whitespace-nowrap"><FormattedMessage id="Consignment.Row7"/></div>
+        <div className="text-right whitespace-nowrap">
+          <FormattedMessage id="Consignment.Row7" />
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -212,7 +214,9 @@ export const columns: ColumnDef<Consignment>[] = [
           >
             +
           </Button>
-          {modalIsOpen && <DetailNoti onClose={closeModal} dataInitial={row.original}/>}
+          {modalIsOpen && (
+            <DetailNoti onClose={closeModal} dataInitial={row.original} />
+          )}
         </div>
       );
     },

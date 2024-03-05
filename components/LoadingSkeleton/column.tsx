@@ -82,7 +82,7 @@ export const columns: ColumnDef<Consignment>[] = [
     },
   },
   {
-    accessorKey: "Chi tiết",
+    accessorKey: "Chi tiết/Sửa đổi",
     cell: () => {
       return (
         <span className={`bg-gray-600 text-gray-600 animate-pulse rounded`}>

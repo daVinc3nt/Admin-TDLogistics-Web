@@ -61,6 +61,9 @@
     "Salary": "Lương",
     "BankName": "Tên ngân hàng",
     "BankNumber": "Số tài khoản",
+    "Show": "Hiển thị",
+    "Edit": "Chỉnh sửa",
+    "Save": "Lưu",
 
 
     "order": "Kiện hàng",
@@ -79,7 +82,7 @@
     "order.status.pending": "Đang lấy hàng",
     "order.status.ongoing": "Đang vận chuyển",
     "order.status.done": "Hoàn thành",
-    "order.detail": "Chi tiết",
+    "order.detail": "Chi tiết/Sửa đổi",
     "order.searchbyid": "Tìm kiếm theo mã đơn hàng",
     "order.add": "Thêm đơn hàng",
     "order.AddButton": "Thêm đơn hàng",
@@ -94,7 +97,7 @@
     "Consignment.Row4": "Đối tác vận chuyển",
     "Consignment.Row5": "Khối lượng (kg)",
     "Consignment.Row6": "Trạng thái",
-    "Consignment.Row7": "Chi tiết",
+    "Consignment.Row7": "Chi tiết/Sửa đổi",
     "Consignment.Status.Cancel": "Đã huỷ",
     "Consignment.Status.Pending": "Đang lấy hàng",
     "Consignment.Status.Ongoing": "Đang vận chuyển",
@@ -146,7 +149,7 @@
     "Staff.Phone": "Số điện thoại",
     "Staff.Position": "Chức vụ",
     "Staff.Status": "Trạng thái hoạt động",
-    "Staff.Detail": "Chi tiết",
+    "Staff.Detail": "Chi tiết/Sửa đổi",
     "Staff.Image": "Ảnh nhân viên",
     "Staff.Agency_ID":"Mã bưu cục",
     "Staff.Account":"Tài khoản",
@@ -183,7 +186,7 @@
     "PostOffice.Email": "Email",
     "PostOffice.Income": "Doanh thu",
     "PostOffice.Rate": "Tỉ lệ",
-    "PostOffice.Detail": "Chi tiết",
+    "PostOffice.Detail": "Chi tiết/Sửa đổi",
     "PostOffice.Infomation": "Thông tin bưu cục-đại lý",
     "PostOffice.Address": "Địa chỉ",
     "PostOffice.BankName": "Tên ngân hàng",
@@ -200,7 +203,7 @@
     "Email.Name": "Tên người gửi",
     "Email.Content": "Nội dung",
     "Email.Time": "Thời gian",
-    "Email.Detail": "Chi tiết",
+    "Email.Detail": "Chi tiết/Sửa đổi",
     "Email.Infomation": "Thông tin mail",
 
     "File.Title": "Quản lý file",
@@ -209,7 +212,25 @@
     "File.Number": "STT",
     "File.Name": "Tên file",
     "File.Date": "Ngày tạo",
-    "File.Detail": "Chi tiết",
-    "File.Info": "Thông tin file"
+    "File.Detail": "Chi tiết/Sửa đổi",
+    "File.Info": "Thông tin file",
+
+    "Vehicle.Title": "Quản lý phương tiện",
+    "Vehicle.SearchBox": "Tìm kiếm theo mã đối tác",
+    "Vehicle.AddButton": "Thêm phương tiện",
+    "Vehicle.Number": "STT",
+    "Vehicle.Name": "Tên phương tiện",
+    "Vehicle.Type": "Loại phương tiện",
+    "Vehicle.Status": "Trạng thái hoạt động",
+    "Vehicle.Detail": "Chi tiết/Sửa đổi",
+    "Vehicle.Infomation": "Thông tin phương tiện",
+    "Vehicle.PartnerCode": "Mã đối tác",
+    "Vehicle.StaffCode": "Mã nhân viên",
+    "Vehicle.WorkType": "Loại công việc",
+    "Vehicle.MaxWeight": "Tải trọng tối đa",
+    "Vehicle.GPLX":"Giấy phép lái xe",
+    "Vehicle.BKS":"Biển kiểm soát"   
+
+
 }
  

@@ -2,6 +2,7 @@
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
 import { useState } from "react";
+import AddPartner from "./AddPartner/addPartner";
 import {
   ColumnDef,
   SortingState,
@@ -12,6 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -30,14 +32,17 @@ import {
   Button,
 } from "@nextui-org/react";
 import { FormattedMessage } from "react-intl";
-import AddVehicle from "./AddVehicle/addvehicle";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { TransportPartnersOperation } from "@/TDLib/tdlogistics";
 
 import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+}
+interface DeletingTransportPartnerCondition {
+  transport_partner_id: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -48,6 +53,8 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const table = useReactTable({
     data,
@@ -57,11 +64,14 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+
+      columnVisibility,
       rowSelection,
     },
   });
@@ -83,11 +93,19 @@ export function DataTable<TData, TValue>({
     );
   }
 
-  const handleDeleteRowsSelected = () => {
-    table.getFilteredSelectedRowModel().rows.forEach((row) => {
-      console.log(row.original);
-      // Chỗ này call API về sever để xóa nhân viên nè m
-      //chỉ cần truyền row.original.id vào là được
+  const deletepartner = new TransportPartnersOperation();
+  const handleDeleteRowsSelected = async () => {
+    table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
+      console.log();
+      const condition: DeletingTransportPartnerCondition = {
+        transport_partner_id: (row.original as any).transport_partner_id,
+      };
+      const error = await deletepartner.remove(condition);
+      if (error) {
+        console.log(error.message);
+      } else {
+        alert("Xóa thành công");
+      }
     });
   };
   const confirmDelete = () => {
@@ -113,25 +131,29 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex flex-col sm:flex-row">
           <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
             <input
-              id="staffSearch"
+              id="postSearch"
               type="text"
               value={
-                (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
+                (table
+                  .getColumn("transport_partner_name")
+                  ?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("staffName")?.setFilterValue(event.target.value)
+                table
+                  .getColumn("transport_partner_name")
+                  ?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
               placeholder=""
             />
             <label
-              htmlFor="staffSearch"
+              htmlFor="postSearch"
               className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              <FormattedMessage id="Vehicle.SearchBox" />
+              Tìm kiếm theo tên đối tác
             </label>
             <Dropdown className="z-30">
               <DropdownTrigger>
@@ -139,8 +161,7 @@ export function DataTable<TData, TValue>({
                   className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
                   aria-label="Show items per page"
                 >
-                  <FormattedMessage id="Show" />{" "}
-                  {table.getState().pagination.pageSize}
+                  Show {table.getState().pagination.pageSize}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -158,7 +179,7 @@ export function DataTable<TData, TValue>({
                       aria-label={`Show ${pageSize}`}
                       className="text-center  text-white w-full"
                     >
-                      <FormattedMessage id="Show" /> {pageSize}
+                      Show {pageSize}
                     </Button>
                   </DropdownItem>
                 ))}
@@ -168,25 +189,25 @@ export function DataTable<TData, TValue>({
           <BasicPopover icon={<FilterAltIcon />}>
             <Filter
               type="search"
-              column={table.getColumn("codeAgency")}
+              column={table.getColumn("phone_number")}
               table={table}
-              title="Loại công việc"
+              title="Số điện thoại"
             />
             <Filter
               type="search"
-              column={table.getColumn("codeStaff")}
+              column={table.getColumn("email")}
               table={table}
-              title="Mã nhân viên"
+              title="Email"
             />
           </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
             <Button
-              className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+              className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-44 text-center h-full"
               onClick={openModal}
             >
-              <FormattedMessage id="Vehicle.AddButton" />
+              Thêm đối tác
             </Button>
-            {modalIsOpen && <AddVehicle onClose={closeModal} />}
+            {modalIsOpen && <AddPartner onClose={closeModal} />}
           </div>
         </div>
       </div>
@@ -215,8 +236,9 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="border-gray-700"
+                  className={`border-gray-700 ${
+                    row.getIsSelected() ? "bg-gray-700" : ""
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -244,7 +266,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-sm justify-self-start text-muted-foreground rounded-lg border px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"
@@ -275,8 +297,8 @@ export function DataTable<TData, TValue>({
             <FormattedMessage id="page" />
           </div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1}{" "}
-            <FormattedMessage id="of" /> {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />

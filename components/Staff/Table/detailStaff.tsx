@@ -103,7 +103,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            <FormattedMessage id="Staff Information" />
+            <FormattedMessage id="Staff.Infomation" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -160,6 +160,21 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     />
                   ) : (
                     <div>{data.staffName}</div>
+                  )}
+                </div>
+                <div className="flex gap-5">
+                  <div className=" font-bold text-base ">Mã số nhân viên</div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.number}
+                      onChange={(e) =>
+                        setData({ ...data, number: e.target.value })
+                      }
+                    />
+                  ) : (
+                    <div>{data.number}</div>
                   )}
                 </div>
               </div>

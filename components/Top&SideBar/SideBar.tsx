@@ -13,6 +13,7 @@ import {
   Folder,
   MapsHomeWork,
   LogoutOutlined,
+  Handshake
 } from "@mui/icons-material";
 import { FormattedMessage } from "react-intl";
 import MenuHambuger from "./MenuHambuger";
@@ -57,6 +58,12 @@ const SideItemData = [
         title: <FormattedMessage id="Sidebar.option12" />,
         url: "/dashboard/postoffice",
         icon: <MapsHomeWork className="scale-75 lg:block" />,
+      },
+      {
+        id: 11,
+        title: "Đối tác vận tải",
+        url: "/dashboard/partner",
+        icon: <Handshake className="scale-75 lg:block" />,
       },
     ],
   },
