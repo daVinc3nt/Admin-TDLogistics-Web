@@ -117,7 +117,7 @@ export const columns: ColumnDef<PostOffice>[] = [
     },
   },
   {
-    accessorKey: "Chi tiết",
+    accessorKey: "Chi tiết/Sửa đổi",
     header: () => {
       return <FormattedMessage id="PostOffice.Detail" />;
     },

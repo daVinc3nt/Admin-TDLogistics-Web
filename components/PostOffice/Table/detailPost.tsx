@@ -170,18 +170,8 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.Income" />:
               </div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="number"
-                  value={data.postIncome}
-                  onChange={(e) =>
-                    setData({ ...data, postIncome: Number(e.target.value) })
-                  }
-                />
-              ) : (
-                <div>{data.postIncome}</div>
-              )}
+
+              <div>{data.postIncome}</div>
             </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">

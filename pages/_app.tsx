@@ -6,11 +6,10 @@ import { useRouter } from "next/router";
 import { IntlProvider } from "react-intl";
 import * as en from "@/lang/en.json";
 import * as vi from "@/lang/vi.json";
-import { Libraries, LoadScript} from "@react-google-maps/api";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import { Libraries, LoadScript } from "@react-google-maps/api";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const googleMapsLibraries: Libraries = ["places"];
-
 
 function MyApp({ Component, pageProps }: AppProps) {
   function Loading() {
@@ -36,7 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
       loading && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-white opacity-75">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"
           >
             <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -55,25 +55,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     AOS.init({
       once: true,
-      disable: 'phone',
+      disable: "phone",
       duration: 600,
-      easing: 'ease-out-sine',
-    })
-  })
+      easing: "ease-out-sine",
+    });
+  });
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>
-        <LoadScript
-          language={locale}
-          region="VN"
-          libraries={googleMapsLibraries}
-          googleMapsApiKey={"AIzaSyDQ0pDRDKSyAO4lm10ttEXa2_uoZmWQzHc"}
-        >
-          <Wrapper>
-            <Loading/>
-            <Component {...pageProps} />
-          </Wrapper>
-        </LoadScript>
+        <Wrapper>
+          <Loading />
+          <Component {...pageProps} />
+        </Wrapper>
       </IntlProvider>
     </>
   );

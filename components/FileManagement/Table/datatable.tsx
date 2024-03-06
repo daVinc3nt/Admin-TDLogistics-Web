@@ -15,7 +15,6 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Input } from "./input";
 import {
   Table,
   TableBody,
@@ -23,7 +22,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./table";
+} from "@/components/TableUI/table";
 import {
   Dropdown,
   DropdownTrigger,

@@ -36,13 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
+exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
 var axios_1 = require("axios");
 var form_data_1 = require("form-data");
 var UsersAuthenticate = /** @class */ (function () {
     function UsersAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersAuthenticate.prototype.sendOTP = function (phoneNumber, email) {
         return __awaiter(this, void 0, void 0, function () {
@@ -103,7 +103,7 @@ exports.UsersAuthenticate = UsersAuthenticate;
 var StaffsAuthenticate = /** @class */ (function () {
     function StaffsAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     StaffsAuthenticate.prototype.login = function (username, password) {
         return __awaiter(this, void 0, void 0, function () {
@@ -190,7 +190,7 @@ exports.StaffsAuthenticate = StaffsAuthenticate;
 var UsersOperation = /** @class */ (function () {
     function UsersOperation(phoneNumber) {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersOperation.prototype.findByUser = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -290,7 +290,7 @@ exports.UsersOperation = UsersOperation;
 var AgencyOperation = /** @class */ (function () {
     function AgencyOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/agencies";
-        this.baseUrl = "http://localhost:4000/api/v1/agencies";
+        this.baseUrl = "http://localhost:5000/api/v1/agencies";
     }
     AgencyOperation.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -436,7 +436,7 @@ exports.AgencyOperation = AgencyOperation;
 var TransportPartnersOperation = /** @class */ (function () {
     function TransportPartnersOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/transport_partners";
-        this.baseUrl = "http://localhost:4000/api/v1/transport_partners";
+        this.baseUrl = "http://localhost:5000/api/v1/transport_partners";
     }
     TransportPartnersOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -537,7 +537,7 @@ var TransportPartnersOperation = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/update?transport_partner_id=").concat(condition.transport_partner_id), info, {
+                        return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?transport_partner_id=").concat(condition.transport_partner_id), info, {
                                 withCredentials: true,
                             })];
                     case 1:
@@ -582,7 +582,7 @@ exports.TransportPartnersOperation = TransportPartnersOperation;
 var Vehicle = /** @class */ (function () {
     function Vehicle() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicle";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicle";
     }
     Vehicle.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -823,7 +823,7 @@ exports.Vehicle = Vehicle;
 var StaffsOperation = /** @class */ (function () {
     function StaffsOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     // ROLE: any
     StaffsOperation.prototype.getAuthenticatedStaffInfo = function () {
@@ -1074,7 +1074,7 @@ exports.StaffsOperation = StaffsOperation;
 var BusinessOperation = /** @class */ (function () {
     function BusinessOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-        this.baseUrl = "http://localhost:4000/api/v1/business";
+        this.baseUrl = "http://localhost:5000/api/v1/business";
     }
     BusinessOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1361,7 +1361,7 @@ exports.BusinessOperation = BusinessOperation;
 var PartnerStaffOperation = /** @class */ (function () {
     function PartnerStaffOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/partner_staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
     }
     // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.getAuthenticatedPartnerStaffInfo = function () {
@@ -1707,79 +1707,3 @@ var PartnerStaffOperation = /** @class */ (function () {
     return PartnerStaffOperation;
 }());
 exports.PartnerStaffOperation = PartnerStaffOperation;
-var ShippersOperation = /** @class */ (function () {
-    function ShippersOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/shippers";
-    }
-    ShippersOperation.prototype.getTask = function (condition) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_68;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_tasks"), condition, {
-                                withCredentials: true,
-                            })];
-                    case 1:
-                        response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
-                    case 2:
-                        error_68 = _a.sent();
-                        console.log("Error getting tasks: ", error_68.response.data);
-                        return [2 /*return*/, error_68.response.data];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ShippersOperation.prototype.confirmCompletedTask = function (info) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_69;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/confirm_completed"), info, {
-                                withCredentials: true,
-                            })];
-                    case 1:
-                        response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
-                    case 2:
-                        error_69 = _a.sent();
-                        console.log("Error confirming completed task: ", error_69.response.data);
-                        return [2 /*return*/, error_69.response.data];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ShippersOperation.prototype.getHistory = function (condition) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_70;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_history"), condition, {
-                                withCredentials: true,
-                            })];
-                    case 1:
-                        response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
-                    case 2:
-                        error_70 = _a.sent();
-                        console.log("Error getting history: ", error_70.response.data);
-                        return [2 /*return*/, error_70.response.data];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return ShippersOperation;
-}());
-exports.ShippersOperation = ShippersOperation;

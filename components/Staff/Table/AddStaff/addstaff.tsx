@@ -243,11 +243,6 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     } else {
       setError("");
     }
-    if (Staffdata.age === "") {
-      handleCheckMissing("age", true);
-    } else {
-      handleCheckMissing("age", false);
-    }
     if (Staffdata.cccd === "") {
       handleCheckMissing("cccd", true);
     } else {
@@ -367,15 +362,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
                 })}
                 onChange={(e) => handleInputChange("fullname", e.target.value)}
               />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.age ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.Age",
-                })}
-                onChange={(e) => handleInputChange("age", e.target.value)}
-              />
+
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full

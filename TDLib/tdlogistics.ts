@@ -5,7 +5,7 @@ class UsersAuthenticate {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
     async sendOTP(phoneNumber: string, email: string): Promise<any> {
@@ -19,7 +19,7 @@ class UsersAuthenticate {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error sending OTP: ", error.response.data);
             return error.response.data;
         }
@@ -37,7 +37,7 @@ class UsersAuthenticate {
 
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error verifying OTP:", error.response.data);
             return error.response.data;
         }
@@ -48,7 +48,7 @@ class StaffsAuthenticate {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
 
     async login(username: string, password: string): Promise<any> {
@@ -62,7 +62,7 @@ class StaffsAuthenticate {
 
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error logging in: ", error.response.data);
             return error.response.data;
         }
@@ -79,7 +79,7 @@ class StaffsAuthenticate {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error sending OTP: ", error.response.data);
             return error.response.data;
         }
@@ -97,36 +97,36 @@ class StaffsAuthenticate {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error verify OTP", error.response.data);
             return error.response.data;
         }
     }
 }
 
-interface CreatingUserInfo {
+export interface CreatingUserInfo {
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-interface FindingUserByUserCondition {
+export interface FindingUserByUserCondition {
     phone_number: string,
 }
 
-interface FindingUserByAdminConditions {
+export interface FindingUserByAdminConditions {
     user_id: string,
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-interface UpdatingUserInfo {
+export interface UpdatingUserInfo {
     fullname: string,
     email: string,
 }
 
-interface UpdatingUserCondition {
+export interface UpdatingUserCondition {
     user_id: string,
 }
 
@@ -135,7 +135,7 @@ class UsersOperation {
 
     constructor(phoneNumber: string) {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
     async findByUser(condition: FindingUserByUserCondition) : Promise<any> {
@@ -146,7 +146,7 @@ class UsersOperation {
             
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error get one user: ", error.response.data);
             return error.response.data;
         }
@@ -160,7 +160,7 @@ class UsersOperation {
             
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error get one user: ", error.response.data);
             return error.response.data;
         }
@@ -174,7 +174,7 @@ class UsersOperation {
             
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error create new user: ", error.response.data);
             return error.response.data;
         }
@@ -188,18 +188,18 @@ class UsersOperation {
             
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error update new user: ", error.response.data);
             return error.response.data;
         }
     }
 }
 
-interface CheckingExistAgencyCondition {
+export interface CheckingExistAgencyCondition {
     agency_id: string,
 }
 
-interface CreatingAgencyInfo {
+export interface CreatingAgencyInfo {
     username: string,
     user_password: string,
     user_fullname: string,
@@ -234,11 +234,11 @@ interface CreatingAgencyInfo {
     bank: string,
 }
 
-interface FindingAgencyByAgencyInfo {
+export interface FindingAgencyByAgencyInfo {
     agencyId: string,
 }
 
-interface FindingAgencyByAdminInfo {
+export interface FindingAgencyByAdminInfo {
     agency_id: string,
     agency_name: string,
     level: string,
@@ -251,7 +251,7 @@ interface FindingAgencyByAdminInfo {
     bank: string,
 }
 
-interface UpdatingAgencyInfo {
+export interface UpdatingAgencyInfo {
     agency_name: string,
     province: string,
     district: string,
@@ -267,11 +267,11 @@ interface UpdatingAgencyInfo {
     bank: string,
 }
 
-interface UpdatingAgencyCondition {
+export interface UpdatingAgencyCondition {
     agency_id: string,
 }
 
-interface DeletingAgencyCondition {
+export interface DeletingAgencyCondition {
     agency_id: string,
 }
 
@@ -279,7 +279,7 @@ class AgencyOperation {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/agencies";
-        this.baseUrl = "http://localhost:4000/api/v1/agencies";
+        this.baseUrl = "http://localhost:5000/api/v1/agencies";
     }
 
     async checkExist(condition: CheckingExistAgencyCondition) {
@@ -290,7 +290,7 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error checking exist agency: ", error.response.data);
             return error.response.data;
         }
@@ -304,7 +304,7 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error creating agency: ", error.response.data);
             return error.response.data;
         }
@@ -318,7 +318,7 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding agency: ", error.response.data);
             return error.response.data;
         }
@@ -332,7 +332,7 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding agency: ", error.response.data);
             return error.response.data;
         }
@@ -346,7 +346,7 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding agency: ", error.response.data);
             return error.response.data;
         }
@@ -360,14 +360,14 @@ class AgencyOperation {
     
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding agency: ", error.response.data);
             return error.response.data;
         }
     }
 }
 
-interface CreatingTransportPartnerByAdminInfo {
+export interface CreatingTransportPartnerByAdminInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -398,7 +398,7 @@ interface CreatingTransportPartnerByAdminInfo {
     bank: string,
 }
 
-interface CreatingTransportPartnerByAgencyInfo {
+export interface CreatingTransportPartnerByAgencyInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -428,11 +428,11 @@ interface CreatingTransportPartnerByAgencyInfo {
     bank: string,
 }
 
-interface FindingTransportPartnerByTransportPartnerCondition {
+export interface FindingTransportPartnerByTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-interface FindingTransportPartnerByAdminConditions {
+export interface FindingTransportPartnerByAdminConditions {
     transport_partner_id: string,
     tax_code: string,
     transport_partner_name: string,
@@ -446,7 +446,7 @@ interface FindingTransportPartnerByAdminConditions {
     bank: string,
 }
 
-interface UpdatingTransportPartnerInfo {
+export interface UpdatingTransportPartnerInfo {
     tax_code: string,
     transport_partner_name: string,
     province: string,
@@ -460,11 +460,11 @@ interface UpdatingTransportPartnerInfo {
     debit: string,
 }
 
-interface UpdatingTransportPartnerCondition {
+export interface UpdatingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-interface DeletingTransportPartnerCondition {
+export interface DeletingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
@@ -473,7 +473,7 @@ class TransportPartnersOperation {
 
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/transport_partners";
-        this.baseUrl = "http://localhost:4000/api/v1/transport_partners";
+        this.baseUrl = "http://localhost:5000/api/v1/transport_partners";
     }
 
     async createByAdmin(info: CreatingTransportPartnerByAdminInfo) {
@@ -484,7 +484,7 @@ class TransportPartnersOperation {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error creating new transport partner: ", error.response.data);
             return error.response.data;
         }
@@ -498,7 +498,7 @@ class TransportPartnersOperation {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error creating new transport partner: ", error.response.data);
             return error.response.data;
         }
@@ -512,7 +512,7 @@ class TransportPartnersOperation {
 
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding transport partner: ", error.response.data);
             return error.response.data;
         }
@@ -526,7 +526,7 @@ class TransportPartnersOperation {
 
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding transport partner: ", error.response.data);
             return error.response.data;
         }
@@ -534,13 +534,13 @@ class TransportPartnersOperation {
 
     async update(info: UpdatingTransportPartnerInfo, condition: UpdatingTransportPartnerCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/update?transport_partner_id=${condition.transport_partner_id}`, info, {
+            const response = await axios.put(`${this.baseUrl}/update?transport_partner_id=${condition.transport_partner_id}`, info, {
                 withCredentials: true,
             });
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error updating transport partner: ", error.response.data);
             return error.response.data;
         }
@@ -554,18 +554,18 @@ class TransportPartnersOperation {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error deleting transport partner: ", error.response.data);
             return error.response.data;
         }
     }
 }
 
-interface CheckingExistVehicleCondition {
+export interface CheckingExistVehicleCondition {
     vehicle_id: string,
 }
 
-interface CreatingVehicleByAdminInfo {
+export interface CreatingVehicleByAdminInfo {
     agency_id: string,
     transport_partner_id: string,
     staff_id: string,
@@ -574,7 +574,7 @@ interface CreatingVehicleByAdminInfo {
     max_load: string,
 }
 
-interface CreatingVehicleByAgencyInfo {
+export interface CreatingVehicleByAgencyInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
@@ -582,11 +582,11 @@ interface CreatingVehicleByAgencyInfo {
     max_load: string,
 }
 
-interface FindingVehicleByStaffCondition {
+export interface FindingVehicleByStaffCondition {
     staff_id: string,
 }
 
-interface FindingVehicleByAdminConditions {
+export interface FindingVehicleByAdminConditions {
     vehicle_id: string,
     transport_partner_id: string,
     staff_id: string,
@@ -595,11 +595,11 @@ interface FindingVehicleByAdminConditions {
     mass: string,
 }
 
-interface GettingOrdersContainedByVehicleCondition {
+export interface GettingOrdersContainedByVehicleCondition {
     vehicle_id: string,
 }
 
-interface UpdatingVehicleInfo {
+export interface UpdatingVehicleInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
@@ -607,27 +607,27 @@ interface UpdatingVehicleInfo {
     max_load: string,
 }
 
-interface UpdatingVehicleCondition {
+export interface UpdatingVehicleCondition {
     vehicle_id: string,
 }
 
-interface AddingOrdersToVehicleInfo {
+export interface AddingOrdersToVehicleInfo {
     order_ids: Object,
 }
 
-interface AddingOrdersToVehicleCondition {
+export interface AddingOrdersToVehicleCondition {
     vehicle_id: string,
 }
 
-interface DeletingOrdersFromVehicleInfo {
+export interface DeletingOrdersFromVehicleInfo {
     order_ids: Object,
 }
 
-interface DeletingOrdersFromVehicleCondition {
+export interface DeletingOrdersFromVehicleCondition {
     vehicle_id: string,
 }
 
-interface DeletingVehicleCondition {
+export interface DeletingVehicleCondition {
     vehicle_id: string,
 }
 
@@ -636,7 +636,7 @@ class Vehicle {
 
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicle";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicle";
     }
 
     async checkExist(condition: CheckingExistVehicleCondition) {
@@ -647,7 +647,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error checking exist vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -661,7 +661,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error creating new vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -675,7 +675,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error creating new vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -689,7 +689,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -703,7 +703,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error finding vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -717,7 +717,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error getting orders contained by vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -732,7 +732,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error getting orders contained by vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -746,7 +746,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error adding orders to vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -760,7 +760,7 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error deleting orders from vehicle: ", error.response.data);
             return error.response.data;
         }
@@ -774,14 +774,14 @@ class Vehicle {
 
             const data = response.data;
             return { error: data.error, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error deleting vehicle: ", error.response.data);
             return error.response.data;
         }
     }
 }
 
-interface CreatingStaffByAgencyInfo {
+export interface CreatingStaffByAgencyInfo {
 	agency_id: string,
     fullname: string,
     username: string,
@@ -800,7 +800,7 @@ interface CreatingStaffByAgencyInfo {
     detail_address: string,
 }
 
-interface CreatingStaffByAdminInfo {
+export interface CreatingStaffByAdminInfo {
     fullname: string,
     username: string,
     password: string,
@@ -818,11 +818,11 @@ interface CreatingStaffByAdminInfo {
     detail_address: string,
 }
   
-interface FindingStaffByStaffCondition {
+export interface FindingStaffByStaffCondition {
     staff_id: string,
 }
   
-interface FindingStaffByAdminConditions {
+export interface FindingStaffByAdminConditions {
     staff_id: string,
     fullname: string,
     username: string,
@@ -836,7 +836,7 @@ interface FindingStaffByAdminConditions {
     town: string,
 }
   
-interface UpdatingStaffInfo {
+export interface UpdatingStaffInfo {
     fullname: string,
     username: string,
     date_of_birth: string, 
@@ -851,24 +851,24 @@ interface UpdatingStaffInfo {
     detail_address: string,
 }
   
-interface UpdatingStaffCondition {
+export interface UpdatingStaffCondition {
     staff_id: string,
 }
   
-interface DeletingStaffCondition {
+export interface DeletingStaffCondition {
     staff_id: string,
 };
   
-interface UpdatingAvatarStaffInfo {
+export interface UpdatingAvatarStaffInfo {
     avatarFile: Buffer,
 };
   
-interface UpdatingPasswordsInfo {
+export interface UpdatingPasswordsInfo {
     new_password: string,
     confirm_password: string
 };
   
-interface FindingAvatarCondition {
+export interface FindingAvatarCondition {
     staff_id: string,
 }
   
@@ -877,7 +877,7 @@ class StaffsOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-		this.baseUrl = "http://localhost:4000/api/v1/staffs";
+		this.baseUrl = "http://localhost:5000/api/v1/staffs";
 	}
 
 	// ROLE: any
@@ -889,7 +889,7 @@ class StaffsOperation {
             
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error get authenticated staff information: ", error.response.data);
             return error.response.data;
         }
@@ -904,7 +904,7 @@ class StaffsOperation {
 			
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error get one staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -920,7 +920,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		}     
-		catch (error: any) {
+		catch (error) {
 			console.log("Error get one staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -936,7 +936,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error create new staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -952,7 +952,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error create new staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -968,7 +968,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error create new staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -984,7 +984,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error deleting staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1005,7 +1005,7 @@ class StaffsOperation {
 			console.log('Image uploaded successfully:', response.data);
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 	
-		} catch (error: any) {
+		} catch (error) {
 			console.error('Error uploading image:', error);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}   
@@ -1022,7 +1022,7 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error update password: ", error.response.data);
 			return error.response.data;
 		}    
@@ -1037,14 +1037,14 @@ class StaffsOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
 	}
 }
   
-interface CreateBusinessByAgencyInfo {
+export interface CreateBusinessByAgencyInfo {
 	// Representor information
     user_fullname: string,
     user_phone_number: string,
@@ -1073,7 +1073,7 @@ interface CreateBusinessByAgencyInfo {
     bank: string,
 }
   
-interface CreateBusinessByAdminInfo {
+export interface CreateBusinessByAdminInfo {
 	// Representor information
     username: string,
     password: string,
@@ -1103,11 +1103,11 @@ interface CreateBusinessByAdminInfo {
     bank: string,
 }
   
-interface FindingBusinessByBusinessCondition {
+export interface FindingBusinessByBusinessCondition {
     business_id: string,
 }
   
-interface FindingBusinessByAdminCondition {
+export interface FindingBusinessByAdminCondition {
 	business_id: string,
 	agency_id: string,
 	username: string,
@@ -1122,11 +1122,11 @@ interface FindingBusinessByAdminCondition {
 	bank: string,
 }
   
-interface FindingRepresentorByBusinessCondition {
+export interface FindingRepresentorByBusinessCondition {
     business_id: string,
 }
   
-interface FindingRepresentorByAdminCondition {
+export interface FindingRepresentorByAdminCondition {
 	agency_id:string,
 	business_id: string,
 	fullname: string,
@@ -1141,15 +1141,15 @@ interface FindingRepresentorByAdminCondition {
 	bank: string,
 }
   
-interface CheckingExistBusinessCondition {
+export interface CheckingExistBusinessCondition {
     tax_number: string,
 }
   
-interface UpdatingBusinessCondition {
+export interface UpdatingBusinessCondition {
     business_id: string,
 }
   
-interface UpdatingBusinessInfo {
+export interface UpdatingBusinessInfo {
 	business_name: string,
 	email: string,
 	phone_number: string,
@@ -1162,7 +1162,7 @@ interface UpdatingBusinessInfo {
 	bank: string,
 }
   
-interface UpdatingBusinessRepresentorInfo {
+export interface UpdatingBusinessRepresentorInfo {
 	fullname: string,
 	phone_number: string,
 	email: string,
@@ -1176,16 +1176,16 @@ interface UpdatingBusinessRepresentorInfo {
 	bank: string,
 }
   
-interface DeletingBusinessCondition {
+export interface DeletingBusinessCondition {
 	business_id: string,
 	agency_id: string,
 }
   
-interface UpdatingContractInfo {
+export interface UpdatingContractInfo {
     contractFile: Buffer,
 }
   
-interface FindingContractCondition {
+export interface FindingContractCondition {
     business_id: string,
 }
   
@@ -1194,7 +1194,7 @@ class BusinessOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-		this.baseUrl = "http://localhost:4000/api/v1/business";
+		this.baseUrl = "http://localhost:5000/api/v1/business";
 
 	}
 
@@ -1206,7 +1206,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error creating new business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1220,7 +1220,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error creating new business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1234,7 +1234,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1248,7 +1248,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1262,7 +1262,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding representor: ", error.response.data);
 			return error.response.data;
 		}
@@ -1276,7 +1276,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding representor: ", error.response.data);
 			return error.response.data;
 		}
@@ -1290,7 +1290,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error updating business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1304,7 +1304,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error updating business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1318,7 +1318,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error checking exist business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1332,7 +1332,7 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error deleting business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1352,7 +1352,7 @@ class BusinessOperation {
 			console.log('File uploaded successfully:', response.data);
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 	
-			} catch (error: any) {
+			} catch (error) {
 			console.error('Error uploading file:', error);
 			throw error; // Ném lỗi để xử lý bên ngoài
 			} 
@@ -1366,14 +1366,14 @@ class BusinessOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
 	}
 }
 
-interface CreatingPartnerStaffInfo {
+export interface CreatingPartnerStaffInfo {
 	partner_id: string,
 	username: string,
 	password: string,
@@ -1392,11 +1392,11 @@ interface CreatingPartnerStaffInfo {
 	bank: string,
 }
 
-interface FindingPartnerStaffByPartnerStaffCondition {
+export interface FindingPartnerStaffByPartnerStaffCondition {
 	staff_id: string,
 }
 
-interface FindingPartnerStaffsByPartnerCondtions {
+export interface FindingPartnerStaffsByPartnerCondtions {
 	partner_id: string,
 	agency_id: string,
 	staff_id: string,
@@ -1414,7 +1414,7 @@ interface FindingPartnerStaffsByPartnerCondtions {
 	bank: string,
 }
 
-interface FindingPartnerStaffsByAdminConditions {
+export interface FindingPartnerStaffsByAdminConditions {
 	partner_id: string,
 	agency_id: string,
 	staff_id: string,
@@ -1431,11 +1431,11 @@ interface FindingPartnerStaffsByAdminConditions {
 	bank: string,
 }
 
-interface UpdatingPartnerStaffCondition {
+export interface UpdatingPartnerStaffCondition {
 	staff_id: string,
 }
 
-interface UpdatingPartnerStaffInfo {
+export interface UpdatingPartnerStaffInfo {
 	fullname: string,
 	username: string,
 	date_of_birth: string, 
@@ -1450,11 +1450,11 @@ interface UpdatingPartnerStaffInfo {
 	bank: string,
 }
 
-interface DeletingPartnerStaffCondition {
+export interface DeletingPartnerStaffCondition {
 	staff_id: string,
 }
 
-interface CheckingExistPartnerStaffCondition {
+export interface CheckingExistPartnerStaffCondition {
 	username: string,
 	email: string,
 	phone_number: string,
@@ -1463,16 +1463,16 @@ interface CheckingExistPartnerStaffCondition {
 }
 
 
-interface UpdatingPartnerLicenseImg {
+export interface UpdatingPartnerLicenseImg {
 	license_before: Buffer,
 	license_after: Buffer,
 }
 
-interface UpdatingPartnerStaffAvatarInfo {
+export interface UpdatingPartnerStaffAvatarInfo {
 	avatarFile: Buffer
 }
 
-interface FindingPartnerAvatarAndLicenseCondition {
+export interface FindingPartnerAvatarAndLicenseCondition {
 	staff_id: string
 };
   
@@ -1481,7 +1481,7 @@ class PartnerStaffOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-		this.baseUrl = "http://localhost:4000/api/v1/partner_staffs";
+		this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
 	}
 
 	// ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
@@ -1493,7 +1493,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error getting authenticated partner staff information: ", error.response.data);
 			return error.response.data;
 		}
@@ -1508,7 +1508,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error creating partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1523,7 +1523,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1538,7 +1538,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1553,7 +1553,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1568,7 +1568,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error updating partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1583,7 +1583,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error checking exist partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1598,7 +1598,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error deleting business: ", error.response.data);
 			return error.response.data;
 		}
@@ -1614,7 +1614,7 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} 
-		catch (error: any) {
+		catch (error) {
 			console.log("Error update password: ", error.response.data);
 			return error.response.data;
 		}    
@@ -1634,7 +1634,7 @@ class PartnerStaffOperation {
 			console.log('Image uploaded successfully:', response.data);
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
-		} catch (error: any) {
+		} catch (error) {
 			console.error('Error uploading image:', error);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}
@@ -1657,7 +1657,7 @@ class PartnerStaffOperation {
 			console.log('Image uploaded successfully:', response.data);
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
-		} catch (error: any) {
+		} catch (error) {
 			console.error('Error uploading image:', error);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}
@@ -1672,7 +1672,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1687,7 +1687,7 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
@@ -1702,74 +1702,13 @@ class PartnerStaffOperation {
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
+		} catch (error) {
 			console.log("Error finding partner staff: ", error.response.data);
 			return error.response.data;
 		}
 	} 
 }
   
-interface GettingTasksCondition {
-	option: number,
-}
-
-interface ConfirmingCompletedTaskInfo {
-	id: number,
-}
-
-interface GettingHistoryInfo {
-	option: number,
-}
-
-class ShippersOperation {
-	private baseUrl: string;
-	constructor() {
-		this.baseUrl = "http://localhost:4000/api/v1/shippers";
-	}
-
-	async getTask(condition: GettingTasksCondition) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_tasks`, condition, {
-				withCredentials: true,
-			});
-
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting tasks: ", error.response.data);
-			return error.response.data;
-		}
-	}
-
-	async confirmCompletedTask(info: ConfirmingCompletedTaskInfo) {
-		try {
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/confirm_completed`, info, {
-				withCredentials: true,
-			});
-
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error confirming completed task: ", error.response.data);
-			return error.response.data;
-		}
-	}
-
-	async getHistory(condition: GettingHistoryInfo) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_history`, condition, {
-				withCredentials: true,
-			});
-
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting history: ", error.response.data);
-			return error.response.data;
-		}
-	}
-}
-
 export {
 	UsersAuthenticate,
 	StaffsAuthenticate,
@@ -1779,6 +1718,5 @@ export {
 	StaffsOperation,
 	Vehicle,
 	BusinessOperation,
-	PartnerStaffOperation,
-	ShippersOperation,
+	PartnerStaffOperation
 }

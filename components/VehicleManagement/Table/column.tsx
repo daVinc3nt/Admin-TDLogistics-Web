@@ -52,7 +52,7 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Thứ tự
+          <FormattedMessage id="Vehilce.Number" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -66,7 +66,7 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã đối tác
+          <FormattedMessage id="Vehicle.PartnerCode" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -80,7 +80,7 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã nhân viên
+          <FormattedMessage id="Vehicle.StaffCode" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -94,7 +94,7 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Loại công việc
+          <FormattedMessage id="Vehicle.WorkType" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -108,7 +108,7 @@ export const columns: ColumnDef<VehicleData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Trạng thái hoạt động
+          <FormattedMessage id="Vehicle.Status" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -118,11 +118,11 @@ export const columns: ColumnDef<VehicleData>[] = [
         <div>
           {row.original.Active ? (
             <div className="text-green-500">
-              <FormattedMessage id="Active" />
+              <FormattedMessage id="isActive" />
             </div>
           ) : (
             <div className="text-red-500">
-              <FormattedMessage id="Inactive" />
+              <FormattedMessage id="isInactive" />
             </div>
           )}
         </div>
@@ -133,7 +133,7 @@ export const columns: ColumnDef<VehicleData>[] = [
   {
     accessorKey: "Thông tin chi tiết",
     header: ({ column }) => {
-      return <FormattedMessage id="Detail" />;
+      return <FormattedMessage id="Vehicle.Detail" />;
     },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
