@@ -229,7 +229,20 @@
     "Vehicle.WorkType": "Loại công việc",
     "Vehicle.MaxWeight": "Tải trọng tối đa",
     "Vehicle.GPLX":"Giấy phép lái xe",
-    "Vehicle.BKS":"Biển kiểm soát"   
+    "Vehicle.BKS":"Biển kiểm soát",
+
+
+    "TransportPartner.Title": "Đối tác vận tải",
+    "TransportPartner.SearchBox": "Tìm kiếm theo tên đối tác",
+    "TransportPartner.AddButton": "Thêm đối tác",
+    "TransportPartner.Name": "Tên đối tác",
+    "TransportPartner.TaxCode": "Mã số thuế",
+    "TransportPartner.PartnerCode": "Mã đối tác",
+    "TransportPartner.Debit": "Dư nợ",
+    "TransportPartner.Add.HeadInfo": "Thông tin người đúng đầu",
+    "TransportPartner.Add.PartnerInfo": "Thông tin đối tác",
+    "TransportPartner.Detail": "Chi tiết/Sửa đổi",
+    "TransportPartner.Adress":"Địa chỉ"
 
 
 }

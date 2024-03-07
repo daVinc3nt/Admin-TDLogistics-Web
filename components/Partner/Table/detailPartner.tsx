@@ -9,7 +9,9 @@ import {
   UpdatingTransportPartnerInfo,
   UpdatingTransportPartnerCondition,
   TransportPartnersOperation,
+  StaffsOperation,
 } from "@/TDLib/tdlogistics";
+import { set } from "date-fns";
 
 interface FindingTransportPartnerByAdminConditions {
   transport_partner_id: string;
@@ -23,6 +25,7 @@ interface FindingTransportPartnerByAdminConditions {
   email: string;
   bin: string;
   bank: string;
+  debit: string;
 }
 
 interface City {
@@ -41,6 +44,8 @@ interface Ward {
   Id: string;
   Name: string;
 }
+const staff = new StaffsOperation();
+
 interface DetailPartnerProps {
   onClose: () => void;
   dataInitial: FindingTransportPartnerByAdminConditions;
@@ -50,6 +55,16 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
   onClose,
   dataInitial,
 }) => {
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setRole(res.data.role);
+    };
+
+    fetchData();
+  }, []);
   const intl = useIntl();
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -65,20 +80,45 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
 
     fetchCities();
   }, []);
-  const [PartnerData, setPartnerData] = useState({
-    transport_partner_id: dataInitial.transport_partner_id,
-    tax_code: dataInitial.tax_code,
-    transport_partner_name: dataInitial.transport_partner_name,
-    province: dataInitial.province,
-    district: dataInitial.district,
-    town: dataInitial.town,
-    detail_address: dataInitial.detail_address,
-    phone_number: dataInitial.phone_number,
-    email: dataInitial.email,
-    bin: dataInitial.bin,
-    bank: dataInitial.bank,
-    debit: "",
-  });
+  const [PartnerData, setPartnerData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      if (res.data.role === "ADMIN") {
+        setPartnerData({
+          transport_partner_id: dataInitial.transport_partner_id,
+          transport_partner_name: dataInitial.transport_partner_name,
+          phone_number: dataInitial.phone_number,
+          email: dataInitial.email,
+          bank: dataInitial.bank,
+          bin: dataInitial.bin,
+          province: dataInitial.province,
+          district: dataInitial.district,
+          town: dataInitial.town,
+          detail_address: dataInitial.detail_address,
+          tax_code: dataInitial.tax_code,
+          debit: dataInitial.debit,
+        });
+      } else {
+        setPartnerData({
+          transport_partner_name: dataInitial.transport_partner_name,
+          phone_number: dataInitial.phone_number,
+          email: dataInitial.email,
+          bank: dataInitial.bank,
+          bin: dataInitial.bin,
+          province: dataInitial.province,
+          district: dataInitial.district,
+          town: dataInitial.town,
+          detail_address: dataInitial.detail_address,
+          tax_code: dataInitial.tax_code,
+          debit: dataInitial.debit,
+        });
+      }
+    };
+    fetchData();
+  }, [dataInitial]);
+
   const handleInputChange = (key: string, value: string) => {
     setPartnerData((prevState) => ({
       ...prevState,
@@ -147,13 +187,9 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => {
     setIsEditing(true);
-  };
+  }; //sample data
   const handleSaveClick = async () => {
     const editPartner = new TransportPartnersOperation();
-
-    const roleAdmin: UpdatingTransportPartnerCondition = {
-      transport_partner_id: PartnerData.transport_partner_id,
-    };
 
     const info: UpdatingTransportPartnerInfo = {
       transport_partner_name: PartnerData.transport_partner_name,
@@ -168,12 +204,27 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
       tax_code: PartnerData.tax_code,
       debit: PartnerData.debit,
     };
-    const response = await editPartner.update(info, roleAdmin);
-    if (response.error) {
-      console.log("error");
-    }
+    if (role === "ADMIN") {
+      const roleAdmin: UpdatingTransportPartnerCondition = {
+        transport_partner_id: PartnerData.transport_partner_id,
+      };
+      const response = await editPartner.update(info, roleAdmin);
+      if (response.error) {
+        console.log("error");
+      }
 
-    setIsEditing(false);
+      setIsEditing(false);
+    } else {
+      const roleAdmin: UpdatingTransportPartnerCondition = {
+        transport_partner_id: dataInitial.transport_partner_id,
+      };
+      const response = await editPartner.update(info, roleAdmin);
+      if (response.error) {
+        console.log("error");
+      }
+
+      setIsEditing(false);
+    }
   };
 
   return (
@@ -199,7 +250,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thông tin đối tác
+            <FormattedMessage id="TransportPartner.Add.PartnerInfo" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -209,9 +260,34 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols ">
+            {role === "ADMIN" && (
+              <div className="flex gap-5">
+                <div className="font-bold text-base">
+                  <FormattedMessage id="TransportPartner.PartnerCode" />:
+                </div>
+                {isEditing ? (
+                  <input
+                    className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                    type="text"
+                    value={PartnerData?.transport_partner_id}
+                    onChange={(e) =>
+                      setPartnerData({
+                        ...PartnerData,
+                        transport_partner_id: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  <div>{PartnerData?.transport_partner_id}</div>
+                )}
+              </div>
+            )}
+
             <div className="flex gap-5">
-              <div className="font-bold text-base">Tên đối tác</div>
+              <div className="font-bold text-base">
+                <FormattedMessage id="TransportPartner.Name" />:
+              </div>
               {isEditing ? (
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
@@ -225,9 +301,10 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                   }
                 />
               ) : (
-                <div>{PartnerData.transport_partner_name}</div>
+                <div>{PartnerData?.transport_partner_name}</div>
               )}
             </div>
+
             <div className="flex gap-5">
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.Phone" />:
@@ -245,7 +322,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                   }
                 />
               ) : (
-                <div>{PartnerData.phone_number}</div>
+                <div>{PartnerData?.phone_number}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -254,13 +331,13 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={PartnerData.email}
+                  value={PartnerData?.email}
                   onChange={(e) =>
                     setPartnerData({ ...PartnerData, email: e.target.value })
                   }
                 />
               ) : (
-                <div>{PartnerData.email}</div>
+                <div>{PartnerData?.email}</div>
               )}
             </div>
 
@@ -272,13 +349,13 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={PartnerData.bank}
+                  value={PartnerData?.bank}
                   onChange={(e) =>
                     setPartnerData({ ...PartnerData, bank: e.target.value })
                   }
                 />
               ) : (
-                <div>{PartnerData.bank}</div>
+                <div>{PartnerData?.bank}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -289,26 +366,67 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={PartnerData.bin}
+                  value={PartnerData?.bin}
                   onChange={(e) =>
                     setPartnerData({ ...PartnerData, bin: e.target.value })
                   }
                 />
               ) : (
-                <div>{PartnerData.bin}</div>
+                <div>{PartnerData?.bin}</div>
               )}
             </div>
+
+            <div className="flex gap-5">
+              <div className="font-bold text-base">
+                <FormattedMessage id="TransportPartner.TaxCode" />:
+              </div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={PartnerData?.tax_code}
+                  onChange={(e) =>
+                    setPartnerData({ ...PartnerData, tax_code: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{PartnerData?.tax_code}</div>
+              )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">
+                <FormattedMessage id="TransportPartner.Debit" />:
+              </div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  type="text"
+                  value={PartnerData?.debit}
+                  onChange={(e) =>
+                    setPartnerData({ ...PartnerData, debit: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{PartnerData?.debit || 0} vnđ</div>
+              )}
+            </div>
+
             <div className="flex gap-3 mt-3">
               {!isEditing ? (
                 <div className="flex gap-3">
-                  <div className="font-bold text-base">Địa chỉ: </div>
-                  <div>{PartnerData.province}</div>
-                  <div>{PartnerData.district}</div>
-                  <div>{PartnerData.town}</div>
-                  <div>{PartnerData.detail_address}</div>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:
+                  </div>
+                  <div>{PartnerData?.detail_address}/</div>
+                  <div>{PartnerData?.town}/</div>
+                  <div>{PartnerData?.district}/</div>
+                  <div>{PartnerData?.province}</div>
                 </div>
               ) : (
                 <>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:{" "}
+                  </div>
                   <select
                     className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 `}

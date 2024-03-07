@@ -31,7 +31,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { TransportPartnersOperation } from "@/TDLib/tdlogistics";
@@ -102,9 +102,7 @@ export function DataTable<TData, TValue>({
       };
       const error = await deletepartner.remove(condition);
       if (error) {
-        console.log(error.message);
-      } else {
-        alert("Xóa thành công");
+        alert(error.message);
       }
     });
   };
@@ -153,7 +151,7 @@ export function DataTable<TData, TValue>({
                     peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              Tìm kiếm theo tên đối tác
+              <FormattedMessage id="TransportPartner.SearchBox" />
             </label>
             <Dropdown className="z-30">
               <DropdownTrigger>
@@ -191,7 +189,7 @@ export function DataTable<TData, TValue>({
               type="search"
               column={table.getColumn("phone_number")}
               table={table}
-              title="Số điện thoại"
+              title={useIntl().formatMessage({ id: "PhoneNumber" })}
             />
             <Filter
               type="search"
@@ -205,7 +203,7 @@ export function DataTable<TData, TValue>({
               className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-44 text-center h-full"
               onClick={openModal}
             >
-              Thêm đối tác
+              <FormattedMessage id="TransportPartner.AddButton" />
             </Button>
             {modalIsOpen && <AddPartner onClose={closeModal} />}
           </div>
