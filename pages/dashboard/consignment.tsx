@@ -1,6 +1,6 @@
 import ConsignmentMenu from "@/components/Consignment/Consignment";
-import { DestinationContext } from "@/context/DestinationContext";
-import { SourceContext } from "@/context/SourceContext";
+import { DestinationContext } from "@/Context/MapContext/DestinationContext";
+import { SourceContext } from "@/Context/MapContext/SourceContext";
 import type { NextPage } from "next";
 import { useState } from "react";
 const Consignment: NextPage = () => {

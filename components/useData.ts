@@ -1,5 +1,5 @@
 import useSWR, { mutate } from 'swr';
-import { Task } from './types';
+import { Task } from './Types';
 
 const url = 'https://65cfd4b8bdb50d5e5f5bdf8e.mockapi.io/task';
 

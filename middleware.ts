@@ -7,9 +7,9 @@ import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
 const protectedRoutes = "/dashboard";
 const authRoutes = "/log";
 export function middleware(request: NextRequest) {
-//   const currentUser = request.cookies?.get("connect.sid")?.value;
-// //when the user wanna get in dashboard but dont have the cookie
-// //or the one is expired, the page would redirect to login page
+  const currentUser = request.cookies?.get("connect.sid")?.value;
+//when the user wanna get in dashboard but dont have the cookie
+//or the one is expired, the page would redirect to login page
 //   if (
 //     request.nextUrl.pathname.startsWith(protectedRoutes) &&
 //     (!currentUser)

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Task } from '@/components/types'
+import { Task } from '@/components/Types'
 import { columns } from "./column";
 import { DataTable } from "./datatable";
-import {getRequest}from "@/components/useData";
-import useData from "@/components/useData";
+import {getRequest}from "@/components/UseData";
+import useData from "@/components/UseData";
 async function get() {
   const data = await getRequest();
   // originalData có giá trị ở đây

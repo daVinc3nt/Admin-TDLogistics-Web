@@ -1,6 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import { TableCell } from './TableCell'
-import { Task } from '@/components/types'
+import { Task } from '@/components/Types'
 import { ArrowUpDown} from "lucide-react";
 import { EditCell } from './EditCell'
 import { ColumnDef } from "@tanstack/react-table";

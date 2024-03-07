@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import {useRouter } from "next/navigation";
-import Cookies from 'js-cookie';
 import OTPField from "../OtpField";
 import { StaffsAuthenticate } from "@/TDLib/tdlogistics";
-import CustomDropdown from "@/components/Common/dropdown";
-import { OTP, User } from "./fetching";
+import CustomDropdown from "@/components/Common/Dropdown";
 import classNames from "classnames";
 import LoginLangSelector from "@/components/LangSelector/LoginLangSelector"
-import { FormattedMessage, useIntl, IntlShape, } from "react-intl";
+import { FormattedMessage} from "react-intl";
 const SigninForm = () => {
   const welcome = <FormattedMessage id="signup.welcome.message" />
   interface FormValues {
@@ -24,7 +22,6 @@ const SigninForm = () => {
     phoneNumberEr: string;
     nameEr: string;
   }
-  let user, otpCode;
   const initialValues: FormValues = {  email: "", phoneNumber: "", otp: "", name:"", pass:""};
   const initialValues2: ErrorValues = { emailEr: "", phoneNumberEr: "" , nameEr: ""};
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
@@ -47,7 +44,6 @@ const SigninForm = () => {
 
 
 
-  
   const handleEmail = async (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, email: value };
@@ -105,36 +101,29 @@ const SigninForm = () => {
       }
     }
     else {
-      await adAuth()
+      await adAuth();
     }
   } 
   const adAuth = async () =>
   {
+    const {name, pass} = formValues;
+    if (!name || !pass)
+      return null;
     const staffsAuthenticate = new StaffsAuthenticate();
-    staffsAuthenticate.login(formValues.name, formValues.pass)
+    staffsAuthenticate.login(name, pass)
     .then(result => console.log(result))
-    .catch(error => console.log(error));
+    .catch(error => console.log(error)).then(()=>{router.push("/dashboard")});
   }
-
-
-
-
-
   const staffAuth =() => {
     const {email, phoneNumber} = formValues;
+    const staffsAuthenticate = new StaffsAuthenticate();
     if (!email || !phoneNumber)
       return null;
-    otpCode = new OTP(phoneNumber,email);
     // Send OTP
-    console.log(otpCode);
-    otpCode.sendOTP()
+    staffsAuthenticate.sendOTP(email, phoneNumber)
     .then(message => console.log(message))
-    .catch(error => console.log(error));
+    .catch(error => console.log(error)).then(()=>{router.push("/dashboard")});
   }
-
-
-
-
 
 
 
@@ -218,15 +207,15 @@ const SigninForm = () => {
                     <form className="mt-5 sm:mt-12" action="" method="POST">
                       <div className="mt-5 sm:mt-10 relative">
                       <input
-                        id="email"
-                        name="email"
+                        id="username"
+                        name="username"
                         type="text"
                         className="peer h-10 w-full bg-transparent border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                         placeholder="john@doe.com"
                         onChange={(e) => handleName(e.target.value)} 
                       />
                       <label
-                        htmlFor="email"
+                        htmlFor="text"
                         className=" absolute left-0 -top-3.5 text-gray-600 text-xs sm:text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                       >
                         <FormattedMessage id="signup.username"/>
@@ -236,7 +225,7 @@ const SigninForm = () => {
                       <div className="mt-5 sm:mt-10 relative">
                         <input
                           type="tel"
-                          className=" peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
+                          className=" peer h-10 w-full border-b-2 bg-white border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                           placeholder="Số điện thoại"
                           onChange={(e) => handlePass(e.target.value)} 
                         />
@@ -341,8 +330,8 @@ const SigninForm = () => {
                       <OTPField 
                       showOtp={showOtp}
                       setshowOtp={setshowOtp}
-                      user = {user}
-                      otp = {otpCode}
+                      phone ={formValues?.phoneNumber}
+                      mail ={formValues?.email}
                      />
                     </form>
               </div>

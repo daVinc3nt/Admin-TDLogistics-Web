@@ -31,7 +31,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       <Dropdown className="z-50" shouldCloseOnInteractOutside={(e) => false}>
         <DropdownTrigger>
           <Button
-            className="text-xs md:text-sm border border-gray-600 rounded h-10 w-full"
+            className="text-xs md:text-sm text-black dark:text-black  border border-gray-600 rounded h-10 w-full"
             aria-label={label}
           >
             {label}

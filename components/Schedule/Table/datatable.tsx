@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import {  Task } from "@/components/types";
+import {  Task } from "@/components/Types";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import {
   Table,
@@ -25,7 +25,7 @@ import {
 } from "@tanstack/react-table";
 import { columns } from "./column";
 import { FooterCell } from "./FooterCell";
-import useData from "@/components/useData";
+import useData from "@/components/UseData";
 interface DataTableProps {
   columns: ColumnDef<Task, any>[];
   originalData: Task[];

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
-import CustomDropdown from "../../../Common/dropdown";
+import CustomDropdown from "../../../Common/Dropdown";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import MapNoti from "./MapRender/mapNoti";
 import { FormattedMessage, useIntl } from "react-intl";

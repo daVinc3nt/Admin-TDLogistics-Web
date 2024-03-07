@@ -1,6 +1,6 @@
 import { Table, Column } from "@tanstack/react-table"
 import React from "react"
-import CustomDropdown from "./dropdown"
+import CustomDropdown from "./Dropdown"
 // use for setting times bettween API calls, that is to say, 
 // after  debounce=500 the api would be fired then
 export function DebouncedInput({

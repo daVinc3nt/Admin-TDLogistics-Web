@@ -9,8 +9,8 @@ import {
 } from "@react-google-maps/api";
 import { motion } from "framer-motion";
 import { FiZoomOut, FiZoomIn } from "react-icons/fi";
-import { SourceContext } from "@/context/SourceContext";
-import { DestinationContext } from "@/context/DestinationContext";
+import { SourceContext } from "@/Context/MapContext/SourceContext";
+import { DestinationContext } from "@/Context/MapContext/DestinationContext";
 import { Button } from "@nextui-org/react";
 import { FormattedMessage } from "react-intl";
 

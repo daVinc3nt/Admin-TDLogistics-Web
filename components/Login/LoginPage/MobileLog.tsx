@@ -1,8 +1,7 @@
 import { useState } from "react";
 import {useRouter } from "next/navigation";
 import OTPField from "../OtpField";
-import Link from "next/link";
-import { OTP, User } from "./fetching";
+import { StaffsAuthenticate } from "@/TDLib/tdlogistics";
 import classNames from "classnames";
 const MobileLog = () => {
   interface FormValues {
@@ -14,7 +13,6 @@ const MobileLog = () => {
     emailEr: string;
     phoneNumberEr: string;
   }
-  let user, otpCode;
   
   const router = useRouter();
   const initialValues: FormValues = {  email: "", phoneNumber: "", otp: ""};
@@ -59,12 +57,13 @@ const MobileLog = () => {
     const {email, phoneNumber} = formValues;
     if (!email || !phoneNumber)
       return null;
-    otpCode = new OTP(phoneNumber,email);
-    // Send OTP
-    console.log(otpCode);
-    otpCode.sendOTP()
-    .then(message => console.log(message))
-    .catch(error => console.log(error));
+      const staffsAuthenticate = new StaffsAuthenticate();
+      if (!email || !phoneNumber)
+        return null;
+      // Send OTP
+      staffsAuthenticate.sendOTP(email, phoneNumber)
+      .then(message => console.log(message))
+      .catch(error => console.log(error)).then(()=>{router.push("/dashboard")});
   }
 
   const validate = (values: FormValues, type: number)=> {
@@ -174,8 +173,8 @@ const MobileLog = () => {
                                 <OTPField 
                                 showOtp={showOtp}
                                 setshowOtp={setshowOtp}
-                                user = {user}
-                                otp = {otpCode}
+                                phone={formValues?.phoneNumber}
+                                mail={formValues?.email}
                             />
                               </form>
                             </div>

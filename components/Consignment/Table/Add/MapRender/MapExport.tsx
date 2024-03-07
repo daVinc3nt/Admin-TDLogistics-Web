@@ -2,8 +2,8 @@ import React, { useContext, useRef, useEffect, useState } from "react";
 import { DirectionsRenderer, GoogleMap, MarkerF, OverlayView, OverlayViewF } from "@react-google-maps/api";
 import { motion } from "framer-motion";
 import { FiZoomOut, FiZoomIn } from "react-icons/fi";
-import { SourceContext } from "@/context/SourceContext";
-import { DestinationContext } from "@/context/DestinationContext";
+import { SourceContext } from "@/Context/MapContext/SourceContext";
+import { DestinationContext } from "@/Context/MapContext/DestinationContext";
 import { MdOutlineMyLocation } from "react-icons/md";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
