@@ -1,7 +1,7 @@
 import { useState} from "react";
 import {useRouter } from "next/navigation";
 import OTPField from "../OtpField";
-import { StaffsAuthenticate } from "@/TDLib/tdlogistics";
+import { StaffsAuthenticate, StaffsOperation } from "@/TDLib/tdlogistics";
 import CustomDropdown from "@/components/Common/Dropdown";
 import classNames from "classnames";
 import LoginLangSelector from "@/components/LangSelector/LoginLangSelector"
@@ -110,9 +110,11 @@ const SigninForm = () => {
     if (!name || !pass)
       return null;
     const staffsAuthenticate = new StaffsAuthenticate();
+    const staffsOperation= new StaffsOperation();
     staffsAuthenticate.login(name, pass)
     .then(result => console.log(result))
-    .catch(error => console.log(error)).then(()=>{router.push("/dashboard")});
+    .catch(error => console.log(error)).then(()=>{router.push("/dashboard")})
+    .then(() =>console.log(staffsOperation.getAuthenticatedStaffInfo()));
   }
   const staffAuth =() => {
     const {email, phoneNumber} = formValues;

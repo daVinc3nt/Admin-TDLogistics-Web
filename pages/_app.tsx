@@ -11,6 +11,7 @@ import { Libraries, LoadScript } from "@react-google-maps/api";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loading } from "@/components/Common/Loading";
+import { AppContext } from "@/Context/InfoContext/UserContext";
 const googleMapsLibraries: Libraries = ["places"];
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -28,16 +29,16 @@ function MyApp({ Component, pageProps }: AppProps) {
       easing: "ease-out-sine",
     });
   });
-  const staff = new StaffsOperation()
-  staff.getAuthenticatedStaffInfo();
   return (
     <>
+    <AppContext.Provider value="" >
       <IntlProvider locale={locale} messages={messages[locale]}>
         <Wrapper>
           <Loading />
           <Component {...pageProps} />
         </Wrapper>
       </IntlProvider>
+    </AppContext.Provider>
     </>
   );
 }

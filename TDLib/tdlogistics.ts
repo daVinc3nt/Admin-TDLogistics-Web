@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import FormData from "form-data";
+const FormData = require("form-data");
 
 class UsersAuthenticate {
     private baseUrl: string;
@@ -534,7 +534,7 @@ class TransportPartnersOperation {
 
     async update(info: UpdatingTransportPartnerInfo, condition: UpdatingTransportPartnerCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/update?transport_partner_id=${condition.transport_partner_id}`, info, {
+            const response = await axios.put(`${this.baseUrl}/update?transport_partner_id=${condition.transport_partner_id}`, info, {
                 withCredentials: true,
             });
 
@@ -883,12 +883,12 @@ class StaffsOperation {
 	// ROLE: any
 	async getAuthenticatedStaffInfo() {
         try {
-            const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_info`, {
+            const response: AxiosResponse = await axios.get(`${this.baseUrl}/get_info`, {
                 withCredentials: true,
             });
             
             const data = response.data;
-            return { error: data.error, data: data.data, message: data.message };
+            return { error: data.error, data: data.info, message: data.message };
         } catch (error: any) {
             console.log("Error get authenticated staff information: ", error.response.data);
             return error.response.data;
@@ -1770,6 +1770,258 @@ class ShippersOperation {
 	}
 }
 
+//Shipment Operation
+export interface CreatingShipmentInfo {
+    transport_partner_id: string
+}
+
+export interface FindingShipmentConditions {
+    shipment_id: string,
+    tranport_partner_id: string,
+    staff_id: string
+}
+
+export interface DecomposingShipmentInfo {
+    order_ids: object
+}
+
+export interface OperatingWithOrderInfo {
+    order_ids: object
+}
+
+export interface ShipmentID {
+    shipment_id: string
+}
+
+export interface UndertakingShipmentInfo {
+    shipment_id: string,
+    status_code: number
+}
+
+class ShipmentsOperation {
+    private baseUrl: string;
+	constructor() {
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/shipments";
+		this.baseUrl = "http://localhost:4000/api/v1/shipments";
+	}
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+	async create(info: CreatingShipmentInfo) {
+		try {
+			const response = await axios.post(`${this.baseUrl}/create`, info, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		}
+	}
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+    async addOrdersToShipment(condition: ShipmentID, info: OperatingWithOrderInfo) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/add_orders?shipment_id=${condition.shipment_id}`, info, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		}
+    }
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+    async deleteOrderFromShipment(condition: ShipmentID, info: OperatingWithOrderInfo) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/remove_orders?shipment_id=${condition.shipment_id}`, info, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		}
+    }
+
+    // ROLE: AGENCY_MANAGER, AGENCY_TELLER
+    async confirmCreate(condition: ShipmentID) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/confirm_create`, condition, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		}  
+    }
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+    async get(condition: FindingShipmentConditions) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/get`, condition, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		} 
+    }
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+    async delete(condition: ShipmentID) {
+        try {
+			const response = await axios.delete(`${this.baseUrl}/delete?shipment_id=${condition.shipment_id}`,{
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		} 
+    }
+
+    // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
+    async decompose(condition: ShipmentID, info: DecomposingShipmentInfo) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/decompose?shipment_id=${condition.shipment_id}`, info, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		} 
+    }
+
+    // ROLE: AGENCY_MANAGER, AGENCY_TELLER
+    async receive(condition: ShipmentID) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/receive`, condition, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		} 
+    }
+    
+    // ROLE: SHIPPER, AGENCY_SHIPPER, PARTNER_SHIPPER
+    async undertake(info: UndertakingShipmentInfo) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/undertake`, info, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
+		}
+    }
+}
+
+export interface CheckingExistOrderCondition {
+    order_id: string,
+}
+
+export interface GettingOrdersConditions {
+    name_receiver: string,
+    phone_receiver: string,
+    province_source: string,
+    district_source: string,
+    ward_source: string,
+    province_dest: string,
+    district_dest: string,
+    ward_dest: string,
+    service_type: string,
+}
+
+export interface UpdatingOrderCondition {
+    order_id: string,
+}
+
+export interface UpdatingOrderInfo {
+    mass: number,
+    height: number,
+    width: number,
+    length: number,
+    long_source: number,
+    lat_source: number,
+    long_destination: number,
+    lat_destination: number,
+    COD: number,
+}
+
+class OrdersOperation {
+    private baseUrl: string;
+    constructor() {
+        this.baseUrl = "http://localhost:4000/api/v1/orders";
+    }
+
+    async get(conditions: GettingOrdersConditions) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error getting orders: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    async checkExist(condition: CheckingExistOrderCondition) {
+        try {
+            const response: AxiosResponse = await axios.get(`${this.baseUrl}/check?order_id=${condition.order_id}`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, exist: data.exist, message: data.message };
+        } catch (error: any) {
+            console.log("Error checking exist order: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    async update(info: UpdatingOrderInfo, condition: UpdatingOrderCondition) {
+        try {
+            const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?order_id=${condition.order_id}`, info, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error updating order: ", error.response.data);
+            return error.response.data;
+        }
+    }
+}
+
 export {
 	UsersAuthenticate,
 	StaffsAuthenticate,
@@ -1781,4 +2033,6 @@ export {
 	BusinessOperation,
 	PartnerStaffOperation,
 	ShippersOperation,
+    ShipmentsOperation,
+    OrdersOperation,
 }
