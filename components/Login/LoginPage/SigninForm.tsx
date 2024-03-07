@@ -201,7 +201,7 @@ const SigninForm = () => {
               <div className="p-6 sm:p-8 flex-1">
                 <div className="mx-auto">
                   <div className="text-center">
-                    <h1 className="text-2xl sm:text-5xl font-bold text-indigo-900">
+                    <h1 className="text-2xl sm:text-5xl w-72 font-bold text-indigo-900">
                       <FormattedMessage id="signup.welcomeboss.message" />
                     </h1>
                     <form className="mt-5 sm:mt-12" action="" method="POST">
@@ -216,7 +216,7 @@ const SigninForm = () => {
                       />
                       <label
                         htmlFor="text"
-                        className=" absolute left-0 -top-3.5 text-gray-600 text-xs sm:text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                        className=" absolute left-0 -top-3.5 text-gray-600 text-xs sm:text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
                       >
                         <FormattedMessage id="signup.username"/>
                       </label>
@@ -231,7 +231,7 @@ const SigninForm = () => {
                         />
                         <label
                           htmlFor="password"
-                          className="absolute left-0 -top-3.5 text-gray-600 text-xs sm:text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                          className="absolute left-0 -top-5 text-gray-600 text-xs sm:text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                         >
                           <FormattedMessage id="signup.password"/>
                         </label>

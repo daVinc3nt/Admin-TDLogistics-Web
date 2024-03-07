@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { IntlProvider } from "react-intl";
 import * as en from "@/lang/en.json";
 import * as vi from "@/lang/vi.json";
+import { StaffsOperation } from "@/TDLib/tdlogistics";
 import { Libraries, LoadScript } from "@react-google-maps/api";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -27,7 +28,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       easing: "ease-out-sine",
     });
   });
-  
+  const staff = new StaffsOperation()
+  staff.getAuthenticatedStaffInfo();
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>

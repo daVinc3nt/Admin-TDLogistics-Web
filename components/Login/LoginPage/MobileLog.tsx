@@ -120,7 +120,7 @@ const MobileLog = () => {
                                   id="email"
                                   name="email"
                                   type="text"
-                                  className="peer h-10 w-full bg-transparent border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
+                                  className="peer h-10 w-full bg-white border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                                   placeholder="john@doe.com"
                                   onChange={(e) => handleEmail(e.target.value)} 
                                 />
@@ -135,7 +135,7 @@ const MobileLog = () => {
                                 <div className="mt-10 sm:mt-10 relative">
                                   <input
                                     type="tel"
-                                    className=" peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
+                                    className=" peer h-10 w-full border-b-2 bg-white border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                                     placeholder="Số điện thoại"
                                     onChange={(e) => handleNum(e.target.value)} 
                                   />
