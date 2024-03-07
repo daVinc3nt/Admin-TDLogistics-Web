@@ -5,7 +5,13 @@ import { Button } from "@nextui-org/react";
 import { FormattedMessage, useIntl } from "react-intl";
 import PasswordToggle from "./PasswordToggle";
 import axios from "axios";
-import { TransportPartnersOperation } from "@/TDLib/tdlogistics";
+import {
+  TransportPartnersOperation,
+  CreatingTransportPartnerByAdminInfo,
+  CreatingTransportPartnerByAgencyInfo,
+  StaffsOperation,
+  StaffsAuthenticate,
+} from "@/TDLib/tdlogistics";
 interface AddPartnerProps {
   onClose: () => void;
 }
@@ -25,6 +31,7 @@ interface Ward {
   Id: string;
   Name: string;
 }
+const staff = new StaffsOperation();
 
 const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const [cities, setCities] = useState<City[]>([]);
@@ -34,6 +41,86 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const [citiesPartner, setCitiesPartner] = useState<City[]>([]);
   const [selectedCityPartner, setSelectedCityPartner] = useState("");
   const [selectedDistrictPartner, setSelectedDistrictPartner] = useState("");
+
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setRole(res.data.role);
+    };
+
+    fetchData();
+  }, []);
+  const [PartnerData, setPartnerData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      if (res.data.role === "ADMIN") {
+        setPartnerData({
+          username: "",
+          user_password: "",
+          user_fullname: "",
+          user_phone_number: "",
+          user_email: "",
+          user_date_of_birth: "",
+          user_cccd: "",
+          user_province: "",
+          user_district: "",
+          user_town: "",
+          user_detail_address: "",
+          user_position: "",
+          user_bin: "",
+          user_bank: "",
+
+          // Transport partner information
+          agency_id: "",
+          tax_code: "",
+          transport_partner_name: "",
+          province: "",
+          district: "",
+          town: "",
+          detail_address: "",
+          phone_number: "",
+          email: "",
+          bin: "",
+          bank: "",
+        });
+      } else {
+        setPartnerData({
+          username: "",
+          user_password: "",
+          user_fullname: "",
+          user_phone_number: "",
+          user_email: "",
+          user_date_of_birth: "",
+          user_cccd: "",
+          user_province: "",
+          user_district: "",
+          user_town: "",
+          user_detail_address: "",
+          user_position: "",
+          user_bin: "",
+          user_bank: "",
+
+          // Transport partner information
+          //agency_id: "",
+          tax_code: "",
+          transport_partner_name: "",
+          province: "",
+          district: "",
+          town: "",
+          detail_address: "",
+          phone_number: "",
+          email: "",
+          bin: "",
+          bank: "",
+        });
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -72,36 +159,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-
-  const [PartnerData, setPartnerData] = useState({
-    username: "",
-    user_password: "",
-    user_fullname: "",
-    user_phone_number: "",
-    user_email: "",
-    user_date_of_birth: "",
-    user_cccd: "",
-    user_province: "",
-    user_district: "",
-    user_town: "",
-    user_detail_address: "",
-    user_position: "",
-    user_bin: "",
-    user_bank: "",
-
-    // Transport partner information
-    agency_id: "",
-    tax_code: "",
-    transport_partner_name: "",
-    province: "",
-    district: "",
-    town: "",
-    detail_address: "",
-    phone_number: "",
-    email: "",
-    bin: "",
-    bank: "",
-  });
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -259,6 +316,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
     bin: false,
     bank: false,
   });
+
   const handleCheckMissing = (key: string, value: boolean) => {
     setCheckmissing((prevState) => ({
       ...prevState,
@@ -272,6 +330,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const handleSubmit = async () => {
     let check = true;
     for (let key in PartnerData) {
+      if (role !== "ADMIN" && key === "agency_id") continue;
       if (PartnerData[key] === "") {
         handleCheckMissing(key, true);
         check = false;
@@ -284,17 +343,25 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
       console.log(PartnerData);
     } else {
       setError("");
-      const response = await partner.createByAdmin(PartnerData);
-
-      if (response.error) {
-        setError(response.message);
+      if (role === "ADMIN") {
+        const response = await partner.createByAdmin(PartnerData);
+        if (response.error) {
+          setError(response.message);
+        } else {
+          alert("Thêm đối tác thành công");
+        }
       } else {
-        alert("Thêm đối tác thành công");
+        const response = await partner.createByAgency(PartnerData);
+        if (response.error) {
+          setError(response.message);
+        } else {
+          alert("Thêm đối tác thành công");
+        }
       }
     }
   };
-  console.log(PartnerData);
-  console.log(checkmissing);
+  // console.log(PartnerData);
+  // console.log(checkmissing);
   return (
     <motion.div
       className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 `}
@@ -317,7 +384,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
           <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
-            Thêm đối tác
+            <FormattedMessage id="TransportPartner.AddButton" />
           </div>
           <Button
             className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300"
@@ -329,14 +396,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
           <div className="w-[98%] sm:w-10/12">
             <h1 className="font-semibold pb-2 text-center">
-              Thông tin người đứng đầu
+              <FormattedMessage id="TransportPartner.Add.HeadInfo" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_fullname ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({ id: "user_Fullname" })}
+                placeholder={intl.formatMessage({ id: "Fullname" })}
                 onChange={(e) =>
                   handleInputChange("user_fullname", e.target.value)
                 }
@@ -457,7 +524,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
-                placeholder="Số nhà- tên đường"
+                placeholder={intl.formatMessage({ id: "Address" })}
                 onChange={(e) =>
                   handleInputChange("user_detail_address", e.target.value)
                 }
@@ -491,7 +558,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                     type={Showpassword ? "text" : "user_password"}
                     placeholder={intl.formatMessage({ id: "Password" })}
                     id="user_password"
-                    value={PartnerData.user_password}
+                    value={PartnerData?.user_password || ""}
                     onChange={(e) =>
                       handleInputChange("user_password", e.target.value)
                     }
@@ -554,23 +621,31 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
           </div>
           <div className="w-[98%] sm:w-10/12 mt-5">
             <h1 className="font-semibold pb-2 text-center">
-              Thông tin đối tác
+              <FormattedMessage id="TransportPartner.Add.PartnerInfo" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.tax_code ? "border-red-500" : ""}`}
-                placeholder="Mã số thuế"
+                placeholder={intl.formatMessage({
+                  id: "TransportPartner.TaxCode",
+                })}
                 onChange={(e) => handleInputChange("tax_code", e.target.value)}
               />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+              {role === "ADMIN" ? (
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.agency_id ? "border-red-500" : ""}`}
-                placeholder="Mã đối tác"
-                onChange={(e) => handleInputChange("agency_id", e.target.value)}
-              />
+                  placeholder={intl.formatMessage({
+                    id: "TransportPartner.PartnerCode",
+                  })}
+                  onChange={(e) =>
+                    handleInputChange("agency_id", e.target.value)
+                  }
+                />
+              ) : null}
             </div>
             <div className="flex gap-3 mt-3">
               <input
@@ -595,7 +670,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.transport_partner_name ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({
-                  id: "transport_partner_name",
+                  id: "TransportPartner.Name",
                 })}
                 onChange={(e) =>
                   handleInputChange("transport_partner_name", e.target.value)
@@ -694,7 +769,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
           onClick={handleSubmit}
         >
           <span className="hidden xs:block">
-            <FormattedMessage id="PostPartner.AddButton" />
+            <FormattedMessage id="TransportPartner.AddButton" />
           </span>
         </Button>
         <div className=" flex place-content-center text-red-500 font-bold ">

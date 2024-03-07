@@ -37,7 +37,7 @@ class UsersAuthenticate {
 
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
-        } catch (error: any) {
+        } catch (error) {
             console.log("Error verifying OTP:", error.response.data);
             return error.response.data;
         }
@@ -411,7 +411,7 @@ export interface CreatingTransportPartnerByAgencyInfo {
     user_district: string,
     user_town: string,
     user_detail_address: string,
-    user_position: string,
+    //user_position: string,
     user_bin: string,
     user_bank: string
 
@@ -444,6 +444,7 @@ export interface FindingTransportPartnerByAdminConditions {
     email: string,
     bin: string,
     bank: string,
+    debit: string,
 }
 
 export interface UpdatingTransportPartnerInfo {
@@ -2021,7 +2022,7 @@ class OrdersOperation {
         }
     }
 }
-
+  
 export {
 	UsersAuthenticate,
 	StaffsAuthenticate,

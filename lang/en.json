@@ -190,6 +190,19 @@
     "Email.Detail": "Detail",
     "Email.Infomation": "Email information",
 
+
+    "TransportPartner.Title": "Transport Partner",
+    "TransportPartner.SearchBox": "Search by author name",
+    "TransportPartner.AddButton": "Add partner",
+    "TransportPartner.Name": "Partner name",
+    "TransportPartner.TaxCode": "Tax Code",
+    "TransportPartner.PartnerCode": "Partner Code",
+    "TransportPartner.Debit": "Debit balance",
+    "TransportPartner.Add.HeadInfo": "Head Info",
+    "TransportPartner.Add.PartnerInfo": "Partner information",
+    "TransportPartner.Detail": "Details/Edit",
+    "TransportPartner.Adress":"Address",
+
     
     "RegexUsername":"Username does not contain special characters and spaces, at least 8 characters and no more than 20 characters",
     "RegexPassword":"Use at least 8 characters, at least 1 uppercase, 1 lowercase, 1 number and 1 special character"

@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { LogoIcon, UsersIcon } from "@/components/Icons";
 import DetailPost from "./detailPartner";
 import { Checkbox } from "@/components/TableUI/checkbox";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   TransportPartnersOperation,
   FindingTransportPartnerByAdminConditions,
@@ -45,7 +45,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tax code
+          <FormattedMessage id="TransportPartner.TaxCode" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -60,7 +60,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên đối tác
+          <FormattedMessage id="TransportPartner.Name" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -90,7 +90,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Số điện thoại
+          <FormattedMessage id="Phone" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -99,7 +99,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
   {
     accessorKey: "Chi tiết/Sửa đổi",
     header: () => {
-      return "Chi tiết/Sửa đổi";
+      return <FormattedMessage id="TransportPartner.Detail" />;
     },
     cell: ({ row }) => {
       const [modalIsOpen, setModalIsOpen] = useState(false);
