@@ -12,25 +12,30 @@ import { FormattedMessage } from "react-intl";
 // Đảm bảo gọi hàm này ở đầu ứng dụng của bạn\
 
 export type Staff = {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffPassword: string;
-  staffdateOfBirth: Date;
-  staffCCCD: string;
-  staffPhone: string;
-  staffRole: string;
-  staffPosition: string;
-  staffProvince: string;
-  staffDistrict: string;
-  staffWard: string;
-  staffAddress: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
-  staffActive: boolean;
+  active: boolean;
   agency_id: string;
+  avatar: string;
+  bank: string;
+  bin: string;
+  cccd: string;
+  date_of_birth: string;
+  deposit: number;
+  detail_address: string;
+  district: string;
+  email: string;
+  fullname: string;
+  id: number;
+  paid_salary: number;
+  password: string;
+  phone_number: string;
+  position: string;
+  privileges: string[];
+  province: string;
+  role: string;
+  salary: number;
+  staff_id: string;
+  town: string;
+  username: string;
 };
 
 export const columns: ColumnDef<Staff>[] = [
@@ -57,7 +62,7 @@ export const columns: ColumnDef<Staff>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "number",
+    accessorKey: "staff_id",
     header: ({ column }) => {
       return (
         <Button
@@ -71,7 +76,7 @@ export const columns: ColumnDef<Staff>[] = [
     },
   },
   {
-    accessorKey: "staffName",
+    accessorKey: "fullname",
     header: ({ column }) => {
       return (
         <Button
@@ -85,7 +90,7 @@ export const columns: ColumnDef<Staff>[] = [
     },
   },
   {
-    accessorKey: "staffPhone",
+    accessorKey: "phone_number",
     header: ({ column }) => {
       return (
         <Button
@@ -99,7 +104,7 @@ export const columns: ColumnDef<Staff>[] = [
     },
   },
   {
-    accessorKey: "staffRole",
+    accessorKey: "role",
 
     header: ({ column }) => {
       return (
@@ -114,7 +119,7 @@ export const columns: ColumnDef<Staff>[] = [
     },
   },
   {
-    accessorKey: "staffActive",
+    accessorKey: "active",
     header: ({ column }) => {
       return (
         <Button
@@ -129,7 +134,7 @@ export const columns: ColumnDef<Staff>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          {row.original.staffActive ? (
+          {row.original.active ? (
             <span className=" text-green-500">
               <FormattedMessage id="isActive" />
             </span>

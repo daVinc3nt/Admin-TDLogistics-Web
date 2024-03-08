@@ -116,10 +116,10 @@ export function DataTable<TData, TValue>({
               id="staffSearch"
               type="text"
               value={
-                (table.getColumn("staffName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("fullname")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("staffName")?.setFilterValue(event.target.value)
+                table.getColumn("fullname")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}

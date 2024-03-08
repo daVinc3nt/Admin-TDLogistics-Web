@@ -6,27 +6,32 @@ import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
 
-interface Staffdetail {
-  number: string;
-  staffName: string;
-  staffAccountName: string;
-  staffPassword: string;
-  staffdateOfBirth: Date;
-  staffCCCD: string;
-  staffRole: string;
-  staffPosition: string;
-  staffProvince: string;
-  staffDistrict: string;
-  staffWard: string;
-  staffAddress: string;
-  staffPhone: string;
-  staffKPI: number;
-  staffSalary: number;
-  staffSalaryPaid: number;
-  staffDeposit: number;
-  staffActive: boolean;
+export type Staffdetail = {
+  active: boolean;
   agency_id: string;
-}
+  avatar: string;
+  bank: string;
+  bin: string;
+  cccd: string;
+  date_of_birth: string;
+  deposit: number;
+  detail_address: string;
+  district: string;
+  email: string;
+  fullname: string;
+  id: number;
+  paid_salary: number;
+  password: string;
+  phone_number: string;
+  position: string;
+  privileges: string[];
+  province: string;
+  role: string;
+  salary: number;
+  staff_id: string;
+  town: string;
+  username: string;
+};
 const Admin = "Admin";
 
 interface DetailStaffProps {
@@ -40,7 +45,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
-  let staffdateOfBirth = new Date(data.staffdateOfBirth);
+  let date_of_birth = new Date(data.date_of_birth);
   const handleClickOutside = (event: MouseEvent) => {
     if (
       notificationRef.current &&
@@ -94,7 +99,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] h-168 rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -112,7 +117,7 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
+        <div className="h-screen_4/6 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
           <div className="grid grid-cols-2 ">
             <div>
               <div className="flex flex-col gap-5">
@@ -153,13 +158,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffName}
+                      value={data.fullname}
                       onChange={(e) =>
-                        setData({ ...data, staffName: e.target.value })
+                        setData({ ...data, fullname: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffName}</div>
+                    <div>{data.fullname}</div>
                   )}
                 </div>
                 <div className="flex gap-5">
@@ -168,13 +173,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.number}
+                      value={data.staff_id}
                       onChange={(e) =>
-                        setData({ ...data, number: e.target.value })
+                        setData({ ...data, staff_id: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.number}</div>
+                    <div>{data.staff_id}</div>
                   )}
                 </div>
               </div>
@@ -189,13 +194,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffAccountName}
+                      value={data.username}
                       onChange={(e) =>
-                        setData({ ...data, staffAccountName: e.target.value })
+                        setData({ ...data, username: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffAccountName}</div>
+                    <div>{data.username}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -206,13 +211,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffPassword}
+                      value={data.password}
                       onChange={(e) =>
-                        setData({ ...data, staffPassword: e.target.value })
+                        setData({ ...data, password: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffPassword}</div>
+                    <div>{data.password}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -223,16 +228,16 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="date"
-                      value={staffdateOfBirth.toLocaleDateString()} // Convert the date to a string
+                      value={date_of_birth.toLocaleDateString()} // Convert the date to a string
                       onChange={(e) =>
                         setData({
                           ...data,
-                          staffdateOfBirth: new Date(e.target.value),
+                          date_of_birth: e.target.value,
                         })
                       }
                     />
                   ) : (
-                    <div>{staffdateOfBirth.toLocaleDateString()}</div>
+                    <div>{date_of_birth.toLocaleDateString()}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -243,13 +248,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffRole}
+                      value={data.role}
                       onChange={(e) =>
-                        setData({ ...data, staffRole: e.target.value })
+                        setData({ ...data, role: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffRole}</div>
+                    <div>{data.role}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -260,13 +265,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffPhone}
+                      value={data.phone_number}
                       onChange={(e) =>
-                        setData({ ...data, staffPhone: e.target.value })
+                        setData({ ...data, phone_number: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffPhone}</div>
+                    <div>{data.phone_number}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -277,13 +282,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffPhone}
+                      value={data.phone_number}
                       onChange={(e) =>
-                        setData({ ...data, staffPhone: e.target.value })
+                        setData({ ...data, phone_number: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffPhone}</div>
+                    <div>{data.phone_number}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -292,13 +297,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffPhone}
+                      value={data.phone_number}
                       onChange={(e) =>
-                        setData({ ...data, staffPhone: e.target.value })
+                        setData({ ...data, phone_number: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffPhone}</div>
+                    <div>{data.phone_number}</div>
                   )}
                 </div>
                 {/* <div className="flex">
@@ -307,13 +312,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staffPhone}
+                      value={data.phone_number}
                       onChange={(e) =>
-                        setData({ ...data, staffPhone: e.target.value })
+                        setData({ ...data, phone_number: e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffPhone}</div>
+                    <div>{data.phone_number}</div>
                   )}
                 </div> */}
 
@@ -343,13 +348,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="number"
-                      value={data.staffSalary}
+                      value={data.salary}
                       onChange={(e) =>
-                        setData({ ...data, staffSalary: +e.target.value })
+                        setData({ ...data, salary: +e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffSalary} vnđ</div>
+                    <div>{data.salary} vnđ</div>
                   )}
                 </div>
                 <div className="flex">
@@ -360,13 +365,13 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="number"
-                      value={data.staffSalaryPaid}
+                      value={data.paid_salary}
                       onChange={(e) =>
-                        setData({ ...data, staffSalaryPaid: +e.target.value })
+                        setData({ ...data, paid_salary: +e.target.value })
                       }
                     />
                   ) : (
-                    <div>{data.staffSalaryPaid} vnđ</div>
+                    <div>{data.paid_salary} vnđ</div>
                   )}
                 </div>
                 {/* <div className="flex">
@@ -394,33 +399,33 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <div className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white flex flex-row gap-5">
                       <input
                         type="radio"
-                        name="staffActive"
+                        name="active"
                         value={true.toString()} // Convert boolean value to string
-                        checked={data.staffActive === true}
+                        checked={data.active === true}
                         onChange={(e) =>
                           setData({
                             ...data,
-                            staffActive: JSON.parse(e.target.value),
+                            active: JSON.parse(e.target.value),
                           })
                         }
                       />
                       Hoạt động
                       <input
                         type="radio"
-                        name="staffActive"
+                        name="active"
                         value={false.toString()}
-                        checked={data.staffActive === false}
+                        checked={data.active === false}
                         onChange={(e) =>
                           setData({
                             ...data,
-                            staffActive: JSON.parse(e.target.value),
+                            active: JSON.parse(e.target.value),
                           })
                         }
                       />
                       Đã nghỉ việc
                     </div>
                   ) : (
-                    <div>{data.staffActive ? "Hoạt động" : "Đã nghỉ việc"}</div>
+                    <div>{data.active ? "Hoạt động" : "Đã nghỉ việc"}</div>
                   )}
                 </div>
               </div>

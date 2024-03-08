@@ -118,13 +118,13 @@ export default function Filter({
                     value={(columnFilterValue ?? '') as string}
                     onChange={value => column.setFilterValue(value)}
                     placeholder={`Search...`}
-                    className="w-36 border shadow rounded text-black pl-2"
+                    className="w-36 border shadow rounded text-black dark:text-white pl-2"
                     list={column.id + 'list'}
                   />
                   <div className="h-1" />
                 </>
               )
-          )
+           )
       }
     </div>
   )

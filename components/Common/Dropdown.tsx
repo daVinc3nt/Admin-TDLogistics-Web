@@ -3,9 +3,9 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@
 
 interface CustomDropdownProps {
   label: string;
-  options: string[];
-  selectedOption: string;
-  onSelectOption: (option: string) => void;
+  options: any[];
+  selectedOption: any;
+  onSelectOption: (option: any) => void;
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
@@ -16,7 +16,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 }) => {
   const [selected, setSelected] = useState(selectedOption);
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (option: any) => {
     if (selected === option) {
       onSelectOption("");
       setSelected("");
@@ -31,7 +31,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       <Dropdown className="z-50" shouldCloseOnInteractOutside={(e) => false}>
         <DropdownTrigger>
           <Button
-            className="text-xs md:text-sm text-black dark:text-black  border border-gray-600 rounded h-10 w-full"
+            className="text-xs md:text-sm text-white dark:text-white border border-gray-600 rounded h-10 w-32"
             aria-label={label}
           >
             {label}
@@ -46,7 +46,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
               <Button
                 onClick={() => handleOptionClick(option)}
                 aria-label={option}
-                className={`text-center text-black dark:text-white w-full px-2 ${selected === option ? 'bg-blue-400/50 rounded' : ''}`}
+                className={`text-center text-black dark:text-white w-full px-2 ${selected === option ? 'bg-gray-400/50 rounded' : ''}`}
               >
                 {option}
               </Button>

@@ -6,22 +6,25 @@ import CustomDropdown from "@/components/Common/Dropdown";
 import classNames from "classnames";
 import LoginLangSelector from "@/components/LangSelector/LoginLangSelector"
 import { FormattedMessage} from "react-intl";
+import { UserContext } from "@/Context/InfoContext/UserContext";
+import { useContext } from "react";
+interface FormValues {
+  email?: string;
+  phoneNumber?: string;
+  otp?: string;
+  // optional
+  role?: string;
+  name?: string;
+  pass?: string;
+}
+interface ErrorValues {
+  emailEr: string;
+  phoneNumberEr: string;
+  nameEr: string;
+}
 const SigninForm = () => {
   const welcome = <FormattedMessage id="signup.welcome.message" />
-  interface FormValues {
-    email?: string;
-    phoneNumber?: string;
-    otp?: string;
-    // optional
-    role?: string;
-    name?: string;
-    pass?: string;
-  }
-  interface ErrorValues {
-    emailEr: string;
-    phoneNumberEr: string;
-    nameEr: string;
-  }
+  const {info,setInfo} = useContext(UserContext);
   const initialValues: FormValues = {  email: "", phoneNumber: "", otp: "", name:"", pass:""};
   const initialValues2: ErrorValues = { emailEr: "", phoneNumberEr: "" , nameEr: ""};
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
@@ -111,10 +114,12 @@ const SigninForm = () => {
       return null;
     const staffsAuthenticate = new StaffsAuthenticate();
     const staffsOperation= new StaffsOperation();
-    staffsAuthenticate.login(name, pass)
+    await staffsAuthenticate.login(name, pass)
     .then(result => console.log(result))
-    .catch(error => console.log(error)).then(()=>{router.push("/dashboard")})
-    .then(() =>console.log(staffsOperation.getAuthenticatedStaffInfo()));
+    .catch(error => console.log(error))
+    const res = await staffsOperation.getAuthenticatedStaffInfo();
+    setInfo(res.data);
+    router.push("/dashboard")
   }
   const staffAuth =() => {
     const {email, phoneNumber} = formValues;

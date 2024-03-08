@@ -11,12 +11,22 @@ import { Libraries, LoadScript } from "@react-google-maps/api";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loading } from "@/components/Common/Loading";
-import { AppContext } from "@/Context/InfoContext/UserContext";
+import { UserContext } from "@/Context/InfoContext/UserContext";
 const googleMapsLibraries: Libraries = ["places"];
-
+const staff = new StaffsOperation ()
 function MyApp({ Component, pageProps }: AppProps) {
-
   const { locale } = useRouter();
+  const [info, setInfo] = useState(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setInfo(res.data);
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    console.log(info)
+  }, [info]);
   const messages = {
     vi,
     en,
@@ -31,14 +41,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   return (
     <>
-    <AppContext.Provider value="" >
+    <UserContext.Provider value={{info, setInfo}}>
       <IntlProvider locale={locale} messages={messages[locale]}>
         <Wrapper>
-          <Loading />
           <Component {...pageProps} />
         </Wrapper>
       </IntlProvider>
-    </AppContext.Provider>
+    </UserContext.Provider>
     </>
   );
 }
