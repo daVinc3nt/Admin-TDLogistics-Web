@@ -9,19 +9,29 @@ import { LogoIcon, UsersIcon } from "@/components/Icons";
 import DetailPost from "./detailPost";
 import { Checkbox } from "@/components/TableUI/checkbox";
 import { FormattedMessage } from "react-intl";
-export type PostOffice = {
-  number: string;
-  postName: string;
-  postMail: string;
-  postIncome: number;
-  postRate: number;
-  postPhone: string;
-  postAddress: string;
-  postBankAccount: string;
-  postBankName: string;
-};
+import { FindingAgencyByAdminInfo } from "@/TDLib/tdlogistics";
 
-export const columns: ColumnDef<PostOffice>[] = [
+interface Postdetail {
+  agency_id: string;
+  agency_name: string;
+  bank: string;
+  bin: string;
+  commission_rate: number;
+  contract: string;
+  detail_address: string;
+  district: string;
+  email: string;
+  latitude: number;
+  level: string;
+  longitude: number;
+  managed_wards: string[];
+  phone_number: string;
+  postal_code: string;
+  province: string;
+  town: string;
+  revenue: number;
+}
+export const columns: ColumnDef<Postdetail>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -32,6 +42,7 @@ export const columns: ColumnDef<PostOffice>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="border border-black dark:border-white"
       />
     ),
     cell: ({ row }) => (
@@ -39,27 +50,28 @@ export const columns: ColumnDef<PostOffice>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="border border-black dark:border-white"
       />
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "number",
+    accessorKey: "agency_id",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="Number" />
+          ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "postName",
+    accessorKey: "agency_name",
 
     header: ({ column }) => {
       return (
@@ -74,7 +86,7 @@ export const columns: ColumnDef<PostOffice>[] = [
     },
   },
   {
-    accessorKey: "postMail",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
@@ -88,7 +100,7 @@ export const columns: ColumnDef<PostOffice>[] = [
     },
   },
   {
-    accessorKey: "postIncome",
+    accessorKey: "phone_number",
 
     header: ({ column }) => {
       return (
@@ -96,21 +108,21 @@ export const columns: ColumnDef<PostOffice>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="PostOffice.Income" />
+          SDT
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "postRate",
+    accessorKey: "postal_code",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="PostOffice.Rate" />
+          Mã bưu cục
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

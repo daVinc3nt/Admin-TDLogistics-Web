@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppContext.Provider value="" >
       <IntlProvider locale={locale} messages={messages[locale]}>
         <Wrapper>
-          <Loading />
+          {/* <Loading /> */}
           <Component {...pageProps} />
         </Wrapper>
       </IntlProvider>

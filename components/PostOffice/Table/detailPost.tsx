@@ -4,17 +4,51 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { FormattedMessage } from "react-intl";
+import {
+  StaffsOperation,
+  AgencyOperation,
+  UpdatingAgencyCondition,
+  UpdatingAgencyInfo,
+} from "@/TDLib/tdlogistics";
+import axios from "axios";
 interface Postdetail {
-  number: string;
-  postName: string;
-  postMail: string;
-  postIncome: number;
-  postRate: number;
-  postPhone: string;
-  postAddress: string;
-  postBankAccount: string;
-  postBankName: string;
+  agency_id: string;
+  agency_name: string;
+  bank: string;
+  bin: string;
+  commission_rate: number;
+  contract: string;
+  detail_address: string;
+  district: string;
+  email: string;
+  latitude: number;
+  level: string;
+  longitude: number;
+  managed_wards: string[];
+  phone_number: string;
+  postal_code: string;
+  province: string;
+  town: string;
+  revenue: number;
 }
+
+interface City {
+  Id: string;
+  Name: string;
+  Districts: District[];
+}
+
+interface District {
+  Id: string;
+  Name: string;
+  Wards: Ward[];
+}
+
+interface Ward {
+  Id: string;
+  Name: string;
+}
+const staff = new StaffsOperation();
 
 interface DetailStaffProps {
   onClose: () => void;
@@ -26,6 +60,77 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setRole(res.data.role);
+    };
+
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await axios.get(
+        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
+      );
+      setCities(response.data);
+    };
+
+    fetchCities();
+  }, []);
+  const [Agencydata, setAgencydata] = useState({
+    agency_name: "",
+    province: "",
+    district: "",
+    town: "",
+    detail_address: "",
+    latitude: "",
+    longitude: "",
+    email: "",
+    phone_number: "",
+    revenue: "",
+    commission_rate: "",
+    bin: "",
+    bank: "",
+  });
+
+  const handleInputChange = (key: string, value: string) => {
+    setAgencydata((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(event.target.value);
+    setSelectedDistrict("");
+    handleInputChange(
+      "province",
+      cities.find((city) => city.Id === event.target.value).Name
+    );
+  };
+
+  const handleDistrictChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedDistrict(event.target.value);
+    handleInputChange(
+      "district",
+      districts.find((district) => district.Id === event.target.value).Name
+    );
+  };
+
+  const selectedCityObj = cities.find((city) => city.Id === selectedCity);
+  const districts = selectedCityObj ? selectedCityObj.Districts : [];
+
+  const selectedDistrictObj = districts.find(
+    (district) => district.Id === selectedDistrict
+  );
+  const wards = selectedDistrictObj ? selectedDistrictObj.Wards : [];
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -61,8 +166,37 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
     setIsEditing(true);
   };
   const handleSaveClick = () => {
-    // Gửi API về server để cập nhật dữ liệu
-    // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+    const updateAgency = new AgencyOperation();
+
+    const data: UpdatingAgencyInfo = {
+      agency_name: Agencydata.agency_name,
+      province: Agencydata.province,
+      district: Agencydata.district,
+      town: Agencydata.town,
+      detail_address: Agencydata.detail_address,
+      latitude: Agencydata.latitude,
+      longitude: Agencydata.longitude,
+      email: Agencydata.email,
+      phone_number: Agencydata.phone_number,
+      revenue: Agencydata.revenue,
+      commission_rate: Agencydata.commission_rate,
+      bin: Agencydata.bin,
+      bank: Agencydata.bank,
+    };
+    if (
+      role === "ADMIN" ||
+      role === "MANAGER" ||
+      role === "HUMAN_RESOURCE_MANAGER"
+    ) {
+      const condition: UpdatingAgencyCondition = {
+        agency_id: dataInitial.agency_id,
+      };
+      const response = updateAgency.update(data, condition);
+      if (response) {
+        console.log(response);
+      }
+    }
+
     setIsEditing(false);
   };
 
@@ -80,7 +214,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 dark:bg-[#14141a] bg-white rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -88,7 +222,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+          <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center">
             <FormattedMessage id="PostOffice.Infomation" />
           </div>
           <Button
@@ -98,7 +232,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  dark:bg-[#14141a] p-2 rounded-md dark:text-white place-content-center">
           <div className="grid grid-cols-2">
             <div className="flex gap-5">
               <div className="font-bold text-base">
@@ -106,15 +240,15 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postName}
+                  value={data.agency_name}
                   onChange={(e) =>
-                    setData({ ...data, postName: e.target.value })
+                    setData({ ...data, agency_name: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postName}</div>
+                <div>{data.agency_name}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -123,30 +257,28 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postPhone}
+                  value={data.phone_number}
                   onChange={(e) =>
-                    setData({ ...data, postPhone: e.target.value })
+                    setData({ ...data, phone_number: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postPhone}</div>
+                <div>{data.phone_number}</div>
               )}
             </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">Email:</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postMail}
-                  onChange={(e) =>
-                    setData({ ...data, postMail: e.target.value })
-                  }
+                  value={data.email}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
                 />
               ) : (
-                <div>{data.postMail}</div>
+                <div>{data.email}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -155,56 +287,31 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postAddress}
+                  value={data.detail_address}
                   onChange={(e) =>
-                    setData({ ...data, postAddress: e.target.value })
+                    setData({ ...data, detail_address: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postAddress}</div>
+                <div>{data.detail_address}</div>
               )}
             </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Income" />:
-              </div>
 
-              <div>{data.postIncome}</div>
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Rate" />:
-              </div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="number"
-                  value={data.postRate}
-                  onChange={(e) =>
-                    setData({ ...data, postRate: Number(e.target.value) })
-                  }
-                />
-              ) : (
-                <div>{data.postRate}</div>
-              )}
-            </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.BankName" />:
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postBankName}
-                  onChange={(e) =>
-                    setData({ ...data, postBankName: e.target.value })
-                  }
+                  value={data.bank}
+                  onChange={(e) => setData({ ...data, bank: e.target.value })}
                 />
               ) : (
-                <div>{data.postBankName}</div>
+                <div>{data.bank}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -213,15 +320,13 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postBankAccount}
-                  onChange={(e) =>
-                    setData({ ...data, postBankAccount: e.target.value })
-                  }
+                  value={data.bin}
+                  onChange={(e) => setData({ ...data, bin: e.target.value })}
                 />
               ) : (
-                <div>{data.postBankAccount}</div>
+                <div>{data.bin}</div>
               )}
             </div>
           </div>

@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({
                   ?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-                    text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
+                    text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm dark:text-white`}
               placeholder=""
             />
             <label
@@ -163,19 +163,20 @@ export function DataTable<TData, TValue>({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                className="dark:bg-[#1a1b23] bg-white border dark:border-gray-300 border-black rounded w-24 text-black dark:text-white"
                 aria-labelledby="dropdownMenuButton"
               >
                 {[10, 20, 30, 40, 50].map((pageSize, index) => (
                   <DropdownItem
                     key={pageSize}
                     textValue={`Show ${pageSize} items per page`}
+                    className="text-black"
                   >
                     <Button
                       onClick={() => table.setPageSize(pageSize)}
                       variant="bordered"
                       aria-label={`Show ${pageSize}`}
-                      className="text-center  text-white w-full"
+                      className="text-center  dark:text-white w-full"
                     >
                       Show {pageSize}
                     </Button>
@@ -189,7 +190,7 @@ export function DataTable<TData, TValue>({
               type="search"
               column={table.getColumn("phone_number")}
               table={table}
-              title={useIntl().formatMessage({ id: "PhoneNumber" })}
+              title={useIntl().formatMessage({ id: "Phone" })}
             />
             <Filter
               type="search"
@@ -235,7 +236,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   className={`border-gray-700 ${
-                    row.getIsSelected() ? "bg-gray-700" : ""
+                    row.getIsSelected() ? "dark:bg-gray-700 bg-slate-300 " : ""
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -264,7 +265,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal dark:text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"
@@ -282,9 +283,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="prev" />
@@ -318,9 +319,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal text-black
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="next" />

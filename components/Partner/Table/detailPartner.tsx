@@ -229,7 +229,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
 
   return (
     <motion.div
-      className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 text-[#545e7b]`}
+      className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black  bg-opacity-60 z-50 text-[#545e7b]`}
       initial={{ opacity: 0 }}
       animate={{ opacity: isVisible ? 1 : 0 }}
       exit={{ opacity: 0 }}
@@ -241,7 +241,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 dark:bg-[#14141a] bg-white rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -249,7 +249,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+          <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center">
             <FormattedMessage id="TransportPartner.Add.PartnerInfo" />
           </div>
           <Button
@@ -259,7 +259,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  dark:bg-[#14141a] p-2 rounded-md dark:text-white place-content-center">
           <div className="grid grid-cols ">
             {role === "ADMIN" && (
               <div className="flex gap-5">
@@ -268,7 +268,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                 </div>
                 {isEditing ? (
                   <input
-                    className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                    className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                     type="text"
                     value={PartnerData?.transport_partner_id}
                     onChange={(e) =>
@@ -290,7 +290,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData.transport_partner_name}
                   onChange={(e) =>
@@ -311,7 +311,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData.phone_number}
                   onChange={(e) =>
@@ -329,7 +329,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               <div className="font-bold text-base">Email:</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData?.email}
                   onChange={(e) =>
@@ -347,7 +347,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData?.bank}
                   onChange={(e) =>
@@ -364,7 +364,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData?.bin}
                   onChange={(e) =>
@@ -382,7 +382,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData?.tax_code}
                   onChange={(e) =>
@@ -399,7 +399,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
                   value={PartnerData?.debit}
                   onChange={(e) =>
@@ -428,7 +428,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                     <FormattedMessage id="TransportPartner.Adress" />:{" "}
                   </div>
                   <select
-                    className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 `}
                     id="city"
                     aria-label=".form-select-sm"
@@ -445,7 +445,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                     ))}
                   </select>
                   <select
-                    className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 }
                 `}
                     id="district"
@@ -463,7 +463,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
                     ))}
                   </select>
                   <select
-                    className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 `}
                     id="ward"
                     aria-label=".form-select-sm"
@@ -486,7 +486,7 @@ const DetailPartner: React.FC<DetailPartnerProps> = ({
 
                   <input
                     type=""
-                    className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 `}
                     placeholder="Số nhà- tên đường"
                     onChange={(e) =>
