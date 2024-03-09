@@ -286,7 +286,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     longitude: false,
     managed_wards: false,
     agency_name: false,
-    revenue: false,
+    // revenue: false,
   });
 
   const checkvalidaddress = () => {
