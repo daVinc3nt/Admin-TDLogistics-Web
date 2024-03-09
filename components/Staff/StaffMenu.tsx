@@ -6,6 +6,7 @@ import { FormattedMessage } from "react-intl";
 import { useContext } from "react";
 import { UserContext } from "@/Context/InfoContext/UserContext";
 import { StaffsOperation } from "@/TDLib/tdlogistics";
+import { DataTable } from "./Table/datatable";
 const StaffMenu = () => {
   const {info} = useContext(UserContext)
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);

@@ -1,9 +1,10 @@
 import { LeakAddTwoTone } from "@mui/icons-material";
 import { Staff, columns } from "./column";
 import { DataTable } from "./datatable";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { StaffsOperation, FindingStaffByAdminConditions } from "@/TDLib/tdlogistics";
 import https from "https";
+import { UserContext } from "@/Context/InfoContext/UserContext";
 const conditions: FindingStaffByAdminConditions[] = [];
 async function getData(info:any): Promise<any> {
   // Fetch data from your API here.p
@@ -12,11 +13,7 @@ async function getData(info:any): Promise<any> {
   const staff = new StaffsOperation()
   console.log(info)
   let res
-  if (role === "ADMIN" || 
-      role === "HUMAN_RESOURCE_MANAGER" ||
-      role === "COMPLAINTS_SOLVER" ||
-      role === "AGENCY_MANAGER" ||
-      role === "AGENCY_HUMAN_RESOURCE_MANAGER")
+  if (validValues.includes(role))
     {
       res = await staff.findByAdmin(conditions[0])  
     }
@@ -33,8 +30,12 @@ async function getData(info:any): Promise<any> {
 }
 
 export default async function DemoPage(info:any) {
-  console.log(info)
+  // const test = useContext(UserContext)
   const data = await getData(info);
 
-  return <DataTable columns={columns} data={data} />;
+  return(
+    <div>
+      <DataTable columns={columns} data={data} info={info}/>
+    </div>
+  )
 }

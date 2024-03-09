@@ -31,14 +31,14 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       <Dropdown className="z-50" shouldCloseOnInteractOutside={(e) => false}>
         <DropdownTrigger>
           <Button
-            className="text-xs md:text-sm text-white dark:text-white border border-gray-600 rounded h-10 w-32"
+            className="text-xs bg-white  dark:bg-[#1a1b23] md:text-sm text-black dark:text-white border border-gray-600 rounded h-10 w-32"
             aria-label={label}
           >
             {label}
           </Button>
         </DropdownTrigger>
         <DropdownMenu
-          className="dark:bg-[#1a1b23] bg-white border border-gray-300 no-scrollbar rounded w-full max-h-80 overflow-y-auto"
+          className="dark:bg-[#1a1b23] bg-white border border-gray-300 no-scrollbar rounded w-full max-h-72 overflow-y-auto"
           aria-labelledby="dropdownMenuButton"
         >
           {options.map((option, index) => (
