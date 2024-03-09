@@ -46,10 +46,20 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
   const options = {
-    [intl.formatMessage({ id: 'order.status.done' })]: 3,
-    [intl.formatMessage({ id: 'order.status.ongoing' })]: 1,
-    [intl.formatMessage({ id: 'order.status.pending' })]: 2,
-    [intl.formatMessage({ id: 'order.status.cancel' })]: 4
+    [intl.formatMessage({ id: 'Consignment.Status.DeliveredSuccess' })]: 1,
+    [intl.formatMessage({ id: 'Consignment.Status.Processing' })]: 2,
+    [intl.formatMessage({ id: 'Consignment.Status.Taking' })]: 3,
+    [intl.formatMessage({ id: 'Consignment.Status.TakenSuccess' })]: 4,
+    [intl.formatMessage({ id: 'Consignment.Status.TakenFail' })]: 5,
+    [intl.formatMessage({ id: 'Consignment.Status.Delivering' })]: 6,
+    [intl.formatMessage({ id: 'Consignment.Status.DeliveredCancel' })]: 7,
+    [intl.formatMessage({ id: 'Consignment.Status.DeliveredFail' })]: 8,
+    [intl.formatMessage({ id: 'Consignment.Status.Refunding' })]: 9,
+    [intl.formatMessage({ id: 'Consignment.Status.RefundedSuccess' })]: 10,
+    [intl.formatMessage({ id: 'Consignment.Status.RefundedFail' })]: 11,
+    [intl.formatMessage({ id: 'Consignment.Status.EnterAgency' })]: 12,
+    [intl.formatMessage({ id: 'Consignment.Status.LeaveAgency' })]: 13,
+    [intl.formatMessage({ id: 'Consignment.Status.ThirdPartyDelivery' })]: 14
   };
 
   const table = useReactTable({
@@ -90,16 +100,16 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex">
           <div className="relative w-full sm:w-1/2 lg:w-1/3">
             <input
-              id="consSearch"
+              id="order_id"
               type="text"
-              value={(table.getColumn("orderId")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("orderId")?.setFilterValue(event.target.value)}
+              value={(table.getColumn("order_id")?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn("order_id")?.setFilterValue(event.target.value)}
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-                text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
+              text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm dark:text-white`}
               placeholder=""
             />
             <label
-              htmlFor="consSearch"
+              htmlFor="order_id"
               className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
                 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                 peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
@@ -117,7 +127,7 @@ export function DataTable<TData, TValue>({
               </Button>
             </DropdownTrigger>
             <DropdownMenu
-              className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+              className="bg-white dark:bg-[#1a1b23] border border-gray-300 rounded w-24"
               aria-labelledby="dropdownMenuButton"
             >
               {[10, 20, 30, 40, 50].map((pageSize, index) => (
@@ -126,7 +136,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.setPageSize(pageSize)}
                     variant="bordered"
                     aria-label={`Show ${pageSize}`}
-                    className="text-center  text-white w-full"
+                    className="text-center  dark:text-white w-full"
                   >
                     Show {pageSize}
                   </Button>
@@ -136,8 +146,8 @@ export function DataTable<TData, TValue>({
           </Dropdown>
           <BasicPopover icon={<FilterAltIcon />}>
             <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
-            <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
-            <Filter type="selection" options={options} column={table.getColumn("status")} table={table} title="Status" />
+            <Filter type="search" column={table.getColumn("province_source")} table={table} title="Origin" />
+            <Filter type="selection" options={options} column={table.getColumn("status_code")} table={table} title="Status" />
           </BasicPopover>
         </div>
       </div>
@@ -161,7 +171,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-700' : ''}`}
+                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -187,9 +197,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-            drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-            hover:shadow-md md:text-base focus:outline-none font-normal
-            text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="prev" />}</span>
         </Button>
@@ -219,9 +229,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-            drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-            hover:shadow-md md:text-base focus:outline-none font-normal
-            text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal text-black
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="next" />}</span>
         </Button>

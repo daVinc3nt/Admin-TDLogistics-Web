@@ -1,11 +1,30 @@
 import axios, { AxiosResponse } from "axios";
+import { io } from 'socket.io-client';
 const FormData = require("form-data");
+
+// const socket = io("http://localhost:5000");
+
+// socket.on("connect", () => {
+//     console.log("Connected to server.");
+// });
+
+// socket.on("notifyError", message => {
+//     // showing custome notification on UI
+// });
+
+// socket.on("notifySuccessCreatedNewOrder", message => {
+//     // showing custome notification on UI
+// });
+
+// socket.on("notifyFailCreatedNewOrder", message => {
+//     // showing custome notification on UI
+// });
 
 class UsersAuthenticate {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
     async sendOTP(phoneNumber: string, email: string): Promise<any> {
@@ -37,7 +56,7 @@ class UsersAuthenticate {
 
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
-        } catch (error) {
+        } catch (error: any) {
             console.log("Error verifying OTP:", error.response.data);
             return error.response.data;
         }
@@ -48,7 +67,7 @@ class StaffsAuthenticate {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
 
     async login(username: string, password: string): Promise<any> {
@@ -104,29 +123,29 @@ class StaffsAuthenticate {
     }
 }
 
-export interface CreatingUserInfo {
+interface CreatingUserInfo {
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-export interface FindingUserByUserCondition {
+interface FindingUserByUserCondition {
     phone_number: string,
 }
 
-export interface FindingUserByAdminConditions {
+interface FindingUserByAdminConditions {
     user_id: string,
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-export interface UpdatingUserInfo {
+interface UpdatingUserInfo {
     fullname: string,
     email: string,
 }
 
-export interface UpdatingUserCondition {
+interface UpdatingUserCondition {
     user_id: string,
 }
 
@@ -135,7 +154,7 @@ class UsersOperation {
 
     constructor(phoneNumber: string) {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
     async findByUser(condition: FindingUserByUserCondition) : Promise<any> {
@@ -195,11 +214,11 @@ class UsersOperation {
     }
 }
 
-export interface CheckingExistAgencyCondition {
+interface CheckingExistAgencyCondition {
     agency_id: string,
 }
 
-export interface CreatingAgencyInfo {
+interface CreatingAgencyInfo {
     username: string,
     user_password: string,
     user_fullname: string,
@@ -234,11 +253,11 @@ export interface CreatingAgencyInfo {
     bank: string,
 }
 
-export interface FindingAgencyByAgencyInfo {
+interface FindingAgencyByAgencyInfo {
     agencyId: string,
 }
 
-export interface FindingAgencyByAdminInfo {
+interface FindingAgencyByAdminInfo {
     agency_id: string,
     agency_name: string,
     level: string,
@@ -251,7 +270,7 @@ export interface FindingAgencyByAdminInfo {
     bank: string,
 }
 
-export interface UpdatingAgencyInfo {
+interface UpdatingAgencyInfo {
     agency_name: string,
     province: string,
     district: string,
@@ -267,11 +286,11 @@ export interface UpdatingAgencyInfo {
     bank: string,
 }
 
-export interface UpdatingAgencyCondition {
+interface UpdatingAgencyCondition {
     agency_id: string,
 }
 
-export interface DeletingAgencyCondition {
+interface DeletingAgencyCondition {
     agency_id: string,
 }
 
@@ -279,7 +298,7 @@ class AgencyOperation {
     private baseUrl: string;
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/agencies";
-        this.baseUrl = "http://localhost:4000/api/v1/agencies";
+        this.baseUrl = "http://localhost:5000/api/v1/agencies";
     }
 
     async checkExist(condition: CheckingExistAgencyCondition) {
@@ -367,7 +386,7 @@ class AgencyOperation {
     }
 }
 
-export interface CreatingTransportPartnerByAdminInfo {
+interface CreatingTransportPartnerByAdminInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -398,7 +417,7 @@ export interface CreatingTransportPartnerByAdminInfo {
     bank: string,
 }
 
-export interface CreatingTransportPartnerByAgencyInfo {
+interface CreatingTransportPartnerByAgencyInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -411,7 +430,7 @@ export interface CreatingTransportPartnerByAgencyInfo {
     user_district: string,
     user_town: string,
     user_detail_address: string,
-    //user_position: string,
+    user_position: string,
     user_bin: string,
     user_bank: string
 
@@ -428,12 +447,25 @@ export interface CreatingTransportPartnerByAgencyInfo {
     bank: string,
 }
 
-export interface FindingTransportPartnerByTransportPartnerCondition {
+interface FindingTransportPartnerByTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-export interface FindingTransportPartnerByAdminConditions {
+interface FindingTransportPartnerByAdminConditions {
     transport_partner_id: string,
+    tax_code: string,
+    transport_partner_name: string,
+    province: string,
+    district: string,
+    town: string,
+    detail_address: string,
+    phone_number: string,
+    email: string,
+    bin: string,
+    bank: string,
+}
+
+interface UpdatingTransportPartnerInfo {
     tax_code: string,
     transport_partner_name: string,
     province: string,
@@ -447,25 +479,11 @@ export interface FindingTransportPartnerByAdminConditions {
     debit: string,
 }
 
-export interface UpdatingTransportPartnerInfo {
-    tax_code: string,
-    transport_partner_name: string,
-    province: string,
-    district: string,
-    town: string,
-    detail_address: string,
-    phone_number: string,
-    email: string,
-    bin: string,
-    bank: string,
-    debit: string,
-}
-
-export interface UpdatingTransportPartnerCondition {
+interface UpdatingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-export interface DeletingTransportPartnerCondition {
+interface DeletingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
@@ -474,7 +492,7 @@ class TransportPartnersOperation {
 
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/transport_partners";
-        this.baseUrl = "http://localhost:4000/api/v1/transport_partners";
+        this.baseUrl = "http://localhost:5000/api/v1/transport_partners";
     }
 
     async createByAdmin(info: CreatingTransportPartnerByAdminInfo) {
@@ -562,11 +580,11 @@ class TransportPartnersOperation {
     }
 }
 
-export interface CheckingExistVehicleCondition {
+interface CheckingExistVehicleCondition {
     vehicle_id: string,
 }
 
-export interface CreatingVehicleByAdminInfo {
+interface CreatingVehicleByAdminInfo {
     agency_id: string,
     transport_partner_id: string,
     staff_id: string,
@@ -575,7 +593,7 @@ export interface CreatingVehicleByAdminInfo {
     max_load: string,
 }
 
-export interface CreatingVehicleByAgencyInfo {
+interface CreatingVehicleByAgencyInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
@@ -583,11 +601,11 @@ export interface CreatingVehicleByAgencyInfo {
     max_load: string,
 }
 
-export interface FindingVehicleByStaffCondition {
+interface FindingVehicleByStaffCondition {
     staff_id: string,
 }
 
-export interface FindingVehicleByAdminConditions {
+interface FindingVehicleByAdminConditions {
     vehicle_id: string,
     transport_partner_id: string,
     staff_id: string,
@@ -596,11 +614,11 @@ export interface FindingVehicleByAdminConditions {
     mass: string,
 }
 
-export interface GettingOrdersContainedByVehicleCondition {
+interface GettingOrdersContainedByVehicleCondition {
     vehicle_id: string,
 }
 
-export interface UpdatingVehicleInfo {
+interface UpdatingVehicleInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
@@ -608,27 +626,27 @@ export interface UpdatingVehicleInfo {
     max_load: string,
 }
 
-export interface UpdatingVehicleCondition {
+interface UpdatingVehicleCondition {
     vehicle_id: string,
 }
 
-export interface AddingOrdersToVehicleInfo {
+interface AddingOrdersToVehicleInfo {
     order_ids: Object,
 }
 
-export interface AddingOrdersToVehicleCondition {
+interface AddingOrdersToVehicleCondition {
     vehicle_id: string,
 }
 
-export interface DeletingOrdersFromVehicleInfo {
+interface DeletingOrdersFromVehicleInfo {
     order_ids: Object,
 }
 
-export interface DeletingOrdersFromVehicleCondition {
+interface DeletingOrdersFromVehicleCondition {
     vehicle_id: string,
 }
 
-export interface DeletingVehicleCondition {
+interface DeletingVehicleCondition {
     vehicle_id: string,
 }
 
@@ -637,7 +655,7 @@ class Vehicle {
 
     constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicle";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicle";
     }
 
     async checkExist(condition: CheckingExistVehicleCondition) {
@@ -647,7 +665,7 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, existed: data.existed, message: data.message };
         } catch (error: any) {
             console.log("Error checking exist vehicle: ", error.response.data);
             return error.response.data;
@@ -782,9 +800,8 @@ class Vehicle {
     }
 }
 
-export interface CreatingStaffByAgencyInfo {
-	agency_id: string,
-    fullname: string,
+interface CreatingStaffByAgencyInfo {
+	fullname: string,
     username: string,
     password: string,
     date_of_birth: string,
@@ -793,7 +810,7 @@ export interface CreatingStaffByAgencyInfo {
     phone_number: string,
     role: string,
     position: string,
-    salary: string, 
+    salary: number, 
     paid_salary: number,
     province: string,
     district: string,
@@ -801,7 +818,8 @@ export interface CreatingStaffByAgencyInfo {
     detail_address: string,
 }
 
-export interface CreatingStaffByAdminInfo {
+interface CreatingStaffByAdminInfo {
+    agency_id: string,
     fullname: string,
     username: string,
     password: string,
@@ -811,7 +829,7 @@ export interface CreatingStaffByAdminInfo {
     phone_number: string,
     role: string,
     position: string,
-    salary: string, 
+    salary: number, 
     paid_salary: number,
     province: string,
     district: string,
@@ -819,11 +837,11 @@ export interface CreatingStaffByAdminInfo {
     detail_address: string,
 }
   
-export interface FindingStaffByStaffCondition {
+interface FindingStaffByStaffCondition {
     staff_id: string,
 }
   
-export interface FindingStaffByAdminConditions {
+interface FindingStaffByAdminConditions {
     staff_id: string,
     fullname: string,
     username: string,
@@ -837,14 +855,14 @@ export interface FindingStaffByAdminConditions {
     town: string,
 }
   
-export interface UpdatingStaffInfo {
+interface UpdatingStaffInfo {
     fullname: string,
     username: string,
     date_of_birth: string, 
     email: string,
     phone_number: string,
     role: string,
-    salary: string, 
+    salary: number, 
     paid_salary: string, 
     province: string,
     district: string,
@@ -852,24 +870,24 @@ export interface UpdatingStaffInfo {
     detail_address: string,
 }
   
-export interface UpdatingStaffCondition {
+interface UpdatingStaffCondition {
     staff_id: string,
 }
   
-export interface DeletingStaffCondition {
+interface DeletingStaffCondition {
     staff_id: string,
 };
   
-export interface UpdatingAvatarStaffInfo {
+interface UpdatingAvatarStaffInfo {
     avatarFile: Buffer,
 };
   
-export interface UpdatingPasswordsInfo {
+interface UpdatingPasswordsInfo {
     new_password: string,
     confirm_password: string
 };
   
-export interface FindingAvatarCondition {
+interface FindingAvatarCondition {
     staff_id: string,
 }
   
@@ -878,7 +896,7 @@ class StaffsOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-		this.baseUrl = "http://localhost:4000/api/v1/staffs";
+		this.baseUrl = "http://localhost:5000/api/v1/staffs";
 	}
 
 	// ROLE: any
@@ -935,7 +953,7 @@ class StaffsOperation {
 			});
 			
 			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
+			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
 			console.log("Error create new staff: ", error.response.data);
@@ -951,7 +969,7 @@ class StaffsOperation {
 			});
 			
 			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
+			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
 			console.log("Error create new staff: ", error.response.data);
@@ -967,7 +985,7 @@ class StaffsOperation {
 			});
 			
 			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
+			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
 			console.log("Error create new staff: ", error.response.data);
@@ -978,7 +996,7 @@ class StaffsOperation {
 	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
 	async deleteStaff(condition: DeletingStaffCondition) {
 		try {
-			const response = await axios.post(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
+			const response = await axios.delete(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
 				withCredentials: true,
 			});
 
@@ -1011,6 +1029,20 @@ class StaffsOperation {
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}   
 	}
+
+    async logout() {
+        try {
+            const response: AxiosResponse = await axios.get(`${this.baseUrl}/logout`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error logging out: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
 	// ROLE: any. But one staff can just change his/her own password.
 	// So that, the staff_id in session must be the same with the staff_id in the query. 
@@ -1045,7 +1077,7 @@ class StaffsOperation {
 	}
 }
   
-export interface CreateBusinessByAgencyInfo {
+interface CreateBusinessByAgencyInfo {
 	// Representor information
     user_fullname: string,
     user_phone_number: string,
@@ -1074,7 +1106,7 @@ export interface CreateBusinessByAgencyInfo {
     bank: string,
 }
   
-export interface CreateBusinessByAdminInfo {
+interface CreateBusinessByAdminInfo {
 	// Representor information
     username: string,
     password: string,
@@ -1104,11 +1136,11 @@ export interface CreateBusinessByAdminInfo {
     bank: string,
 }
   
-export interface FindingBusinessByBusinessCondition {
+interface FindingBusinessByBusinessCondition {
     business_id: string,
 }
   
-export interface FindingBusinessByAdminCondition {
+interface FindingBusinessByAdminCondition {
 	business_id: string,
 	agency_id: string,
 	username: string,
@@ -1123,11 +1155,11 @@ export interface FindingBusinessByAdminCondition {
 	bank: string,
 }
   
-export interface FindingRepresentorByBusinessCondition {
+interface FindingRepresentorByBusinessCondition {
     business_id: string,
 }
   
-export interface FindingRepresentorByAdminCondition {
+interface FindingRepresentorByAdminCondition {
 	agency_id:string,
 	business_id: string,
 	fullname: string,
@@ -1142,15 +1174,15 @@ export interface FindingRepresentorByAdminCondition {
 	bank: string,
 }
   
-export interface CheckingExistBusinessCondition {
+interface CheckingExistBusinessCondition {
     tax_number: string,
 }
   
-export interface UpdatingBusinessCondition {
+interface UpdatingBusinessCondition {
     business_id: string,
 }
   
-export interface UpdatingBusinessInfo {
+interface UpdatingBusinessInfo {
 	business_name: string,
 	email: string,
 	phone_number: string,
@@ -1163,7 +1195,7 @@ export interface UpdatingBusinessInfo {
 	bank: string,
 }
   
-export interface UpdatingBusinessRepresentorInfo {
+interface UpdatingBusinessRepresentorInfo {
 	fullname: string,
 	phone_number: string,
 	email: string,
@@ -1177,16 +1209,16 @@ export interface UpdatingBusinessRepresentorInfo {
 	bank: string,
 }
   
-export interface DeletingBusinessCondition {
+interface DeletingBusinessCondition {
 	business_id: string,
 	agency_id: string,
 }
   
-export interface UpdatingContractInfo {
+interface UpdatingContractInfo {
     contractFile: Buffer,
 }
   
-export interface FindingContractCondition {
+interface FindingContractCondition {
     business_id: string,
 }
   
@@ -1195,7 +1227,7 @@ class BusinessOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-		this.baseUrl = "http://localhost:4000/api/v1/business";
+		this.baseUrl = "http://localhost:5000/api/v1/business";
 
 	}
 
@@ -1318,7 +1350,7 @@ class BusinessOperation {
 			});
 
 			const data = response.data;
-			return { error: data.error, message: data.message };
+			return { error: data.error, existed: data.existed, message: data.message };
 		} catch (error: any) {
 			console.log("Error checking exist business: ", error.response.data);
 			return error.response.data;
@@ -1374,7 +1406,7 @@ class BusinessOperation {
 	}
 }
 
-export interface CreatingPartnerStaffInfo {
+interface CreatingPartnerStaffInfo {
 	partner_id: string,
 	username: string,
 	password: string,
@@ -1393,11 +1425,11 @@ export interface CreatingPartnerStaffInfo {
 	bank: string,
 }
 
-export interface FindingPartnerStaffByPartnerStaffCondition {
+interface FindingPartnerStaffByPartnerStaffCondition {
 	staff_id: string,
 }
 
-export interface FindingPartnerStaffsByPartnerCondtions {
+interface FindingPartnerStaffsByPartnerCondtions {
 	partner_id: string,
 	agency_id: string,
 	staff_id: string,
@@ -1415,7 +1447,7 @@ export interface FindingPartnerStaffsByPartnerCondtions {
 	bank: string,
 }
 
-export interface FindingPartnerStaffsByAdminConditions {
+interface FindingPartnerStaffsByAdminConditions {
 	partner_id: string,
 	agency_id: string,
 	staff_id: string,
@@ -1432,11 +1464,11 @@ export interface FindingPartnerStaffsByAdminConditions {
 	bank: string,
 }
 
-export interface UpdatingPartnerStaffCondition {
+interface UpdatingPartnerStaffCondition {
 	staff_id: string,
 }
 
-export interface UpdatingPartnerStaffInfo {
+interface UpdatingPartnerStaffInfo {
 	fullname: string,
 	username: string,
 	date_of_birth: string, 
@@ -1451,11 +1483,11 @@ export interface UpdatingPartnerStaffInfo {
 	bank: string,
 }
 
-export interface DeletingPartnerStaffCondition {
+interface DeletingPartnerStaffCondition {
 	staff_id: string,
 }
 
-export interface CheckingExistPartnerStaffCondition {
+interface CheckingExistPartnerStaffCondition {
 	username: string,
 	email: string,
 	phone_number: string,
@@ -1464,16 +1496,16 @@ export interface CheckingExistPartnerStaffCondition {
 }
 
 
-export interface UpdatingPartnerLicenseImg {
+interface UpdatingPartnerLicenseImg {
 	license_before: Buffer,
 	license_after: Buffer,
 }
 
-export interface UpdatingPartnerStaffAvatarInfo {
+interface UpdatingPartnerStaffAvatarInfo {
 	avatarFile: Buffer
 }
 
-export interface FindingPartnerAvatarAndLicenseCondition {
+interface FindingPartnerAvatarAndLicenseCondition {
 	staff_id: string
 };
   
@@ -1482,7 +1514,7 @@ class PartnerStaffOperation {
 
 	constructor() {
 		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-		this.baseUrl = "http://localhost:4000/api/v1/partner_staffs";
+		this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
 	}
 
 	// ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
@@ -1583,7 +1615,7 @@ class PartnerStaffOperation {
 			});
 
 			const data = response.data;
-			return { error: data.error, message: data.message };
+			return { error: data.error, existed: data.existed, message: data.message };
 		} catch (error: any) {
 			console.log("Error checking exist partner staff: ", error.response.data);
 			return error.response.data;
@@ -1710,22 +1742,22 @@ class PartnerStaffOperation {
 	} 
 }
   
-export interface GettingTasksCondition {
+interface GettingTasksCondition {
 	option: number,
 }
 
-export interface ConfirmingCompletedTaskInfo {
+interface ConfirmingCompletedTaskInfo {
 	id: number,
 }
 
-export interface GettingHistoryInfo {
+interface GettingHistoryInfo {
 	option: number,
 }
 
 class ShippersOperation {
 	private baseUrl: string;
 	constructor() {
-		this.baseUrl = "http://localhost:4000/api/v1/shippers";
+		this.baseUrl = "http://localhost:5000/api/v1/shippers";
 	}
 
 	async getTask(condition: GettingTasksCondition) {
@@ -1772,29 +1804,29 @@ class ShippersOperation {
 }
 
 //Shipment Operation
-export interface CreatingShipmentInfo {
-    transport_partner_id: string
+interface CreatingShipmentInfo {
+    transport_partner_id?: string
 }
 
-export interface FindingShipmentConditions {
-    shipment_id: string,
-    tranport_partner_id: string,
-    staff_id: string
+interface FindingShipmentConditions {
+    shipment_id?: string,
+    tranport_partner_id?: string,
+    staff_id?: string
 }
 
-export interface DecomposingShipmentInfo {
+interface DecomposingShipmentInfo {
     order_ids: object
 }
 
-export interface OperatingWithOrderInfo {
+interface OperatingWithOrderInfo {
     order_ids: object
 }
 
-export interface ShipmentID {
+interface ShipmentID {
     shipment_id: string
 }
 
-export interface UndertakingShipmentInfo {
+interface UndertakingShipmentInfo {
     shipment_id: string,
     status_code: number
 }
@@ -1803,7 +1835,7 @@ class ShipmentsOperation {
     private baseUrl: string;
 	constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/shipments";
-		this.baseUrl = "http://localhost:4000/api/v1/shipments";
+		this.baseUrl = "http://localhost:5000/api/v1/shipments";
 	}
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
@@ -1821,6 +1853,20 @@ class ShipmentsOperation {
 		}
 	}
 
+    async getOrdersFromShipment(condition: ShipmentID) {
+        try {
+			const response = await axios.post(`${this.baseUrl}/get_orders?shipment_id=${condition.shipment_id}`, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, message: data.message };
+		} catch (error: any) {
+			console.log("Error getting orders from shipment: ", error.response.data);
+			return error.response.data;
+		}
+    }
+
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async addOrdersToShipment(condition: ShipmentID, info: OperatingWithOrderInfo) {
         try {
@@ -1831,7 +1877,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error adding orders to shipment: ", error.response.data);
 			return error.response.data;
 		}
     }
@@ -1846,7 +1892,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error deleting order from shipment: ", error.response.data);
 			return error.response.data;
 		}
     }
@@ -1861,7 +1907,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error confirming creat shipment: ", error.response.data);
 			return error.response.data;
 		}  
     }
@@ -1874,9 +1920,9 @@ class ShipmentsOperation {
 			});
 
 			const data = response.data;
-			return { error: data.error, message: data.message };
+			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error getting shipments: ", error.response.data);
 			return error.response.data;
 		} 
     }
@@ -1891,7 +1937,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error deleting shipment: ", error.response.data);
 			return error.response.data;
 		} 
     }
@@ -1906,7 +1952,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error decomposing shipment: ", error.response.data);
 			return error.response.data;
 		} 
     }
@@ -1921,7 +1967,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error receiving shipment: ", error.response.data);
 			return error.response.data;
 		} 
     }
@@ -1936,17 +1982,17 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error undertaking shipment: ", error.response.data);
 			return error.response.data;
 		}
     }
 }
 
-export interface CheckingExistOrderCondition {
+interface CheckingExistOrderCondition {
     order_id: string,
 }
 
-export interface GettingOrdersConditions {
+interface GettingOrdersConditions {
     name_receiver: string,
     phone_receiver: string,
     province_source: string,
@@ -1958,11 +2004,34 @@ export interface GettingOrdersConditions {
     service_type: string,
 }
 
-export interface UpdatingOrderCondition {
+interface CreatingOrderInformation {
+    name_receiver: string,
+    phone_receiver: string,
+    mass: string,
+    height: string,
+    width: string,
+    length: string,
+    province_source: string,
+    district_source: string,
+    ward_source: string,
+    detail_source: string,
+    province_dest: string,
+    district_dest: string,
+    ward_dest: string,
+    detail_dest: string,
+    long_source: number,
+    lat_source: number,
+    long_destination: number,
+    lat_destination: number,
+    COD: number,
+    service_type: number,
+}
+
+interface UpdatingOrderCondition {
     order_id: string,
 }
 
-export interface UpdatingOrderInfo {
+interface UpdatingOrderInfo {
     mass: number,
     height: number,
     width: number,
@@ -1974,10 +2043,14 @@ export interface UpdatingOrderInfo {
     COD: number,
 }
 
+interface CancelingOrderCondition {
+    order_id: string,
+}
+
 class OrdersOperation {
     private baseUrl: string;
     constructor() {
-        this.baseUrl = "http://localhost:4000/api/v1/orders";
+        this.baseUrl = "http://localhost:5000/api/v1/orders";
     }
 
     async get(conditions: GettingOrdersConditions) {
@@ -2001,12 +2074,20 @@ class OrdersOperation {
             });
 
             const data = response.data;
-            return { error: data.error, exist: data.exist, message: data.message };
+            return { error: data.error, exist: data.existed, message: data.message };
         } catch (error: any) {
             console.log("Error checking exist order: ", error.response.data);
             return error.response.data;
         }
     }
+
+    // async create(info: CreatingOrderInformation) {
+    //     try {
+    //         socket.emit("notifyNewOrderFromUser", info)
+    //     } catch (error: any) {
+    //         console.log("Error creating new order: ", error);
+    //     }
+    // }
 
     async update(info: UpdatingOrderInfo, condition: UpdatingOrderCondition) {
         try {
@@ -2021,8 +2102,22 @@ class OrdersOperation {
             return error.response.data;
         }
     }
+
+    async cancel(condition: CancelingOrderCondition) {
+        try {
+            const response: AxiosResponse = await axios.delete(`${this.baseUrl}/cancel?order_id=${condition.order_id}`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error canceling order: ", error.response.data);
+            return error.response.data;
+        }
+    }
 }
-  
+
 export {
 	UsersAuthenticate,
 	StaffsAuthenticate,
