@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -11,6 +11,7 @@ import {
   CreatingAgencyInfo,
   AgencyOperation,
 } from "@/TDLib/tdlogistics";
+import { Input } from "postcss";
 
 interface AddOfficeProps {
   onClose: () => void;
@@ -31,6 +32,7 @@ interface Ward {
   Id: string;
   Name: string;
 }
+const staff = new StaffsOperation();
 
 const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
   const [MapIsOpen, setMapIsOpen] = useState(false);
@@ -100,14 +102,13 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     user_bank: "",
     user_bin: "",
     user_salary: 0,
-    paid_salary: "",
     user_province: "",
     user_district: "",
     user_town: "",
     user_detail_address: "",
 
     type: "",
-    level: "",
+    level: 0,
     postal_code: "",
     phone_number: "",
     email: "",
@@ -117,11 +118,12 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     detail_address: "",
     bank: "",
     bin: "",
-    commission_rate: "",
-    latitude: "",
-    longitude: "",
-    managed_wards: "",
+    commission_rate: 0,
+    latitude: 0,
+    longitude: 0,
+    managed_wards: [],
     agency_name: "",
+    // revenue: 0,
   });
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -154,7 +156,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     }
   };
 
-  const handleInputChange = (key: string, value: string) => {
+  const handleInputChange = (key: string, value: any) => {
     setOfficeData((prevState) => ({
       ...prevState,
       [key]: value,
@@ -263,7 +265,6 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     user_bank: false,
     user_bin: false,
     user_salary: false,
-    paid_salary: false,
     user_province: false,
     user_district: false,
     user_town: false,
@@ -285,27 +286,20 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
     longitude: false,
     managed_wards: false,
     agency_name: false,
+    revenue: false,
   });
 
   const checkvalidaddress = () => {
     if (
-      OfficeData.province !== "" &&
-      OfficeData.district !== "" &&
-      OfficeData.town !== "" &&
-      OfficeData.detail_address !== ""
+      OfficeData.province &&
+      OfficeData.district &&
+      OfficeData.town &&
+      OfficeData.detail_address
     ) {
-      console.log(
-        OfficeData.province,
-        OfficeData.district,
-        OfficeData.town,
-        OfficeData.detail_address
-      );
       return true;
     }
     return false;
   }; //dung de render map
-
-  console.log(checkvalidaddress());
 
   const handleCheckMissing = (key: string, value: boolean) => {
     setCheckmissing((prevState) => ({
@@ -313,6 +307,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
       [key]: value,
     }));
   };
+
   const [error, setError] = useState("");
 
   const agency = new AgencyOperation();
@@ -326,6 +321,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
         handleCheckMissing(key, false);
       }
     }
+    console.log(checkmissing);
     if (!check) {
       setError("Vui lòng nhập đầy đủ thông tin");
       console.log(OfficeData);
@@ -333,12 +329,22 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
       setError("");
       const response = await agency.create(OfficeData);
       if (response.error) {
-        setError(response.error);
+        setError(response.message);
       } else {
         alert("Tạo thành công");
       }
     }
   };
+  const handleUpdateLocation = (lat: number, lng: number) => {
+    setOfficeData((prevAddressInfo) => ({
+      ...prevAddressInfo,
+      latitude: lat,
+      longitude: lng,
+    }));
+    handleInputChange("latitude", lat);
+    handleInputChange("longitude", lng);
+  };
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <motion.div
@@ -430,18 +436,14 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.bank ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankName" })}
-                onChange={(e) =>
-                  handleInputChange("user_province", e.target.value)
-                }
+                onChange={(e) => handleInputChange("user_bank", e.target.value)}
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.bin ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankNumber" })}
-                onChange={(e) =>
-                  handleInputChange("user_province", e.target.value)
-                }
+                onChange={(e) => handleInputChange("user_bin", e.target.value)}
               />
             </div>
             <div className="flex gap-3 mt-3">
@@ -586,15 +588,17 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_position ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Role" })}
-                onChange={(e) => handleInputChange("position", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("user_position", e.target.value)
+                }
               />
               <input
-                type="string"
+                type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_salary ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Salary" })}
                 onChange={(e) =>
-                  handleInputChange("user_salary", e.target.value)
+                  handleInputChange("user_salary", parseInt(e.target.value))
                 }
               />
             </div>
@@ -603,24 +607,84 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
             <h1 className="font-semibold pb-2 text-center">
               <FormattedMessage id="PostOffice.Infomation" />
             </h1>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-3">
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.agency_name ? "border-red-500" : ""}`}
+                placeholder={intl.formatMessage({ id: "PostOffice.Name" })}
+                onChange={(e) =>
+                  handleInputChange("agency_name", e.target.value)
+                }
+              />
+              <input
+                type="string"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+  ${checkmissing.managed_wards ? "border-red-500" : ""}`}
+                placeholder={intl.formatMessage({ id: "PostOffice.Wards" })}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+
+              <button
+                className="text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-1/4 bg-green-500 text-white"
+                onClick={() => {
+                  if (inputValue.trim() !== "") {
+                    setOfficeData((prevState) => ({
+                      ...prevState,
+                      managed_wards: [...prevState.managed_wards, inputValue],
+                    }));
+                    setInputValue("");
+                    console.log(OfficeData.managed_wards);
+                  }
+                }}
+              >
+                Thêm
+              </button>
+            </div>
+            <div className="mt-4">
+              Danh sách đã thêm:
+              {OfficeData.managed_wards.map((ward, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between mt-2"
+                >
+                  <p className="mr-2">{ward}</p>
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    onClick={() => {
+                      setOfficeData((prevState) => ({
+                        ...prevState,
+                        managed_wards: prevState.managed_wards.filter(
+                          (_, i) => i !== index
+                        ),
+                      }));
+                    }}
+                  >
+                    Xóa
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-3 mt-3">
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.type ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "PostOffice.Info.Type" })}
-                onChange={(e) =>
-                  handleInputChange("user_fullname", e.target.value)
-                }
+                onChange={(e) => handleInputChange("type", e.target.value)}
               />
               <input
-                type=""
+                type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.level ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({
                   id: "PostOffice.Info.Level",
                 })}
-                onChange={(e) => handleInputChange("age", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("level", parseInt(e.target.value))
+                }
               />
               <input
                 type=""
@@ -630,7 +694,7 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                   id: "PostOffice.Info.PostalCode",
                 })}
                 onChange={(e) =>
-                  handleInputChange("user_phone_number", e.target.value)
+                  handleInputChange("postal_code", e.target.value)
                 }
               />
             </div>
@@ -641,27 +705,27 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                 ${checkmissing.phone_number ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Phone" })}
                 onChange={(e) =>
-                  handleInputChange("user_date_of_birth", e.target.value)
+                  handleInputChange("phone_number", e.target.value)
                 }
               />
               <input
-                type=""
+                type="number"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.commission_rate ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "PostOffice.Rate" })}
-                onChange={(e) => handleInputChange("user_cccd", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("commission_rate", parseInt(e.target.value))
+                }
               />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.email ? "border-red-500" : ""}`}
                 placeholder="Email"
-                onChange={(e) =>
-                  handleInputChange("user_email", e.target.value)
-                }
+                onChange={(e) => handleInputChange("email", e.target.value)}
               />
             </div>
-            <div className="flex gap-3 mt-3">
+            <div className="flex gap-3 my-3">
               <select
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.province ? "border-red-500" : ""}`}
@@ -728,14 +792,18 @@ const AddOffice: React.FC<AddOfficeProps> = ({ onClose }) => {
                   handleInputChange("detail_address", e.target.value)
                 }
               />
-              <Button
-                className="text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full"
-                onClick={openMap}
-              >
-                Mở bản đồ
-              </Button>
-              {MapIsOpen && <MapExport />}
             </div>
+            {checkvalidaddress() && (
+              <MapExport
+                province={OfficeData.province}
+                district={OfficeData.district}
+                town={OfficeData.town}
+                detailadress={OfficeData.detail_address}
+                latitude={OfficeData.latitude}
+                longitude={OfficeData.longitude}
+                onUpdateLocation={handleUpdateLocation}
+              />
+            )}
             <div className="flex gap-3 mt-3">
               <input
                 type=""

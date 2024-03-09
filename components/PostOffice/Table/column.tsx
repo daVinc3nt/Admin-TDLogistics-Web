@@ -16,20 +16,20 @@ interface Postdetail {
   agency_name: string;
   bank: string;
   bin: string;
-  commission_rate: number;
+  commission_rate: string;
   contract: string;
   detail_address: string;
   district: string;
   email: string;
-  latitude: number;
+  latitude: string;
   level: string;
-  longitude: number;
+  longitude: string;
   managed_wards: string[];
   phone_number: string;
   postal_code: string;
   province: string;
   town: string;
-  revenue: number;
+  revenue: string;
 }
 export const columns: ColumnDef<Postdetail>[] = [
   {

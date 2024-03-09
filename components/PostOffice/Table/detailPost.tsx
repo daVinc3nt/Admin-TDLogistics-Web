@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   StaffsOperation,
   AgencyOperation,
@@ -11,25 +11,26 @@ import {
   UpdatingAgencyInfo,
 } from "@/TDLib/tdlogistics";
 import axios from "axios";
+import { set } from "date-fns";
 interface Postdetail {
   agency_id: string;
   agency_name: string;
   bank: string;
   bin: string;
-  commission_rate: number;
+  commission_rate: string;
   contract: string;
   detail_address: string;
   district: string;
   email: string;
-  latitude: number;
+  latitude: string;
   level: string;
-  longitude: number;
+  longitude: string;
   managed_wards: string[];
   phone_number: string;
   postal_code: string;
   province: string;
   town: string;
-  revenue: number;
+  revenue: string;
 }
 
 interface City {
@@ -50,16 +51,16 @@ interface Ward {
 }
 const staff = new StaffsOperation();
 
-interface DetailStaffProps {
+interface DetailAgencyProps {
   onClose: () => void;
   dataInitial: Postdetail;
 }
 
-const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
+const DetailPost: React.FC<DetailAgencyProps> = ({ onClose, dataInitial }) => {
+  const intl = useIntl();
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const [data, setData] = useState(dataInitial);
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -84,19 +85,24 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
     fetchCities();
   }, []);
   const [Agencydata, setAgencydata] = useState({
-    agency_name: "",
-    province: "",
-    district: "",
-    town: "",
-    detail_address: "",
-    latitude: "",
-    longitude: "",
-    email: "",
-    phone_number: "",
-    revenue: "",
-    commission_rate: "",
-    bin: "",
-    bank: "",
+    agency_id: dataInitial.agency_id,
+    agency_name: dataInitial.agency_name,
+    bank: dataInitial.bank,
+    bin: dataInitial.bin,
+    commission_rate: dataInitial.commission_rate,
+    contract: dataInitial.contract,
+    detail_address: dataInitial.detail_address,
+    district: dataInitial.district,
+    email: dataInitial.email,
+    latitude: dataInitial.latitude,
+    level: dataInitial.level,
+    longitude: dataInitial.longitude,
+    managed_wards: dataInitial.managed_wards,
+    phone_number: dataInitial.phone_number,
+    postal_code: dataInitial.postal_code,
+    province: dataInitial.province,
+    town: dataInitial.town,
+    revenue: dataInitial.revenue,
   });
 
   const handleInputChange = (key: string, value: string) => {
@@ -165,7 +171,8 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const handleEditClick = () => {
     setIsEditing(true);
   };
-  const handleSaveClick = () => {
+  const [error, setError] = useState("");
+  const handleSaveClick = async () => {
     const updateAgency = new AgencyOperation();
 
     const data: UpdatingAgencyInfo = {
@@ -191,9 +198,12 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
       const condition: UpdatingAgencyCondition = {
         agency_id: dataInitial.agency_id,
       };
-      const response = updateAgency.update(data, condition);
-      if (response) {
-        console.log(response);
+      const response = await updateAgency.update(data, condition);
+      console.log(response);
+      if (response.error) {
+        setError(response.message);
+      } else {
+        alert("Cập nhật thành công");
       }
     }
 
@@ -233,7 +243,16 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  dark:bg-[#14141a] p-2 rounded-md dark:text-white place-content-center">
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols">
+            {role === "ADMIN" && (
+              <div className="flex gap-5">
+                <div className="font-bold text-base">
+                  <FormattedMessage id="Agency.ID" />:
+                </div>
+                <div>{Agencydata.agency_id}</div>
+              </div>
+            )}
+
             <div className="flex gap-5">
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.Name" />:
@@ -242,14 +261,21 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.agency_name}
+                  value={Agencydata.agency_name}
                   onChange={(e) =>
-                    setData({ ...data, agency_name: e.target.value })
+                    setAgencydata({
+                      ...Agencydata,
+                      agency_name: e.target.value,
+                    })
                   }
                 />
               ) : (
-                <div>{data.agency_name}</div>
+                <div>{Agencydata.agency_name}</div>
               )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Postalcode:</div>
+              <div>{Agencydata.postal_code}</div>
             </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">
@@ -259,13 +285,16 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.phone_number}
+                  value={Agencydata.phone_number}
                   onChange={(e) =>
-                    setData({ ...data, phone_number: e.target.value })
+                    setAgencydata({
+                      ...Agencydata,
+                      phone_number: e.target.value,
+                    })
                   }
                 />
               ) : (
-                <div>{data.phone_number}</div>
+                <div>{Agencydata.phone_number}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -274,28 +303,13 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.email}
-                  onChange={(e) => setData({ ...data, email: e.target.value })}
-                />
-              ) : (
-                <div>{data.email}</div>
-              )}
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Address" />:
-              </div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
-                  type="text"
-                  value={data.detail_address}
+                  value={Agencydata.email}
                   onChange={(e) =>
-                    setData({ ...data, detail_address: e.target.value })
+                    setAgencydata({ ...Agencydata, email: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.detail_address}</div>
+                <div>{Agencydata.email}</div>
               )}
             </div>
 
@@ -307,11 +321,13 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.bank}
-                  onChange={(e) => setData({ ...data, bank: e.target.value })}
+                  value={Agencydata.bank}
+                  onChange={(e) =>
+                    setAgencydata({ ...Agencydata, bank: e.target.value })
+                  }
                 />
               ) : (
-                <div>{data.bank}</div>
+                <div>{Agencydata.bank}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -322,13 +338,136 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.bin}
-                  onChange={(e) => setData({ ...data, bin: e.target.value })}
+                  value={Agencydata.bin}
+                  onChange={(e) =>
+                    setAgencydata({ ...Agencydata, bin: e.target.value })
+                  }
                 />
               ) : (
-                <div>{data.bin}</div>
+                <div>{Agencydata.bin}</div>
               )}
             </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Commission_rate</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
+                  type="text"
+                  value={Agencydata.commission_rate}
+                  onChange={(e) =>
+                    setAgencydata({
+                      ...Agencydata,
+                      commission_rate: e.target.value,
+                    })
+                  }
+                />
+              ) : (
+                <div>{Agencydata.commission_rate}</div>
+              )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Doanh thu :</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
+                  type="text"
+                  value={Agencydata.revenue}
+                  onChange={(e) =>
+                    setAgencydata({ ...Agencydata, revenue: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{Agencydata.revenue}</div>
+              )}
+            </div>
+            <div className="flex gap-3 mt-3">
+              {!isEditing ? (
+                <div className="flex gap-3">
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:
+                  </div>
+                  <div>{Agencydata?.detail_address}/</div>
+                  <div>{Agencydata?.town}/</div>
+                  <div>{Agencydata?.district}/</div>
+                  <div>{Agencydata?.province}</div>
+                </div>
+              ) : (
+                <>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:{" "}
+                  </div>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    id="city"
+                    aria-label=".form-select-sm"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose Province" })}
+                    </option>
+                    {cities.map((city) => (
+                      <option key={city.Id} value={city.Id}>
+                        {city.Name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                }
+                `}
+                    id="district"
+                    aria-label=".form-select-sm"
+                    value={selectedDistrict}
+                    onChange={handleDistrictChange}
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose District" })}
+                    </option>
+                    {districts.map((district) => (
+                      <option key={district.Id} value={district.Id}>
+                        {district.Name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    id="ward"
+                    aria-label=".form-select-sm"
+                    onChange={(e) =>
+                      handleInputChange(
+                        "town",
+                        wards.find((ward) => ward.Id === e.target.value).Name
+                      )
+                    }
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose Ward" })}
+                    </option>
+                    {wards.map((ward) => (
+                      <option key={ward.Id} value={ward.Id}>
+                        {ward.Name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    type=""
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    placeholder="Số nhà- tên đường"
+                    onChange={(e) =>
+                      handleInputChange("detail_address", e.target.value)
+                    }
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          <div className="text-red-700 font-bold flex place-content-center text-base">
+            {error}
           </div>
         </div>
 

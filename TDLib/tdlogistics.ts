@@ -217,21 +217,22 @@ export interface CreatingAgencyInfo {
     user_salary: number,
 
     type: string,
-    level: string,
+    level: number,
     postal_code: string,
     agency_name: string,
     province: string,
     district: string,
     town: string,
     detail_address: string,
-    latitude: string,
-    longitude: string,
-    managed_wards: string,
+    latitude: number,
+    longitude: number,
+    managed_wards: string[],
     phone_number: string,
     email: string,
-    commission_rate: string,
+    commission_rate: number,
     bin: string,
     bank: string,
+    // revenue: number,
 }
 
 export interface FindingAgencyByAgencyInfo {
