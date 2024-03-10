@@ -1,39 +1,25 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { IoMdClose } from "react-icons/io";
+import { IoIosBarcode, IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
-import CustomDropdown from "../../../Common/Dropdown";
-import { FaMapMarkedAlt } from "react-icons/fa";
-import MapNoti from "./MapRender/mapNoti";
 import { FormattedMessage, useIntl } from "react-intl";
+import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
+import { ShipmentsOperation } from "@/TDLib/tdlogistics";
 
 interface AddNotificationProps {
   onClose: () => void;
+  reloadData: () => void;
 }
 
-const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
+const AddNotification: React.FC<AddNotificationProps> = ({ onClose, reloadData }) => {
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [type, setType] = useState();
+  const [option, setOption] = useState(0);
+  const [shipmentIdInput, setShipmentIdInput] = useState('');
+  const [transportPartnerId, setTransportPartnerId] = useState('');
   const intl = useIntl();
-
-  const openModal = (type) => {
-    setType(type);
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const [userData, setUserData] = useState({
-    partnerTransporters: '',
-    staffTransporters: '',
-    startPoint: '', endPoint: '',
-    startOffice: '', endOffice: ''
-  });
+  const shipmentsOperation = new ShipmentsOperation();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
@@ -62,24 +48,43 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
     }
   };
 
-  const handleInputChange = (key: string, value: string) => {
-    setUserData(prevState => ({
-      ...prevState,
-      [key]: value
-    }));
+  const handleConfirm = async () => {
+    if (option === 1) {
+      const shipmentID = { shipment_id: shipmentIdInput, transport_partner_id: transportPartnerId };
+      const response = await shipmentsOperation.receive(shipmentID);
+
+      if (response.error) {
+        alert('Error: ' + response.message);
+      } else {
+        const startIndex = response.message.indexOf("mã");
+        const nextSpaceIndex = response.message.indexOf(" ", startIndex + 3);
+        if (startIndex !== -1 && nextSpaceIndex !== -1 && startIndex < nextSpaceIndex) {
+          const shipmentId = response.message.substring(startIndex + 3, nextSpaceIndex).trim();
+          alert(intl.formatMessage({ id: "Consignment.Add.Success" }) + shipmentId);
+        }
+        setIsVisible(false);
+        reloadData();
+        handleClose();
+      }
+    } else {
+      const response = await shipmentsOperation.create(transportPartnerId ? { transport_partner_id: transportPartnerId } : {});
+      if (response.error) {
+        alert('Error: ' + response.message);
+      } else {
+        const firstOccurrenceIndex = response.message.indexOf("lô");
+        const secondOccurrenceIndex = response.message.indexOf("lô", firstOccurrenceIndex + 1);
+        const endIndex = response.message.indexOf("cho");
+        if (firstOccurrenceIndex !== -1 && secondOccurrenceIndex !== -1 && endIndex !== -1 &&
+          firstOccurrenceIndex < secondOccurrenceIndex && secondOccurrenceIndex < endIndex) {
+          const shipmentId = response.message.substring(secondOccurrenceIndex + 3, endIndex).trim();
+          alert(intl.formatMessage({ id: "Consignment.Add.Success" }) + shipmentId);
+        }
+        setIsVisible(false);
+        reloadData();
+        handleClose();
+      }
+    }
   };
-
-  const postOffices = ['Bưu cục A', 'Bưu cục B', 'Bưu cục C', 'Bưu cục D', 'Bưu cục E', ];
-
-  const provinces = [
-    "AGI", "VTB", "BLI", "BGI", "BKA", "BNI", "BTR", "BDU", "BDI", "BPC", 
-    "BTN", "CMU", "CBA", "CTH", "DNG", "DLA", "DKN", "DBI", "DNA", "DTP", 
-    "GLA", "HGI", "HNA", "HNO", "HTI", "HDU", "HPG", "HAG", "HBI", "HYE", 
-    "KHA", "KGI", "KTU", "LCA", "LSN", "LCI", "LDG", "LAN", "NDH", "NAN", 
-    "NBI", "NTH", "PTH", "PYE", "QBI", "QNA", "QNG", "QNH", "QTR", "STG", 
-    "SLA", "TNI", "TBH", "TNG", "THA", "HCM", "TTH", "TGG", "TVH", "TQU", 
-    "VLG", "VPH", "YBA"
-  ];
 
   return (
     <motion.div
@@ -89,83 +94,68 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       onAnimationComplete={handleAnimationComplete}
       style={{ backdropFilter: "blur(12px)" }}
     >
-      {modalIsOpen && <MapNoti onClose={closeModal} type={type}/>}
       <motion.div
         ref={notificationRef}
         className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-white dark:bg-[#14141a] rounded-xl p-4 overflow-y-auto ${isShaking ? 'animate-shake' : ''}`}
         initial={{ scale: 0 }} animate={{ scale: isVisible ? 1 : 0 }} exit={{ scale: 0 }} transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center"><FormattedMessage id="Consignment.Add.Title"/></div>
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center"><FormattedMessage id="Consignment.Add.Title" /></div>
           <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
-            <IoMdClose className="w-5/6 h-5/6"/>
+            <IoMdClose className="w-5/6 h-5/6" />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white">
-          <div className="w-[98%] sm:w-10/12">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle1"/></h1>
-            <div className="w-full flex gap-2">
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option1' })} options={['Đối tác A', 'Đối tác B', 'Đối tác C']}
-                selectedOption={userData.partnerTransporters}
-                onSelectOption={(option) => handleInputChange('partnerTransporters', option)}
-              />
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option2' })}  options={['Nhân viên A', 'Nhân viên B', 'Nhân viên C']}
-                selectedOption={userData.staffTransporters}
-                onSelectOption={(option) => handleInputChange('staffTransporters', option)}
-              />
-            </div>
-          </div>
-          
-          <div className="w-2/3 sm:w-1/2 mt-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
-            <div className="w-full flex gap-2">
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option3' })}  options={provinces}
-                selectedOption={userData.startPoint}
-                onSelectOption={(option) => handleInputChange('startPoint', option)}
-              />
-              <div className="pt-2">-</div>
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option4' })}  options={provinces}
-                selectedOption={userData.endPoint}
-                onSelectOption={(option) => handleInputChange('endPoint', option)}
+        <div className="overflow-y-scroll border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white gap-2">
+          <Button className="flex items-center rounded-xl p-2 w-full" onClick={() => setOption(0)}>
+            {option === 0 ? <MdRadioButtonChecked /> : <MdRadioButtonUnchecked />}
+            <span className="pl-1"><FormattedMessage id="Consignment.Add.Option1" /></span>
+          </Button>
+          {option === 0 &&
+            <div className="flex flex-col justify-center w-full">
+              <span className="w-full text-center font-bold"><FormattedMessage id="Consignment.Add.InputPartnerID" /></span>
+              <input
+                className={`h-10 rounded-lg mt-2 mb-1 p-3 w-full border-green-700 text-black
+                  bg-transparent drop-shadow-md hover:drop-shadow-xl border 
+                  hover:shadow-md mr-2`}
+                placeholder={intl.formatMessage({ id: "Consignment.Add.Add1" })}
+                value={transportPartnerId}
+                onChange={(e) => setTransportPartnerId(e.target.value)}
               />
             </div>
-          </div>
-
-          <div className="w-[98%] sm:w-10/12 mt-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle3"/></h1>
-            <div className="w-full flex gap-2 flex-col">
-              <div className="relative">
-                <Button className="z-40 absolute right-0 w-10 border-l border-gray-600 rounded-r h-10"
-                onClick={()=>openModal("source")}>
-                  <FaMapMarkedAlt className="text-gray-300 w-4 h-4 mr-0.4"/>
-                </Button>
-                <CustomDropdown
-                  label={intl.formatMessage({ id: 'Consignment.Add.Option5' })}  options={postOffices}
-                  selectedOption={userData.startOffice}
-                  onSelectOption={(option) => handleInputChange('startOffice', option)}
+          }
+          <span className="text-sm">&#8212; <FormattedMessage id="Consignment.Add.Or" /> &#8212;</span>
+          <div className="w-full">
+            <Button className="flex items-center rounded-xl w-full p-2" onClick={() => setOption(1)}>
+              {option === 1 ? <MdRadioButtonChecked /> : <MdRadioButtonUnchecked />}
+              <span className="pl-1"><FormattedMessage id="Consignment.Add.Option2" /></span>
+            </Button>
+            {option === 1 &&
+              <div className="flex justify-center w-full">
+                <input
+                  className={`h-10 rounded-lg mt-2 mb-1 p-3 w-full border-green-700 text-black
+                  bg-transparent drop-shadow-md hover:drop-shadow-xl border 
+                  hover:shadow-md mr-2`}
+                  placeholder={intl.formatMessage({ id: "Consignment.Add.Add1" })}
+                  value={shipmentIdInput}
+                  onChange={(e) => setShipmentIdInput(e.target.value)}
                 />
-              </div>
-              <div className="relative">
-                <Button className="z-40 absolute right-0 w-10 border-l border-gray-600 rounded-r h-10"
-                onClick={()=>openModal("destination")}>
-                  <FaMapMarkedAlt className="text-gray-300 w-4 h-4 mr-0.4"/>
+                <Button
+                  className={`h-10 rounded-lg mt-2 mb-1 p-3 w-36 border-green-700 hover:bg-green-700 text-green-500
+                  bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
+                  hover:shadow-md`}
+                  onClick={() => { }}
+                >
+                  <IoIosBarcode className="hidden sm:block mr-2 h-5 w-5" />
+                  <span className="block"><FormattedMessage id="Consignment.Add.Add2" /></span>
                 </Button>
-                <CustomDropdown
-                  label={intl.formatMessage({ id: 'Consignment.Add.Option6' })}  options={postOffices}
-                  selectedOption={userData.endOffice}
-                  onSelectOption={(option) => handleInputChange('endOffice', option)}
-                />
               </div>
-            </div>
+            }
           </div>
         </div>
         <Button className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
-        bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md">
-          <span className="hidden xs:block"><FormattedMessage id="Consignment.Add.Button"/></span>
+        bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
+          onClick={handleConfirm}>
+          <span className="hidden xs:block"><FormattedMessage id="Consignment.Add.Button" /></span>
         </Button>
       </motion.div>
     </motion.div>

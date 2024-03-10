@@ -1777,9 +1777,9 @@ export interface CreatingShipmentInfo {
 }
 
 export interface FindingShipmentConditions {
-    shipment_id: string,
-    tranport_partner_id: string,
-    staff_id: string
+    shipment_id?: string,
+    tranport_partner_id?: string,
+    staff_id?: string
 }
 
 export interface DecomposingShipmentInfo {

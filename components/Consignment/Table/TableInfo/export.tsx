@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Consignment, columns } from "./column";
+import { columns } from "./column";
 import { DataTable } from "./datatable";
 
 async function getData(): Promise<Consignment[]> {
@@ -16,6 +16,6 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-      <DataTable columns={columns} data={data} />
+    <DataTable columns={columns} data={data} />
   );
 }

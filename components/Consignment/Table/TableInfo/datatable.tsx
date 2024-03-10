@@ -27,15 +27,18 @@ import { FormattedMessage, useIntl } from "react-intl";
 import BasicPopover from "@/components/Common/Popover";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import DisassembleConsignment from "../Disassemble/disConsignment";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  reloadData: () => {};
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  reloadData,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -44,12 +47,6 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
   const intl = useIntl()
-  const options = {
-    [intl.formatMessage({ id: 'Consignment.Status.Done' })]: 3,
-    [intl.formatMessage({ id: 'Consignment.Status.Ongoing' })]: 1,
-    [intl.formatMessage({ id: 'Consignment.Status.Pending' })]: 2,
-    [intl.formatMessage({ id: 'Consignment.Status.Cancel' })]: 4
-  };
   const table = useReactTable({
     data,
     columns,
@@ -69,13 +66,22 @@ export function DataTable<TData, TValue>({
     },
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen2, setModalIsOpen2] = useState(false);
 
   const openModal = () => {
     setModalIsOpen(true);
   };
 
+  const openModal2 = () => {
+    setModalIsOpen2(true);
+  };
+
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const closeModal2 = () => {
+    setModalIsOpen2(false);
   };
 
   const paginationButtons = [];
@@ -89,17 +95,17 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 overflow-x-scroll;">
         <div className="w-full flex flex-col sm:flex-row">
           <div className="relative w-full lg:w-1/2 flex">
             <input
               id="consSearch"
               type="text"
               value={
-                (table.getColumn("consignmentCode")?.getFilterValue() as string) ?? ""
+                (table.getColumn("shipment_id")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("consignmentCode")?.setFilterValue(event.target.value)
+                table.getColumn("shipment_id")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
               text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm dark:text-white`}
@@ -142,16 +148,20 @@ export function DataTable<TData, TValue>({
             </Dropdown>
             <BasicPopover icon={<FilterAltIcon />}>
               <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
-              <Filter type="selection" options={options} column={table.getColumn("consState")} table={table} title="Status" />
             </BasicPopover>
           </div>
-
-          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
-            <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
+          <div className="h-10 grow hidden sm:block"></div>
+          <div className="h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
+            <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 px-2 text-center h-full grow sm:flex-grow-0"
+              onClick={openModal2}>
+              <FormattedMessage id="Consignment.DisButton" />
+            </Button>
+            <Button className="text-xs md:text-sm border border-gray-600 rounded ml-2 px-2 text-center h-full grow sm:flex-grow-0"
               onClick={openModal}>
               <FormattedMessage id="Consignment.AddButton" />
             </Button>
-            {modalIsOpen && <AddNoti onClose={closeModal} />}
+            {modalIsOpen && <AddNoti onClose={closeModal} reloadData={reloadData} />}
+            {modalIsOpen2 && <DisassembleConsignment onClose={closeModal2} reloadData={reloadData} />}
           </div>
         </div>
       </div>

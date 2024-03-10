@@ -5,21 +5,9 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@nextui-org/react";
 import React from "react";
 import { Checkbox } from "@/components/TableUI/checkbox"
-import {FormattedMessage, useIntl } from "react-intl"
-export type Order = {
-  orderId: string;
-  mass: number;
-  length: number;
-  width: number;
-  height: number;
-  pickupLocation: string;
-  deliveryLocation: string;
-  fee: number;
-  cod: number;
-  status: number;
-}
-export const columns: ColumnDef<Order>[] = [
-//select
+import { FormattedMessage, useIntl } from "react-intl"
+export const columns: ColumnDef<any>[] = [
+  //select
   {
     id: "select",
     header: ({ table }) => (
@@ -42,7 +30,7 @@ export const columns: ColumnDef<Order>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-//number
+  //number
   {
     accessorKey: "number",
     header: ({ column }) => {
@@ -52,8 +40,8 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-           <FormattedMessage id="order.ord"/>
-          <ArrowUpDown className="ml-2 h-4 w-4"/>
+          <FormattedMessage id="order.ord" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
@@ -64,9 +52,9 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
   },
-//orderid
+  //orderid
   {
-    accessorKey: "orderId",
+    accessorKey: "order_id",
     header: ({ column }) => {
       return (
         <Button
@@ -74,15 +62,15 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="order.Id"/>
+          <FormattedMessage id="order.Id" />
           <ArrowUpDown className="ml-2 w-4" />
         </Button>
       );
     },
   },
-//pickuplocation
+  //pickuplocation
   {
-    accessorKey: "pickupLocation",
+    accessorKey: "province_source",
 
     header: ({ column }) => {
       return (
@@ -91,30 +79,30 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="order.pickuplocation"/>
+          <FormattedMessage id="order.pickuplocation" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-//deliveryLocation
-{
-  accessorKey: "deliveryLocation",
+  //deliveryLocation
+  {
+    accessorKey: "province_dest",
 
-  header: ({ column }) => {
-    return (
-      <Button
-        className="rounded"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        <FormattedMessage id="order.receive"/>
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    );
+    header: ({ column }) => {
+      return (
+        <Button
+          className="rounded"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          <FormattedMessage id="order.receive" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
-},
-//mass
+  //mass
   {
     accessorKey: "mass",
 
@@ -125,15 +113,15 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="order.mass"/>
+          <FormattedMessage id="order.mass" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-// status
+  // status
   {
-    accessorKey: "status",
+    accessorKey: "status_code",
     header: ({ column }) => {
       return (
         <Button
@@ -141,36 +129,63 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <FormattedMessage id="order.status"/>
+          <FormattedMessage id="order.status" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const intl =useIntl();
-      const consState = row.original.status;
+      const intl = useIntl();
+      const consState = row.original.status_code;
       let statusLabel = "";
       let statusColor = "";
 
       switch (consState) {
         case 1:
-          statusLabel = intl.formatMessage({ id: 'order.status.ongoing' });
-          statusColor = "text-yellow-600";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredSuccess' });
           break;
         case 2:
-          statusLabel = intl.formatMessage({ id: 'order.status.pending' });
-          statusColor = "text-gray-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Processing' });
           break;
         case 3:
-          statusLabel = intl.formatMessage({ id: 'order.status.done' });
-          statusColor = "text-green-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Taking' });
           break;
         case 4:
-          statusLabel = intl.formatMessage({ id: 'order.status.cancel' });
-          statusColor = "text-red-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.TakenSuccess' });
+          break;
+        case 5:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.TakenFail' });
+          break;
+        case 6:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Delivering' });
+          break;
+        case 7:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredCancel' });
+          break;
+        case 8:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredFail' });
+          break;
+        case 9:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Refunding' });
+          break;
+        case 10:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.RefundedSuccess' });
+          break;
+        case 11:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.RefundedFail' });
+          break;
+        case 12:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.EnterAgency' });
+          break;
+        case 13:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.LeaveAgency' });
+          break;
+        case 14:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.ThirdPartyDelivery' });
           break;
         default:
-          statusLabel = "Unknown";
+          statusLabel = statusLabel = "Unknown"
+          break;
       }
 
       return (

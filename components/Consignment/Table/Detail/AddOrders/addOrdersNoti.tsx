@@ -4,37 +4,25 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import LoadingSkeleton from "@/components/LoadingSkeleton/loadingSkeleton";
 import { FormattedMessage } from "react-intl";
-import { Order, columns } from "./Table/column";
+import { columns } from "./Table/column";
 import { DataTable } from "./Table/datatable";
-
-async function getData(): Promise<Order[]> {
-  
-    const res = await fetch(
-      "https://65b8fe3fb71048505a89e8db.mockapi.io/api/consignment"
-    );
-    const data = await res.json();
-    const orders: Order[] = data.flatMap((consignment) => consignment.orders);
-    return orders;
-}
+import { OrdersOperation } from "@/TDLib/tdlogistics"; // Import OrdersOperation from your library
 
 interface AddNotificationProps {
     onClose: () => void;
-    addOrders: (orders: Order[]) => void;
+    addOrders: (orders: any[]) => void;
 }
 
-const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) => {
+const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders }) => {
     const [isShaking, setIsShaking] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(true);
-    const [data, setData] = useState<Order[]>([]);
-    const [selectedOrders, setSelectedOrders] = useState<Order[]>([]);
+    const [data, setData] = useState<any[]>([]);
+    const [selectedOrders, setSelectedOrders] = useState<any[]>([]);
+    const ordersOperation = new OrdersOperation(); // Initialize OrdersOperation
 
-    const fetchDemoPage = async () => {
-        const data = await getData()
-        setData(data);
-    };
     useEffect(() => {
-        fetchDemoPage();
+        fetchOrders();
     }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,8 +52,22 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) 
         }
     };
 
-    const handleSetSelectedOrders = ( orders: any) => {
-        setSelectedOrders(orders)
+    const fetchOrders = async () => {
+        try {
+            const result = await ordersOperation.get({});
+            if (!result.error) {
+                setData(result.data);
+                console.log(result.data)
+            } else {
+                console.error("Error fetching orders:", result.error);
+            }
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        }
+    };
+
+    const handleSetSelectedOrders = (orders: any[]) => {
+        setSelectedOrders(orders);
     };
 
     const handleSubmit = () => {
@@ -87,7 +89,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) 
         >
             <motion.div
                 ref={notificationRef}
-                className={`relative w-[98%] h-[95%] sm:w-11/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto flex flex-col
+                className={`relative w-[98%] h-[95%] sm:w-11/12 bg-white dark:bg-[#14141a] text-black dark:text-white rounded-xl p-4 overflow-y-auto flex flex-col
           ${isShaking ? 'animate-shake' : ''}`}
                 initial={{ scale: 0 }}
                 animate={{ scale: isVisible ? 1 : 0 }}
@@ -95,18 +97,18 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) 
                 transition={{ duration: 0.3 }}
             >
                 <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-                    <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">Danh sách đơn hàng</div>
+                    <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center">Danh sách đơn hàng</div>
                     <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
                         <IoMdClose className="w-5/6 h-5/6" />
                     </Button>
                 </div>
-                <div className="overflow-y-scroll grow border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white">
+                <div className="overflow-y-scroll grow border border-[#545e7b] mt-4 no-scrollbar flex flex-col dark:bg-[#14141a] p-2 rounded-md dark:text-white">
                     {data ? (
                         <DataTable
                             columns={columns}
                             data={data}
-                            selectedOrders={selectedOrders} // Truyền danh sách các đơn hàng đã được chọn xuống DataTable
-                            setSelectedOrders={handleSetSelectedOrders} // Truyền hàm setSelectedOrders để cập nhật danh sách đơn hàng đã được chọn
+                            selectedOrders={selectedOrders}
+                            setSelectedOrders={handleSetSelectedOrders}
                         />
                     ) : (
                         <LoadingSkeleton />
@@ -119,7 +121,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders}) 
                 hover:shadow-md`}
                         onClick={handleSubmit}
                     >
-                        <span className="hidden xs:block"><FormattedMessage id="Consignment.Info.Submit" /></span>
+                        <span className="hidden xs:block"><FormattedMessage id="Consignment.Add.Submit" /></span>
                     </Button>
                 </div>
             </motion.div>
