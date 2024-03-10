@@ -1,25 +1,51 @@
 import { VehicleData, columns } from "./column";
 import { DataTable } from "./datatable";
 import https from "https";
+import {
+  FindingVehicleByAdminConditions,
+  FindingVehicleByStaffCondition,
+  Vehicle,
+  StaffsOperation,
+} from "@/TDLib/tdlogistics";
+import { useContext } from "react";
+import { UserContext } from "@/Context/InfoContext/UserContext";
 
-async function getData(): Promise<VehicleData[]> {
+const vehicle = new Vehicle();
+const condition: FindingVehicleByAdminConditions[] = [];
+const condition2: FindingVehicleByStaffCondition[] = [];
+
+async function getRole(): Promise<any> {
+  const staff = new StaffsOperation();
+  const res = await staff.getAuthenticatedStaffInfo();
+  const role = res.data.role;
+  return role;
+}
+async function getData(): Promise<any> {
   // Fetch data from your API here.
+  const role = await getRole();
+  if (role === "ADMIN") {
+    const response = await vehicle.findByAdmin(condition[0]);
+    console.log(response);
+    return response.data;
+  } else {
+    const response = await vehicle.findByStaff(condition2[0]);
 
-  const res = await fetch(
-    "https://65a8eb68219bfa371867ef13.mockapi.io/fakeapi/GiveJob"
-  );
-  const data = await res.json();
-  return data;
+    console.log(response);
+    return response.data;
+  }
 }
 
 export default async function DemoPage() {
   const data = await getData();
-
-  return (
-    <section className="">
-      <div className="container">
-        <DataTable columns={columns} data={data} />
+  const role = await getRole();
+  console.log(data);
+  if (role === "ADMIN") {
+    return <DataTable columns={columns} data={data} />;
+  } else {
+    return (
+      <div className="flex place-content-center">
+        "You are not authorized to access this page."
       </div>
-    </section>
-  );
+    );
+  }
 }

@@ -221,7 +221,7 @@
     "Vehicle.Number": "STT",
     "Vehicle.Name": "Tên phương tiện",
     "Vehicle.Type": "Loại phương tiện",
-    "Vehicle.Status": "Trạng thái hoạt động",
+    "Vehicle.Status": "Trạng thái",
     "Vehicle.Detail": "Chi tiết/Sửa đổi",
     "Vehicle.Infomation": "Thông tin phương tiện",
     "Vehicle.PartnerCode": "Mã đối tác",

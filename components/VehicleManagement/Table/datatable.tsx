@@ -33,7 +33,7 @@ import { FormattedMessage } from "react-intl";
 import AddVehicle from "./AddVehicle/addvehicle";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-
+import { Vehicle, DeletingVehicleCondition } from "@/TDLib/tdlogistics";
 import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -83,11 +83,17 @@ export function DataTable<TData, TValue>({
     );
   }
 
-  const handleDeleteRowsSelected = () => {
-    table.getFilteredSelectedRowModel().rows.forEach((row) => {
-      console.log(row.original);
-      // Chỗ này call API về sever để xóa nhân viên nè m
-      //chỉ cần truyền row.original.id vào là được
+  const deleteVehicle = new Vehicle();
+  const handleDeleteRowsSelected = async () => {
+    table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
+      console.log();
+      const condition: DeletingVehicleCondition = {
+        vehicle_id: (row.original as any).vehicle_id,
+      };
+      const error = await deleteVehicle.deleteVehicle(condition);
+      if (error) {
+        alert(error.message);
+      }
     });
   };
   const confirmDelete = () => {
@@ -113,7 +119,7 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex flex-col sm:flex-row">
           <div className="relative w-full sm:w-1/2 lg:w-1/3 flex">
             <input
-              id="staffSearch"
+              id="VehicleSearch"
               type="text"
               value={
                 (table.getColumn("fullname")?.getFilterValue() as string) ?? ""
@@ -122,21 +128,20 @@ export function DataTable<TData, TValue>({
                 table.getColumn("fullname")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
-                    text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
-              placeholder=""
+                    text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm dark:text-white`}
             />
             <label
-              htmlFor="staffSearch"
+              htmlFor="VehicleSearch"
               className={`absolute left-3 -top-0 text-xxs leading-5 text-gray-500 transition-all 
-                    peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
+                    peer-placeholder-shown:tsext-sm peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2.5 
                     peer-focus:-top-0.5 peer-focus:leading-5 peer-focus:text-blue-500 peer-focus:text-xxs`}
             >
-              <FormattedMessage id="Vehicle.SearchBox" />
+              Tìm kiếm theo tên Nhân viên
             </label>
             <Dropdown className="z-30">
               <DropdownTrigger>
                 <Button
-                  className="text-xs md:text-base border border-gray-600 rounded ml-2 w-24 text-center"
+                  className="text-xs md:text-base border border-gray-600 rounded ml-2 w-36 text-center"
                   aria-label="Show items per page"
                 >
                   <FormattedMessage id="Show" />{" "}
@@ -144,7 +149,7 @@ export function DataTable<TData, TValue>({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                className="bg-white dark:bg-[#1a1b23] border border-gray-300 rounded w-36"
                 aria-labelledby="dropdownMenuButton"
               >
                 {[10, 20, 30, 40, 50].map((pageSize, index) => (
@@ -156,7 +161,7 @@ export function DataTable<TData, TValue>({
                       onClick={() => table.setPageSize(pageSize)}
                       variant="bordered"
                       aria-label={`Show ${pageSize}`}
-                      className="text-center  text-white w-full"
+                      className="text-center  dark:text-white w-full"
                     >
                       <FormattedMessage id="Show" /> {pageSize}
                     </Button>
@@ -165,20 +170,14 @@ export function DataTable<TData, TValue>({
               </DropdownMenu>
             </Dropdown>
           </div>
-          <BasicPopover icon={<FilterAltIcon />}>
+          {/* <BasicPopover icon={<FilterAltIcon />}>
             <Filter
               type="search"
-              column={table.getColumn("codeAgency")}
+              column={table.getColumn("fullname")}
               table={table}
-              title="Loại công việc"
+              title="Tên nhân viên"
             />
-            <Filter
-              type="search"
-              column={table.getColumn("codeStaff")}
-              table={table}
-              title="Mã nhân viên"
-            />
-          </BasicPopover>
+          </BasicPopover> */}
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
             <Button
               className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
@@ -244,7 +243,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-sm justify-self-start text-muted-foreground rounded-lg border px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-sm justify-self-start text-muted-foreground rounded-lg border px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal dark:text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"
@@ -262,9 +261,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="prev" />
@@ -298,9 +297,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal text-black
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="next" />

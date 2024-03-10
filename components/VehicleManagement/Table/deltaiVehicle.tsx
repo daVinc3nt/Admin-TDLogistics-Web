@@ -5,15 +5,21 @@ import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
 interface VehicleData {
-  id: string;
-  codeAgency: string;
-  codeStaff: string;
+  transport_partner_id: string;
+  agency_id: string;
+  staff_id: string;
   role: string;
   GPLX: File;
-  maxWeight: string;
-  BKS: string;
-  Active: boolean;
-  nameVehicle: string;
+  max_load: string;
+  license_plate: string;
+  busy: boolean;
+  shipment_ids: string[];
+  type: string;
+  vehicle_id: string;
+  mass: string;
+  agency_name: string;
+  transport_partner_name: string;
+  fullname: string;
 }
 
 interface DetailVehicleProps {
@@ -109,13 +115,13 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.codeAgency}
+                  value={data.transport_partner_id}
                   onChange={(e) =>
-                    setData({ ...data, codeAgency: e.target.value })
+                    setData({ ...data, transport_partner_id: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.codeAgency}</div>
+                <div>{data.transport_partner_id}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -124,13 +130,13 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.codeStaff}
+                  value={data.staff_id}
                   onChange={(e) =>
-                    setData({ ...data, codeStaff: e.target.value })
+                    setData({ ...data, staff_id: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.codeStaff}</div>
+                <div>{data.staff_id}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -152,13 +158,13 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.maxWeight}
+                  value={data.max_load}
                   onChange={(e) =>
-                    setData({ ...data, maxWeight: e.target.value })
+                    setData({ ...data, max_load: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.maxWeight}</div>
+                <div>{data.max_load}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -167,11 +173,13 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.BKS}
-                  onChange={(e) => setData({ ...data, BKS: e.target.value })}
+                  value={data.license_plate}
+                  onChange={(e) =>
+                    setData({ ...data, license_plate: e.target.value })
+                  }
                 />
               ) : (
-                <div>{data.BKS}</div>
+                <div>{data.license_plate}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -180,13 +188,11 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <input
                   className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                   type="text"
-                  value={data.nameVehicle}
-                  onChange={(e) =>
-                    setData({ ...data, nameVehicle: e.target.value })
-                  }
+                  value={data.type}
+                  onChange={(e) => setData({ ...data, type: e.target.value })}
                 />
               ) : (
-                <div>{data.nameVehicle}</div>
+                <div>{data.type}</div>
               )}
             </div>
             <div className="flex">
@@ -197,26 +203,26 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 <div className=" bg-transparent font-bold border-b-2 border-[#545e7b] text-white flex flex-row gap-3 ml-2">
                   <input
                     type="radio"
-                    name="Active"
+                    name="busy"
                     value={true.toString()} // Convert boolean value to string
-                    checked={data.Active === true}
+                    checked={data.busy === true}
                     onChange={(e) =>
                       setData({
                         ...data,
-                        Active: JSON.parse(e.target.value),
+                        busy: JSON.parse(e.target.value),
                       })
                     }
                   />
                   Hoạt động
                   <input
                     type="radio"
-                    name="Active"
+                    name="busy"
                     value={false.toString()}
-                    checked={data.Active === false}
+                    checked={data.busy === false}
                     onChange={(e) =>
                       setData({
                         ...data,
-                        Active: JSON.parse(e.target.value),
+                        busy: JSON.parse(e.target.value),
                       })
                     }
                   />
@@ -224,7 +230,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
                 </div>
               ) : (
                 <div className="font-bold ">
-                  {data.Active ? "Hoạt động" : "Đã nghỉ việc"}
+                  {data.busy ? "Hoạt động" : "Đã nghỉ việc"}
                 </div>
               )}
             </div>
