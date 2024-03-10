@@ -3,29 +3,140 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
+import {
+  StaffsOperation,
+  AgencyOperation,
+  UpdatingAgencyCondition,
+  UpdatingAgencyInfo,
+} from "@/TDLib/tdlogistics";
+import axios from "axios";
+import { set } from "date-fns";
 interface Postdetail {
-  number: string;
-  postName: string;
-  postMail: string;
-  postIncome: number;
-  postRate: number;
-  postPhone: string;
-  postAddress: string;
-  postBankAccount: string;
-  postBankName: string;
+  agency_id: string;
+  agency_name: string;
+  bank: string;
+  bin: string;
+  commission_rate: string;
+  contract: string;
+  detail_address: string;
+  district: string;
+  email: string;
+  latitude: string;
+  level: string;
+  longitude: string;
+  managed_wards: string[];
+  phone_number: string;
+  postal_code: string;
+  province: string;
+  town: string;
+  revenue: string;
 }
 
-interface DetailStaffProps {
+interface City {
+  Id: string;
+  Name: string;
+  Districts: District[];
+}
+
+interface District {
+  Id: string;
+  Name: string;
+  Wards: Ward[];
+}
+
+interface Ward {
+  Id: string;
+  Name: string;
+}
+const staff = new StaffsOperation();
+
+interface DetailAgencyProps {
   onClose: () => void;
   dataInitial: Postdetail;
 }
 
-const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
+const DetailPost: React.FC<DetailAgencyProps> = ({ onClose, dataInitial }) => {
+  const intl = useIntl();
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const [data, setData] = useState(dataInitial);
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setRole(res.data.role);
+    };
+
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await axios.get(
+        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
+      );
+      setCities(response.data);
+    };
+
+    fetchCities();
+  }, []);
+  const [Agencydata, setAgencydata] = useState({
+    agency_id: dataInitial.agency_id,
+    agency_name: dataInitial.agency_name,
+    bank: dataInitial.bank,
+    bin: dataInitial.bin,
+    commission_rate: dataInitial.commission_rate,
+    contract: dataInitial.contract,
+    detail_address: dataInitial.detail_address,
+    district: dataInitial.district,
+    email: dataInitial.email,
+    latitude: dataInitial.latitude,
+    level: dataInitial.level,
+    longitude: dataInitial.longitude,
+    managed_wards: dataInitial.managed_wards,
+    phone_number: dataInitial.phone_number,
+    postal_code: dataInitial.postal_code,
+    province: dataInitial.province,
+    town: dataInitial.town,
+    revenue: dataInitial.revenue,
+  });
+
+  const handleInputChange = (key: string, value: string) => {
+    setAgencydata((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(event.target.value);
+    setSelectedDistrict("");
+    handleInputChange(
+      "province",
+      cities.find((city) => city.Id === event.target.value).Name
+    );
+  };
+
+  const handleDistrictChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedDistrict(event.target.value);
+    handleInputChange(
+      "district",
+      districts.find((district) => district.Id === event.target.value).Name
+    );
+  };
+
+  const selectedCityObj = cities.find((city) => city.Id === selectedCity);
+  const districts = selectedCityObj ? selectedCityObj.Districts : [];
+
+  const selectedDistrictObj = districts.find(
+    (district) => district.Id === selectedDistrict
+  );
+  const wards = selectedDistrictObj ? selectedDistrictObj.Wards : [];
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -60,9 +171,42 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const handleEditClick = () => {
     setIsEditing(true);
   };
-  const handleSaveClick = () => {
-    // Gửi API về server để cập nhật dữ liệu
-    // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+  const [error, setError] = useState("");
+  const handleSaveClick = async () => {
+    const updateAgency = new AgencyOperation();
+
+    const data: UpdatingAgencyInfo = {
+      agency_name: Agencydata.agency_name,
+      province: Agencydata.province,
+      district: Agencydata.district,
+      town: Agencydata.town,
+      detail_address: Agencydata.detail_address,
+      latitude: Agencydata.latitude,
+      longitude: Agencydata.longitude,
+      email: Agencydata.email,
+      phone_number: Agencydata.phone_number,
+      revenue: Agencydata.revenue,
+      commission_rate: Agencydata.commission_rate,
+      bin: Agencydata.bin,
+      bank: Agencydata.bank,
+    };
+    if (
+      role === "ADMIN" ||
+      role === "MANAGER" ||
+      role === "HUMAN_RESOURCE_MANAGER"
+    ) {
+      const condition: UpdatingAgencyCondition = {
+        agency_id: dataInitial.agency_id,
+      };
+      const response = await updateAgency.update(data, condition);
+      console.log(response);
+      if (response.error) {
+        setError(response.message);
+      } else {
+        alert("Cập nhật thành công");
+      }
+    }
+
     setIsEditing(false);
   };
 
@@ -80,7 +224,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 dark:bg-[#14141a] bg-white rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -88,7 +232,7 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+          <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center">
             <FormattedMessage id="PostOffice.Infomation" />
           </div>
           <Button
@@ -98,24 +242,40 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className="grid grid-cols-2">
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  dark:bg-[#14141a] p-2 rounded-md dark:text-white place-content-center">
+          <div className="grid grid-cols">
+            {role === "ADMIN" && (
+              <div className="flex gap-5">
+                <div className="font-bold text-base">
+                  <FormattedMessage id="Agency.ID" />:
+                </div>
+                <div>{Agencydata.agency_id}</div>
+              </div>
+            )}
+
             <div className="flex gap-5">
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.Name" />:
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postName}
+                  value={Agencydata.agency_name}
                   onChange={(e) =>
-                    setData({ ...data, postName: e.target.value })
+                    setAgencydata({
+                      ...Agencydata,
+                      agency_name: e.target.value,
+                    })
                   }
                 />
               ) : (
-                <div>{data.postName}</div>
+                <div>{Agencydata.agency_name}</div>
               )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Postalcode:</div>
+              <div>{Agencydata.postal_code}</div>
             </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">
@@ -123,88 +283,51 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postPhone}
+                  value={Agencydata.phone_number}
                   onChange={(e) =>
-                    setData({ ...data, postPhone: e.target.value })
+                    setAgencydata({
+                      ...Agencydata,
+                      phone_number: e.target.value,
+                    })
                   }
                 />
               ) : (
-                <div>{data.postPhone}</div>
+                <div>{Agencydata.phone_number}</div>
               )}
             </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">Email:</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postMail}
+                  value={Agencydata.email}
                   onChange={(e) =>
-                    setData({ ...data, postMail: e.target.value })
+                    setAgencydata({ ...Agencydata, email: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postMail}</div>
+                <div>{Agencydata.email}</div>
               )}
             </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Address" />:
-              </div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
-                  value={data.postAddress}
-                  onChange={(e) =>
-                    setData({ ...data, postAddress: e.target.value })
-                  }
-                />
-              ) : (
-                <div>{data.postAddress}</div>
-              )}
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Income" />:
-              </div>
 
-              <div>{data.postIncome}</div>
-            </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">
-                <FormattedMessage id="PostOffice.Rate" />:
-              </div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="number"
-                  value={data.postRate}
-                  onChange={(e) =>
-                    setData({ ...data, postRate: Number(e.target.value) })
-                  }
-                />
-              ) : (
-                <div>{data.postRate}</div>
-              )}
-            </div>
             <div className="flex gap-5">
               <div className="font-bold text-base">
                 <FormattedMessage id="PostOffice.BankName" />:
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postBankName}
+                  value={Agencydata.bank}
                   onChange={(e) =>
-                    setData({ ...data, postBankName: e.target.value })
+                    setAgencydata({ ...Agencydata, bank: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postBankName}</div>
+                <div>{Agencydata.bank}</div>
               )}
             </div>
             <div className="flex gap-5">
@@ -213,17 +336,138 @@ const DetailPost: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
               </div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
                   type="text"
-                  value={data.postBankAccount}
+                  value={Agencydata.bin}
                   onChange={(e) =>
-                    setData({ ...data, postBankAccount: e.target.value })
+                    setAgencydata({ ...Agencydata, bin: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.postBankAccount}</div>
+                <div>{Agencydata.bin}</div>
               )}
             </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Commission_rate</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
+                  type="text"
+                  value={Agencydata.commission_rate}
+                  onChange={(e) =>
+                    setAgencydata({
+                      ...Agencydata,
+                      commission_rate: e.target.value,
+                    })
+                  }
+                />
+              ) : (
+                <div>{Agencydata.commission_rate}</div>
+              )}
+            </div>
+            <div className="flex gap-5">
+              <div className="font-bold text-base">Doanh thu :</div>
+              {isEditing ? (
+                <input
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] dark:text-white"
+                  type="text"
+                  value={Agencydata.revenue}
+                  onChange={(e) =>
+                    setAgencydata({ ...Agencydata, revenue: e.target.value })
+                  }
+                />
+              ) : (
+                <div>{Agencydata.revenue}</div>
+              )}
+            </div>
+            <div className="flex gap-3 mt-3">
+              {!isEditing ? (
+                <div className="flex gap-3">
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:
+                  </div>
+                  <div>{Agencydata?.detail_address}/</div>
+                  <div>{Agencydata?.town}/</div>
+                  <div>{Agencydata?.district}/</div>
+                  <div>{Agencydata?.province}</div>
+                </div>
+              ) : (
+                <>
+                  <div className="font-bold text-base">
+                    <FormattedMessage id="TransportPartner.Adress" />:{" "}
+                  </div>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    id="city"
+                    aria-label=".form-select-sm"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose Province" })}
+                    </option>
+                    {cities.map((city) => (
+                      <option key={city.Id} value={city.Id}>
+                        {city.Name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                }
+                `}
+                    id="district"
+                    aria-label=".form-select-sm"
+                    value={selectedDistrict}
+                    onChange={handleDistrictChange}
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose District" })}
+                    </option>
+                    {districts.map((district) => (
+                      <option key={district.Id} value={district.Id}>
+                        {district.Name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    id="ward"
+                    aria-label=".form-select-sm"
+                    onChange={(e) =>
+                      handleInputChange(
+                        "town",
+                        wards.find((ward) => ward.Id === e.target.value).Name
+                      )
+                    }
+                  >
+                    <option value="">
+                      {intl.formatMessage({ id: "Choose Ward" })}
+                    </option>
+                    {wards.map((ward) => (
+                      <option key={ward.Id} value={ward.Id}>
+                        {ward.Name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    type=""
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                `}
+                    placeholder="Số nhà- tên đường"
+                    onChange={(e) =>
+                      handleInputChange("detail_address", e.target.value)
+                    }
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          <div className="text-red-700 font-bold flex place-content-center text-base">
+            {error}
           </div>
         </div>
 

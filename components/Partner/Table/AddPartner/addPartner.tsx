@@ -10,7 +10,6 @@ import {
   CreatingTransportPartnerByAdminInfo,
   CreatingTransportPartnerByAgencyInfo,
   StaffsOperation,
-  StaffsAuthenticate,
 } from "@/TDLib/tdlogistics";
 interface AddPartnerProps {
   onClose: () => void;
@@ -374,7 +373,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-[#14141a] rounded-xl p-4 overflow-y-auto ${
+        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 dark:bg-[#14141a] bg-white rounded-xl p-4 overflow-y-auto ${
           isShaking ? "animate-shake" : ""
         }`}
         initial={{ scale: 0 }}
@@ -383,7 +382,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+          <div className="font-bold text-lg sm:text-2xl pb-2 dark:text-white w-full text-center">
             <FormattedMessage id="TransportPartner.AddButton" />
           </div>
           <Button
@@ -393,15 +392,15 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <IoMdClose className="w-5/6 h-5/6" />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white">
           <div className="w-[98%] sm:w-10/12">
-            <h1 className="font-semibold pb-2 text-center">
+            <h1 className="font-semibold pb-2 text-center dark:text-white">
               <FormattedMessage id="TransportPartner.Add.HeadInfo" />
             </h1>
             <div className="flex gap-3">
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_fullname ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Fullname" })}
                 onChange={(e) =>
@@ -411,7 +410,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
 
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_phone_number ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Phone" })}
                 onChange={(e) =>
@@ -422,7 +421,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3 mt-3">
               <input
                 type="date"
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_date_of_birth ? "border-red-500" : ""}`}
                 placeholder="Ngày sinh"
                 onChange={(e) =>
@@ -431,14 +430,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
               />
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_cccd ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "CCCD" })}
                 onChange={(e) => handleInputChange("user_cccd", e.target.value)}
               />
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_email ? "border-red-500" : ""}`}
                 placeholder="Email"
                 onChange={(e) =>
@@ -449,14 +448,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3 mt-3">
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_bank ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankName" })}
                 onChange={(e) => handleInputChange("user_bank", e.target.value)}
               />
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_bin ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankNumber" })}
                 onChange={(e) => handleInputChange("user_bin", e.target.value)}
@@ -464,7 +463,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             </div>
             <div className="flex gap-3 mt-3">
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_province ? "border-red-500" : ""}`}
                 id="city"
                 aria-label=".form-select-sm"
@@ -481,7 +480,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ))}
               </select>
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_district ? "border-red-500" : ""}
                 `}
                 id="district"
@@ -499,7 +498,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ))}
               </select>
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_town ? "border-red-500" : ""}`}
                 id="ward"
                 aria-label=".form-select-sm"
@@ -522,7 +521,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
 
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Address" })}
                 onChange={(e) =>
@@ -540,7 +539,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
               <div>
                 <input
                   type=""
-                  className={`ext-xs md:text-sm border w-full border-gray-600 rounded  bg-[#14141a] h-10 p-2
+                  className={`ext-xs md:text-sm border w-full border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2
                   ${checkmissing.username ? "border-red-500" : ""}`}
                   placeholder={intl.formatMessage({ id: "Username" })}
                   onChange={(e) =>
@@ -562,7 +561,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                     onChange={(e) =>
                       handleInputChange("user_password", e.target.value)
                     }
-                    className={`text-xs mt-3 md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 w-full p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-
+                    className={`text-xs mt-3 md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 w-full p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-
                     ${checkmissing.user_password ? "border-red-500" : ""} `}
                   />
 
@@ -583,7 +582,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
-                    className=" text-xs mt-3 w-full md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
+                    className=" text-xs mt-3 w-full md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
                   />
 
                   <button onClick={togglePasswordVisibility2}>
@@ -601,7 +600,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3 mt-3">
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_position ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Role" })}
                 onChange={(e) =>
@@ -610,7 +609,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
               />
               {/* <input
                 type="number"
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_salary ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Salary" })}
                 onChange={(e) =>
@@ -626,7 +625,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3">
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.tax_code ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({
                   id: "TransportPartner.TaxCode",
@@ -636,7 +635,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
               {role === "ADMIN" ? (
                 <input
                   type=""
-                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.agency_id ? "border-red-500" : ""}`}
                   placeholder={intl.formatMessage({
                     id: "TransportPartner.PartnerCode",
@@ -650,7 +649,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3 mt-3">
               <input
                 type="number"
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.phone_number ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Phone" })}
                 onChange={(e) =>
@@ -660,14 +659,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
 
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.email ? "border-red-500" : ""}`}
                 placeholder="Email"
                 onChange={(e) => handleInputChange("email", e.target.value)}
               />
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.transport_partner_name ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({
                   id: "TransportPartner.Name",
@@ -680,14 +679,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <div className="flex gap-3 mt-3">
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.bank ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankName" })}
                 onChange={(e) => handleInputChange("bank", e.target.value)}
               />
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.bin ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "BankNumber" })}
                 onChange={(e) => handleInputChange("bin", e.target.value)}
@@ -695,7 +694,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             </div>
             <div className="flex gap-3 mt-3">
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.province ? "border-red-500" : ""}`}
                 id="city"
                 aria-label=".form-select-sm"
@@ -712,7 +711,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ))}
               </select>
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.district ? "border-red-500" : ""}
                 `}
                 id="district"
@@ -730,7 +729,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ))}
               </select>
               <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.town ? "border-red-500" : ""}`}
                 id="ward"
                 aria-label=".form-select-sm"
@@ -753,7 +752,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
 
               <input
                 type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                className={`text-xs md:text-sm border border-gray-600 rounded  bg-white dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.detail_address ? "border-red-500" : ""}`}
                 placeholder={intl.formatMessage({ id: "Address" })}
                 onChange={(e) =>

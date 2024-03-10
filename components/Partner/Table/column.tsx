@@ -25,6 +25,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="border border-black dark:border-white"
       />
     ),
     cell: ({ row }) => (
@@ -32,6 +33,7 @@ export const columns: ColumnDef<FindingTransportPartnerByAdminConditions>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="border border-black dark:border-white"
       />
     ),
     enableSorting: false,

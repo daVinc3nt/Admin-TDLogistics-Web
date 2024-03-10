@@ -34,8 +34,8 @@ import {
 import { FormattedMessage } from "react-intl";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-
 import BasicPopover from "@/components/Common/Popover";
+import { AgencyOperation, DeletingAgencyCondition } from "@/TDLib/tdlogistics";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -80,20 +80,18 @@ export function DataTable<TData, TValue>({
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  const paginationButtons = [];
-  for (let i = 0; i < table.getPageCount(); i++) {
-    paginationButtons.push(
-      <Button key={i} onClick={() => table.setPageIndex(i)}>
-        {i + 1}
-      </Button>
-    );
-  }
 
-  const handleDeleteRowsSelected = () => {
-    table.getFilteredSelectedRowModel().rows.forEach((row) => {
-      console.log(row.original);
-      // Chỗ này call API về sever để xóa nhân viên nè m
-      //chỉ cần truyền row.original.id vào là được
+  const deleteAgency = new AgencyOperation();
+  const handleDeleteRowsSelected = async () => {
+    table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
+      console.log();
+      const condition: DeletingAgencyCondition = {
+        agency_id: (row.original as any).agency_id,
+      };
+      const error = await deleteAgency.delete(condition);
+      if (error) {
+        alert(error.message);
+      }
     });
   };
   const confirmDelete = () => {
@@ -112,6 +110,14 @@ export function DataTable<TData, TValue>({
       // Không làm gì cả
     }
   };
+  const paginationButtons = [];
+  for (let i = 0; i < table.getPageCount(); i++) {
+    paginationButtons.push(
+      <Button key={i} onClick={() => table.setPageIndex(i)}>
+        {i + 1}
+      </Button>
+    );
+  }
 
   return (
     <div>
@@ -122,10 +128,13 @@ export function DataTable<TData, TValue>({
               id="postSearch"
               type="text"
               value={
-                (table.getColumn("postName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("agency_name")?.getFilterValue() as string) ??
+                ""
               }
               onChange={(event) =>
-                table.getColumn("postName")?.setFilterValue(event.target.value)
+                table
+                  .getColumn("agency_name")
+                  ?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
@@ -149,7 +158,7 @@ export function DataTable<TData, TValue>({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                className="bg-[#1a1b23] border border-gray-300 rounded w-24"
+                className="dark:bg-[#1a1b23] bg-white border border-black dark:border-gray-300 rounded w-24"
                 aria-labelledby="dropdownMenuButton"
               >
                 {[10, 20, 30, 40, 50].map((pageSize, index) => (
@@ -161,7 +170,7 @@ export function DataTable<TData, TValue>({
                       onClick={() => table.setPageSize(pageSize)}
                       variant="bordered"
                       aria-label={`Show ${pageSize}`}
-                      className="text-center  text-white w-full"
+                      className="text-center  dark:text-white w-full"
                     >
                       Show {pageSize}
                     </Button>
@@ -173,15 +182,21 @@ export function DataTable<TData, TValue>({
           <BasicPopover icon={<FilterAltIcon />}>
             <Filter
               type="search"
-              column={table.getColumn("postIncome")}
+              column={table.getColumn("phone_number")}
               table={table}
-              title="Doanh thu"
+              title="Phone Number"
             />
             <Filter
               type="search"
-              column={table.getColumn("postMail")}
+              column={table.getColumn("email")}
               table={table}
               title="Email"
+            />
+            <Filter
+              type="search"
+              column={table.getColumn("postal_code")}
+              table={table}
+              title="Postal Code"
             />
           </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
@@ -220,8 +235,8 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${
-                    row.getIsSelected() ? "bg-gray-700" : ""
+                  className={`border-gray-900 ${
+                    row.getIsSelected() ? "dark:bg-gray-700 bg-slate-300" : ""
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -250,7 +265,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-md justify-self-start text-muted-foreground rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal dark:text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"
@@ -268,9 +283,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="prev" />
@@ -304,9 +319,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
-          hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
+          hover:shadow-md md:text-base focus:outline-none font-normal text-black
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="next" />
