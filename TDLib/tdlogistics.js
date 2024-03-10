@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
+exports.ScheduleOperation = exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
 var axios_1 = require("axios");
 var FormData = require("form-data");
 // const socket = io("http://localhost:4000");
@@ -76,8 +76,8 @@ var UsersAuthenticate = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_1 = _a.sent();
-                        console.log("Error sending OTP: ", error_1.response.data);
-                        return [2 /*return*/, error_1.response.data];
+                        console.log("Error sending OTP: ", error_1);
+                        return [2 /*return*/, error_1];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -103,8 +103,8 @@ var UsersAuthenticate = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, valid: data.valid, message: data.message }];
                     case 2:
                         error_2 = _a.sent();
-                        console.log("Error verifying OTP:", error_2.response.data);
-                        return [2 /*return*/, error_2.response.data];
+                        console.log("Error verifying OTP:", error_2);
+                        return [2 /*return*/, error_2];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -137,8 +137,8 @@ var StaffsAuthenticate = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, valid: data.valid, message: data.message }];
                     case 2:
                         error_3 = _a.sent();
-                        console.log("Error logging in: ", error_3.response.data);
-                        return [2 /*return*/, error_3.response.data];
+                        console.log("Error logging in: ", error_3);
+                        return [2 /*return*/, error_3];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -163,8 +163,8 @@ var StaffsAuthenticate = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_4 = _a.sent();
-                        console.log("Error sending OTP: ", error_4.response.data);
-                        return [2 /*return*/, error_4.response.data];
+                        console.log("Error sending OTP: ", error_4);
+                        return [2 /*return*/, error_4];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -190,8 +190,8 @@ var StaffsAuthenticate = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_5 = _a.sent();
-                        console.log("Error verify OTP", error_5.response.data);
-                        return [2 /*return*/, error_5.response.data];
+                        console.log("Error verify OTP", error_5);
+                        return [2 /*return*/, error_5];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -221,8 +221,8 @@ var UsersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_6 = _a.sent();
-                        console.log("Error get one user: ", error_6.response.data);
-                        return [2 /*return*/, error_6.response.data];
+                        console.log("Error get one user: ", error_6);
+                        return [2 /*return*/, error_6];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -244,8 +244,8 @@ var UsersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_7 = _a.sent();
-                        console.log("Error get one user: ", error_7.response.data);
-                        return [2 /*return*/, error_7.response.data];
+                        console.log("Error get one user: ", error_7);
+                        return [2 /*return*/, error_7];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -267,8 +267,8 @@ var UsersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_8 = _a.sent();
-                        console.log("Error create new user: ", error_8.response.data);
-                        return [2 /*return*/, error_8.response.data];
+                        console.log("Error create new user: ", error_8);
+                        return [2 /*return*/, error_8];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -290,8 +290,8 @@ var UsersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_9 = _a.sent();
-                        console.log("Error update new user: ", error_9.response.data);
-                        return [2 /*return*/, error_9.response.data];
+                        console.log("Error update new user: ", error_9);
+                        return [2 /*return*/, error_9];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -321,8 +321,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_10 = _a.sent();
-                        console.log("Error checking exist agency: ", error_10.response.data);
-                        return [2 /*return*/, error_10.response.data];
+                        console.log("Error checking exist agency: ", error_10);
+                        return [2 /*return*/, error_10];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -344,8 +344,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_11 = _a.sent();
-                        console.log("Error creating agency: ", error_11.response.data);
-                        return [2 /*return*/, error_11.response.data];
+                        console.log("Error creating agency: ", error_11);
+                        return [2 /*return*/, error_11];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -367,8 +367,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_12 = _a.sent();
-                        console.log("Error finding agency: ", error_12.response.data);
-                        return [2 /*return*/, error_12.response.data];
+                        console.log("Error finding agency: ", error_12);
+                        return [2 /*return*/, error_12];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -390,8 +390,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_13 = _a.sent();
-                        console.log("Error finding agency: ", error_13.response.data);
-                        return [2 /*return*/, error_13.response.data];
+                        console.log("Error finding agency: ", error_13);
+                        return [2 /*return*/, error_13];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -413,8 +413,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_14 = _a.sent();
-                        console.log("Error finding agency: ", error_14.response.data);
-                        return [2 /*return*/, error_14.response.data];
+                        console.log("Error finding agency: ", error_14);
+                        return [2 /*return*/, error_14];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -436,8 +436,8 @@ var AgencyOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_15 = _a.sent();
-                        console.log("Error finding agency: ", error_15.response.data);
-                        return [2 /*return*/, error_15.response.data];
+                        console.log("Error finding agency: ", error_15);
+                        return [2 /*return*/, error_15];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -467,8 +467,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_16 = _a.sent();
-                        console.log("Error creating new transport partner: ", error_16.response.data);
-                        return [2 /*return*/, error_16.response.data];
+                        console.log("Error creating new transport partner: ", error_16);
+                        return [2 /*return*/, error_16];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -490,8 +490,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_17 = _a.sent();
-                        console.log("Error creating new transport partner: ", error_17.response.data);
-                        return [2 /*return*/, error_17.response.data];
+                        console.log("Error creating new transport partner: ", error_17);
+                        return [2 /*return*/, error_17];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -513,8 +513,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_18 = _a.sent();
-                        console.log("Error finding transport partner: ", error_18.response.data);
-                        return [2 /*return*/, error_18.response.data];
+                        console.log("Error finding transport partner: ", error_18);
+                        return [2 /*return*/, error_18];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -536,8 +536,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_19 = _a.sent();
-                        console.log("Error finding transport partner: ", error_19.response.data);
-                        return [2 /*return*/, error_19.response.data];
+                        console.log("Error finding transport partner: ", error_19);
+                        return [2 /*return*/, error_19];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -559,8 +559,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_20 = _a.sent();
-                        console.log("Error updating transport partner: ", error_20.response.data);
-                        return [2 /*return*/, error_20.response.data];
+                        console.log("Error updating transport partner: ", error_20);
+                        return [2 /*return*/, error_20];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -582,8 +582,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_21 = _a.sent();
-                        console.log("Error deleting transport partner: ", error_21.response.data);
-                        return [2 /*return*/, error_21.response.data];
+                        console.log("Error deleting transport partner: ", error_21);
+                        return [2 /*return*/, error_21];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -613,8 +613,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, existed: data.existed, message: data.message }];
                     case 2:
                         error_22 = _a.sent();
-                        console.log("Error checking exist vehicle: ", error_22.response.data);
-                        return [2 /*return*/, error_22.response.data];
+                        console.log("Error checking exist vehicle: ", error_22);
+                        return [2 /*return*/, error_22];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -636,8 +636,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_23 = _a.sent();
-                        console.log("Error creating new vehicle: ", error_23.response.data);
-                        return [2 /*return*/, error_23.response.data];
+                        console.log("Error creating new vehicle: ", error_23);
+                        return [2 /*return*/, error_23];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -659,8 +659,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_24 = _a.sent();
-                        console.log("Error creating new vehicle: ", error_24.response.data);
-                        return [2 /*return*/, error_24.response.data];
+                        console.log("Error creating new vehicle: ", error_24);
+                        return [2 /*return*/, error_24];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -682,8 +682,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_25 = _a.sent();
-                        console.log("Error finding vehicle: ", error_25.response.data);
-                        return [2 /*return*/, error_25.response.data];
+                        console.log("Error finding vehicle: ", error_25);
+                        return [2 /*return*/, error_25];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -705,8 +705,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_26 = _a.sent();
-                        console.log("Error finding vehicle: ", error_26.response.data);
-                        return [2 /*return*/, error_26.response.data];
+                        console.log("Error finding vehicle: ", error_26);
+                        return [2 /*return*/, error_26];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -728,8 +728,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_27 = _a.sent();
-                        console.log("Error getting orders contained by vehicle: ", error_27.response.data);
-                        return [2 /*return*/, error_27.response.data];
+                        console.log("Error getting orders contained by vehicle: ", error_27);
+                        return [2 /*return*/, error_27];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -751,8 +751,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_28 = _a.sent();
-                        console.log("Error getting orders contained by vehicle: ", error_28.response.data);
-                        return [2 /*return*/, error_28.response.data];
+                        console.log("Error getting orders contained by vehicle: ", error_28);
+                        return [2 /*return*/, error_28];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -774,8 +774,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_29 = _a.sent();
-                        console.log("Error adding orders to vehicle: ", error_29.response.data);
-                        return [2 /*return*/, error_29.response.data];
+                        console.log("Error adding orders to vehicle: ", error_29);
+                        return [2 /*return*/, error_29];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -797,8 +797,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_30 = _a.sent();
-                        console.log("Error deleting orders from vehicle: ", error_30.response.data);
-                        return [2 /*return*/, error_30.response.data];
+                        console.log("Error deleting orders from vehicle: ", error_30);
+                        return [2 /*return*/, error_30];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -820,8 +820,8 @@ var Vehicle = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_31 = _a.sent();
-                        console.log("Error deleting vehicle: ", error_31.response.data);
-                        return [2 /*return*/, error_31.response.data];
+                        console.log("Error deleting vehicle: ", error_31);
+                        return [2 /*return*/, error_31];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -855,8 +855,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.info, message: data.message }];
                     case 2:
                         error_32 = _a.sent();
-                        console.log("Error get authenticated staff information: ", error_32.response.data);
-                        return [2 /*return*/, error_32.response.data];
+                        console.log("Error get authenticated staff information: ", error_32);
+                        return [2 /*return*/, error_32];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -879,8 +879,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_33 = _a.sent();
-                        console.log("Error get one staff: ", error_33.response.data);
-                        return [2 /*return*/, error_33.response.data];
+                        console.log("Error get one staff: ", error_33);
+                        return [2 /*return*/, error_33];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -903,8 +903,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_34 = _a.sent();
-                        console.log("Error get one staff: ", error_34.response.data);
-                        return [2 /*return*/, error_34.response.data];
+                        console.log("Error get one staff: ", error_34);
+                        return [2 /*return*/, error_34];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -927,8 +927,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_35 = _a.sent();
-                        console.log("Error create new staff: ", error_35.response.data);
-                        return [2 /*return*/, error_35.response.data];
+                        console.log("Error create new staff: ", error_35);
+                        return [2 /*return*/, error_35];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -951,8 +951,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_36 = _a.sent();
-                        console.log("Error create new staff: ", error_36.response.data);
-                        return [2 /*return*/, error_36.response.data];
+                        console.log("Error create new staff: ", error_36);
+                        return [2 /*return*/, error_36];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -975,8 +975,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_37 = _a.sent();
-                        console.log("Error create new staff: ", error_37.response.data);
-                        return [2 /*return*/, error_37.response.data];
+                        console.log("Error create new staff: ", error_37);
+                        return [2 /*return*/, error_37];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -999,8 +999,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_38 = _a.sent();
-                        console.log("Error deleting staff: ", error_38.response.data);
-                        return [2 /*return*/, error_38.response.data];
+                        console.log("Error deleting staff: ", error_38);
+                        return [2 /*return*/, error_38];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1048,8 +1048,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_40 = _a.sent();
-                        console.log("Error logging out: ", error_40.response.data);
-                        return [2 /*return*/, error_40.response.data];
+                        console.log("Error logging out: ", error_40);
+                        return [2 /*return*/, error_40];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1073,8 +1073,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_41 = _a.sent();
-                        console.log("Error update password: ", error_41.response.data);
-                        return [2 /*return*/, error_41.response.data];
+                        console.log("Error update password: ", error_41);
+                        return [2 /*return*/, error_41];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1097,8 +1097,8 @@ var StaffsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_42 = _a.sent();
-                        console.log("Error finding partner staff: ", error_42.response.data);
-                        return [2 /*return*/, error_42.response.data];
+                        console.log("Error finding partner staff: ", error_42);
+                        return [2 /*return*/, error_42];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1128,8 +1128,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_43 = _a.sent();
-                        console.log("Error creating new business: ", error_43.response.data);
-                        return [2 /*return*/, error_43.response.data];
+                        console.log("Error creating new business: ", error_43);
+                        return [2 /*return*/, error_43];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1151,8 +1151,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_44 = _a.sent();
-                        console.log("Error creating new business: ", error_44.response.data);
-                        return [2 /*return*/, error_44.response.data];
+                        console.log("Error creating new business: ", error_44);
+                        return [2 /*return*/, error_44];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1174,8 +1174,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_45 = _a.sent();
-                        console.log("Error finding business: ", error_45.response.data);
-                        return [2 /*return*/, error_45.response.data];
+                        console.log("Error finding business: ", error_45);
+                        return [2 /*return*/, error_45];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1197,8 +1197,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_46 = _a.sent();
-                        console.log("Error finding business: ", error_46.response.data);
-                        return [2 /*return*/, error_46.response.data];
+                        console.log("Error finding business: ", error_46);
+                        return [2 /*return*/, error_46];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1220,8 +1220,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_47 = _a.sent();
-                        console.log("Error finding representor: ", error_47.response.data);
-                        return [2 /*return*/, error_47.response.data];
+                        console.log("Error finding representor: ", error_47);
+                        return [2 /*return*/, error_47];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1243,8 +1243,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_48 = _a.sent();
-                        console.log("Error finding representor: ", error_48.response.data);
-                        return [2 /*return*/, error_48.response.data];
+                        console.log("Error finding representor: ", error_48);
+                        return [2 /*return*/, error_48];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1266,8 +1266,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_49 = _a.sent();
-                        console.log("Error updating business: ", error_49.response.data);
-                        return [2 /*return*/, error_49.response.data];
+                        console.log("Error updating business: ", error_49);
+                        return [2 /*return*/, error_49];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1289,8 +1289,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_50 = _a.sent();
-                        console.log("Error updating business: ", error_50.response.data);
-                        return [2 /*return*/, error_50.response.data];
+                        console.log("Error updating business: ", error_50);
+                        return [2 /*return*/, error_50];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1312,8 +1312,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, existed: data.existed, message: data.message }];
                     case 2:
                         error_51 = _a.sent();
-                        console.log("Error checking exist business: ", error_51.response.data);
-                        return [2 /*return*/, error_51.response.data];
+                        console.log("Error checking exist business: ", error_51);
+                        return [2 /*return*/, error_51];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1335,8 +1335,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_52 = _a.sent();
-                        console.log("Error deleting business: ", error_52.response.data);
-                        return [2 /*return*/, error_52.response.data];
+                        console.log("Error deleting business: ", error_52);
+                        return [2 /*return*/, error_52];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1383,8 +1383,8 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_54 = _a.sent();
-                        console.log("Error finding partner staff: ", error_54.response.data);
-                        return [2 /*return*/, error_54.response.data];
+                        console.log("Error finding partner staff: ", error_54);
+                        return [2 /*return*/, error_54];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1416,8 +1416,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_55 = _a.sent();
-                        console.log("Error getting authenticated partner staff information: ", error_55.response.data);
-                        return [2 /*return*/, error_55.response.data];
+                        console.log("Error getting authenticated partner staff information: ", error_55);
+                        return [2 /*return*/, error_55];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1440,8 +1440,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_56 = _a.sent();
-                        console.log("Error creating partner staff: ", error_56.response.data);
-                        return [2 /*return*/, error_56.response.data];
+                        console.log("Error creating partner staff: ", error_56);
+                        return [2 /*return*/, error_56];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1464,8 +1464,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_57 = _a.sent();
-                        console.log("Error finding partner staff: ", error_57.response.data);
-                        return [2 /*return*/, error_57.response.data];
+                        console.log("Error finding partner staff: ", error_57);
+                        return [2 /*return*/, error_57];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1488,8 +1488,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_58 = _a.sent();
-                        console.log("Error finding partner staff: ", error_58.response.data);
-                        return [2 /*return*/, error_58.response.data];
+                        console.log("Error finding partner staff: ", error_58);
+                        return [2 /*return*/, error_58];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1512,8 +1512,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_59 = _a.sent();
-                        console.log("Error finding partner staff: ", error_59.response.data);
-                        return [2 /*return*/, error_59.response.data];
+                        console.log("Error finding partner staff: ", error_59);
+                        return [2 /*return*/, error_59];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1536,8 +1536,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_60 = _a.sent();
-                        console.log("Error updating partner staff: ", error_60.response.data);
-                        return [2 /*return*/, error_60.response.data];
+                        console.log("Error updating partner staff: ", error_60);
+                        return [2 /*return*/, error_60];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1560,8 +1560,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, existed: data.existed, message: data.message }];
                     case 2:
                         error_61 = _a.sent();
-                        console.log("Error checking exist partner staff: ", error_61.response.data);
-                        return [2 /*return*/, error_61.response.data];
+                        console.log("Error checking exist partner staff: ", error_61);
+                        return [2 /*return*/, error_61];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1584,8 +1584,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_62 = _a.sent();
-                        console.log("Error deleting business: ", error_62.response.data);
-                        return [2 /*return*/, error_62.response.data];
+                        console.log("Error deleting business: ", error_62);
+                        return [2 /*return*/, error_62];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1608,8 +1608,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_63 = _a.sent();
-                        console.log("Error update password: ", error_63.response.data);
-                        return [2 /*return*/, error_63.response.data];
+                        console.log("Error update password: ", error_63);
+                        return [2 /*return*/, error_63];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1685,8 +1685,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_66 = _a.sent();
-                        console.log("Error finding partner staff: ", error_66.response.data);
-                        return [2 /*return*/, error_66.response.data];
+                        console.log("Error finding partner staff: ", error_66);
+                        return [2 /*return*/, error_66];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1709,8 +1709,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_67 = _a.sent();
-                        console.log("Error finding partner staff: ", error_67.response.data);
-                        return [2 /*return*/, error_67.response.data];
+                        console.log("Error finding partner staff: ", error_67);
+                        return [2 /*return*/, error_67];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1733,8 +1733,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_68 = _a.sent();
-                        console.log("Error finding partner staff: ", error_68.response.data);
-                        return [2 /*return*/, error_68.response.data];
+                        console.log("Error finding partner staff: ", error_68);
+                        return [2 /*return*/, error_68];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1763,8 +1763,8 @@ var ShippersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_69 = _a.sent();
-                        console.log("Error getting tasks: ", error_69.response.data);
-                        return [2 /*return*/, error_69.response.data];
+                        console.log("Error getting tasks: ", error_69);
+                        return [2 /*return*/, error_69];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1786,8 +1786,8 @@ var ShippersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_70 = _a.sent();
-                        console.log("Error confirming completed task: ", error_70.response.data);
-                        return [2 /*return*/, error_70.response.data];
+                        console.log("Error confirming completed task: ", error_70);
+                        return [2 /*return*/, error_70];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1809,8 +1809,8 @@ var ShippersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_71 = _a.sent();
-                        console.log("Error getting history: ", error_71.response.data);
-                        return [2 /*return*/, error_71.response.data];
+                        console.log("Error getting history: ", error_71);
+                        return [2 /*return*/, error_71];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1841,8 +1841,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_72 = _a.sent();
-                        console.log("Error creating partner staff: ", error_72.response.data);
-                        return [2 /*return*/, error_72.response.data];
+                        console.log("Error creating partner staff: ", error_72);
+                        return [2 /*return*/, error_72];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1855,7 +1855,7 @@ var ShipmentsOperation = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_orders?shipment_id=").concat(condition.shipment_id), {
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_orders?shipment_id=").concat(condition.shipment_id), {
                                 withCredentials: true,
                             })];
                     case 1:
@@ -1864,8 +1864,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_73 = _a.sent();
-                        console.log("Error getting orders from shipment: ", error_73.response.data);
-                        return [2 /*return*/, error_73.response.data];
+                        console.log("Error getting orders from shipment: ", error_73);
+                        return [2 /*return*/, error_73];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1888,8 +1888,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_74 = _a.sent();
-                        console.log("Error adding orders to shipment: ", error_74.response.data);
-                        return [2 /*return*/, error_74.response.data];
+                        console.log("Error adding orders to shipment: ", error_74);
+                        return [2 /*return*/, error_74];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1912,8 +1912,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_75 = _a.sent();
-                        console.log("Error deleting order from shipment: ", error_75.response.data);
-                        return [2 /*return*/, error_75.response.data];
+                        console.log("Error deleting order from shipment: ", error_75);
+                        return [2 /*return*/, error_75];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1936,8 +1936,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_76 = _a.sent();
-                        console.log("Error confirming creat shipment: ", error_76.response.data);
-                        return [2 /*return*/, error_76.response.data];
+                        console.log("Error confirming creat shipment: ", error_76);
+                        return [2 /*return*/, error_76];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1960,8 +1960,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_77 = _a.sent();
-                        console.log("Error getting shipments: ", error_77.response.data);
-                        return [2 /*return*/, error_77.response.data];
+                        console.log("Error getting shipments: ", error_77);
+                        return [2 /*return*/, error_77];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1984,8 +1984,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_78 = _a.sent();
-                        console.log("Error deleting shipment: ", error_78.response.data);
-                        return [2 /*return*/, error_78.response.data];
+                        console.log("Error deleting shipment: ", error_78);
+                        return [2 /*return*/, error_78];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2008,8 +2008,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_79 = _a.sent();
-                        console.log("Error decomposing shipment: ", error_79.response.data);
-                        return [2 /*return*/, error_79.response.data];
+                        console.log("Error decomposing shipment: ", error_79);
+                        return [2 /*return*/, error_79];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2032,8 +2032,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_80 = _a.sent();
-                        console.log("Error receiving shipment: ", error_80.response.data);
-                        return [2 /*return*/, error_80.response.data];
+                        console.log("Error receiving shipment: ", error_80);
+                        return [2 /*return*/, error_80];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2056,8 +2056,8 @@ var ShipmentsOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_81 = _a.sent();
-                        console.log("Error undertaking shipment: ", error_81.response.data);
-                        return [2 /*return*/, error_81.response.data];
+                        console.log("Error undertaking shipment: ", error_81);
+                        return [2 /*return*/, error_81];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2086,8 +2086,8 @@ var OrdersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_82 = _a.sent();
-                        console.log("Error getting orders: ", error_82.response.data);
-                        return [2 /*return*/, error_82.response.data];
+                        console.log("Error getting orders: ", error_82);
+                        return [2 /*return*/, error_82];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2109,8 +2109,8 @@ var OrdersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, exist: data.existed, message: data.message }];
                     case 2:
                         error_83 = _a.sent();
-                        console.log("Error checking exist order: ", error_83.response.data);
-                        return [2 /*return*/, error_83.response.data];
+                        console.log("Error checking exist order: ", error_83);
+                        return [2 /*return*/, error_83];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2139,8 +2139,8 @@ var OrdersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_84 = _a.sent();
-                        console.log("Error updating order: ", error_84.response.data);
-                        return [2 /*return*/, error_84.response.data];
+                        console.log("Error updating order: ", error_84);
+                        return [2 /*return*/, error_84];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2162,8 +2162,8 @@ var OrdersOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
                         error_85 = _a.sent();
-                        console.log("Error canceling order: ", error_85.response.data);
-                        return [2 /*return*/, error_85.response.data];
+                        console.log("Error canceling order: ", error_85);
+                        return [2 /*return*/, error_85];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2172,3 +2172,102 @@ var OrdersOperation = /** @class */ (function () {
     return OrdersOperation;
 }());
 exports.OrdersOperation = OrdersOperation;
+var ScheduleOperation = /** @class */ (function () {
+    function ScheduleOperation() {
+        this.baseUrl = "http://localhost:4000/api/v1/schedules";
+    }
+    ScheduleOperation.prototype.get = function (conditions) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_86;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
+                                withCredentials: true
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, data: data.data, message: data.message }];
+                    case 2:
+                        error_86 = _a.sent();
+                        console.log("Error getting tasks: ", error_86);
+                        return [2 /*return*/, error_86];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.create = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_87;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
+                                withCredentials: true
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_87 = _a.sent();
+                        console.log("Error creating new tasks: ", error_87);
+                        return [2 /*return*/, error_87];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.update = function (info, condition) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_88;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?id=").concat(condition.id), info, {
+                                withCredentials: true
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_88 = _a.sent();
+                        console.log("Error updating tasks: ", error_88);
+                        return [2 /*return*/, error_88];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.deleteTask = function (condition) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_89;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?id=").concat(condition.id), {
+                                withCredentials: true
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_89 = _a.sent();
+                        console.log("Error deleting tasks: ", error_89);
+                        return [2 /*return*/, error_89];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return ScheduleOperation;
+}());
+exports.ScheduleOperation = ScheduleOperation;

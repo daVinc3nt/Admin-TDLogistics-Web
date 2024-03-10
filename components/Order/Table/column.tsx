@@ -20,6 +20,52 @@ export type Order = {
   consCodes: number;
   status: number;
 };
+interface Orders {
+  // Địa chỉ nguồn
+  detail_source: string;
+  district_source: string;
+  province_source: string;
+  ward_source: string;
+  lat_source: number;
+  long_source: number;
+  
+  // Địa chỉ đích
+  detail_dest: string;
+  district_dest: string;
+  province_dest: string;
+  ward_dest: string;
+  lat_destination: number;
+  long_destination: number;
+  
+  // Thông tin gói hàng
+  order_id: string;
+  order_time: string;
+  container: string;
+  name_sender: string;
+  phone_number_sender: string;
+  name_receiver: string;
+  phone_number_receiver: string;
+  mass: number;
+  length: number;
+  width: number;
+  height: number;
+  fee: number;
+  
+  // Các thông tin khác
+  COD: number;
+  agency_id: string;
+  shipper: string;
+  status_code: number;
+  user_id: string;
+  parent: string;
+  miss: number;
+  journey: Journey[];
+}
+interface Journey {
+  date: string;
+  managed_by: string;
+  shipment_id: string;
+}
 export const columns: ColumnDef<Order>[] = [
   //select
   {
@@ -66,7 +112,7 @@ export const columns: ColumnDef<Order>[] = [
   },
   //orderid
   {
-    accessorKey: "orderId",
+    accessorKey: "order_id",
     header: ({ column }) => {
       return (
         <Button
@@ -133,7 +179,7 @@ export const columns: ColumnDef<Order>[] = [
   },
   // status
   {
-    accessorKey: "status",
+    accessorKey: "status_code",
     header: ({ column }) => {
       return (
         <Button
@@ -148,32 +194,61 @@ export const columns: ColumnDef<Order>[] = [
     },
     cell: ({ row }) => {
       const intl = useIntl();
-      const consState = row.original.status;
+      const consState = row.original.status_code;
       let statusLabel = "";
       let statusColor = "";
 
       switch (consState) {
         case 1:
-          statusLabel = intl.formatMessage({ id: "order.status.ongoing" });
-          statusColor = "text-yellow-600";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredSuccess' });
           break;
         case 2:
-          statusLabel = intl.formatMessage({ id: "order.status.pending" });
-          statusColor = "text-gray-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Processing' });
           break;
         case 3:
-          statusLabel = intl.formatMessage({ id: "order.status.done" });
-          statusColor = "text-green-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Taking' });
           break;
         case 4:
-          statusLabel = intl.formatMessage({ id: "order.status.cancel" });
-          statusColor = "text-red-500";
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.TakenSuccess' });
+          break;
+        case 5:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.TakenFail' });
+          break;
+        case 6:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Delivering' });
+          break;
+        case 7:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredCancel' });
+          break;
+        case 8:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.DeliveredFail' });
+          break;
+        case 9:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.Refunding' });
+          break;
+        case 10:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.RefundedSuccess' });
+          break;
+        case 11:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.RefundedFail' });
+          break;
+        case 12:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.EnterAgency' });
+          break;
+        case 13:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.LeaveAgency' });
+          break;
+        case 14:
+          statusLabel = intl.formatMessage({ id: 'Consignment.Status.ThirdPartyDelivery' });
           break;
         default:
-          statusLabel = "Unknown";
+          statusLabel = statusLabel = "Unknown"
+          break;
       }
 
-      return <span className={statusColor}>{statusLabel}</span>;
+      return (
+        <span className={statusColor}>{statusLabel}</span>
+      );
     },
   },
   //detail

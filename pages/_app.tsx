@@ -12,11 +12,14 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loading } from "@/components/Common/Loading";
 import { UserContext } from "@/Context/InfoContext/UserContext";
+import Cookies from "js-cookie";
 const googleMapsLibraries: Libraries = ["places"];
 const staff = new StaffsOperation ()
 function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
   const [info, setInfo] = useState(null)
+  const router =useRouter()
+  const [value, setValue] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const res = await staff.getAuthenticatedStaffInfo();
@@ -24,6 +27,23 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prevValue) => !prevValue);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    console.log("cái này dùng để check xem còn cookie không")
+    if(!Cookies.get("connect.sid"))
+    {
+      if(router.pathname != "/log" && router.pathname != "/")
+      {
+        router.push("/log")
+      }
+
+    }
+  }, [value]);
   useEffect(() => {
     console.log(info)
   }, [info]);

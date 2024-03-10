@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { Order, columns } from "./column";
 import { DataTable } from "./datatable";
+import { OrdersOperation } from "@/TDLib/tdlogistics";
 
 async function getData(): Promise<Order[]> {
   // Fetch data from your API here.
-
-  const res = await fetch(
-    "https://65b8fe3fb71048505a89e8db.mockapi.io/api/consignment"
-  );
-  const data = await res.json();
-  const orders: Order[] = data.flatMap((consignment) => consignment.orders);
+  const action = new OrdersOperation()
+  const data = await action.get({})
+  const orders =data.data
+  console.log("nè",action.get({}))
+  // const res = await fetch(
+  //   "https://65b8fe3fb71048505a89e8db.mockapi.io/api/consignment"
+  // );
+  // const data = await res.json();
+  // const orders: Order[] = data.flatMap((consignment) => consignment.orders);
   return orders;
 }
 
