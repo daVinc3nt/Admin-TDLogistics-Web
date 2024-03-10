@@ -33,7 +33,6 @@ async function getData(info:any): Promise<any> {
 }
 
 export default async function DemoPage(info:any) {
-  console.log(info)
   const data = await getData(info);
 
   return <DataTable columns={columns} data={data} />;
