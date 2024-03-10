@@ -28,12 +28,12 @@ export default function BasicPopover({ children, icon = null }: Props) {
   return (
     <div>
       <Button
-        className="text-xs h-10 md:text-base  border border-gray-600 rounded ml-2 w-24 text-center"
+        className="text-xs h-10 md:text-base  border border-gray-600 rounded ml-2 w-10 sm:w-24 text-center"
         aria-describedby={id}
         onClick={handleClick}
       >
         {icon}
-        Filter
+        <span className='hidden sm:block'>Filter</span>
       </Button>
       <Popover
         id={id}
