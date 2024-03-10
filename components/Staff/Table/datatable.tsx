@@ -37,15 +37,21 @@ import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import BasicPopover from "@/components/Common/Popover";
+import { DeletingStaffCondition, StaffsOperation } from "@/TDLib/tdlogistics";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  info: any;
 }
+const validValue = ["AGENCY_MANAGER","AGENCY_HUMAN_RESOURCE_MANAGER", "ADMIN", "HUMAN_RESOURCE_MANAGER"]
+const staff = new StaffsOperation()
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  info
 }: DataTableProps<TData, TValue>) {
+  const role =info?.role
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -88,11 +94,16 @@ export function DataTable<TData, TValue>({
     );
   }
 
-  const handleDeleteRowsSelected = () => {
-    table.getFilteredSelectedRowModel().rows.forEach((row) => {
-      console.log(row.original);
-      // Chỗ này call API về sever để xóa nhân viên nè m
-      //chỉ cần truyền row.original.id vào là được
+  const handleDeleteRowsSelected = async () => {
+    table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
+      console.log();
+      const condition:  DeletingStaffCondition = {
+        staff_id: (row.original as any).staff_id,
+      };
+      const error = await staff.deleteStaff(condition);
+      if (error) {
+        alert(error.message);
+      }
     });
   };
   const confirmDelete = () => {
@@ -191,7 +202,7 @@ export function DataTable<TData, TValue>({
             >
               <FormattedMessage id="Staff.AddButton" />
             </Button>
-            {modalIsOpen && <AddStaff onClose={closeModal} />}
+            {modalIsOpen && (validValue.includes(role)) &&<AddStaff onClose={closeModal} info={info} />}
           </div>
         </div>
       </div>
@@ -250,7 +261,9 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-center space-x-2 py-4">
         <button
-          className={`text-xs md:text-sm justify-self-start rounded-lg border border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 hover:text-white hover:shadow-md focus:outline-none font-normal text-white
+          className={`text-xs md:text-sm justify-self-start rounded-lg border
+           border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 
+           hover:text-white hover:shadow-md focus:outline-none font-normal text-black dark:text-white
           ${
             table.getFilteredSelectedRowModel().rows.length > 0
               ? "border-red-500"
@@ -268,9 +281,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black text-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="prev" />
@@ -305,9 +318,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black text-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>
             <FormattedMessage id="next" />

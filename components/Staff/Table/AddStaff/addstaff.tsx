@@ -7,8 +7,10 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FormattedMessage, useIntl } from "react-intl";
 import PasswordToggle from "./PasswordToggle";
 import axios from "axios";
+import { CreatingStaffByAdminInfo, CreatingStaffByAgencyInfo, StaffsOperation } from "@/TDLib/tdlogistics";
 interface AddStaffProps {
   onClose: () => void;
+  info: any;
 }
 
 interface City {
@@ -27,12 +29,13 @@ interface Ward {
   Id: string;
   Name: string;
 }
-
-const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
+const validValue= ["ADMIN", "MANAGER", "HUMAN_RESOURCE_MANAGER"]
+const AddStaff: React.FC<AddStaffProps> = ({ onClose, info }) => {
+  const role = info.role
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
-
+  const isAdmin = validValue.includes(role)
   useEffect(() => {
     const fetchCities = async () => {
       const response = await axios.get(
@@ -43,7 +46,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
 
     fetchCities();
   }, []);
-
+  const agency = validValue.includes(role);
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -60,19 +63,19 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     setModalIsOpen(false);
   };
 
-  const [Staffdata, setStaffdata] = useState({
+  const [Staffdata, setStaffdata] = useState<CreatingStaffByAdminInfo>({
+    agency_id: "",
     fullname: "",
     username: "",
     password: "",
-    dateofbirth: "",
+    date_of_birth: "",
     cccd: "",
-    age: "",
-    phone: "",
     email: "",
+    phone_number: "",
     role: "",
     position: "",
-    salary: "",
-    paid_salary: "",
+    salary: 0, 
+    paid_salary: 0,
     province: "",
     district: "",
     town: "",
@@ -109,7 +112,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     }
   };
 
-  const handleInputChange = (key: string, value: string) => {
+  const handleInputChange = (key: string, value: any) => {
     setStaffdata((prevState) => ({
       ...prevState,
       [key]: value,
@@ -198,13 +201,13 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     }
   };
   const [checkmissing, setCheckmissing] = useState({
+    agency_id: false,
     fullname: false,
     username: false,
     password: false,
-    dateofbirth: false,
+    date_of_birth: false,
     cccd: false,
-    age: false,
-    phone: false,
+    phone_number: false,
     email: false,
     role: false,
     position: false,
@@ -213,6 +216,7 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
     district: false,
     town: false,
     detail_address: false,
+    paid_salary: false
   });
   const handleCheckMissing = (key: string, value: boolean) => {
     setCheckmissing((prevState) => ({
@@ -222,101 +226,113 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
   };
   const [error, setError] = useState("");
   const handleSubmit = () => {
-    if (
-      Staffdata.age === "" ||
-      Staffdata.cccd === "" ||
-      Staffdata.dateofbirth === "" ||
-      Staffdata.detail_address === "" ||
-      Staffdata.district === "" ||
-      Staffdata.email === "" ||
-      Staffdata.fullname === "" ||
-      Staffdata.password === "" ||
-      Staffdata.phone === "" ||
-      Staffdata.position === "" ||
-      Staffdata.province === "" ||
-      Staffdata.role === "" ||
-      Staffdata.salary === "" ||
-      Staffdata.town === "" ||
-      Staffdata.username === ""
-    ) {
-      setError("Vui lòng điền đầy đủ thông tin!");
-    } else {
-      setError("");
+    console.log(Staffdata)
+    console.log(role)
+    console.log(isAdmin)
+    const staff =new StaffsOperation()
+    if (isAdmin)
+    staff.createByAgency(Staffdata)
+    else {
+    console.log("hello")
+    staff.createByAdmin(Staffdata)
     }
-    if (Staffdata.cccd === "") {
-      handleCheckMissing("cccd", true);
-    } else {
-      handleCheckMissing("cccd", false);
-    }
-    if (Staffdata.dateofbirth === "") {
-      handleCheckMissing("dateofbirth", true);
-    } else {
-      handleCheckMissing("dateofbirth", false);
-    }
-    if (Staffdata.detail_address === "") {
-      handleCheckMissing("detail_address", true);
-    } else {
-      handleCheckMissing("detail_address", false);
-    }
+    // if (
+    //   Staffdata.age === "" ||
+    //   Staffdata.cccd === "" ||
+    //   Staffdata.date_of_birth === "" ||
+    //   Staffdata.detail_address === "" ||
+    //   Staffdata.district === "" ||
+    //   Staffdata.email === "" ||
+    //   Staffdata.fullname === "" ||
+    //   Staffdata.password === "" ||
+    //   Staffdata.phone_number === "" ||
+    //   Staffdata.position === "" ||
+    //   Staffdata.province === "" ||
+    //   Staffdata.role === "" ||
+    //   Staffdata.salary === "" ||
+    //   Staffdata.town === "" ||
+    //   Staffdata.username === ""
+    // ) {
+    //   setError("Vui lòng điền đầy đủ thông tin!");
+    // } else {
+    //   setError("");
+    // }
+    // if (Staffdata.cccd === "") {
+    //   handleCheckMissing("cccd", true);
+    // } else {
+    //   handleCheckMissing("cccd", false);
+    // }
+    // if (Staffdata.date_of_birth === "") {
+    //   handleCheckMissing("date_of_birth", true);
+    // } else {
+    //   handleCheckMissing("date_of_birth", false);
+    // }
+    // if (Staffdata.detail_address === "") {
+    //   handleCheckMissing("detail_address", true);
+    // } else {
+    //   handleCheckMissing("detail_address", false);
+    // }
 
-    if (Staffdata.district === "") {
-      handleCheckMissing("district", true);
-    } else {
-      handleCheckMissing("district", false);
-    }
-    if (Staffdata.email === "") {
-      handleCheckMissing("email", true);
-    } else {
-      handleCheckMissing("email", false);
-    }
-    if (Staffdata.fullname === "") {
-      handleCheckMissing("fullname", true);
-    } else {
-      handleCheckMissing("fullname", false);
-    }
-    if (Staffdata.password === "") {
-      handleCheckMissing("password", true);
-    } else {
-      handleCheckMissing("password", false);
-    }
-    if (Staffdata.phone === "") {
-      handleCheckMissing("phone", true);
-    } else {
-      handleCheckMissing("phone", false);
-    }
-    if (Staffdata.position === "") {
-      handleCheckMissing("position", true);
-    } else {
-      handleCheckMissing("position", false);
-    }
-    if (Staffdata.province === "") {
-      handleCheckMissing("province", true);
-    } else {
-      handleCheckMissing("province", false);
-    }
-    if (Staffdata.role === "") {
-      handleCheckMissing("role", true);
-    } else {
-      handleCheckMissing("role", false);
-    }
-    if (Staffdata.salary === "") {
-      handleCheckMissing("salary", true);
-    } else {
-      handleCheckMissing("salary", false);
-    }
-    if (Staffdata.town === "") {
-      handleCheckMissing("town", true);
-    } else {
-      handleCheckMissing("town", false);
-    }
-    if (Staffdata.username === "") {
-      handleCheckMissing("username", true);
-    } else {
-      handleCheckMissing("username", false);
-    }
+    // if (Staffdata.district === "") {
+    //   handleCheckMissing("district", true);
+    // } else {
+    //   handleCheckMissing("district", false);
+    // }
+    // if (Staffdata.email === "") {
+    //   handleCheckMissing("email", true);
+    // } else {
+    //   handleCheckMissing("email", false);
+    // }
+    // if (Staffdata.fullname === "") {
+    //   handleCheckMissing("fullname", true);
+    // } else {
+    //   handleCheckMissing("fullname", false);
+    // }
+    // if (Staffdata.password === "") {
+    //   handleCheckMissing("password", true);
+    // } else {
+    //   handleCheckMissing("password", false);
+    // }
+    // if (Staffdata.phone_number === "") {
+    //   handleCheckMissing("phone_number", true);
+    // } else {
+    //   handleCheckMissing("phone_number", false);
+    // }
+    // if (Staffdata.position === "") {
+    //   handleCheckMissing("position", true);
+    // } else {
+    //   handleCheckMissing("position", false);
+    // }
+    // if (Staffdata.province === "") {
+    //   handleCheckMissing("province", true);
+    // } else {
+    //   handleCheckMissing("province", false);
+    // }
+    // if (Staffdata.role === "") {
+    //   handleCheckMissing("role", true);
+    // } else {
+    //   handleCheckMissing("role", false);
+    // }
+    // if (Staffdata.salary === "") {
+    //   handleCheckMissing("salary", true);
+    // } else {
+    //   handleCheckMissing("salary", false);
+    // }
+    // if (Staffdata.town === "") {
+    //   handleCheckMissing("town", true);
+    // } else {
+    //   handleCheckMissing("town", false);
+    // }
+    // if (Staffdata.username === "") {
+    //   handleCheckMissing("username", true);
+    // } else {
+    //   handleCheckMissing("username", false);
+    // }
+    
   };
 
   return (
+    
     <motion.div
       className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 `}
       initial={{ opacity: 0 }}
@@ -347,242 +363,250 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose }) => {
             <IoMdClose className="w-5/6 h-5/6" />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
-          <div className="w-[98%] sm:w-10/12">
-            <h1 className="font-semibold pb-2 text-center">
-              <FormattedMessage id="Staff.PersonalDetail" />
-            </h1>
-            <div className="flex gap-3">
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.fullname ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.Fullname",
-                })}
-                onChange={(e) => handleInputChange("fullname", e.target.value)}
-              />
-
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.phone ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.Phone",
-                })}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-              />
-            </div>
-            <div className="flex gap-3 mt-3">
-              <input
-                type="date"
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.dateofbirth ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.DateOfBirth",
-                })}
-                onChange={(e) =>
-                  handleInputChange("dateofbirth", e.target.value)
-                }
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.cccd ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.CCCD",
-                })}
-                onChange={(e) => handleInputChange("cccd", e.target.value)}
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.email ? "border-red-500" : ""}`}
-                placeholder="Email"
-                onChange={(e) => handleInputChange("email", e.target.value)}
-              />
-            </div>
-            <div className="flex gap-3 mt-3">
-              <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.province ? "border-red-500" : ""}`}
-                id="city"
-                aria-label=".form-select-sm"
-                value={selectedCity}
-                onChange={handleCityChange}
-              >
-                <option value="">
-                  <FormattedMessage id="Staff.PersonalDetail.SelectProvince" />
-                </option>
-                {cities.map((city) => (
-                  <option key={city.Id} value={city.Id}>
-                    {city.Name}
-                  </option>
-                ))}
-              </select>
-              <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.district ? "border-red-500" : ""}
-                `}
-                id="district"
-                aria-label=".form-select-sm"
-                value={selectedDistrict}
-                onChange={handleDistrictChange}
-              >
-                <option value="">
-                  <FormattedMessage id="Staff.PersonalDetail.SelectDistrict" />
-                </option>
-                {districts.map((district) => (
-                  <option key={district.Id} value={district.Id}>
-                    {district.Name}
-                  </option>
-                ))}
-              </select>
-              <select
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.town ? "border-red-500" : ""}`}
-                id="ward"
-                aria-label=".form-select-sm"
-                onChange={(e) => handleInputChange("town", e.target.value)}
-              >
-                <option value="">
-                  <FormattedMessage id="Staff.PersonalDetail.SelectWard" />
-                </option>
-                {wards.map((ward) => (
-                  <option key={ward.Id} value={ward.Id}>
-                    {ward.Name}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.detail_address ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.Address",
-                })}
-                onChange={(e) =>
-                  handleInputChange("detail_address", e.target.value)
-                }
-              />
-            </div>
-          </div>
-
-          <div className="w-[98%] sm:w-10/12 mt-5">
-            <h1 className="font-semibold pb-2 text-center">
-              <FormattedMessage id="Staff.CreateAccount" />
-            </h1>
-            <div className="flex-row gap-">
-              <div>
+        <div>
+          <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
+            <div className="w-[98%] sm:w-10/12">
+              <h1 className="font-semibold pb-2 text-center">
+                <FormattedMessage id="Staff.PersonalDetail" />
+              </h1>
+              <div className="flex gap-3">
                 <input
                   type=""
-                  className={`text-xs md:text-sm border w-full border-gray-600 rounded  bg-[#14141a] h-10 p-2 
-                  ${checkmissing.username ? "border-red-500" : ""}`}
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.fullname ? "border-red-500" : ""}`}
                   placeholder={intl.formatMessage({
-                    id: "Staff.CreateAccount.Username",
+                    id: "Staff.PersonalDetail.Fullname",
+                  })}
+                  onChange={(e) => handleInputChange("fullname", e.target.value)}
+                />
+
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.phone_number ? "border-red-500" : ""}`}
+                  placeholder={intl.formatMessage({
+                    id: "Staff.PersonalDetail.Phone",
+                  })}
+                  onChange={(e) => handleInputChange("phone_number", e.target.value)}
+                />
+              </div>
+              <div className="flex gap-3 mt-3">
+                <input
+                  type="date"
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.date_of_birth ? "border-red-500" : ""}`}
+                  placeholder={intl.formatMessage({
+                    id: "Staff.PersonalDetail.date_of_birth",
                   })}
                   onChange={(e) =>
-                    handleInputChange("username", e.target.value)
+                    handleInputChange("date_of_birth", e.target.value)
                   }
                 />
-                <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  <FormattedMessage id="RegexUsername" />
-                </p>
-              </div>
-
-              <div className="">
-                <div className="relative">
-                  <input
-                    type={Showpassword ? "text" : "password"}
-                    placeholder={intl.formatMessage({
-                      id: "Staff.CreateAccount.Password",
-                    })}
-                    id="password"
-                    value={Staffdata.password}
-                    onChange={(e) =>
-                      handleInputChange("password", e.target.value)
-                    }
-                    className={`text-xs mt-3 md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 w-full p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1
-                    ${checkmissing.password ? "border-red-500" : ""}`}
-                  />
-
-                  <button onClick={togglePasswordVisibility}>
-                    <PasswordToggle />
-                  </button>
-                </div>
-                <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                  <FormattedMessage id="RegexPassword" />
-                </p>
-              </div>
-
-              <div>
-                <div className="relative">
-                  <input
-                    type={Showpassword2 ? "text" : "password"}
-                    placeholder={intl.formatMessage({
-                      id: "Staff.CreateAccount.ConfirmPassword",
-                    })}
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={handleConfirmPasswordChange}
-                    className={` text-xs mt-3 w-full md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1`}
-                  />
-
-                  <button onClick={togglePasswordVisibility2}>
-                    <PasswordToggle />
-                  </button>
-                  <p
-                    id="validation"
-                    className="text-center text-orange-500 italic text-sm"
-                  >
-                    {validation}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-3 mt-3">
-              <div
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.role ? "border-red-500" : ""}`}
-              >
-                <CustomDropdown
-                  label={intl.formatMessage({ id: "Staff.Position" })}
-                  options={roleSelect()}
-                  selectedOption={Staffdata.role}
-                  onSelectOption={(option) => handleInputChange("role", option)}
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.cccd ? "border-red-500" : ""}`}
+                  placeholder={intl.formatMessage({
+                    id: "Staff.PersonalDetail.CCCD",
+                  })}
+                  onChange={(e) => handleInputChange("cccd", e.target.value)}
+                />
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.email ? "border-red-500" : ""}`}
+                  placeholder="Email"
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                 />
               </div>
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.position ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.PersonalDetail.Role",
-                })}
-                onChange={(e) => handleInputChange("position", e.target.value)}
-              />
-              <input
-                type="number"
-                className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.salary ? "border-red-500" : ""}`}
-                placeholder={intl.formatMessage({
-                  id: "Staff.Salary",
-                })}
-                onChange={(e) => handleInputChange("salary", e.target.value)}
-              />
+              <div className="flex gap-3 mt-3">
+                <select
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.province ? "border-red-500" : ""}`}
+                  id="city"
+                  aria-label=".form-select-sm"
+                  value={selectedCity}
+                  onChange={handleCityChange}
+                >
+                  <option value="">
+                    <FormattedMessage id="Staff.PersonalDetail.SelectProvince" />
+                  </option>
+                  {cities.map((city) => (
+                    <option key={city.Id} value={city.Id}>
+                      {city.Name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.district ? "border-red-500" : ""}
+                  `}
+                  id="district"
+                  aria-label=".form-select-sm"
+                  value={selectedDistrict}
+                  onChange={handleDistrictChange}
+                >
+                  <option value="">
+                    <FormattedMessage id="Staff.PersonalDetail.SelectDistrict" />
+                  </option>
+                  {districts.map((district) => (
+                    <option key={district.Id} value={district.Id}>
+                      {district.Name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.town ? "border-red-500" : ""}`}
+                  id="ward"
+                  aria-label=".form-select-sm"
+                  onChange={(e) => handleInputChange("town", e.target.value)}
+                >
+                  <option value="">
+                    <FormattedMessage id="Staff.PersonalDetail.SelectWard" />
+                  </option>
+                  {wards.map((ward) => (
+                    <option key={ward.Id} value={ward.Id}>
+                      {ward.Name}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.detail_address ? "border-red-500" : ""}`}
+                  placeholder={intl.formatMessage({
+                    id: "Staff.PersonalDetail.Address",
+                  })}
+                  onChange={(e) =>
+                    handleInputChange("detail_address", e.target.value)
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="w-[98%] sm:w-10/12 mt-5">
+              <h1 className="font-semibold pb-2 text-center">
+                <FormattedMessage id="Staff.CreateAccount" />
+              </h1>
+              <div className="flex-row gap-">
+                <div>
+                  <input
+                    type=""
+                    className={`text-xs md:text-sm border w-full border-gray-600 rounded  bg-[#14141a] h-10 p-2 
+                    ${checkmissing.username ? "border-red-500" : ""}`}
+                    placeholder={intl.formatMessage({
+                      id: "Staff.CreateAccount.Username",
+                    })}
+                    onChange={(e) =>
+                      handleInputChange("username", e.target.value)
+                    }
+                  />
+                  <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
+                    <FormattedMessage id="RegexUsername" />
+                  </p>
+                </div>
+
+                <div className="">
+                  <div className="relative">
+                    <input
+                      type={Showpassword ? "text" : "password"}
+                      placeholder={intl.formatMessage({
+                        id: "Staff.CreateAccount.Password",
+                      })}
+                      id="password"
+                      value={Staffdata.password}
+                      onChange={(e) =>
+                        handleInputChange("password", e.target.value)
+                      }
+                      className={`text-xs mt-3 md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 w-full p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1
+                      ${checkmissing.password ? "border-red-500" : ""}`}
+                    />
+
+                    <button onClick={togglePasswordVisibility}>
+                      <PasswordToggle />
+                    </button>
+                  </div>
+                  <p className="flex items-center gap-1 mt-2 font-sans text-sm antialiased font-normal leading-normal text-gray-700">
+                    <FormattedMessage id="RegexPassword" />
+                  </p>
+                </div>
+
+                <div>
+                  <div className="relative">
+                    <input
+                      type={Showpassword2 ? "text" : "password"}
+                      placeholder={intl.formatMessage({
+                        id: "Staff.CreateAccount.ConfirmPassword",
+                      })}
+                      id="confirmPassword"
+                      value={confirmPassword}
+                      onChange={handleConfirmPasswordChange}
+                      className={` text-xs mt-3 w-full md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 focus:ring-blue-500 focus:border-blue-500 focus:ring-1`}
+                    />
+
+                    <button onClick={togglePasswordVisibility2}>
+                      <PasswordToggle />
+                    </button>
+                    <p
+                      id="validation"
+                      className="text-center text-orange-500 italic text-sm"
+                    >
+                      {validation}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3 mt-3">
+                <div
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.role ? "border-red-500" : ""}`}
+                >
+                  <CustomDropdown
+                    label={intl.formatMessage({ id: "Staff.Position" })}
+                    options={roleSelect()}
+                    selectedOption={Staffdata.role}
+                    onSelectOption={(option) => handleInputChange("role", option)}
+                  />
+                </div>
+                <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.position ? "border-red-500" : ""}`}
+                  placeholder={intl.formatMessage({
+                    id: "Staff.PersonalDetail.Role",
+                  })}
+                  onChange={(e) => handleInputChange("position", e.target.value)}
+                />
+                {isAdmin ? <input
+                  type=""
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.position ? "border-red-500" : ""}`}
+                  placeholder={"Mã bưu cục"}
+                  onChange={(e) => handleInputChange("agency_id", e.target.value)}
+                  /> : <></>}
+                <input
+                  type="number"
+                  className={`text-xs md:text-sm border border-gray-600 rounded  bg-[#14141a] h-10 p-2 w-full
+                  ${checkmissing.salary ? "border-red-500" : ""}`}
+                  placeholder={"test"}
+                  onChange={(e) => handleInputChange("salary", parseInt(e.target.value))}
+                />
+                
+              </div>
             </div>
           </div>
+          <Button
+            className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
+          bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
+            onClick={handleSubmit}
+          >
+            <span className="hidden xs:block">
+              <FormattedMessage id="Staff.AddButton" />
+            </span>
+          </Button>
         </div>
-        <Button
-          className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
-        bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
-          onClick={handleSubmit}
-        >
-          <span className="hidden xs:block">
-            <FormattedMessage id="Staff.AddButton" />
-          </span>
-        </Button>
         <div className=" flex place-content-center text-red-500 font-bold ">
           {error && <p>{error}</p>}
         </div>

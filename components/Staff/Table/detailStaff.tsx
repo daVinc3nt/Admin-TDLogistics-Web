@@ -5,38 +5,14 @@ import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
+import { StaffsOperation, UpdatingStaffCondition, UpdatingStaffInfo } from "@/TDLib/tdlogistics";
+import { Staff } from "./column";
 
-export type Staffdetail = {
-  active: boolean;
-  agency_id: string;
-  avatar: string;
-  bank: string;
-  bin: string;
-  cccd: string;
-  date_of_birth: string;
-  deposit: number;
-  detail_address: string;
-  district: string;
-  email: string;
-  fullname: string;
-  id: number;
-  paid_salary: number;
-  password: string;
-  phone_number: string;
-  position: string;
-  privileges: string[];
-  province: string;
-  role: string;
-  salary: number;
-  staff_id: string;
-  town: string;
-  username: string;
-};
 const Admin = "Admin";
 
 interface DetailStaffProps {
   onClose: () => void;
-  dataInitial: Staffdetail;
+  dataInitial: Staff;
 }
 
 const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
@@ -45,7 +21,15 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
-  let date_of_birth = new Date(data.date_of_birth);
+  const [updateData, setupdateData] = useState<any>({});
+
+  const handleUpdateData =(e, key:string, input:string = "string") => {
+    if (input == "number")
+      setupdateData({...updateData, [key]: parseInt(e.target.value)});
+    else 
+      setupdateData({...updateData, [key]: e.target.value});
+  }
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       notificationRef.current &&
@@ -82,6 +66,12 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
   const handleSaveClick = () => {
     // Gửi API về server để cập nhật dữ liệu
     // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+    const x ="staff_id"
+    console.log("click",updateData)
+    console.log(dataInitial)
+    const condition: UpdatingStaffCondition = {staff_id: dataInitial.staff_id }
+    const staff =new StaffsOperation()
+    staff.update(updateData, condition)
     setIsEditing(false);
   };
 
@@ -129,27 +119,6 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <User className="w-20 h-20  md:w-80 md:h-80" />
                   </div>
                 </div>
-                {admin === "Admin" ? (
-                  <div className="flex gap-5">
-                    <div className="font-bold text-base">
-                      <FormattedMessage id="Staff.Agency_ID" />
-                    </div>
-                    {isEditing ? (
-                      <input
-                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                        type="text"
-                        value={data.agency_id}
-                        onChange={(e) =>
-                          setData({ ...data, agency_id: e.target.value })
-                        }
-                      />
-                    ) : (
-                      <div>{data.agency_id}</div>
-                    )}
-                  </div>
-                ) : (
-                  ""
-                )}
                 <div className="flex gap-5">
                   <div className=" font-bold text-base ">
                     <FormattedMessage id="Staff.Name" />
@@ -160,7 +129,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="text"
                       value={data.fullname}
                       onChange={(e) =>
-                        setData({ ...data, fullname: e.target.value })
+                        {
+                          setData({ ...data, fullname: e.target.value });
+                          handleUpdateData(e, "fullname");
+                        }
                       }
                     />
                   ) : (
@@ -168,18 +140,23 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                   )}
                 </div>
                 <div className="flex gap-5">
-                  <div className=" font-bold text-base ">Mã số nhân viên</div>
+                  <div className=" font-bold text-base ">
+                    Email
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.staff_id}
+                      value={data.email}
                       onChange={(e) =>
-                        setData({ ...data, staff_id: e.target.value })
+                        {
+                          setData({ ...data, email: e.target.value });
+                          handleUpdateData(e, "email");
+                        }
                       }
                     />
                   ) : (
-                    <div>{data.staff_id}</div>
+                    <div>{data.email}</div>
                   )}
                 </div>
               </div>
@@ -196,28 +173,14 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="text"
                       value={data.username}
                       onChange={(e) =>
-                        setData({ ...data, username: e.target.value })
+                        {
+                          setData({ ...data, username: e.target.value });
+                          handleUpdateData(e, "username");
+                        }
                       }
                     />
                   ) : (
                     <div>{data.username}</div>
-                  )}
-                </div>
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff.Password" />
-                  </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.password}
-                      onChange={(e) =>
-                        setData({ ...data, password: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.password}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -228,16 +191,16 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="date"
-                      value={date_of_birth.toLocaleDateString()} // Convert the date to a string
+                      value={data.date_of_birth} // Convert the date to a string
                       onChange={(e) =>
-                        setData({
-                          ...data,
-                          date_of_birth: e.target.value,
-                        })
+                        {
+                          setData({ ...data, date_of_birth: e.target.value });
+                          handleUpdateData(e, "date_of_birth");
+                        }
                       }
                     />
                   ) : (
-                    <div>{date_of_birth.toLocaleDateString()}</div>
+                    <div>{data.date_of_birth}</div>
                   )}
                 </div>
                 <div className="flex">
@@ -250,7 +213,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="text"
                       value={data.role}
                       onChange={(e) =>
-                        setData({ ...data, role: e.target.value })
+                        {
+                          setData({ ...data, role: e.target.value });
+                          handleUpdateData(e, "role");
+                        }
                       }
                     />
                   ) : (
@@ -267,7 +233,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="text"
                       value={data.phone_number}
                       onChange={(e) =>
-                        setData({ ...data, phone_number: e.target.value })
+                        {
+                          setData({ ...data, phone_number: e.target.value });
+                          handleUpdateData(e, "phone_number");
+                        }
                       }
                     />
                   ) : (
@@ -282,28 +251,56 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.phone_number}
+                      value={data.detail_address}
                       onChange={(e) =>
-                        setData({ ...data, phone_number: e.target.value })
+                        {
+                          setData({ ...data, detail_address: e.target.value });
+                          handleUpdateData(e, "detail_address");
+                        }
                       }
                     />
                   ) : (
-                    <div>{data.phone_number}</div>
+                    <div>{data.detail_address}</div>
                   )}
                 </div>
                 <div className="flex">
-                  <div className="w-1/2 font-bold text-base">Bin</div>
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff.District" />
+                  </div>
                   {isEditing ? (
                     <input
                       className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
                       type="text"
-                      value={data.phone_number}
+                      value={data.district}
                       onChange={(e) =>
-                        setData({ ...data, phone_number: e.target.value })
+                        {
+                          setData({ ...data, district: e.target.value });
+                          handleUpdateData(e, "district");
+                        }
                       }
                     />
                   ) : (
-                    <div>{data.phone_number}</div>
+                    <div>{data.district}</div>
+                  )}
+                </div>
+                <div className="flex">
+                  <div className="w-1/2 font-bold text-base">
+                    <FormattedMessage id="Staff.Province" />
+                  </div>
+                  {isEditing ? (
+                    <input
+                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                      type="text"
+                      value={data.province}
+                      onChange={(e) =>
+                        {
+                          setData({ ...data, province: e.target.value });
+                          handleUpdateData(e, "province");
+                        }
+                      }
+                    />
+                  ) : (
+                    <div>{data.province}</div>
                   )}
                 </div>
                 {/* <div className="flex">
@@ -350,7 +347,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="number"
                       value={data.salary}
                       onChange={(e) =>
-                        setData({ ...data, salary: +e.target.value })
+                        {
+                          setData({ ...data, salary: parseInt(e.target.value) });
+                          handleUpdateData(e, "salary", "number");
+                        }
                       }
                     />
                   ) : (
@@ -367,7 +367,10 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                       type="number"
                       value={data.paid_salary}
                       onChange={(e) =>
-                        setData({ ...data, paid_salary: +e.target.value })
+                        {
+                          setData({ ...data, paid_salary: parseInt(e.target.value) });
+                          handleUpdateData(e, "paid_salary", "number");
+                        }
                       }
                     />
                   ) : (
@@ -391,43 +394,6 @@ const DetailStaff: React.FC<DetailStaffProps> = ({ onClose, dataInitial }) => {
                     <div>{data.staffDeposit} vnđ</div>
                   )}
                 </div> */}
-                <div className="flex">
-                  <div className="w-1/2 font-bold text-base">
-                    <FormattedMessage id="Staff.Status" />
-                  </div>
-                  {isEditing ? (
-                    <div className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white flex flex-row gap-5">
-                      <input
-                        type="radio"
-                        name="active"
-                        value={true.toString()} // Convert boolean value to string
-                        checked={data.active === true}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            active: JSON.parse(e.target.value),
-                          })
-                        }
-                      />
-                      Hoạt động
-                      <input
-                        type="radio"
-                        name="active"
-                        value={false.toString()}
-                        checked={data.active === false}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            active: JSON.parse(e.target.value),
-                          })
-                        }
-                      />
-                      Đã nghỉ việc
-                    </div>
-                  ) : (
-                    <div>{data.active ? "Hoạt động" : "Đã nghỉ việc"}</div>
-                  )}
-                </div>
               </div>
             </div>
           </div>
