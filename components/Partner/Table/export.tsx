@@ -9,8 +9,8 @@ import {
 } from "@/TDLib/tdlogistics";
 
 const service = new TransportPartnersOperation();
-const coditions: FindingTransportPartnerByAdminConditions[] = [];
-const coditions2: FindingTransportPartnerByTransportPartnerCondition[] = [];
+const conditions: FindingTransportPartnerByAdminConditions[] = [];
+const conditions2: FindingTransportPartnerByTransportPartnerCondition[] = [];
 
 async function getData(): Promise<any> {
   const staff = new StaffsOperation();
@@ -19,11 +19,11 @@ async function getData(): Promise<any> {
   console.log(isadmin);
 
   if (isadmin === "ADMIN") {
-    const response = await service.findByAdmin(coditions[0]);
+    const response = await service.findByAdmin(conditions[0]);
     console.log("RoleAdmin");
     return response.data;
   } else {
-    const response = await service.findByTransportPartner(coditions2[0]);
+    const response = await service.findByTransportPartner(conditions2[0]);
     console.log(response);
     console.log("RoleTransportPartner");
     return response.data;

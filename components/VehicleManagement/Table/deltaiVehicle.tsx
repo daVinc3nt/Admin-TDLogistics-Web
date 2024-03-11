@@ -4,16 +4,35 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
+import {
+  StaffsOperation,
+  VehicleOperation,
+  UpdatingVehicleCondition,
+  UpdatingVehicleInfo,
+  GettingShipmentsContainedByVehicleCondition,
+  AddingShipmentsToVehicleCondition,
+  AddingShipmentsToVehicleInfo,
+  DeletingShipmentsFromVehicleCondition,
+  DeletingShipmentsFromVehicleInfo,
+  CheckingExistVehicleCondition,
+  FindingShipmentConditions,
+  ShipmentsOperation,
+  ShipmentID,
+} from "@/TDLib/tdlogistics";
+import { set } from "date-fns";
 interface VehicleData {
-  id: string;
-  codeAgency: string;
-  codeStaff: string;
-  role: string;
-  GPLX: File;
-  maxWeight: string;
-  BKS: string;
-  Active: boolean;
-  nameVehicle: string;
+  transport_partner_id: string;
+  agency_id: string;
+  staff_id: string;
+  max_load: string;
+  license_plate: string;
+  busy: boolean;
+  type: string;
+  vehicle_id: string;
+  mass: string;
+  agency_name: string;
+  transport_partner_name: string;
+  fullname: string;
 }
 
 interface DetailVehicleProps {
@@ -28,7 +47,6 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const [data, setData] = useState(dataInitial);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -41,6 +59,38 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
       }, 300);
     }
   };
+  const [Shipment, setShipment] = useState([]);
+  const fetchShipment = async () => {
+    const vehicle = new VehicleOperation();
+    const condition: GettingShipmentsContainedByVehicleCondition = {
+      vehicle_id: dataInitial.vehicle_id,
+    };
+    const response = await vehicle.getShipment(condition);
+    console.log(response);
+    if (response.error == true) {
+      setShipment(response.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchShipment();
+  }, []);
+
+  const [VehicleData, setVehicleData] = useState({
+    transport_partner_id: dataInitial.transport_partner_id,
+    agency_id: dataInitial.agency_id,
+    staff_id: dataInitial.staff_id,
+    max_load: dataInitial.max_load,
+    license_plate: dataInitial.license_plate,
+    busy: dataInitial.busy,
+    type: dataInitial.type,
+    vehicle_id: dataInitial.vehicle_id,
+    mass: dataInitial.mass,
+    agency_name: dataInitial.agency_name,
+    transport_partner_name: dataInitial.transport_partner_name,
+    fullname: dataInitial.fullname,
+  });
+  console.log(dataInitial);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -63,10 +113,76 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
   const handleEditClick = () => {
     setIsEditing(true);
   };
-  const handleSaveClick = () => {
-    // Gửi API về server để cập nhật dữ liệu
-    // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+  const handleSaveClick = async () => {
+    const vehicle = new VehicleOperation();
+    const Info: UpdatingVehicleInfo = {
+      transport_partner_id: VehicleData.transport_partner_id,
+      staff_id: VehicleData.staff_id,
+      type: VehicleData.type,
+      max_load: parseInt(VehicleData.max_load),
+    };
+    const condition: UpdatingVehicleCondition = {
+      vehicle_id: VehicleData.vehicle_id,
+    };
+    console.log(Info);
+    console.log(condition);
+    const response = await vehicle.update(Info, condition);
+    console.log(response);
+    alert(response.message);
     setIsEditing(false);
+    fetchShipment();
+  };
+
+  const [shipmentValue, setshipmentValue] = useState("");
+
+  const [Error2, setError2] = useState("");
+  const handleAddShipment = async () => {
+    const shipment = new ShipmentsOperation();
+    const checkExist: ShipmentID = {
+      shipment_id: shipmentValue,
+    };
+    const check = await shipment.check(checkExist);
+    console.log("check", check);
+
+    if (check.error == true) {
+      setError2(check.message);
+      alert(check.message);
+      return;
+    }
+    const vehicle = new VehicleOperation();
+    const Info: AddingShipmentsToVehicleInfo = {
+      shipment_ids: [shipmentValue],
+    };
+    const condition: AddingShipmentsToVehicleCondition = {
+      vehicle_id: VehicleData.vehicle_id,
+    };
+    console.log(Info.shipment_ids);
+    const response = await vehicle.addShipments(Info, condition);
+    console.log(response);
+    if (response.error == true) {
+      setError2(response.message);
+      alert(response.message);
+      return;
+    }
+    alert(response.message);
+    setshipmentValue("");
+    fetchShipment();
+  };
+  const handleDeleteShipment = async (shipment_id: string) => {
+    const vehicle = new VehicleOperation();
+    const condition: DeletingShipmentsFromVehicleCondition = {
+      vehicle_id: VehicleData.vehicle_id,
+    };
+    const Info: DeletingShipmentsFromVehicleInfo = {
+      shipment_ids: [shipment_id],
+    };
+    const response = await vehicle.deleteShipments(Info, condition);
+    console.log(response);
+    if (response.error == false) {
+      alert(response.message);
+      fetchShipment();
+      return;
+    }
   };
 
   return (
@@ -83,7 +199,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 dark:bg-[#14141a] bg-white rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -91,7 +207,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center">
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center">
             Thông tin phương tiện
           </div>
           <Button
@@ -101,151 +217,176 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className=" grid grid-cols-2 gap-3 ">
-            <div className="flex gap-5">
-              <div className="font-bold text-base">Mã đối tác</div>
+        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar  dark:bg-[#14141a] bg-white p-2 rounded-md text-black dark:text-white place-content-center">
+          <div className=" grid grid-cols-2 place-content-around  gap-3 my-5 mx-5 ">
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Mã đối tác vận tải</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-black dark:text-white"
                   type="text"
-                  value={data.codeAgency}
+                  value={VehicleData.transport_partner_id}
                   onChange={(e) =>
-                    setData({ ...data, codeAgency: e.target.value })
+                    setVehicleData({
+                      ...VehicleData,
+                      transport_partner_id: e.target.value,
+                    })
                   }
                 />
               ) : (
-                <div>{data.codeAgency}</div>
+                <div>{VehicleData.transport_partner_id}</div>
               )}
             </div>
-            <div className="flex gap-5">
+            <div className="flex gap-5 place-content-start ">
+              <div className="font-bold text-base">Tên đối tác vận tải</div>
+              <div>{VehicleData.transport_partner_name}</div>
+            </div>
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Mã đại lý</div>
+              <div>{VehicleData.agency_id}</div>
+            </div>
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Tên đại lý</div>
+              <div>{VehicleData.agency_name}</div>
+            </div>
+            <div className="flex gap-5 place-content-start">
               <div className="font-bold text-base">Mã nhân viên</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-black dark:text-white"
                   type="text"
-                  value={data.codeStaff}
+                  value={VehicleData.staff_id}
                   onChange={(e) =>
-                    setData({ ...data, codeStaff: e.target.value })
+                    setVehicleData({ ...VehicleData, staff_id: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.codeStaff}</div>
+                <div>{VehicleData.staff_id}</div>
               )}
             </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">Loại công việc</div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
-                  value={data.role}
-                  onChange={(e) => setData({ ...data, role: e.target.value })}
-                />
-              ) : (
-                <div>{data.role}</div>
-              )}
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Tên nhân viên</div>
+              <div>{VehicleData.fullname}</div>
             </div>
-            <div className="flex gap-5">
+            <div className="flex gap-5 place-content-start">
               <div className="font-bold text-base">Trọng tải tối đa</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-black dark:text-white"
                   type="text"
-                  value={data.maxWeight}
+                  value={VehicleData.max_load}
                   onChange={(e) =>
-                    setData({ ...data, maxWeight: e.target.value })
+                    setVehicleData({ ...VehicleData, max_load: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.maxWeight}</div>
+                <div>{VehicleData.max_load}</div>
               )}
             </div>
-            <div className="flex gap-5">
+            <div className="flex gap-5 place-content-start">
               <div className="font-bold text-base">Biển kiểm soát</div>
-              {isEditing ? (
-                <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                  type="text"
-                  value={data.BKS}
-                  onChange={(e) => setData({ ...data, BKS: e.target.value })}
-                />
-              ) : (
-                <div>{data.BKS}</div>
-              )}
+              <div>{VehicleData.license_plate}</div>
             </div>
-            <div className="flex gap-5">
-              <div className="font-bold text-base">Tên phương tiện</div>
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Loại phương tiện</div>
               {isEditing ? (
                 <input
-                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                  className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-black dark:text-white"
                   type="text"
-                  value={data.nameVehicle}
+                  value={VehicleData.type}
                   onChange={(e) =>
-                    setData({ ...data, nameVehicle: e.target.value })
+                    setVehicleData({ ...VehicleData, type: e.target.value })
                   }
                 />
               ) : (
-                <div>{data.nameVehicle}</div>
+                <div>{VehicleData.type}</div>
               )}
             </div>
-            <div className="flex">
-              <div className=" font-bold text-base mr-2">
-                Trạng thái hoạt động :
-              </div>
-              {isEditing ? (
-                <div className=" bg-transparent font-bold border-b-2 border-[#545e7b] text-white flex flex-row gap-3 ml-2">
-                  <input
-                    type="radio"
-                    name="Active"
-                    value={true.toString()} // Convert boolean value to string
-                    checked={data.Active === true}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        Active: JSON.parse(e.target.value),
-                      })
-                    }
-                  />
-                  Hoạt động
-                  <input
-                    type="radio"
-                    name="Active"
-                    value={false.toString()}
-                    checked={data.Active === false}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        Active: JSON.parse(e.target.value),
-                      })
-                    }
-                  />
-                  Đã nghỉ việc
-                </div>
-              ) : (
-                <div className="font-bold ">
-                  {data.Active ? "Hoạt động" : "Đã nghỉ việc"}
-                </div>
-              )}
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Trạng thái</div>
+              <div>{VehicleData.busy ? "Đang bận" : "Sẵn sàng"}</div>
+            </div>
+            <div className="flex gap-5 place-content-start">
+              <div className="font-bold text-base">Tải trọng hiện tại</div>
+              <div>{VehicleData.mass}</div>
             </div>
           </div>
-          <div className="mt-3">
-            <div className="font-bold text-base mb-3">Giấy phép lái xe</div>
-            {isEditing ? (
-              <input
-                className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white mt-3"
-                type="file"
-                onChange={(e) => setData({ ...data, GPLX: e.target.files[0] })}
-              />
-            ) : (
-              <>
-                {typeof data.GPLX === "string" ? (
-                  <img src={data.GPLX} alt="" />
-                ) : (
-                  <img src="placeholder-image.jpg" alt="Placeholder" />
-                )}
-              </>
-            )}
+          <div className="flex place-content-center text-xl font-bold ">
+            Chi tiết phương tiện
+          </div>
+          <div className="grid grid-cols  gap-3 my-5 mx-5">
+            <div className=" gap-5 place-content-center mt-2">
+              <div className="font-bold text-base">
+                Danh sách lô hàng đã thêm:
+              </div>
+              <div className="flex-col mt-2">
+                <div className="flex">
+                  <input
+                    type="string"
+                    className="text-xs md:text-sm border border-gray-600 rounded dark:bg-[#14141a] h-10 p-2 w-full"
+                    placeholder="Nhập mã lô hàng"
+                    value={shipmentValue}
+                    onChange={(e) => setshipmentValue(e.target.value)}
+                  />
+                  <button
+                    className="text-xs md:text-sm border border-gray-600 rounded dark:bg-[#14141a] h-10 ml-2 w-1/3 bg-green-500 text-white hover:bg-green-700"
+                    onClick={() => {
+                      if (shipmentValue.trim() !== "") {
+                        handleAddShipment();
+                      }
+                    }}
+                  >
+                    Thêm
+                  </button>
+                </div>
+                <div className="text-red-500">{Error2}</div>
+              </div>
+              <div className="relative flex flex-col w-full   text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+                <table className="w-full text-left table-auto min-w-max">
+                  <thead>
+                    <tr>
+                      <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                          Mã lô hàng
+                        </p>
+                      </th>
+                      <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                        <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                          Xóa
+                        </p>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Shipment ? (
+                      Shipment.map((item: any) => {
+                        console.log(item);
+                        return (
+                          <tr className="">
+                            <td className="p-4 border-b border-blue-gray-50">
+                              <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                {item.shipment_id}
+                              </p>
+                            </td>
+                            <td className="p-4 border-b border-blue-gray-50 ">
+                              <button
+                                onClick={() => {
+                                  handleDeleteShipment(item.shipment_id);
+                                }}
+                              >
+                                <FaTrash className="w-5 h-5" />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <div>Không có lô hàng nào</div>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -253,7 +394,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
           {!isEditing ? (
             <Button
               className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
-              bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
+              bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white dark:text-white border 
               hover:shadow-md"
               onClick={handleEditClick}
             >
@@ -263,7 +404,7 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
           ) : (
             <Button
               className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
-    bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border 
+    bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white dark:text-white border 
     hover:shadow-md"
               onClick={handleSaveClick}
             >
