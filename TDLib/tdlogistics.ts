@@ -87,7 +87,7 @@ class StaffsAuthenticate {
         }
     }
 
-    async sendOTP(phone_number: string, email: string) : Promise<any> {
+    async sendOTP(phone_number: string, email: string): Promise<any> {
         try {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/send_otp`, {
                 phone_number: phone_number,
@@ -123,29 +123,29 @@ class StaffsAuthenticate {
     }
 }
 
-export interface CreatingUserInfo {
+interface CreatingUserInfo {
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-export interface FindingUserByUserCondition {
+interface FindingUserByUserCondition {
     phone_number: string,
 }
 
-export interface FindingUserByAdminConditions {
+interface FindingUserByAdminConditions {
     user_id: string,
     fullname: string,
     phone_number: string,
     email: string,
 }
 
-export interface UpdatingUserInfo {
+interface UpdatingUserInfo {
     fullname: string,
     email: string,
 }
 
-export interface UpdatingUserCondition {
+interface UpdatingUserCondition {
     user_id: string,
 }
 
@@ -157,12 +157,12 @@ class UsersOperation {
         this.baseUrl = "http://localhost:5000/api/v1/users";
     }
 
-    async findByUser(condition: FindingUserByUserCondition) : Promise<any> {
+    async findByUser(condition: FindingUserByUserCondition): Promise<any> {
         try {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, condition, {
                 withCredentials: true,
             });
-            
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -176,7 +176,7 @@ class UsersOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
                 withCredentials: true,
             });
-            
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -190,7 +190,7 @@ class UsersOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
                 withCredentials: true,
             });
-            
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -204,7 +204,7 @@ class UsersOperation {
             const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?user_id=${condition.user_id}`, info, {
                 withCredentials: true,
             });
-            
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -214,11 +214,11 @@ class UsersOperation {
     }
 }
 
-export interface CheckingExistAgencyCondition {
+interface CheckingExistAgencyCondition {
     agency_id: string,
 }
 
-export interface CreatingAgencyInfo {
+interface CreatingAgencyInfo {
     username: string,
     user_password: string,
     user_fullname: string,
@@ -253,11 +253,11 @@ export interface CreatingAgencyInfo {
     bank: string,
 }
 
-export interface FindingAgencyByAgencyInfo {
+interface FindingAgencyByAgencyInfo {
     agencyId: string,
 }
 
-export interface FindingAgencyByAdminInfo {
+interface FindingAgencyByAdminInfo {
     agency_id: string,
     agency_name: string,
     level: string,
@@ -265,12 +265,12 @@ export interface FindingAgencyByAdminInfo {
     district: string,
     town: string,
     phone_number: string,
-    email: string,  
+    email: string,
     bin: string,
     bank: string,
 }
 
-export interface UpdatingAgencyInfo {
+interface UpdatingAgencyInfo {
     agency_name: string,
     province: string,
     district: string,
@@ -286,11 +286,11 @@ export interface UpdatingAgencyInfo {
     bank: string,
 }
 
-export interface UpdatingAgencyCondition {
+interface UpdatingAgencyCondition {
     agency_id: string,
 }
 
-export interface DeletingAgencyCondition {
+interface DeletingAgencyCondition {
     agency_id: string,
 }
 
@@ -306,7 +306,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/check?agency_id=${condition.agency_id}`, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
@@ -320,7 +320,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
@@ -334,7 +334,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -348,7 +348,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -362,7 +362,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?agency_id=${condition.agency_id}`, info, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -376,7 +376,7 @@ class AgencyOperation {
             const response: AxiosResponse = await axios.delete(`${this.baseUrl}/delete?agency_id=${condition.agency_id}`, {
                 withCredentials: true,
             });
-    
+
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
@@ -386,7 +386,7 @@ class AgencyOperation {
     }
 }
 
-export interface CreatingTransportPartnerByAdminInfo {
+interface CreatingTransportPartnerByAdminInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -417,7 +417,7 @@ export interface CreatingTransportPartnerByAdminInfo {
     bank: string,
 }
 
-export interface CreatingTransportPartnerByAgencyInfo {
+interface CreatingTransportPartnerByAgencyInfo {
     // Representor information
     username: string,
     user_password: string,
@@ -447,11 +447,11 @@ export interface CreatingTransportPartnerByAgencyInfo {
     bank: string,
 }
 
-export interface FindingTransportPartnerByTransportPartnerCondition {
+interface FindingTransportPartnerByTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-export interface FindingTransportPartnerByAdminConditions {
+interface FindingTransportPartnerByAdminConditions {
     transport_partner_id: string,
     tax_code: string,
     transport_partner_name: string,
@@ -465,7 +465,7 @@ export interface FindingTransportPartnerByAdminConditions {
     bank: string,
 }
 
-export interface UpdatingTransportPartnerInfo {
+interface UpdatingTransportPartnerInfo {
     tax_code: string,
     transport_partner_name: string,
     province: string,
@@ -479,11 +479,11 @@ export interface UpdatingTransportPartnerInfo {
     debit: string,
 }
 
-export interface UpdatingTransportPartnerCondition {
+interface UpdatingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
-export interface DeletingTransportPartnerCondition {
+interface DeletingTransportPartnerCondition {
     transport_partner_id: string,
 }
 
@@ -580,73 +580,73 @@ class TransportPartnersOperation {
     }
 }
 
-export interface CheckingExistVehicleCondition {
+interface CheckingExistVehicleCondition {
     vehicle_id: string,
 }
 
-export interface CreatingVehicleByAdminInfo {
+interface CreatingVehicleByAdminInfo {
     agency_id: string,
     transport_partner_id: string,
     staff_id: string,
     type: string,
     license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
-export interface CreatingVehicleByAgencyInfo {
+interface CreatingVehicleByAgencyInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
     license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
-export interface FindingVehicleByStaffCondition {
+interface FindingVehicleByStaffCondition {
     staff_id: string,
 }
 
-export interface FindingVehicleByAdminConditions {
+interface FindingVehicleByAdminConditions {
     vehicle_id: string,
     transport_partner_id: string,
     staff_id: string,
     type: string,
     license_plate: string,
-    mass: string,
+    mass: number,
 }
 
-export interface GettingOrdersContainedByVehicleCondition {
+interface GettingOrdersContainedByVehicleCondition {
     vehicle_id: string,
 }
 
-export interface UpdatingVehicleInfo {
+interface UpdatingVehicleInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
     license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
-export interface UpdatingVehicleCondition {
+interface UpdatingVehicleCondition {
     vehicle_id: string,
 }
 
-export interface AddingOrdersToVehicleInfo {
+interface AddingOrdersToVehicleInfo {
     order_ids: Object,
 }
 
-export interface AddingOrdersToVehicleCondition {
+interface AddingOrdersToVehicleCondition {
     vehicle_id: string,
 }
 
-export interface DeletingOrdersFromVehicleInfo {
+interface DeletingOrdersFromVehicleInfo {
     order_ids: Object,
 }
 
-export interface DeletingOrdersFromVehicleCondition {
+interface DeletingOrdersFromVehicleCondition {
     vehicle_id: string,
 }
 
-export interface DeletingVehicleCondition {
+interface DeletingVehicleCondition {
     vehicle_id: string,
 }
 
@@ -654,8 +654,8 @@ class Vehicle {
     private baseUrl: string;
 
     constructor() {
-        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:5000/api/v1/vehicle";
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicles";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicles";
     }
 
     async checkExist(condition: CheckingExistVehicleCondition) {
@@ -707,7 +707,7 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
             console.log("Error finding vehicle: ", error.response.data);
             return error.response.data;
@@ -721,7 +721,7 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
             console.log("Error finding vehicle: ", error.response.data);
             return error.response.data;
@@ -735,7 +735,7 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
             console.log("Error getting orders contained by vehicle: ", error.response.data);
             return error.response.data;
@@ -800,8 +800,8 @@ class Vehicle {
     }
 }
 
-export interface CreatingStaffByAgencyInfo {
-	fullname: string,
+interface CreatingStaffByAgencyInfo {
+    fullname: string,
     username: string,
     password: string,
     date_of_birth: string,
@@ -810,7 +810,7 @@ export interface CreatingStaffByAgencyInfo {
     phone_number: string,
     role: string,
     position: string,
-    salary: number, 
+    salary: number,
     paid_salary: number,
     province: string,
     district: string,
@@ -818,7 +818,7 @@ export interface CreatingStaffByAgencyInfo {
     detail_address: string,
 }
 
-export interface CreatingStaffByAdminInfo {
+interface CreatingStaffByAdminInfo {
     agency_id: string,
     fullname: string,
     username: string,
@@ -829,24 +829,24 @@ export interface CreatingStaffByAdminInfo {
     phone_number: string,
     role: string,
     position: string,
-    salary: number, 
+    salary: number,
     paid_salary: number,
     province: string,
     district: string,
     town: string,
     detail_address: string,
 }
-  
-export interface FindingStaffByStaffCondition {
+
+interface FindingStaffByStaffCondition {
     staff_id: string,
 }
-  
-export interface FindingStaffByAdminConditions {
+
+interface FindingStaffByAdminConditions {
     staff_id: string,
     fullname: string,
     username: string,
-    date_of_birth: string, 
-    cccd: string, 
+    date_of_birth: string,
+    cccd: string,
     email: string,
     phone_number: string,
     role: string,
@@ -854,58 +854,58 @@ export interface FindingStaffByAdminConditions {
     district: string,
     town: string,
 }
-  
-export interface UpdatingStaffInfo {
+
+interface UpdatingStaffInfo {
     fullname: string,
     username: string,
-    date_of_birth: string, 
+    date_of_birth: string,
     email: string,
     phone_number: string,
     role: string,
-    salary: number, 
-    paid_salary: string, 
+    salary: number,
+    paid_salary: string,
     province: string,
     district: string,
     town: string,
     detail_address: string,
 }
-  
-export interface UpdatingStaffCondition {
+
+interface UpdatingStaffCondition {
     staff_id: string,
 }
-  
-export interface DeletingStaffCondition {
+
+interface DeletingStaffCondition {
     staff_id: string,
 };
-  
-export interface UpdatingAvatarStaffInfo {
+
+interface UpdatingAvatarStaffInfo {
     avatarFile: Buffer,
 };
-  
-export interface UpdatingPasswordsInfo {
+
+interface UpdatingPasswordsInfo {
     new_password: string,
     confirm_password: string
 };
-  
-export interface FindingAvatarCondition {
+
+interface FindingAvatarCondition {
     staff_id: string,
 }
-  
+
 class StaffsOperation {
-	private baseUrl: string;
+    private baseUrl: string;
 
-	constructor() {
-		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-		this.baseUrl = "http://localhost:5000/api/v1/staffs";
-	}
+    constructor() {
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
+    }
 
-	// ROLE: any
-	async getAuthenticatedStaffInfo() {
+    // ROLE: any
+    async getAuthenticatedStaffInfo() {
         try {
             const response: AxiosResponse = await axios.get(`${this.baseUrl}/get_info`, {
                 withCredentials: true,
             });
-            
+
             const data = response.data;
             return { error: data.error, data: data.info, message: data.message };
         } catch (error: any) {
@@ -914,121 +914,121 @@ class StaffsOperation {
         }
     }
 
-	// ROLE: any
-	async findByStaff(condition: FindingStaffByStaffCondition) : Promise<any> {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}search?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error get one staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+    // ROLE: any
+    async findByStaff(condition: FindingStaffByStaffCondition): Promise<any> {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}search?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
 
-	// ROLE: ADMIN, TELLER, HUMAN_RESOURCE_MANAGER, COMPLAINTS_SOLVER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async findByAdmin(conditions: FindingStaffByAdminConditions) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		}     
-		catch (error: any) {
-			console.log("Error get one staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error get one staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER
-	async createByAdmin(info: CreatingStaffByAdminInfo) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error create new staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+    // ROLE: ADMIN, TELLER, HUMAN_RESOURCE_MANAGER, COMPLAINTS_SOLVER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async findByAdmin(conditions: FindingStaffByAdminConditions) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true,
+            });
 
-	// ROLE: AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async createByAgency(info: CreatingStaffByAgencyInfo) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error create new staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error get one staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async update(info: UpdatingStaffInfo, condition: UpdatingStaffCondition) {
-		try {
-			const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?staff_id=${condition.staff_id}`, info, {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error create new staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER
+    async createByAdmin(info: CreatingStaffByAdminInfo) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async deleteStaff(condition: DeletingStaffCondition) {
-		try {
-			const response = await axios.delete(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error create new staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error deleting staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+    // ROLE: AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async createByAgency(info: CreatingStaffByAgencyInfo) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async updateAvatar(info: UpdatingAvatarStaffInfo, condition: UpdatingStaffCondition) {
-		try {       
-			// Tạo FormData object và thêm hình ảnh vào đó
-			const formData = new FormData();
-			formData.append('avatar', info.avatarFile);
-	
-			// Gửi yêu cầu POST để tải lên hình ảnh
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_avatar?staff_id=${condition.staff_id}`, formData , {
-				withCredentials: true,
-			});
-		
-			console.log('Image uploaded successfully:', response.data);
-			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
-	
-		} catch (error: any) {
-			console.error('Error uploading image:', error);
-			throw error; // Ném lỗi để xử lý bên ngoài
-		}   
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error create new staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async update(info: UpdatingStaffInfo, condition: UpdatingStaffCondition) {
+        try {
+            const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?staff_id=${condition.staff_id}`, info, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error create new staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async deleteStaff(condition: DeletingStaffCondition) {
+        try {
+            const response = await axios.delete(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error deleting staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async updateAvatar(info: UpdatingAvatarStaffInfo, condition: UpdatingStaffCondition) {
+        try {
+            // Tạo FormData object và thêm hình ảnh vào đó
+            const formData = new FormData();
+            formData.append('avatar', info.avatarFile);
+
+            // Gửi yêu cầu POST để tải lên hình ảnh
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_avatar?staff_id=${condition.staff_id}`, formData, {
+                withCredentials: true,
+            });
+
+            console.log('Image uploaded successfully:', response.data);
+            return response.data; // Trả về dữ liệu phản hồi từ máy chủ
+
+        } catch (error: any) {
+            console.error('Error uploading image:', error.response.data);
+            throw error; // Ném lỗi để xử lý bên ngoài
+        }
+    }
 
     async logout() {
         try {
@@ -1044,41 +1044,41 @@ class StaffsOperation {
         }
     }
 
-	// ROLE: any. But one staff can just change his/her own password.
-	// So that, the staff_id in session must be the same with the staff_id in the query. 
-	async updatePassword(info: UpdatingPasswordsInfo, condition: UpdatingStaffCondition) {
-		try {
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_password?staff_id=${condition.staff_id}`, info , {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error update password: ", error.response.data);
-			return error.response.data;
-		}    
-	}
+    // ROLE: any. But one staff can just change his/her own password.
+    // So that, the staff_id in session must be the same with the staff_id in the query. 
+    async updatePassword(info: UpdatingPasswordsInfo, condition: UpdatingStaffCondition) {
+        try {
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_password?staff_id=${condition.staff_id}`, info, {
+                withCredentials: true,
+            });
 
-	// ROLE: any.
-	async findAvatar (conditions: FindingAvatarCondition) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_avatar`, conditions, {
-				withCredentials: true,
-			});
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error update password: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+    // ROLE: any.
+    async findAvatar(conditions: FindingAvatarCondition) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_avatar`, conditions, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 }
-  
-export interface CreateBusinessByAgencyInfo {
-	// Representor information
+
+interface CreateBusinessByAgencyInfo {
+    // Representor information
     user_fullname: string,
     user_phone_number: string,
     user_email: string,
@@ -1097,7 +1097,7 @@ export interface CreateBusinessByAgencyInfo {
     business_name: string,
     email: string,
     phone_number: string,
-    tax_number: string, 
+    tax_number: string,
     province: string,
     district: string,
     town: string,
@@ -1105,9 +1105,9 @@ export interface CreateBusinessByAgencyInfo {
     bin: string,
     bank: string,
 }
-  
-export interface CreateBusinessByAdminInfo {
-	// Representor information
+
+interface CreateBusinessByAdminInfo {
+    // Representor information
     username: string,
     password: string,
     user_fullname: string,
@@ -1127,7 +1127,7 @@ export interface CreateBusinessByAdminInfo {
     business_name: string,
     email: string,
     phone_number: string,
-    tax_number: string, 
+    tax_number: string,
     province: string,
     district: string,
     town: string,
@@ -1135,864 +1135,864 @@ export interface CreateBusinessByAdminInfo {
     bin: string,
     bank: string,
 }
-  
-export interface FindingBusinessByBusinessCondition {
+
+interface FindingBusinessByBusinessCondition {
     business_id: string,
 }
-  
-export interface FindingBusinessByAdminCondition {
-	business_id: string,
-	agency_id: string,
-	username: string,
-	business_name: string,
-	email: string,
-	phone_number: string,
-	tax_number: string,
-	province: string,
-	district: string,
-	town: string,
-	bin: string,
-	bank: string,
+
+interface FindingBusinessByAdminCondition {
+    business_id: string,
+    agency_id: string,
+    username: string,
+    business_name: string,
+    email: string,
+    phone_number: string,
+    tax_number: string,
+    province: string,
+    district: string,
+    town: string,
+    bin: string,
+    bank: string,
 }
-  
-export interface FindingRepresentorByBusinessCondition {
+
+interface FindingRepresentorByBusinessCondition {
     business_id: string,
 }
-  
-export interface FindingRepresentorByAdminCondition {
-	agency_id:string,
-	business_id: string,
-	fullname: string,
-	phone_number: string,
-	email: string,
-	date_of_birth: string,
-	cccd: string,
-	province: string,
-	district: string,
-	town: string,
-	bin: string,
-	bank: string,
+
+interface FindingRepresentorByAdminCondition {
+    agency_id: string,
+    business_id: string,
+    fullname: string,
+    phone_number: string,
+    email: string,
+    date_of_birth: string,
+    cccd: string,
+    province: string,
+    district: string,
+    town: string,
+    bin: string,
+    bank: string,
 }
-  
-export interface CheckingExistBusinessCondition {
+
+interface CheckingExistBusinessCondition {
     tax_number: string,
 }
-  
-export interface UpdatingBusinessCondition {
+
+interface UpdatingBusinessCondition {
     business_id: string,
 }
-  
-export interface UpdatingBusinessInfo {
-	business_name: string,
-	email: string,
-	phone_number: string,
-	debit: string, 
-	province: string,
-	district: string,
-	town: string,
-	detail_address: string,
-	bin: string,
-	bank: string,
+
+interface UpdatingBusinessInfo {
+    business_name: string,
+    email: string,
+    phone_number: string,
+    debit: string,
+    province: string,
+    district: string,
+    town: string,
+    detail_address: string,
+    bin: string,
+    bank: string,
 }
-  
-export interface UpdatingBusinessRepresentorInfo {
-	fullname: string,
-	phone_number: string,
-	email: string,
-	date_of_birth: string,
-	cccd: string,
-	province: string,
-	district: string,
-	town: string,
-	detail_address: string,
-	bin: string,
-	bank: string,
+
+interface UpdatingBusinessRepresentorInfo {
+    fullname: string,
+    phone_number: string,
+    email: string,
+    date_of_birth: string,
+    cccd: string,
+    province: string,
+    district: string,
+    town: string,
+    detail_address: string,
+    bin: string,
+    bank: string,
 }
-  
-export interface DeletingBusinessCondition {
-	business_id: string,
-	agency_id: string,
+
+interface DeletingBusinessCondition {
+    business_id: string,
+    agency_id: string,
 }
-  
-export interface UpdatingContractInfo {
+
+interface UpdatingContractInfo {
     contractFile: Buffer,
 }
-  
-export interface FindingContractCondition {
+
+interface FindingContractCondition {
     business_id: string,
 }
-  
+
 class BusinessOperation {
-	private baseUrl: string;
+    private baseUrl: string;
 
-	constructor() {
-		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-		this.baseUrl = "http://localhost:5000/api/v1/business";
+    constructor() {
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
+        this.baseUrl = "http://localhost:5000/api/v1/business";
 
-	}
+    }
 
-	async createByAdmin(info: CreateBusinessByAdminInfo) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
+    async createByAdmin(info: CreateBusinessByAdminInfo) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error creating new business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error creating new business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async createByAgency(info: CreateBusinessByAgencyInfo) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
+    async createByAgency(info: CreateBusinessByAgencyInfo) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error creating new business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error creating new business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async findByBusiness(condition: FindingBusinessByBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search?business_id=${condition.business_id}`, {
-				withCredentials: true,
-			});
+    async findByBusiness(condition: FindingBusinessByBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search?business_id=${condition.business_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async findByAdmin(conditions: FindingBusinessByAdminCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search`, conditions, {
-				withCredentials: true,
-			});
+    async findByAdmin(conditions: FindingBusinessByAdminCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async findByRepresentorByBusiness(condition: FindingRepresentorByBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search_representor`, condition, {
-				withCredentials: true,
-			});
+    async findByRepresentorByBusiness(condition: FindingRepresentorByBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search_representor`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding representor: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding representor: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async findByRepresentorByAdmin(conditions: FindingRepresentorByAdminCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search_representor`, conditions, {
-				withCredentials: true,
-			});
+    async findByRepresentorByAdmin(conditions: FindingRepresentorByAdminCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search_representor`, conditions, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding representor: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding representor: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async updateBusiness(info: UpdatingBusinessInfo, condition: UpdatingBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/update?business_id=${condition.business_id}`, info, {
-				withCredentials: true,
-			});
+    async updateBusiness(info: UpdatingBusinessInfo, condition: UpdatingBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/update?business_id=${condition.business_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error updating business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error updating business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async updateBusinessRepresentor(info: UpdatingBusinessRepresentorInfo, condition: UpdatingBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/update_business_representor?business_id=${condition.business_id}`, info, {
-				withCredentials: true,
-			});
+    async updateBusinessRepresentor(info: UpdatingBusinessRepresentorInfo, condition: UpdatingBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/update_business_representor?business_id=${condition.business_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error updating business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error updating business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async checkExist(condition: CheckingExistBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/check?tax_number=${condition.tax_number}`, {
-				withCredentials: true,
-			});
+    async checkExist(condition: CheckingExistBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/check?tax_number=${condition.tax_number}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, existed: data.existed, message: data.message };
-		} catch (error: any) {
-			console.log("Error checking exist business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, existed: data.existed, message: data.message };
+        } catch (error: any) {
+            console.log("Error checking exist business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async removeBusiness(condition: DeletingBusinessCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/delete?business_id=${condition.business_id}&agency_id=${condition.agency_id}`, {
-				withCredentials: true,
-			});
+    async removeBusiness(condition: DeletingBusinessCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/delete?business_id=${condition.business_id}&agency_id=${condition.agency_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error deleting business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error deleting business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async updateContract(info: UpdatingContractInfo, condition: UpdatingBusinessCondition) {
-		try {        
-			// Tạo FormData object 
-			const formData = new FormData();
-			formData.append('contract', info.contractFile);
-	
-			// Gửi yêu cầu POST để tải lên hình ảnh
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_contract?business_id=${condition.business_id}`, formData , {
-				withCredentials: true,
-			});
-		
-			console.log('File uploaded successfully:', response.data);
-			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
-	
-			} catch (error: any) {
-			console.error('Error uploading file:', error);
-			throw error; // Ném lỗi để xử lý bên ngoài
-			} 
-	}
+    async updateContract(info: UpdatingContractInfo, condition: UpdatingBusinessCondition) {
+        try {
+            // Tạo FormData object 
+            const formData = new FormData();
+            formData.append('contract', info.contractFile);
 
-	async findContract(conditions: FindingContractCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/get_contract`, conditions, {
-				withCredentials: true,
-			});
+            // Gửi yêu cầu POST để tải lên hình ảnh
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_contract?business_id=${condition.business_id}`, formData, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            console.log('File uploaded successfully:', response.data);
+            return response.data; // Trả về dữ liệu phản hồi từ máy chủ
+
+        } catch (error: any) {
+            console.error('Error uploading file:', error.response.data);
+            throw error; // Ném lỗi để xử lý bên ngoài
+        }
+    }
+
+    async findContract(conditions: FindingContractCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/get_contract`, conditions, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 }
 
-export interface CreatingPartnerStaffInfo {
-	partner_id: string,
-	username: string,
-	password: string,
-	fullname: string,
-	email: string,
-	phone_number: string,
-	date_of_birth: string, 
-	cccd: string,
-	province: string,
-	district: string,
-	town: string,
-	detail_address: string,
-	role: string,
-	position: string,
-	bin: string,
-	bank: string,
+interface CreatingPartnerStaffInfo {
+    partner_id: string,
+    username: string,
+    password: string,
+    fullname: string,
+    email: string,
+    phone_number: string,
+    date_of_birth: string,
+    cccd: string,
+    province: string,
+    district: string,
+    town: string,
+    detail_address: string,
+    role: string,
+    position: string,
+    bin: string,
+    bank: string,
 }
 
-export interface FindingPartnerStaffByPartnerStaffCondition {
-	staff_id: string,
+interface FindingPartnerStaffByPartnerStaffCondition {
+    staff_id: string,
 }
 
-export interface FindingPartnerStaffsByPartnerCondtions {
-	partner_id: string,
-	agency_id: string,
-	staff_id: string,
-	username: string,
-	fullname: string,
-	date_of_birth: string, 
-	cccd: string,
-	email: string,
-	phone_number: string,
-	province: string,
-	district: string,
-	town: string,
-	position: string,
-	bin: string,
-	bank: string,
+interface FindingPartnerStaffsByPartnerCondtions {
+    partner_id: string,
+    agency_id: string,
+    staff_id: string,
+    username: string,
+    fullname: string,
+    date_of_birth: string,
+    cccd: string,
+    email: string,
+    phone_number: string,
+    province: string,
+    district: string,
+    town: string,
+    position: string,
+    bin: string,
+    bank: string,
 }
 
-export interface FindingPartnerStaffsByAdminConditions {
-	partner_id: string,
-	agency_id: string,
-	staff_id: string,
-	username: string,
-	fullname: string ,
-	date_of_birth: string, 
-	email: string,
-	phone_number: string,
-	province: string,
-	district: string,
-	town: string,
-	position: string,
-	bin: string,
-	bank: string,
+interface FindingPartnerStaffsByAdminConditions {
+    partner_id: string,
+    agency_id: string,
+    staff_id: string,
+    username: string,
+    fullname: string,
+    date_of_birth: string,
+    email: string,
+    phone_number: string,
+    province: string,
+    district: string,
+    town: string,
+    position: string,
+    bin: string,
+    bank: string,
 }
 
-export interface UpdatingPartnerStaffCondition {
-	staff_id: string,
+interface UpdatingPartnerStaffCondition {
+    staff_id: string,
 }
 
-export interface UpdatingPartnerStaffInfo {
-	fullname: string,
-	username: string,
-	date_of_birth: string, 
-	email: string,
-	phone_number: string,
-	province: string,
-	district: string,
-	town: string,
-	detail_address: string,
-	position: string,
-	bin: string,
-	bank: string,
+interface UpdatingPartnerStaffInfo {
+    fullname: string,
+    username: string,
+    date_of_birth: string,
+    email: string,
+    phone_number: string,
+    province: string,
+    district: string,
+    town: string,
+    detail_address: string,
+    position: string,
+    bin: string,
+    bank: string,
 }
 
-export interface DeletingPartnerStaffCondition {
-	staff_id: string,
+interface DeletingPartnerStaffCondition {
+    staff_id: string,
 }
 
-export interface CheckingExistPartnerStaffCondition {
-	username: string,
-	email: string,
-	phone_number: string,
-	bin: string,
-	cccd: string,
+interface CheckingExistPartnerStaffCondition {
+    username: string,
+    email: string,
+    phone_number: string,
+    bin: string,
+    cccd: string,
 }
 
 
-export interface UpdatingPartnerLicenseImg {
-	license_before: Buffer,
-	license_after: Buffer,
+interface UpdatingPartnerLicenseImg {
+    license_before: Buffer,
+    license_after: Buffer,
 }
 
-export interface UpdatingPartnerStaffAvatarInfo {
-	avatarFile: Buffer
+interface UpdatingPartnerStaffAvatarInfo {
+    avatarFile: Buffer
 }
 
-export interface FindingPartnerAvatarAndLicenseCondition {
-	staff_id: string
+interface FindingPartnerAvatarAndLicenseCondition {
+    staff_id: string
 };
-  
+
 class PartnerStaffOperation {
-	private baseUrl: string;
+    private baseUrl: string;
 
-	constructor() {
-		// this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-		this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
-	}
+    constructor() {
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
+    }
 
-	// ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
-	async getAuthenticatedPartnerStaffInfo() {
-		try {
-			const response = await axios.get(`${this.baseUrl}/get_info`, {
-				withCredentials: true,
-			});
+    // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
+    async getAuthenticatedPartnerStaffInfo() {
+        try {
+            const response = await axios.get(`${this.baseUrl}/get_info`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting authenticated partner staff information: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error getting authenticated partner staff information: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async create(info: CreatingPartnerStaffInfo) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async create(info: CreatingPartnerStaffInfo) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error creating partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
-	async findByPartnerStaff(condition: FindingPartnerStaffByPartnerStaffCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search`, condition, {
-				withCredentials: true,
-			});
+    // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
+    async findByPartnerStaff(condition: FindingPartnerStaffByPartnerStaffCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: TRANSPORT_PARTNER_REPRESENTOR
-	async findByPartner(conditions: FindingPartnerStaffsByPartnerCondtions) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search`, conditions, {
-				withCredentials: true,
-			});
+    // ROLE: TRANSPORT_PARTNER_REPRESENTOR
+    async findByPartner(conditions: FindingPartnerStaffsByPartnerCondtions) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, TELLER, COMPLAINTS_SOLVER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, AGENCY_TELLER, AGENCY_COMPLAINTS_SOLVER 
-	async findByAdmin(conditions: FindingPartnerStaffsByAdminConditions) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/search`, conditions, {
-				withCredentials: true,
-			});
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, TELLER, COMPLAINTS_SOLVER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, AGENCY_TELLER, AGENCY_COMPLAINTS_SOLVER 
+    async findByAdmin(conditions: FindingPartnerStaffsByAdminConditions) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async updatePartnerStaff(info: UpdatingPartnerStaffInfo, condition: UpdatingPartnerStaffCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/update?staff_id=${condition.staff_id}`, info, {
-				withCredentials: true,
-			});
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async updatePartnerStaff(info: UpdatingPartnerStaffInfo, condition: UpdatingPartnerStaffCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/update?staff_id=${condition.staff_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error updating partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error updating partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: any
-	async checkExist(condition: CheckingExistPartnerStaffCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/check?cccd=${condition.cccd}`, {
-				withCredentials: true,
-			});
+    // ROLE: any
+    async checkExist(condition: CheckingExistPartnerStaffCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/check?cccd=${condition.cccd}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, existed: data.existed, message: data.message };
-		} catch (error: any) {
-			console.log("Error checking exist partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, existed: data.existed, message: data.message };
+        } catch (error: any) {
+            console.log("Error checking exist partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async deletePartnerStaff(condition: DeletingPartnerStaffCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async deletePartnerStaff(condition: DeletingPartnerStaffCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/delete?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error deleting business: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error deleting business: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	// ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
-	async updatePassword(info: UpdatingPasswordsInfo) {
-		try {
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_password`, info , {
-				withCredentials: true,
-			});
-			
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} 
-		catch (error: any) {
-			console.log("Error update password: ", error.response.data);
-			return error.response.data;
-		}    
-	}
+    // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
+    async updatePassword(info: UpdatingPasswordsInfo) {
+        try {
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_password`, info, {
+                withCredentials: true,
+            });
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async updatePartnerStaffAvatar(info: UpdatingPartnerStaffAvatarInfo, condition: UpdatingPartnerStaffCondition) {
-		try {      
-			// Tạo FormData object và thêm hình ảnh vào đó
-			const formData = new FormData();
-			formData.append('avatar', info.avatarFile);
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        }
+        catch (error: any) {
+            console.log("Error update password: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_avatar?staff_id=${condition.staff_id}`, formData , {
-			withCredentials: true,
-		});
-		
-			console.log('Image uploaded successfully:', response.data);
-			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async updatePartnerStaffAvatar(info: UpdatingPartnerStaffAvatarInfo, condition: UpdatingPartnerStaffCondition) {
+        try {
+            // Tạo FormData object và thêm hình ảnh vào đó
+            const formData = new FormData();
+            formData.append('avatar', info.avatarFile);
 
-		} catch (error: any) {
-			console.error('Error uploading image:', error);
-			throw error; // Ném lỗi để xử lý bên ngoài
-		}
-	}
-	
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
-	async updatePartnerStaffLicense(info: UpdatingPartnerLicenseImg, condition: UpdatingPartnerStaffCondition) {
-		try {
-			// Tạo FormData object và thêm hình ảnh vào đó
-			const formData = new FormData();
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_avatar?staff_id=${condition.staff_id}`, formData, {
+                withCredentials: true,
+            });
 
-			formData.append('license_before', info.license_before);
-			formData.append('license_after', info.license_after);
+            console.log('Image uploaded successfully:', response.data);
+            return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
-			// Gửi yêu cầu POST để tải lên hình ảnh
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_licenses?staff_id=${condition.staff_id}`, formData , {
-			withCredentials: true,
-		});
-		
-			console.log('Image uploaded successfully:', response.data);
-			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
+        } catch (error: any) {
+            console.error('Error uploading image:', error.response.data);
+            throw error; // Ném lỗi để xử lý bên ngoài
+        }
+    }
 
-		} catch (error: any) {
-			console.error('Error uploading image:', error);
-			throw error; // Ném lỗi để xử lý bên ngoài
-		}
-	}
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER
+    async updatePartnerStaffLicense(info: UpdatingPartnerLicenseImg, condition: UpdatingPartnerStaffCondition) {
+        try {
+            // Tạo FormData object và thêm hình ảnh vào đó
+            const formData = new FormData();
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
-	async findPartnerStaffAvatar(condition: FindingPartnerAvatarAndLicenseCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/get_avatar?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
+            formData.append('license_before', info.license_before);
+            formData.append('license_after', info.license_after);
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	} 
+            // Gửi yêu cầu POST để tải lên hình ảnh
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/update_licenses?staff_id=${condition.staff_id}`, formData, {
+                withCredentials: true,
+            });
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
-	async findPartnerStaffLicenseBefore(condition: FindingPartnerAvatarAndLicenseCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/get_license_before?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
+            console.log('Image uploaded successfully:', response.data);
+            return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	} 
+        } catch (error: any) {
+            console.error('Error uploading image:', error.response.data);
+            throw error; // Ném lỗi để xử lý bên ngoài
+        }
+    }
 
-	// ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
-	async findPartnerStaffLicenseAfter(condition: FindingPartnerAvatarAndLicenseCondition) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/get_license_after?staff_id=${condition.staff_id}`, {
-				withCredentials: true,
-			});
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
+    async findPartnerStaffAvatar(condition: FindingPartnerAvatarAndLicenseCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/get_avatar?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	} 
-}
-  
-export interface GettingTasksCondition {
-	option: number,
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
+    async findPartnerStaffLicenseBefore(condition: FindingPartnerAvatarAndLicenseCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/get_license_before?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
+    async findPartnerStaffLicenseAfter(condition: FindingPartnerAvatarAndLicenseCondition) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/get_license_after?staff_id=${condition.staff_id}`, {
+                withCredentials: true,
+            });
+
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error finding partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 }
 
-export interface ConfirmingCompletedTaskInfo {
-	id: number,
+interface GettingTasksCondition {
+    option: number,
 }
 
-export interface GettingHistoryInfo {
-	option: number,
+interface ConfirmingCompletedTaskInfo {
+    id: number,
+}
+
+interface GettingHistoryInfo {
+    option: number,
 }
 
 class ShippersOperation {
-	private baseUrl: string;
-	constructor() {
-		this.baseUrl = "http://localhost:5000/api/v1/shippers";
-	}
+    private baseUrl: string;
+    constructor() {
+        this.baseUrl = "http://localhost:5000/api/v1/shippers";
+    }
 
-	async getTask(condition: GettingTasksCondition) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_tasks`, condition, {
-				withCredentials: true,
-			});
+    async getTask(condition: GettingTasksCondition) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_tasks`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting tasks: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error getting tasks: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async confirmCompletedTask(info: ConfirmingCompletedTaskInfo) {
-		try {
-			const response: AxiosResponse = await axios.patch(`${this.baseUrl}/confirm_completed`, info, {
-				withCredentials: true,
-			});
+    async confirmCompletedTask(info: ConfirmingCompletedTaskInfo) {
+        try {
+            const response: AxiosResponse = await axios.patch(`${this.baseUrl}/confirm_completed`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error confirming completed task: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error confirming completed task: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
-	async getHistory(condition: GettingHistoryInfo) {
-		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_history`, condition, {
-				withCredentials: true,
-			});
+    async getHistory(condition: GettingHistoryInfo) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_history`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting history: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error getting history: ", error.response.data);
+            return error.response.data;
+        }
+    }
 }
 
 //Shipment Operation
-export interface CreatingShipmentInfo {
+interface CreatingShipmentInfo {
     transport_partner_id?: string
 }
 
-export interface FindingShipmentConditions {
+interface FindingShipmentConditions {
     shipment_id?: string,
     tranport_partner_id?: string,
     staff_id?: string
 }
 
-export interface DecomposingShipmentInfo {
+interface DecomposingShipmentInfo {
     order_ids: object
 }
 
-export interface OperatingWithOrderInfo {
+interface OperatingWithOrderInfo {
     order_ids: object
 }
 
-export interface ShipmentID {
+interface ShipmentID {
     shipment_id: string
 }
 
-export interface UndertakingShipmentInfo {
+interface UndertakingShipmentInfo {
     shipment_id: string,
     status_code: number
 }
 
 class ShipmentsOperation {
     private baseUrl: string;
-	constructor() {
+    constructor() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/shipments";
-		this.baseUrl = "http://localhost:5000/api/v1/shipments";
-	}
+        this.baseUrl = "http://localhost:5000/api/v1/shipments";
+    }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
-	async create(info: CreatingShipmentInfo) {
-		try {
-			const response = await axios.post(`${this.baseUrl}/create`, info, {
-				withCredentials: true,
-			});
+    async create(info: CreatingShipmentInfo) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
-			return error.response.data;
-		}
-	}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error creating partner staff: ", error.response.data);
+            return error.response.data;
+        }
+    }
 
     async getOrdersFromShipment(condition: ShipmentID) {
         try {
-			const response = await axios.post(`${this.baseUrl}/get_orders?shipment_id=${condition.shipment_id}`, {
-				withCredentials: true,
-			});
+            const response = await axios.get(`${this.baseUrl}/get_orders?shipment_id=${condition.shipment_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting orders from shipment: ", error.response.data);
-			return error.response.data;
-		}
+            const data = response.data;
+            return { error: data.error, message: data.message, data: data.data };
+        } catch (error: any) {
+            console.log("Error getting orders from shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async addOrdersToShipment(condition: ShipmentID, info: OperatingWithOrderInfo) {
         try {
-			const response = await axios.post(`${this.baseUrl}/add_orders?shipment_id=${condition.shipment_id}`, info, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/add_orders?shipment_id=${condition.shipment_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error adding orders to shipment: ", error.response.data);
-			return error.response.data;
-		}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error adding orders to shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async deleteOrderFromShipment(condition: ShipmentID, info: OperatingWithOrderInfo) {
         try {
-			const response = await axios.post(`${this.baseUrl}/remove_orders?shipment_id=${condition.shipment_id}`, info, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/remove_orders?shipment_id=${condition.shipment_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error deleting order from shipment: ", error.response.data);
-			return error.response.data;
-		}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error deleting order from shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: AGENCY_MANAGER, AGENCY_TELLER
     async confirmCreate(condition: ShipmentID) {
         try {
-			const response = await axios.post(`${this.baseUrl}/confirm_create`, condition, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/confirm_create`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error confirming creat shipment: ", error.response.data);
-			return error.response.data;
-		}  
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error confirming creat shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async get(condition: FindingShipmentConditions) {
         try {
-			const response = await axios.post(`${this.baseUrl}/get`, condition, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/get`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, data: data.data, message: data.message };
-		} catch (error: any) {
-			console.log("Error getting shipments: ", error.response.data);
-			return error.response.data;
-		} 
+            const data = response.data;
+            return { error: data.error, data: data.data, message: data.message };
+        } catch (error: any) {
+            console.log("Error getting shipments: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async delete(condition: ShipmentID) {
         try {
-			const response = await axios.delete(`${this.baseUrl}/delete?shipment_id=${condition.shipment_id}`,{
-				withCredentials: true,
-			});
+            const response = await axios.delete(`${this.baseUrl}/delete?shipment_id=${condition.shipment_id}`, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error deleting shipment: ", error.response.data);
-			return error.response.data;
-		} 
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error deleting shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     async decompose(condition: ShipmentID, info: DecomposingShipmentInfo) {
         try {
-			const response = await axios.post(`${this.baseUrl}/decompose?shipment_id=${condition.shipment_id}`, info, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/decompose?shipment_id=${condition.shipment_id}`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error decomposing shipment: ", error.response.data);
-			return error.response.data;
-		} 
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error decomposing shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 
     // ROLE: AGENCY_MANAGER, AGENCY_TELLER
     async receive(condition: ShipmentID) {
         try {
-			const response = await axios.post(`${this.baseUrl}/receive`, condition, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/receive`, condition, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error receiving shipment: ", error.response.data);
-			return error.response.data;
-		} 
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error receiving shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
-    
+
     // ROLE: SHIPPER, AGENCY_SHIPPER, PARTNER_SHIPPER
     async undertake(info: UndertakingShipmentInfo) {
         try {
-			const response = await axios.post(`${this.baseUrl}/undertake`, info, {
-				withCredentials: true,
-			});
+            const response = await axios.post(`${this.baseUrl}/undertake`, info, {
+                withCredentials: true,
+            });
 
-			const data = response.data;
-			return { error: data.error, message: data.message };
-		} catch (error: any) {
-			console.log("Error undertaking shipment: ", error.response.data);
-			return error.response.data;
-		}
+            const data = response.data;
+            return { error: data.error, message: data.message };
+        } catch (error: any) {
+            console.log("Error undertaking shipment: ", error.response.data);
+            return error.response.data;
+        }
     }
 }
 
-export interface CheckingExistOrderCondition {
+interface CheckingExistOrderCondition {
     order_id: string,
 }
 
-export interface GettingOrdersConditions {
+interface GettingOrdersConditions {
     name_receiver: string,
     phone_receiver: string,
     province_source: string,
@@ -2004,7 +2004,7 @@ export interface GettingOrdersConditions {
     service_type: string,
 }
 
-export interface CreatingOrderInformation {
+interface CreatingOrderInformation {
     name_receiver: string,
     phone_receiver: string,
     mass: string,
@@ -2027,11 +2027,11 @@ export interface CreatingOrderInformation {
     service_type: number,
 }
 
-export interface UpdatingOrderCondition {
+interface UpdatingOrderCondition {
     order_id: string,
 }
 
-export interface UpdatingOrderInfo {
+interface UpdatingOrderInfo {
     mass: number,
     height: number,
     width: number,
@@ -2043,7 +2043,7 @@ export interface UpdatingOrderInfo {
     COD: number,
 }
 
-export interface CancelingOrderCondition {
+interface CancelingOrderCondition {
     order_id: string,
 }
 
@@ -2085,7 +2085,7 @@ class OrdersOperation {
     //     try {
     //         socket.emit("notifyNewOrderFromUser", info)
     //     } catch (error: any) {
-    //         console.log("Error creating new order: ", error);
+    //         console.log("Error creating new order: ", error.response.data);
     //     }
     // }
 
@@ -2118,17 +2118,104 @@ class OrdersOperation {
     }
 }
 
+interface GettingTasksCondition {
+    task: string,
+    priority: number,
+    deadline: string,
+    completed: boolean,
+}
+
+interface CreatingNewTaskInfo {
+    task: string,
+    priority: number,
+    deadline: string,
+}
+
+interface UpdatingTaskInfo {
+    task: string,
+    priority: number,
+    completed: boolean,
+}
+
+interface TaskId {
+    id: number,
+}
+
+class ScheduleOperation {
+    private baseUrl: string;
+    constructor() {
+        this.baseUrl = "http://localhost:5000/api/v1/schedules";
+    }
+
+    async get(conditions: GettingTasksCondition) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
+                withCredentials: true
+            });
+
+            const data = response.data;
+            return { error: data, data: data.data, message: data.message }
+        } catch (error: any) {
+            console.log("Error getting tasks: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    async create(info: CreatingNewTaskInfo) {
+        try {
+            const response: AxiosResponse = await axios.post(`${this.baseUrl}/create`, info, {
+                withCredentials: true
+            });
+
+            const data = response.data;
+            return { error: data, message: data.message }
+        } catch (error: any) {
+            console.log("Error creating new tasks: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    async update(info: UpdatingTaskInfo, condition: TaskId) {
+        try {
+            const response: AxiosResponse = await axios.put(`${this.baseUrl}/update?id=${condition.id}`, info, {
+                withCredentials: true
+            });
+
+            const data = response.data;
+            return { error: data, message: data.message }
+        } catch (error: any) {
+            console.log("Error updating tasks: ", error.response.data);
+            return error.response.data;
+        }
+    }
+
+    async deleteTask(condition: TaskId) {
+        try {
+            const response: AxiosResponse = await axios.delete(`${this.baseUrl}/delete?id=${condition.id}`, {
+                withCredentials: true
+            });
+
+            const data = response.data;
+            return { error: data, message: data.message }
+        } catch (error: any) {
+            console.log("Error deleting tasks: ", error.response.data);
+            return error.response.data;
+        }
+    }
+}
+
 export {
-	UsersAuthenticate,
-	StaffsAuthenticate,
-	UsersOperation,
-	AgencyOperation,
-	TransportPartnersOperation,
-	StaffsOperation,
-	Vehicle,
-	BusinessOperation,
-	PartnerStaffOperation,
-	ShippersOperation,
+    UsersAuthenticate,
+    StaffsAuthenticate,
+    UsersOperation,
+    AgencyOperation,
+    TransportPartnersOperation,
+    StaffsOperation,
+    Vehicle,
+    BusinessOperation,
+    PartnerStaffOperation,
+    ShippersOperation,
     ShipmentsOperation,
     OrdersOperation,
+    ScheduleOperation,
 }

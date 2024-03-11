@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
+exports.ScheduleOperation = exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.Vehicle = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
 var axios_1 = require("axios");
 var FormData = require("form-data");
-// const socket = io("http://localhost:4000");
+// const socket = io("http://localhost:5000");
 // socket.on("connect", () => {
 //     console.log("Connected to server.");
 // });
@@ -55,7 +55,7 @@ var FormData = require("form-data");
 var UsersAuthenticate = /** @class */ (function () {
     function UsersAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersAuthenticate.prototype.sendOTP = function (phoneNumber, email) {
         return __awaiter(this, void 0, void 0, function () {
@@ -65,11 +65,11 @@ var UsersAuthenticate = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/send_otp"), {
-                                phone_number: phoneNumber,
-                                email: email,
-                            }, {
-                                withCredentials: true,
-                            })];
+                            phone_number: phoneNumber,
+                            email: email,
+                        }, {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -91,12 +91,12 @@ var UsersAuthenticate = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/verify_otp"), {
-                                phone_number: phoneNumber,
-                                email: email,
-                                otp: otp,
-                            }, {
-                                withCredentials: true,
-                            })];
+                            phone_number: phoneNumber,
+                            email: email,
+                            otp: otp,
+                        }, {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -116,7 +116,7 @@ exports.UsersAuthenticate = UsersAuthenticate;
 var StaffsAuthenticate = /** @class */ (function () {
     function StaffsAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     StaffsAuthenticate.prototype.login = function (username, password) {
         return __awaiter(this, void 0, void 0, function () {
@@ -126,11 +126,11 @@ var StaffsAuthenticate = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/login"), {
-                                username: username,
-                                password: password,
-                            }, {
-                                withCredentials: true,
-                            })];
+                            username: username,
+                            password: password,
+                        }, {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -152,11 +152,11 @@ var StaffsAuthenticate = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/send_otp"), {
-                                phone_number: phone_number,
-                                email: email,
-                            }, {
-                                withCredentials: true,
-                            })];
+                            phone_number: phone_number,
+                            email: email,
+                        }, {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -178,12 +178,12 @@ var StaffsAuthenticate = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/verify_otp"), {
-                                phone_number: phone_number,
-                                email: email,
-                                otp: otp,
-                            }, {
-                                withCredentials: true,
-                            })];
+                            phone_number: phone_number,
+                            email: email,
+                            otp: otp,
+                        }, {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -203,7 +203,7 @@ exports.StaffsAuthenticate = StaffsAuthenticate;
 var UsersOperation = /** @class */ (function () {
     function UsersOperation(phoneNumber) {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersOperation.prototype.findByUser = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -213,8 +213,8 @@ var UsersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -236,8 +236,8 @@ var UsersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -259,8 +259,8 @@ var UsersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -282,8 +282,8 @@ var UsersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?user_id=").concat(condition.user_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -303,7 +303,7 @@ exports.UsersOperation = UsersOperation;
 var AgencyOperation = /** @class */ (function () {
     function AgencyOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/agencies";
-        this.baseUrl = "http://localhost:4000/api/v1/agencies";
+        this.baseUrl = "http://localhost:5000/api/v1/agencies";
     }
     AgencyOperation.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -313,8 +313,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/check?agency_id=").concat(condition.agency_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -336,8 +336,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -359,8 +359,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -382,8 +382,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -405,8 +405,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?agency_id=").concat(condition.agency_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -428,8 +428,8 @@ var AgencyOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?agency_id=").concat(condition.agency_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -449,7 +449,7 @@ exports.AgencyOperation = AgencyOperation;
 var TransportPartnersOperation = /** @class */ (function () {
     function TransportPartnersOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/transport_partners";
-        this.baseUrl = "http://localhost:4000/api/v1/transport_partners";
+        this.baseUrl = "http://localhost:5000/api/v1/transport_partners";
     }
     TransportPartnersOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -459,8 +459,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -482,8 +482,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -505,8 +505,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -528,8 +528,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -551,8 +551,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?transport_partner_id=").concat(condition.transport_partner_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -574,8 +574,8 @@ var TransportPartnersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?transport_partner_id=").concat(condition.transport_partner_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -594,8 +594,8 @@ var TransportPartnersOperation = /** @class */ (function () {
 exports.TransportPartnersOperation = TransportPartnersOperation;
 var Vehicle = /** @class */ (function () {
     function Vehicle() {
-        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicle";
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicles";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicles";
     }
     Vehicle.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -605,8 +605,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/check?vehicle_id=").concat(condition.vehicle_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -628,8 +628,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -651,8 +651,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -674,12 +674,12 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_25 = _a.sent();
                         console.log("Error finding vehicle: ", error_25.response.data);
@@ -697,12 +697,12 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_26 = _a.sent();
                         console.log("Error finding vehicle: ", error_26.response.data);
@@ -720,12 +720,12 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search_order_ids?vehicle_id=").concat(condition.vehicle_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_27 = _a.sent();
                         console.log("Error getting orders contained by vehicle: ", error_27.response.data);
@@ -743,8 +743,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/update?vehicle_id=").concat(condition.vehicle_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -766,8 +766,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/add_orders?vehicle_id=").concat(condition.vehicle_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -789,8 +789,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/delete_orders?vehicle_id=").concat(condition.vehicle_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -812,8 +812,8 @@ var Vehicle = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/delete?vehicle_id=").concat(condition.vehicle_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -836,7 +836,7 @@ exports.Vehicle = Vehicle;
 var StaffsOperation = /** @class */ (function () {
     function StaffsOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     // ROLE: any
     StaffsOperation.prototype.getAuthenticatedStaffInfo = function () {
@@ -847,8 +847,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_info"), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -871,8 +871,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "search?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -895,8 +895,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -919,8 +919,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -943,8 +943,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -967,8 +967,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?staff_id=").concat(condition.staff_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -991,8 +991,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1017,15 +1017,15 @@ var StaffsOperation = /** @class */ (function () {
                         formData = new FormData();
                         formData.append('avatar', info.avatarFile);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_avatar?staff_id=").concat(condition.staff_id), formData, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         console.log('Image uploaded successfully:', response.data);
                         return [2 /*return*/, response.data]; // Trả về dữ liệu phản hồi từ máy chủ
                     case 2:
                         error_39 = _a.sent();
-                        console.error('Error uploading image:', error_39);
+                        console.error('Error uploading image:', error_39.response.data);
                         throw error_39; // Ném lỗi để xử lý bên ngoài
                     case 3: return [2 /*return*/];
                 }
@@ -1040,8 +1040,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/logout"), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1065,8 +1065,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_password?staff_id=").concat(condition.staff_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1089,8 +1089,8 @@ var StaffsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_avatar"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1110,7 +1110,7 @@ exports.StaffsOperation = StaffsOperation;
 var BusinessOperation = /** @class */ (function () {
     function BusinessOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-        this.baseUrl = "http://localhost:4000/api/v1/business";
+        this.baseUrl = "http://localhost:5000/api/v1/business";
     }
     BusinessOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1120,8 +1120,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1143,8 +1143,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1166,8 +1166,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search?business_id=").concat(condition.business_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1189,8 +1189,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1212,8 +1212,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search_representor"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1235,8 +1235,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search_representor"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1258,8 +1258,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/update?business_id=").concat(condition.business_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1281,8 +1281,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/update_business_representor?business_id=").concat(condition.business_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1304,8 +1304,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/check?tax_number=").concat(condition.tax_number), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1327,8 +1327,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/delete?business_id=").concat(condition.business_id, "&agency_id=").concat(condition.agency_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1352,15 +1352,15 @@ var BusinessOperation = /** @class */ (function () {
                         formData = new FormData();
                         formData.append('contract', info.contractFile);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_contract?business_id=").concat(condition.business_id), formData, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         console.log('File uploaded successfully:', response.data);
                         return [2 /*return*/, response.data]; // Trả về dữ liệu phản hồi từ máy chủ
                     case 2:
                         error_53 = _a.sent();
-                        console.error('Error uploading file:', error_53);
+                        console.error('Error uploading file:', error_53.response.data);
                         throw error_53; // Ném lỗi để xử lý bên ngoài
                     case 3: return [2 /*return*/];
                 }
@@ -1375,8 +1375,8 @@ var BusinessOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_contract"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1397,7 +1397,7 @@ exports.BusinessOperation = BusinessOperation;
 var PartnerStaffOperation = /** @class */ (function () {
     function PartnerStaffOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/partner_staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
     }
     // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.getAuthenticatedPartnerStaffInfo = function () {
@@ -1408,8 +1408,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_info"), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1432,8 +1432,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1456,8 +1456,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1480,8 +1480,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1504,8 +1504,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1528,8 +1528,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/update?staff_id=").concat(condition.staff_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1552,8 +1552,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/check?cccd=").concat(condition.cccd), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1576,8 +1576,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/delete?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1600,8 +1600,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_password"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1626,15 +1626,15 @@ var PartnerStaffOperation = /** @class */ (function () {
                         formData = new FormData();
                         formData.append('avatar', info.avatarFile);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_avatar?staff_id=").concat(condition.staff_id), formData, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         console.log('Image uploaded successfully:', response.data);
                         return [2 /*return*/, response.data]; // Trả về dữ liệu phản hồi từ máy chủ
                     case 2:
                         error_64 = _a.sent();
-                        console.error('Error uploading image:', error_64);
+                        console.error('Error uploading image:', error_64.response.data);
                         throw error_64; // Ném lỗi để xử lý bên ngoài
                     case 3: return [2 /*return*/];
                 }
@@ -1653,15 +1653,15 @@ var PartnerStaffOperation = /** @class */ (function () {
                         formData.append('license_before', info.license_before);
                         formData.append('license_after', info.license_after);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/update_licenses?staff_id=").concat(condition.staff_id), formData, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         console.log('Image uploaded successfully:', response.data);
                         return [2 /*return*/, response.data]; // Trả về dữ liệu phản hồi từ máy chủ
                     case 2:
                         error_65 = _a.sent();
-                        console.error('Error uploading image:', error_65);
+                        console.error('Error uploading image:', error_65.response.data);
                         throw error_65; // Ném lỗi để xử lý bên ngoài
                     case 3: return [2 /*return*/];
                 }
@@ -1677,8 +1677,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_avatar?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1701,8 +1701,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_license_before?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1725,8 +1725,8 @@ var PartnerStaffOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_license_after?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1745,7 +1745,7 @@ var PartnerStaffOperation = /** @class */ (function () {
 exports.PartnerStaffOperation = PartnerStaffOperation;
 var ShippersOperation = /** @class */ (function () {
     function ShippersOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/shippers";
+        this.baseUrl = "http://localhost:5000/api/v1/shippers";
     }
     ShippersOperation.prototype.getTask = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1755,8 +1755,8 @@ var ShippersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_tasks"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1778,8 +1778,8 @@ var ShippersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.patch("".concat(this.baseUrl, "/confirm_completed"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1801,8 +1801,8 @@ var ShippersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_history"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1822,7 +1822,7 @@ exports.ShippersOperation = ShippersOperation;
 var ShipmentsOperation = /** @class */ (function () {
     function ShipmentsOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/shipments";
-        this.baseUrl = "http://localhost:4000/api/v1/shipments";
+        this.baseUrl = "http://localhost:5000/api/v1/shipments";
     }
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.create = function (info) {
@@ -1833,8 +1833,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1855,13 +1855,13 @@ var ShipmentsOperation = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_orders?shipment_id=").concat(condition.shipment_id), {
-                                withCredentials: true,
-                            })];
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_orders?shipment_id=").concat(condition.shipment_id), {
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, message: data.message, data: data.data }];
                     case 2:
                         error_73 = _a.sent();
                         console.log("Error getting orders from shipment: ", error_73.response.data);
@@ -1880,8 +1880,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/add_orders?shipment_id=").concat(condition.shipment_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1904,8 +1904,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/remove_orders?shipment_id=").concat(condition.shipment_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1928,8 +1928,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/confirm_create"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1952,8 +1952,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -1976,8 +1976,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?shipment_id=").concat(condition.shipment_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2000,8 +2000,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/decompose?shipment_id=").concat(condition.shipment_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2024,8 +2024,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/receive"), condition, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2048,8 +2048,8 @@ var ShipmentsOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/undertake"), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2068,7 +2068,7 @@ var ShipmentsOperation = /** @class */ (function () {
 exports.ShipmentsOperation = ShipmentsOperation;
 var OrdersOperation = /** @class */ (function () {
     function OrdersOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/orders";
+        this.baseUrl = "http://localhost:5000/api/v1/orders";
     }
     OrdersOperation.prototype.get = function (conditions) {
         return __awaiter(this, void 0, void 0, function () {
@@ -2078,8 +2078,8 @@ var OrdersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2101,8 +2101,8 @@ var OrdersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/check?order_id=").concat(condition.order_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2120,7 +2120,7 @@ var OrdersOperation = /** @class */ (function () {
     //     try {
     //         socket.emit("notifyNewOrderFromUser", info)
     //     } catch (error: any) {
-    //         console.log("Error creating new order: ", error);
+    //         console.log("Error creating new order: ", error.response.data);
     //     }
     // }
     OrdersOperation.prototype.update = function (info, condition) {
@@ -2131,8 +2131,8 @@ var OrdersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?order_id=").concat(condition.order_id), info, {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2154,8 +2154,8 @@ var OrdersOperation = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/cancel?order_id=").concat(condition.order_id), {
-                                withCredentials: true,
-                            })];
+                            withCredentials: true,
+                        })];
                     case 1:
                         response = _a.sent();
                         data = response.data;
@@ -2172,3 +2172,102 @@ var OrdersOperation = /** @class */ (function () {
     return OrdersOperation;
 }());
 exports.OrdersOperation = OrdersOperation;
+var ScheduleOperation = /** @class */ (function () {
+    function ScheduleOperation() {
+        this.baseUrl = "http://localhost:5000/api/v1/schedules";
+    }
+    ScheduleOperation.prototype.get = function (conditions) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_86;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
+                            withCredentials: true
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, data: data.data, message: data.message }];
+                    case 2:
+                        error_86 = _a.sent();
+                        console.log("Error getting tasks: ", error_86.response.data);
+                        return [2 /*return*/, error_86.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.create = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_87;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create"), info, {
+                            withCredentials: true
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_87 = _a.sent();
+                        console.log("Error creating new tasks: ", error_87.response.data);
+                        return [2 /*return*/, error_87.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.update = function (info, condition) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_88;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.put("".concat(this.baseUrl, "/update?id=").concat(condition.id), info, {
+                            withCredentials: true
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_88 = _a.sent();
+                        console.log("Error updating tasks: ", error_88.response.data);
+                        return [2 /*return*/, error_88.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ScheduleOperation.prototype.deleteTask = function (condition) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_89;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.delete("".concat(this.baseUrl, "/delete?id=").concat(condition.id), {
+                            withCredentials: true
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, message: data.message }];
+                    case 2:
+                        error_89 = _a.sent();
+                        console.log("Error deleting tasks: ", error_89.response.data);
+                        return [2 /*return*/, error_89.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return ScheduleOperation;
+}());
+exports.ScheduleOperation = ScheduleOperation;

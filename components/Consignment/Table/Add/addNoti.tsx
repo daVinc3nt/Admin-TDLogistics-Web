@@ -50,7 +50,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, reloadData }
 
   const handleConfirm = async () => {
     if (option === 1) {
-      const shipmentID = { shipment_id: shipmentIdInput, transport_partner_id: transportPartnerId };
+      const shipmentID = { shipment_id: shipmentIdInput };
       const response = await shipmentsOperation.receive(shipmentID);
 
       if (response.error) {

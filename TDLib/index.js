@@ -14,3 +14,9 @@ var password = "NTDung@tdlogistics2k24";
 staffsAuthenticate.login(username, password)
     .then(function (result) { return console.log(result); })
     .catch(function (error) { return console.log(error); });
+
+
+fetch("http://localhost:5000/api/v1/shipments?shipment_id=", {
+    credentials: 'include',
+}).then(result => console.log(result))
+.catch(error => console.log(error));
