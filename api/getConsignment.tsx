@@ -4,7 +4,6 @@ import { DataTable } from "../components/Consignment/Table/TableInfo/datatable";
 async function getData() {
     const shipments = new ShipmentsOperation();
     const data = await shipments.get({});
-    console.log("nè", data)
     return data;
 }
 

@@ -57,7 +57,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, addOrders })
             const result = await ordersOperation.get({});
             if (!result.error) {
                 setData(result.data);
-                console.log(result.data)
             } else {
                 console.error("Error fetching orders:", result.error);
             }
