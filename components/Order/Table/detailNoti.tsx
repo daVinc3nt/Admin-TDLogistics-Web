@@ -5,28 +5,22 @@ import { Button } from "@nextui-org/react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
-interface Order {
+import { Order } from "./column";
+import { OrdersOperation, UpdatingOrderCondition, UpdatingOrderInfo } from "@/TDLib/tdlogistics";
+interface Props {
   onClose: () => void;
-  dataInitial: {
-    orderId: string;
-    mass: number;
-    length: number;
-    width: number;
-    height: number;
-    pickupLocation: string;
-    deliveryLocation: string;
-    fee: number;
-    cod: number;
-    status: number;
-  }
+  dataInitial: Order
 }
 
-const DetailStaff: React.FC<Order> = ({ onClose, dataInitial }) => {
+const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [data, setData] = useState(dataInitial);
-
+  const [updateData, setupdateData] = useState<any>({});
+  const handleUpdateData =(e, key:string) => {
+      setupdateData({...updateData, [key]: parseInt(e.target.value)});
+  }
   const handleClickOutside = (event: MouseEvent) => {
     if (
       notificationRef.current &&
@@ -61,8 +55,12 @@ const DetailStaff: React.FC<Order> = ({ onClose, dataInitial }) => {
     setIsEditing(true);
   };
   const handleSaveClick = () => {
-    // Gửi API về server để cập nhật dữ liệu
-    // Sau khi hoàn thành, có thể tắt chế độ chỉnh sửa
+    const x ="staff_id"
+    console.log("click",updateData)
+    console.log(dataInitial)
+    const condition: UpdatingOrderCondition = {order_id: dataInitial.order_id }
+    const order =new OrdersOperation()
+    order.update(updateData, condition)
     setIsEditing(false);
   };
 
@@ -98,11 +96,12 @@ const DetailStaff: React.FC<Order> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
-          <div className="grid grid-cols-2 ">
+        <div className="h-screen_3/5 border border-[#545e7b] mt-4 flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
+          <div className="grid grid-cols-2 overflow-y-scroll">
+            {/* order id và hình ảnh */}
             <div>
               <div className="flex flex-col gap-5">
-                <div>
+                <div id="image">
                   <div className="font-bold text-base">
                     <FormattedMessage id="order.image" />
                   </div>
@@ -110,184 +109,201 @@ const DetailStaff: React.FC<Order> = ({ onClose, dataInitial }) => {
                     <User className="w-20 h-20  md:w-80 md:h-80" />
                   </div>
                 </div>
-                <div className="flex gap-5">
+
+                <div id="order_id" className="flex gap-5">
                   <div className="font-bold text-base">
                     <FormattedMessage id="order.Id" />
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.orderId}
-                    />
-                  ) : (
-                    <div>{data.orderId}</div>
-                  )}
+                    <div>{data.order_id}</div>
                 </div>
-                <div className="flex gap-5">
-                  <div className=" font-bold text-base ">
-                    <FormattedMessage id="order.length" />
+                <div id="order_id" className="flex gap-5">
+                  <div className="font-bold text-base">
+                    Loại hình gửi
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.length}
-                      onChange={(e) =>
-                        setData({ ...data, length: parseFloat
-(e.target.value)  })
-                      }
-                    />
-                  ) : (
-                    <div>{data.length}</div>
-                  )}
+                    <div>{data.container}</div>
+                </div>
+                <div id="order_id" className="flex gap-5">
+                  <div className="font-bold text-base">
+                    Thời gian gửi
+                  </div>
+                    <div>{data.order_time}</div>
                 </div>
               </div>
             </div>
-            <div className="">
-              <div className="flex flex-col gap-4">
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    <FormattedMessage id="order.mass" />
+            
+            <div className="flex flex-col">
+              {/* thông tin order, được chỉnh */}
+              <div className="">
+                <div className="flex flex-col gap-4">
+                  <div id="mass" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      <FormattedMessage id="order.mass" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.mass}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, mass: parseFloat(e.target.value)});
+                            handleUpdateData(e, "mass");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.mass} kg</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.mass}
-                      onChange={(e) =>
-                        setData({ ...data, mass: parseFloat
-(e.target.value)  })
-                      }
-                    />
-                  ) : (
-                    <div>{data.mass}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    <FormattedMessage id="order.length" />
+
+                  <div id="length" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      <FormattedMessage id="order.length" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.length}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, height: parseFloat(e.target.value)  });
+                            handleUpdateData(e, "length");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.length} m</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.length}
-                      onChange={(e) =>
-                        setData({ ...data, length: parseFloat
-(e.target.value) })
-                      }
-                    />
-                  ) : (
-                    <div>{data.height}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    <FormattedMessage id="order.width" />
+
+                  <div id="width" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      <FormattedMessage id="order.width" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.width}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, width: parseFloat(e.target.value)  });
+                            handleUpdateData(e, "width");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.width} m</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.width}
-                      onChange={(e) =>
-                        setData({ ...data, width: parseFloat
-(e.target.value)  })
-                      }
-                    />
-                  ) : (
-                    <div>{data.width}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    <FormattedMessage id="order.height" />
+
+                  <div id="height" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      <FormattedMessage id="order.height" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.height}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, height: parseFloat(e.target.value)  });
+                            handleUpdateData(e, "height");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.height} m</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.height}
-                      onChange={(e) =>
-                        setData({ ...data, height: parseFloat
-(e.target.value) })
-                      }
-                    />
-                  ) : (
-                    <div>{data.height}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    <FormattedMessage id="order.pickuplocation" />
+
+                  <div id="fee" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                    <FormattedMessage id="order.fee" />
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.fee}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, fee: parseFloat(e.target.value)  });
+                            handleUpdateData(e, "fee");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.fee} vnd</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.pickupLocation}
-                      onChange={(e) =>
-                        setData({ ...data, pickupLocation: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.pickupLocation}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                  <FormattedMessage id="order.receive" />
+
+                  <div id="COD" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      COD
+                    </div>
+                    {isEditing ? (
+                      <input
+                        className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
+                        type="number"
+                        value={data.COD}
+                        onChange={(e) =>
+                          {
+                            setData({ ...data, COD: parseFloat(e.target.value)  });
+                            handleUpdateData(e, "COD");
+                          }
+                        }
+                      />
+                    ) : (
+                      <div>{data.COD} vnd</div>
+                    )}
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="text"
-                      value={data.deliveryLocation}
-                      onChange={(e) =>
-                        setData({ ...data, deliveryLocation: e.target.value })
-                      }
-                    />
-                  ) : (
-                    <div>{data.deliveryLocation}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                  <FormattedMessage id="order.fee" />
+
+                  <div id="agency_id" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Bưu cục
+                    </div>
+                      <div>{data.agency_id}</div>
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.fee}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          fee: parseFloat(e.target.value),
-                        })
-                      }
-                    />
-                  ) : (
-                    <div>{data.fee}</div>
-                  )}
-                </div>
-                <div className="flex ">
-                  <div className=" w-1/3 font-bold text-base">
-                    COD
+
+                  <div id="Container" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Container
+                    </div>
+                      <div>{data.container}</div>
                   </div>
-                  {isEditing ? (
-                    <input
-                      className="w-1/2 bg-transparent border-b-2 border-[#545e7b] text-white"
-                      type="number"
-                      value={data.cod}
-                      onChange={(e) =>
-                        setData({ ...data, cod: parseFloat(e.target.value) })
-                      }
-                    />
-                  ) : (
-                    <div>{data.cod}</div>
-                  )}
+
+                  <div id="name_receiver" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Tên người nhận
+                    </div>
+                      <div>{data.name_receiver}</div>
+                  </div>
+
+                  <div id="name_sender" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Tên người gửi
+                    </div>
+                      <div>{data.name_sender}</div>
+                  </div>
+                  <div id="source" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Địa chỉ gửi hàng
+                    </div>
+                    <div className="w-8/12">
+                        {data.detail_source}, {data.ward_source}, {data.district_source}, {data.province_source}
+                      </div>
+                  </div>
+                  <div id="destination" className="flex ">
+                    <div className=" w-1/3 font-bold text-base">
+                      Địa chỉ giao hàng
+                    </div>
+                    <div className="w-8/12">
+                    {data.detail_dest}, {data.ward_dest}, {data.district_dest}, {data.province_dest}
+                      </div>
+                  </div>
                 </div>
               </div>
             </div>

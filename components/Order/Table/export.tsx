@@ -21,9 +21,9 @@ export default async function DemoPage() {
   const data = await getData()
   let done = 0,pending = 0,cancel = 0;
   data.map((data)=>{
-    if (data.status === 3) 
+    if (data.status_code === 3) 
       done++;
-    else if(data.status === 4)
+    else if(data.status_code === 4)
       cancel++;
     else pending++;
   })

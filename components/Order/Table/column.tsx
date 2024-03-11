@@ -8,19 +8,6 @@ import DetailNoti from "./detailNoti";
 import { Checkbox } from "@/components/TableUI/checkbox";
 import { FormattedMessage, useIntl } from "react-intl";
 export type Order = {
-  orderId: string;
-  mass: number;
-  length: number;
-  width: number;
-  height: number;
-  pickupLocation: string;
-  deliveryLocation: string;
-  fee: number;
-  cod: number;
-  consCodes: number;
-  status: number;
-};
-interface Orders {
   // Địa chỉ nguồn
   detail_source: string;
   district_source: string;
@@ -128,8 +115,7 @@ export const columns: ColumnDef<Order>[] = [
   },
   //pickuplocation
   {
-    accessorKey: "pickupLocation",
-
+    id: "pickupLocation",
     header: ({ column }) => {
       return (
         <Button
@@ -142,10 +128,17 @@ export const columns: ColumnDef<Order>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <>
+        {`${row.original.detail_source}, ${row.original.ward_source},${row.original.district_source},${row.original.province_source}`}
+        </>
+      );
+    },
   },
   //deliveryLocation
   {
-    accessorKey: "deliveryLocation",
+    id: "deliveryLocation",
 
     header: ({ column }) => {
       return (
@@ -157,6 +150,13 @@ export const columns: ColumnDef<Order>[] = [
           <FormattedMessage id="order.receive" />
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <>
+        {`${row.original.detail_dest}, ${row.original.ward_dest},${row.original.district_dest},${row.original.province_dest}`}
+        </>
       );
     },
   },

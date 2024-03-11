@@ -6,7 +6,47 @@ import CustomDropdown from "./dropdown";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import MapNoti from "./MapRender/mapNoti";
 import { FormattedMessage, useIntl } from "react-intl";
+import axios from "axios";
+import { CreatingOrderInformation, OrdersOperation } from "@/TDLib/tdlogistics";
+interface City {
+  Id: string;
+  Name: string;
+  Districts: District[];
+}
 
+interface District {
+  Id: string;
+  Name: string;
+  Wards: Ward[];
+}
+
+interface Ward {
+  Id: string;
+  Name: string;
+}
+const orderInformation: CreatingOrderInformation = {
+    name_receiver: "NguyenVanB",
+    phone_number_receiver: "0787919943",
+    mass: 24,
+    height: 30,
+    width: 25,
+    length: 60,
+    province_source: "Thành phố Hồ Chí Minh",
+    district_source: "Quận 1",
+    ward_source: "Phường Phạm Ngũ Lão",
+    detail_source: "Đường tỉnh 52, tổ 6 Khu phố Hiệp Hòa",
+    province_dest: "Tỉnh An Giang", 
+    district_dest: "Thành phố Long Xuyên",
+    ward_dest: "20 Nguyễn Huệ",
+    detail_dest: "20 Lý Thái Tổ",
+    long_source: 107.271563,
+    lat_source: 10.477812,
+    long_destination: 105.442062,
+    lat_destination: 10.377187,
+    COD: 32000,
+    service_type: 1
+
+};
 interface AddNotificationProps {
   onClose: () => void;
 }
@@ -17,7 +57,87 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [type, setType] = useState();
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity_src, setselectedCity_src] = useState("");
+  const [selectedDistrict_src, setselectedDistrict_src] = useState("");
+
+  const [selectedCity_dest, setselectedCity_dest] = useState("");
+  const [selectedDistrict_dest, setselectedDistrict_dest] = useState("");
+
+  
+
+
+
   const intl = useIntl();
+
+
+  // chỗ này dùng để trích xuất thành phố đã được chọn để đưa ra quận huyện tương ứng
+  const selectedCity_srcObj = cities.find((city) => city.Id === selectedCity_src);
+  const districts = selectedCity_srcObj ? selectedCity_srcObj.Districts : [];
+  const selectedDistrict_srcObj = districts.find(
+    (user_district) => user_district.Id === selectedDistrict_src
+  );
+  const wards = selectedDistrict_srcObj ? selectedDistrict_srcObj.Wards : [];
+
+  const selectedCity_destObj = cities.find((city) => city.Id === selectedCity_dest);
+  const districts_dest = selectedCity_destObj ? selectedCity_destObj.Districts : [];
+  const selectedDistrict_destObj = districts_dest.find(
+    (user_district) => user_district.Id === selectedDistrict_dest
+  );
+  const wards_dest = selectedDistrict_destObj ? selectedDistrict_destObj.Wards : [];
+
+
+  // chỗ này là hàm dùng để xử lý input sau khi chọn city và district
+  const handleCityChange = (type:string, event: React.ChangeEvent<HTMLSelectElement>, name: string) => {
+    if (type == "source") {
+      setselectedCity_src(event.target.value);
+      setselectedDistrict_src("");
+    }
+    else if (type == "destination") {
+      setselectedCity_dest(event.target.value);
+      setselectedDistrict_dest("");
+    }
+    if (event.target.value)
+    handleInputChange(
+      name,
+      cities.find((city) => city.Id === event.target.value).Name
+    );
+  };
+  const handleDistrictChange = (type:string, event: React.ChangeEvent<HTMLSelectElement>, name: string) => {
+    if (type == "source") {
+      setselectedDistrict_src(event.target.value);
+      if (event.target.value)
+      handleInputChange(
+      name,
+      districts.find((district) => district.Id === event.target.value).Name
+    );
+    }
+    else if (type == "destination") {
+      setselectedDistrict_dest(event.target.value);
+      if (event.target.value)
+      handleInputChange(
+      name,
+      districts_dest.find((district) => district.Id === event.target.value).Name
+    );
+    }
+  };
+
+  //chỗ này dùng để lấy số tỉnh thành về
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await axios.get(
+        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
+      );
+      setCities(response.data);
+    };
+
+    fetchCities();
+  }, []);
+  const handleSubmit = () => {
+    console.log(orderData)
+    const action =new OrdersOperation()
+    action.create(orderInformation)
+    }
 
   const openModal = (type) => {
     setType(type);
@@ -28,11 +148,63 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
     setModalIsOpen(false);
   };
 
-  const [userData, setUserData] = useState({
-    partnerTransporters: '',
-    staffTransporters: '',
-    startPoint: '', endPoint: '',
-    startOffice: '', endOffice: ''
+  const [checkmissing, setCheckmissing] = useState({
+    user_fullname: false,
+    username: false,
+    user_password: false,
+    user_date_of_birth: false,
+    user_cccd: false,
+    user_phone_number: false,
+    user_email: false,
+    user_position: false,
+    user_bank: false,
+    user_bin: false,
+    user_salary: false,
+    user_province: false,
+    user_district: false,
+    user_town: false,
+    user_detail_address: false,
+
+    type: false,
+    level: false,
+    postal_code: false,
+    phone_number: false,
+    email: false,
+    province: false,
+    district: false,
+    town: false,
+    detail_address: false,
+    bank: false,
+    bin: false,
+    commission_rate: false,
+    latitude: false,
+    longitude: false,
+    managed_wards: false,
+    agency_name: false,
+    // revenue: false,
+  });
+
+  const [orderData, setOrderData] = useState({
+  name_receiver: "",
+  phone_receiver: "",
+  mass: 0,
+  height: 0,
+  width: 0,
+  length: 0,
+  province_source: "",
+  district_source: "",
+  ward_source: "",
+  detail_source: "",
+  province_dest: "",
+  district_dest: "",
+  ward_dest: "",
+  detail_dest: "",
+  long_source: 100,
+  lat_source: 100,
+  long_destination: 100,
+  lat_destination: 100,
+  COD: 0,
+  service_type: 0,
   });
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -62,24 +234,20 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
     }
   };
 
-  const handleInputChange = (key: string, value: string) => {
-    setUserData(prevState => ({
+  const handleInputChange = (key: string, value: any, type: string ="string") => {
+
+    if(type == "number")
+    setOrderData(prevState => ({
       ...prevState,
-      [key]: value
+      [key]: parseFloat(value)
     }));
-  };
-
-  const postOffices = ['Bưu cục A', 'Bưu cục B', 'Bưu cục C', 'Bưu cục D', 'Bưu cục E', ];
-
-  const provinces = [
-    "AGI", "VTB", "BLI", "BGI", "BKA", "BNI", "BTR", "BDU", "BDI", "BPC", 
-    "BTN", "CMU", "CBA", "CTH", "DNG", "DLA", "DKN", "DBI", "DNA", "DTP", 
-    "GLA", "HGI", "HNA", "HNO", "HTI", "HDU", "HPG", "HAG", "HBI", "HYE", 
-    "KHA", "KGI", "KTU", "LCA", "LSN", "LCI", "LDG", "LAN", "NDH", "NAN", 
-    "NBI", "NTH", "PTH", "PYE", "QBI", "QNA", "QNG", "QNH", "QTR", "STG", 
-    "SLA", "TNI", "TBH", "TNG", "THA", "HCM", "TTH", "TGG", "TVH", "TQU", 
-    "VLG", "VPH", "YBA"
-  ];
+    else {
+      setOrderData(prevState => ({
+        ...prevState,
+        [key]: value
+      }));
+    }
+  }; 
 
   return (
     <motion.div
@@ -102,68 +270,217 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
-          <div className="w-[98%] sm:w-10/12">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle1"/></h1>
-            <div className="w-full flex gap-2">
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option1' })} options={['Đối tác A', 'Đối tác B', 'Đối tác C']}
-                selectedOption={userData.partnerTransporters}
-                onSelectOption={(option) => handleInputChange('partnerTransporters', option)}
-              />
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option2' })}  options={['Nhân viên A', 'Nhân viên B', 'Nhân viên C']}
-                selectedOption={userData.staffTransporters}
-                onSelectOption={(option) => handleInputChange('staffTransporters', option)}
-              />
-            </div>
-          </div>
-          
-          <div className="w-2/3 sm:w-1/2 mt-6">
+          <div className="w-2/3 sm:w-10/12 mt-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
-            <div className="w-full flex gap-2">
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option3' })}  options={provinces}
-                selectedOption={userData.startPoint}
-                onSelectOption={(option) => handleInputChange('startPoint', option)}
+            <div className="flex gap-3 mt-3">
+            <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Tên người gửi"
+                onChange={(e) => handleInputChange("name_receiver", e.target.value)}
               />
-              <div className="pt-2">-</div>
-              <CustomDropdown
-                label={intl.formatMessage({ id: 'Consignment.Add.Option4' })}  options={provinces}
-                selectedOption={userData.endPoint}
-                onSelectOption={(option) => handleInputChange('endPoint', option)}
+            <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Số điện thoại người gửi"
+                onChange={(e) => handleInputChange("phone_receiver", e.target.value)}
+              />
+              
+            </div>
+            <div className="flex gap-3 mt-3">
+            <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Dài"
+                onChange={(e) => handleInputChange("length", e.target.value, "number")}
+              />
+            <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Rộng"
+                onChange={(e) => handleInputChange("width", e.target.value, "number")}
+              />
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Cao"
+                onChange={(e) => handleInputChange("height", e.target.value, "number")}
+              />
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bin ? "border-red-500" : ""}`}
+                placeholder="khối lượng"
+                onChange={(e) => handleInputChange("mass", e.target.value, "number")}
+              />
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bin ? "border-red-500" : ""}`}
+                placeholder="COD"
+                onChange={(e) => handleInputChange("COD", e.target.value, "number")}
+              />
+            </div>          
+          </div>
+
+
+          <div className="w-2/3 sm:w-10/12 mt-6">
+            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            
+            <div className="flex gap-3 mt-3">
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_province ? "border-red-500" : ""}`}
+                id="city"
+                aria-label=".form-select-sm"
+                value={selectedCity_src}
+                onChange={e => handleCityChange("source",e, "province_source")}
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Province" })}
+                </option>
+                {cities.map((city) => (
+                  <option key={city.Id} value={city.Id}>
+                    {city.Name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_district ? "border-red-500" : ""}
+                `}
+                id="user_district"
+                aria-label=".form-select-sm"
+                value={selectedDistrict_src}
+                onChange={e => handleDistrictChange("source", e, "district_source")}
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose District" })}
+                </option>
+                {districts.map((user_district) => (
+                  <option key={user_district.Id} value={user_district.Id}>
+                    {user_district.Name}
+                  </option>
+                ))}
+              </select>
+              
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_town ? "border-red-500" : ""}`}
+                id="ward"
+                aria-label=".form-select-sm"
+                onChange={(e) =>
+                  handleInputChange(
+                    "ward_source",
+                    wards.find((ward) => ward.Id === e.target.value).Name
+                  )
+                }
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Ward" })}
+                </option>
+                {wards.map((ward) => (
+                  <option key={ward.Id} value={ward.Id}>
+                    {ward.Name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
+                placeholder="Số nhà- tên đường"
+                onChange={(e) =>
+                  handleInputChange("detail_source", e.target.value)
+                }
               />
             </div>
           </div>
 
-          <div className="w-[98%] sm:w-10/12 mt-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle3"/></h1>
-            <div className="w-full flex gap-2 flex-col">
-              <div className="relative">
-                <Button className="z-40 absolute right-0 w-10 border-l border-gray-600 rounded-r h-10"
-                onClick={()=>openModal("source")}>
-                  <FaMapMarkedAlt className="text-gray-300 w-4 h-4 mr-0.4"/>
-                </Button>
-                <CustomDropdown
-                  label={intl.formatMessage({ id: 'Consignment.Add.Option5' })}  options={postOffices}
-                  selectedOption={userData.startOffice}
-                  onSelectOption={(option) => handleInputChange('startOffice', option)}
-                />
-              </div>
-              <div className="relative">
-                <Button className="z-40 absolute right-0 w-10 border-l border-gray-600 rounded-r h-10"
-                onClick={()=>openModal("destination")}>
-                  <FaMapMarkedAlt className="text-gray-300 w-4 h-4 mr-0.4"/>
-                </Button>
-                <CustomDropdown
-                  label={intl.formatMessage({ id: 'Consignment.Add.Option6' })}  options={postOffices}
-                  selectedOption={userData.endOffice}
-                  onSelectOption={(option) => handleInputChange('endOffice', option)}
-                />
-              </div>
+          <div className="w-2/3 sm:w-10/12 mt-6">
+            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            <div className="flex gap-3 mt-3">
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_province ? "border-red-500" : ""}`}
+                id="city"
+                aria-label=".form-select-sm"
+                value={selectedCity_dest}
+                onChange={e => handleCityChange("destination", e, "province_dest" )}
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Province" })}
+                </option>
+                {cities.map((city) => (
+                  <option key={city.Id} value={city.Id}>
+                    {city.Name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_district ? "border-red-500" : ""}
+                `}
+                id="user_district"
+                aria-label=".form-select-sm"
+                value={selectedDistrict_dest}
+                onChange={e => handleDistrictChange("destination", e, "district_dest")}
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose District" })}
+                </option>
+                {districts_dest.map((user_district) => (
+                  <option key={user_district.Id} value={user_district.Id}>
+                    {user_district.Name}
+                  </option>
+                ))}
+              </select>
+              
+              <select
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_town ? "border-red-500" : ""}`}
+                id="ward"
+                aria-label=".form-select-sm"
+                onChange={(e) =>
+                  handleInputChange(
+                    "ward_dest",
+                    wards_dest.find((ward) => ward.Id === e.target.value).Name
+                  )
+                }
+              >
+                <option value="">
+                  {intl.formatMessage({ id: "Choose Ward" })}
+                </option>
+                {wards_dest.map((ward) => (
+                  <option key={ward.Id} value={ward.Id}>
+                    {ward.Name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
+                placeholder="Số nhà- tên đường"
+                onChange={(e) =>
+                  handleInputChange("detail_dest", e.target.value)
+                }
+              />
             </div>
           </div>
         </div>
-        <Button className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
+        <Button 
+        onClick={handleSubmit}
+        className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
         bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md">
           <span className="hidden xs:block"><FormattedMessage id="order.add"/></span>
         </Button>

@@ -318,7 +318,8 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black text-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white 
+          border border-black dark:border-white hover:bg-black text-black
           hover:shadow-md md:text-base focus:outline-none font-normal
           dark:text-white rounded-md text-sm text-center me-2"
         >

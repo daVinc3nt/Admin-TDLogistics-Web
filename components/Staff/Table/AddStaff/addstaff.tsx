@@ -328,7 +328,6 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose, info }) => {
     // } else {
     //   handleCheckMissing("username", false);
     // }
-    
   };
 
   return (

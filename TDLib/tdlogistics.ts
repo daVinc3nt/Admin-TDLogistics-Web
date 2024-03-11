@@ -2,23 +2,28 @@ import axios, { AxiosResponse } from "axios";
 import { io } from 'socket.io-client';
 const FormData = require("form-data");
 
-// const socket = io("http://localhost:4000");
+const socket = io("http://localhost:4000", {
+    withCredentials: true,
+});
 
-// socket.on("connect", () => {
-//     console.log("Connected to server.");
-// });
+socket.on("connect", () => {
+    console.log("Connected to server.");
+});
 
-// socket.on("notifyError", message => {
-//     // showing custome notification on UI
-// });
+socket.on("notifyError", message => {
+    // showing custome notification on UI
+    console.log(message)
+});
 
-// socket.on("notifySuccessCreatedNewOrder", message => {
-//     // showing custome notification on UI
-// });
+socket.on("notifySuccessCreatedNewOrder", message => {
+    // showing custome notification on UI
+    console.log(message)
+});
 
-// socket.on("notifyFailCreatedNewOrder", message => {
-//     // showing custome notification on UI
-// });
+socket.on("notifyFailCreatedNewOrder", message => {
+    // showing custome notification on UI
+    console.log(message)
+});
 
 class UsersAuthenticate {
     private baseUrl: string;
@@ -39,8 +44,8 @@ class UsersAuthenticate {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error sending OTP: ", error);
-            return error;
+            console.log("Error sending OTP: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -57,8 +62,8 @@ class UsersAuthenticate {
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
         } catch (error: any) {
-            console.log("Error verifying OTP:", error);
-            return error;
+            console.log("Error verifying OTP:", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -82,8 +87,8 @@ class StaffsAuthenticate {
             const data = response.data;
             return { error: data.error, valid: data.valid, message: data.message };
         } catch (error: any) {
-            console.log("Error logging in: ", error);
-            return error;
+            console.log("Error logging in: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -99,8 +104,8 @@ class StaffsAuthenticate {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error sending OTP: ", error);
-            return error;
+            console.log("Error sending OTP: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -117,8 +122,8 @@ class StaffsAuthenticate {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error verify OTP", error);
-            return error;
+            console.log("Error verify OTP", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -166,8 +171,8 @@ class UsersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error get one user: ", error);
-            return error;
+            console.log("Error get one user: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -180,8 +185,8 @@ class UsersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error get one user: ", error);
-            return error;
+            console.log("Error get one user: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -194,8 +199,8 @@ class UsersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error create new user: ", error);
-            return error;
+            console.log("Error create new user: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -208,8 +213,8 @@ class UsersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error update new user: ", error);
-            return error;
+            console.log("Error update new user: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -310,8 +315,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error checking exist agency: ", error);
-            return error;
+            console.log("Error checking exist agency: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -324,8 +329,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error creating agency: ", error);
-            return error;
+            console.log("Error creating agency: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -338,8 +343,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding agency: ", error);
-            return error;
+            console.log("Error finding agency: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -352,8 +357,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding agency: ", error);
-            return error;
+            console.log("Error finding agency: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -366,8 +371,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding agency: ", error);
-            return error;
+            console.log("Error finding agency: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -380,8 +385,8 @@ class AgencyOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding agency: ", error);
-            return error;
+            console.log("Error finding agency: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -504,8 +509,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error creating new transport partner: ", error);
-            return error;
+            console.log("Error creating new transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -518,8 +523,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error creating new transport partner: ", error);
-            return error;
+            console.log("Error creating new transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -532,8 +537,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding transport partner: ", error);
-            return error;
+            console.log("Error finding transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -546,8 +551,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding transport partner: ", error);
-            return error;
+            console.log("Error finding transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -560,8 +565,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error updating transport partner: ", error);
-            return error;
+            console.log("Error updating transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -574,8 +579,8 @@ class TransportPartnersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error deleting transport partner: ", error);
-            return error;
+            console.log("Error deleting transport partner: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -590,7 +595,7 @@ export interface CreatingVehicleByAdminInfo {
     staff_id: string,
     type: string,
     license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
 export interface CreatingVehicleByAgencyInfo {
@@ -598,7 +603,7 @@ export interface CreatingVehicleByAgencyInfo {
     staff_id: string,
     type: string,
     license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
 export interface FindingVehicleByStaffCondition {
@@ -611,10 +616,10 @@ export interface FindingVehicleByAdminConditions {
     staff_id: string,
     type: string,
     license_plate: string,
-    mass: string,
+    mass: number,
 }
 
-export interface GettingOrdersContainedByVehicleCondition {
+export interface GettingShipmentsContainedByVehicleCondition {
     vehicle_id: string,
 }
 
@@ -622,27 +627,26 @@ export interface UpdatingVehicleInfo {
     transport_partner_id: string,
     staff_id: string,
     type: string,
-    license_plate: string,
-    max_load: string,
+    max_load: number,
 }
 
 export interface UpdatingVehicleCondition {
     vehicle_id: string,
 }
 
-export interface AddingOrdersToVehicleInfo {
+export interface AddingShipmentsToVehicleInfo {
     order_ids: Object,
 }
 
-export interface AddingOrdersToVehicleCondition {
+export interface AddingShipmentsToVehicleCondition {
     vehicle_id: string,
 }
 
-export interface DeletingOrdersFromVehicleInfo {
+export interface DeletingShipmentsFromVehicleInfo {
     order_ids: Object,
 }
 
-export interface DeletingOrdersFromVehicleCondition {
+export interface DeletingShipmentsFromVehicleCondition {
     vehicle_id: string,
 }
 
@@ -650,12 +654,12 @@ export interface DeletingVehicleCondition {
     vehicle_id: string,
 }
 
-class Vehicle {
+class VehicleOperation {
     private baseUrl: string;
 
     constructor() {
-        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicle";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicle";
+        // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicles";
+        this.baseUrl = "http://localhost:4000/api/v1/vehicles";
     }
 
     async checkExist(condition: CheckingExistVehicleCondition) {
@@ -667,8 +671,8 @@ class Vehicle {
             const data = response.data;
             return { error: data.error, existed: data.existed, message: data.message };
         } catch (error: any) {
-            console.log("Error checking exist vehicle: ", error);
-            return error;
+            console.log("Error checking exist vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -681,8 +685,8 @@ class Vehicle {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error creating new vehicle: ", error);
-            return error;
+            console.log("Error creating new vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -695,8 +699,8 @@ class Vehicle {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error creating new vehicle: ", error);
-            return error;
+            console.log("Error creating new vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -707,10 +711,10 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding vehicle: ", error);
-            return error;
+            console.log("Error finding vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -721,81 +725,81 @@ class Vehicle {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error finding vehicle: ", error);
-            return error;
+            console.log("Error finding vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
-    async getOrders(condition: GettingOrdersContainedByVehicleCondition) {
+    async getShipment(condition: GettingShipmentsContainedByVehicleCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/search_order_ids?vehicle_id=${condition.vehicle_id}`, {
+            const response = await axios.get(`${this.baseUrl}/get_shipments?vehicle_id=${condition.vehicle_id}`, {
                 withCredentials: true,
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error getting orders contained by vehicle: ", error);
-            return error;
+            console.log("Error getting shipments contained by vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
 
     async update(info: UpdatingVehicleInfo, condition: UpdatingVehicleCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/update?vehicle_id=${condition.vehicle_id}`, info, {
+            const response = await axios.put(`${this.baseUrl}/update?vehicle_id=${condition.vehicle_id}`, info, {
                 withCredentials: true,
             });
 
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error getting orders contained by vehicle: ", error);
-            return error;
+            console.log("Error updating vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
-    async addOrders(info: AddingOrdersToVehicleInfo, condition: AddingOrdersToVehicleCondition) {
+    async addShipments(info: AddingShipmentsToVehicleInfo, condition: AddingShipmentsToVehicleCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/add_orders?vehicle_id=${condition.vehicle_id}`, info, {
+            const response = await axios.patch(`${this.baseUrl}/add_shipments?vehicle_id=${condition.vehicle_id}`, info, {
                 withCredentials: true,
             });
 
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error adding orders to vehicle: ", error);
-            return error;
+            console.log("Error adding shipments to vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
-    async deleteOrders(info: DeletingOrdersFromVehicleInfo, condition: DeletingOrdersFromVehicleCondition) {
+    async deleteShipments(info: DeletingShipmentsFromVehicleInfo, condition: DeletingShipmentsFromVehicleCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/delete_orders?vehicle_id=${condition.vehicle_id}`, info, {
+            const response = await axios.patch(`${this.baseUrl}/delete_shipments?vehicle_id=${condition.vehicle_id}`, info, {
                 withCredentials: true,
             });
 
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error deleting orders from vehicle: ", error);
-            return error;
+            console.log("Error deleting shipments from vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 
     async deleteVehicle(condition: DeletingVehicleCondition) {
         try {
-            const response = await axios.post(`${this.baseUrl}/delete?vehicle_id=${condition.vehicle_id}`, {
+            const response = await axios.delete(`${this.baseUrl}/delete?vehicle_id=${condition.vehicle_id}`, {
                 withCredentials: true,
             });
 
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error deleting vehicle: ", error);
-            return error;
+            console.log("Error deleting vehicle: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -909,8 +913,8 @@ class StaffsOperation {
             const data = response.data;
             return { error: data.error, data: data.info, message: data.message };
         } catch (error: any) {
-            console.log("Error get authenticated staff information: ", error);
-            return error;
+            console.log("Error get authenticated staff information: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -924,8 +928,8 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error get one staff: ", error);
-			return error;
+			console.log("Error get one staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -940,8 +944,8 @@ class StaffsOperation {
 			return { error: data.error, data: data.data, message: data.message };
 		}     
 		catch (error: any) {
-			console.log("Error get one staff: ", error);
-			return error;
+			console.log("Error get one staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -956,8 +960,8 @@ class StaffsOperation {
 			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error create new staff: ", error);
-			return error;
+			console.log("Error create new staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -972,8 +976,8 @@ class StaffsOperation {
 			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error create new staff: ", error);
-			return error;
+			console.log("Error create new staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -988,8 +992,8 @@ class StaffsOperation {
 			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error create new staff: ", error);
-			return error;
+			console.log("Error create new staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1004,8 +1008,8 @@ class StaffsOperation {
 			return { error: data.error, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error deleting staff: ", error);
-			return error;
+			console.log("Error deleting staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1025,7 +1029,7 @@ class StaffsOperation {
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 	
 		} catch (error: any) {
-			console.error('Error uploading image:', error);
+			console.error('Error uploading image:', error.response.data);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}   
 	}
@@ -1039,8 +1043,8 @@ class StaffsOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error logging out: ", error);
-            return error;
+            console.log("Error logging out: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -1056,8 +1060,8 @@ class StaffsOperation {
 			return { error: data.error, data: data.data, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error update password: ", error);
-			return error;
+			console.log("Error update password: ", error.response.data);
+			return error.response.data;
 		}    
 	}
 
@@ -1071,8 +1075,8 @@ class StaffsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 }
@@ -1240,8 +1244,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating new business: ", error);
-			return error;
+			console.log("Error creating new business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1254,8 +1258,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating new business: ", error);
-			return error;
+			console.log("Error creating new business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1268,8 +1272,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding business: ", error);
-			return error;
+			console.log("Error finding business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1282,8 +1286,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding business: ", error);
-			return error;
+			console.log("Error finding business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1296,8 +1300,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding representor: ", error);
-			return error;
+			console.log("Error finding representor: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1310,8 +1314,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding representor: ", error);
-			return error;
+			console.log("Error finding representor: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1324,8 +1328,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error updating business: ", error);
-			return error;
+			console.log("Error updating business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1338,8 +1342,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error updating business: ", error);
-			return error;
+			console.log("Error updating business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1352,8 +1356,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, existed: data.existed, message: data.message };
 		} catch (error: any) {
-			console.log("Error checking exist business: ", error);
-			return error;
+			console.log("Error checking exist business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1366,8 +1370,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error deleting business: ", error);
-			return error;
+			console.log("Error deleting business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1386,7 +1390,7 @@ class BusinessOperation {
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 	
 			} catch (error: any) {
-			console.error('Error uploading file:', error);
+			console.error('Error uploading file:', error.response.data);
 			throw error; // Ném lỗi để xử lý bên ngoài
 			} 
 	}
@@ -1400,8 +1404,8 @@ class BusinessOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 }
@@ -1527,8 +1531,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error getting authenticated partner staff information: ", error);
-			return error;
+			console.log("Error getting authenticated partner staff information: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1542,8 +1546,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error);
-			return error;
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1557,8 +1561,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1572,8 +1576,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1587,8 +1591,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1602,8 +1606,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error updating partner staff: ", error);
-			return error;
+			console.log("Error updating partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1617,8 +1621,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, existed: data.existed, message: data.message };
 		} catch (error: any) {
-			console.log("Error checking exist partner staff: ", error);
-			return error;
+			console.log("Error checking exist partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1632,8 +1636,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error deleting business: ", error);
-			return error;
+			console.log("Error deleting business: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1648,8 +1652,8 @@ class PartnerStaffOperation {
 			return { error: data.error, data: data.data, message: data.message };
 		} 
 		catch (error: any) {
-			console.log("Error update password: ", error);
-			return error;
+			console.log("Error update password: ", error.response.data);
+			return error.response.data;
 		}    
 	}
 
@@ -1668,7 +1672,7 @@ class PartnerStaffOperation {
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
 		} catch (error: any) {
-			console.error('Error uploading image:', error);
+			console.error('Error uploading image:', error.response.data);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}
 	}
@@ -1691,7 +1695,7 @@ class PartnerStaffOperation {
 			return response.data; // Trả về dữ liệu phản hồi từ máy chủ
 
 		} catch (error: any) {
-			console.error('Error uploading image:', error);
+			console.error('Error uploading image:', error.response.data);
 			throw error; // Ném lỗi để xử lý bên ngoài
 		}
 	}
@@ -1706,8 +1710,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	} 
 
@@ -1721,8 +1725,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	} 
 
@@ -1736,8 +1740,8 @@ class PartnerStaffOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error);
-			return error;
+			console.log("Error finding partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	} 
 }
@@ -1769,8 +1773,8 @@ class ShippersOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error getting tasks: ", error);
-			return error;
+			console.log("Error getting tasks: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1783,8 +1787,8 @@ class ShippersOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error confirming completed task: ", error);
-			return error;
+			console.log("Error confirming completed task: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1797,8 +1801,8 @@ class ShippersOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error getting history: ", error);
-			return error;
+			console.log("Error getting history: ", error.response.data);
+			return error.response.data;
 		}
 	}
 }
@@ -1848,8 +1852,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error);
-			return error;
+			console.log("Error creating partner staff: ", error.response.data);
+			return error.response.data;
 		}
 	}
 
@@ -1860,10 +1864,10 @@ class ShipmentsOperation {
 			});
 
 			const data = response.data;
-			return { error: data.error, message: data.message };
+			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error getting orders from shipment: ", error);
-			return error;
+			console.log("Error getting orders from shipment: ", error.response.data);
+			return error.response.data;
 		}
     }
 
@@ -1877,8 +1881,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error adding orders to shipment: ", error);
-			return error;
+			console.log("Error adding orders to shipment: ", error.response.data);
+			return error.response.data;
 		}
     }
 
@@ -1892,8 +1896,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error deleting order from shipment: ", error);
-			return error;
+			console.log("Error deleting order from shipment: ", error.response.data);
+			return error.response.data;
 		}
     }
 
@@ -1907,8 +1911,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error confirming creat shipment: ", error);
-			return error;
+			console.log("Error confirming creat shipment: ", error.response.data);
+			return error.response.data;
 		}  
     }
 
@@ -1922,8 +1926,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error getting shipments: ", error);
-			return error;
+			console.log("Error getting shipments: ", error.response.data);
+			return error.response.data;
 		} 
     }
 
@@ -1937,8 +1941,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error deleting shipment: ", error);
-			return error;
+			console.log("Error deleting shipment: ", error.response.data);
+			return error.response.data;
 		} 
     }
 
@@ -1952,8 +1956,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error decomposing shipment: ", error);
-			return error;
+			console.log("Error decomposing shipment: ", error.response.data);
+			return error.response.data;
 		} 
     }
 
@@ -1967,8 +1971,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error receiving shipment: ", error);
-			return error;
+			console.log("Error receiving shipment: ", error.response.data);
+			return error.response.data;
 		} 
     }
     
@@ -1982,8 +1986,8 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error undertaking shipment: ", error);
-			return error;
+			console.log("Error undertaking shipment: ", error.response.data);
+			return error.response.data;
 		}
     }
 }
@@ -2006,11 +2010,11 @@ export interface GettingOrdersConditions {
 
 export interface CreatingOrderInformation {
     name_receiver: string,
-    phone_receiver: string,
-    mass: string,
-    height: string,
-    width: string,
-    length: string,
+    phone_number_receiver: string,
+    mass: number,
+    height: number,
+    width: number,
+    length: number,
     province_source: string,
     district_source: string,
     ward_source: string,
@@ -2036,10 +2040,6 @@ export interface UpdatingOrderInfo {
     height: number,
     width: number,
     length: number,
-    long_source: number,
-    lat_source: number,
-    long_destination: number,
-    lat_destination: number,
     COD: number,
 }
 
@@ -2062,8 +2062,8 @@ class OrdersOperation {
             const data = response.data;
             return { error: data.error, data: data.data, message: data.message };
         } catch (error: any) {
-            console.log("Error getting orders: ", error);
-            return error;
+            console.log("Error getting orders: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -2076,18 +2076,18 @@ class OrdersOperation {
             const data = response.data;
             return { error: data.error, exist: data.existed, message: data.message };
         } catch (error: any) {
-            console.log("Error checking exist order: ", error);
-            return error;
+            console.log("Error checking exist order: ", error.response.data);
+            return error.response.data;
         }
     }
 
-    // async create(info: CreatingOrderInformation) {
-    //     try {
-    //         socket.emit("notifyNewOrderFromUser", info)
-    //     } catch (error: any) {
-    //         console.log("Error creating new order: ", error);
-    //     }
-    // }
+    async create(info: CreatingOrderInformation) {
+        try {
+            socket.emit("notifyNewOrderFromUser", info)
+        } catch (error: any) {
+            console.log("Error creating new order: ", error.response.data);
+        }
+    }
 
     async update(info: UpdatingOrderInfo, condition: UpdatingOrderCondition) {
         try {
@@ -2098,8 +2098,8 @@ class OrdersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error updating order: ", error);
-            return error;
+            console.log("Error updating order: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -2112,8 +2112,8 @@ class OrdersOperation {
             const data = response.data;
             return { error: data.error, message: data.message };
         } catch (error: any) {
-            console.log("Error canceling order: ", error);
-            return error;
+            console.log("Error canceling order: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -2156,8 +2156,8 @@ class ScheduleOperation {
             const data = response.data;
             return { error: data, data: data.data, message: data.message }
         } catch (error: any) {
-            console.log("Error getting tasks: ", error);
-            return error;
+            console.log("Error getting tasks: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -2170,8 +2170,8 @@ class ScheduleOperation {
             const data = response.data;
             return { error: data, message: data.message }
         } catch (error: any) {
-            console.log("Error creating new tasks: ", error);
-            return error;
+            console.log("Error creating new tasks: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -2184,8 +2184,8 @@ class ScheduleOperation {
             const data = response.data;
             return { error: data, message: data.message }
         } catch (error: any) {
-            console.log("Error updating tasks: ", error);
-            return error;
+            console.log("Error updating tasks: ", error.response.data);
+            return error.response.data;
         }
     }
 
@@ -2198,8 +2198,8 @@ class ScheduleOperation {
             const data = response.data;
             return { error: data, message: data.message }
         } catch (error: any) {
-            console.log("Error deleting tasks: ", error);
-            return error;
+            console.log("Error deleting tasks: ", error.response.data);
+            return error.response.data;
         }
     }
 }
@@ -2211,7 +2211,7 @@ export {
 	AgencyOperation,
 	TransportPartnersOperation,
 	StaffsOperation,
-	Vehicle,
+	VehicleOperation,
 	BusinessOperation,
 	PartnerStaffOperation,
 	ShippersOperation,
