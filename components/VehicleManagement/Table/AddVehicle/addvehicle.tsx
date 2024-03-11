@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import {
   StaffsOperation,
-  Vehicle,
+  VehicleOperation,
   CreatingVehicleByAdminInfo,
   CreatingVehicleByAgencyInfo,
 } from "@/TDLib/tdlogistics";
@@ -120,7 +120,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
     }));
   };
   const [error, setError] = useState("");
-  const vehicle = new Vehicle();
+  const vehicle = new VehicleOperation();
   const handleSubmit = async () => {
     let check = true;
     console.log(Vehicledata);
@@ -209,7 +209,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
         transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full ">
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center">
             Thêm phương tiện
           </div>
           <Button
@@ -220,12 +220,16 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
           </Button>
         </div>
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md text-black dark:text-white">
-          <h1 className="font-semibold pb-2 ">Thông tin phương tiện</h1>
+          <h1 className="font-semibold pb-2 text-center">
+            Thông tin phương tiện
+          </h1>
           <div className="w-[98%] sm:w-10/12 grid grid-rows-2 ">
             <div className="flex gap-3">
               {role === "ADMIN" && (
                 <div className="w-full">
-                  <div className=" dark:text-white">Mã đại lý/bưu cục</div>
+                  <div className="text-center dark:text-white">
+                    Mã đại lý/bưu cục
+                  </div>
                   <input
                     type=""
                     className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -238,7 +242,9 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
                 </div>
               )}
               <div className="w-full">
-                <div className=" dark:text-white">Mã đối tác vận tải</div>
+                <div className="text-center dark:text-white">
+                  Mã đối tác vận tải
+                </div>
                 <input
                   type=""
                   className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -252,7 +258,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
             </div>
             <div className="flex gap-3 mt-3">
               <div className="w-full">
-                <div className=" dark:text-white">Mã nhân viên</div>
+                <div className="text-center dark:text-white">Mã nhân viên</div>
                 <input
                   type=""
                   className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -264,7 +270,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
                 />
               </div>
               <div className="w-full">
-                <div className=" dark:text-white">Biển số xe</div>
+                <div className="text-center dark:text-white">Biển số xe</div>
                 <input
                   type=""
                   className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -278,7 +284,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
             </div>
             <div className="flex gap-3 mt-3">
               <div className="w-full">
-                <div className=" dark:text-white">Loại xe</div>
+                <div className="text-center dark:text-white">Loại xe</div>
                 <input
                   type=""
                   className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -288,7 +294,9 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
                 />
               </div>
               <div className="w-full">
-                <div className=" dark:text-white">Tải trọng tối đa</div>
+                <div className="text-center dark:text-white">
+                  Tải trọng tối đa
+                </div>
                 <input
                   type="number"
                   className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full

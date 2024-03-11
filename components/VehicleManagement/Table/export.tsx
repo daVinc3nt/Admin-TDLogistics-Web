@@ -4,13 +4,13 @@ import https from "https";
 import {
   FindingVehicleByAdminConditions,
   FindingVehicleByStaffCondition,
-  Vehicle,
+  VehicleOperation,
   StaffsOperation,
 } from "@/TDLib/tdlogistics";
 import { useContext } from "react";
 import { UserContext } from "@/Context/InfoContext/UserContext";
 
-const vehicle = new Vehicle();
+const vehicle = new VehicleOperation();
 const condition: FindingVehicleByAdminConditions[] = [];
 const condition2: FindingVehicleByStaffCondition[] = [];
 

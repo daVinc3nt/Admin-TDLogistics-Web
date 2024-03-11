@@ -33,7 +33,10 @@ import { FormattedMessage } from "react-intl";
 import AddVehicle from "./AddVehicle/addvehicle";
 import Filter from "@/components/Common/Filters";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Vehicle, DeletingVehicleCondition } from "@/TDLib/tdlogistics";
+import {
+  VehicleOperation,
+  DeletingVehicleCondition,
+} from "@/TDLib/tdlogistics";
 import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -83,7 +86,7 @@ export function DataTable<TData, TValue>({
     );
   }
 
-  const deleteVehicle = new Vehicle();
+  const deleteVehicle = new VehicleOperation();
   const handleDeleteRowsSelected = async () => {
     table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
       console.log();
