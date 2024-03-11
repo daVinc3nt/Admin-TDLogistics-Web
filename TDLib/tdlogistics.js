@@ -40,7 +40,7 @@ exports.ScheduleOperation = exports.OrdersOperation = exports.ShipmentsOperation
 var axios_1 = require("axios");
 var socket_io_client_1 = require("socket.io-client");
 var FormData = require("form-data");
-var socket = (0, socket_io_client_1.io)("http://localhost:4000", {
+var socket = (0, socket_io_client_1.io)("http://localhost:5000", {
     withCredentials: true,
 });
 socket.on("connect", function () {
@@ -58,7 +58,7 @@ socket.on("notifyFailCreatedNewOrder", function (message) {
 var UsersAuthenticate = /** @class */ (function () {
     function UsersAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersAuthenticate.prototype.sendOTP = function (phoneNumber, email) {
         return __awaiter(this, void 0, void 0, function () {
@@ -119,7 +119,7 @@ exports.UsersAuthenticate = UsersAuthenticate;
 var StaffsAuthenticate = /** @class */ (function () {
     function StaffsAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     StaffsAuthenticate.prototype.login = function (username, password) {
         return __awaiter(this, void 0, void 0, function () {
@@ -206,7 +206,7 @@ exports.StaffsAuthenticate = StaffsAuthenticate;
 var UsersOperation = /** @class */ (function () {
     function UsersOperation(phoneNumber) {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
-        this.baseUrl = "http://localhost:4000/api/v1/users";
+        this.baseUrl = "http://localhost:5000/api/v1/users";
     }
     UsersOperation.prototype.findByUser = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -306,7 +306,7 @@ exports.UsersOperation = UsersOperation;
 var AgencyOperation = /** @class */ (function () {
     function AgencyOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/agencies";
-        this.baseUrl = "http://localhost:4000/api/v1/agencies";
+        this.baseUrl = "http://localhost:5000/api/v1/agencies";
     }
     AgencyOperation.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -452,7 +452,7 @@ exports.AgencyOperation = AgencyOperation;
 var TransportPartnersOperation = /** @class */ (function () {
     function TransportPartnersOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/transport_partners";
-        this.baseUrl = "http://localhost:4000/api/v1/transport_partners";
+        this.baseUrl = "http://localhost:5000/api/v1/transport_partners";
     }
     TransportPartnersOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -598,7 +598,7 @@ exports.TransportPartnersOperation = TransportPartnersOperation;
 var VehicleOperation = /** @class */ (function () {
     function VehicleOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/vehicles";
-        this.baseUrl = "http://localhost:4000/api/v1/vehicles";
+        this.baseUrl = "http://localhost:5000/api/v1/vehicles";
     }
     VehicleOperation.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -774,7 +774,7 @@ var VehicleOperation = /** @class */ (function () {
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, info: data.info, message: data.message }];
                     case 2:
                         error_29 = _a.sent();
                         console.log("Error adding shipments to vehicle: ", error_29.response.data);
@@ -797,7 +797,7 @@ var VehicleOperation = /** @class */ (function () {
                     case 1:
                         response = _a.sent();
                         data = response.data;
-                        return [2 /*return*/, { error: data.error, message: data.message }];
+                        return [2 /*return*/, { error: data.error, info: data.info, message: data.message }];
                     case 2:
                         error_30 = _a.sent();
                         console.log("Error deleting shipments from vehicle: ", error_30.response.data);
@@ -839,7 +839,7 @@ exports.VehicleOperation = VehicleOperation;
 var StaffsOperation = /** @class */ (function () {
     function StaffsOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/staffs";
     }
     // ROLE: any
     StaffsOperation.prototype.getAuthenticatedStaffInfo = function () {
@@ -1113,7 +1113,7 @@ exports.StaffsOperation = StaffsOperation;
 var BusinessOperation = /** @class */ (function () {
     function BusinessOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/business";
-        this.baseUrl = "http://localhost:4000/api/v1/business";
+        this.baseUrl = "http://localhost:5000/api/v1/business";
     }
     BusinessOperation.prototype.createByAdmin = function (info) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1400,7 +1400,7 @@ exports.BusinessOperation = BusinessOperation;
 var PartnerStaffOperation = /** @class */ (function () {
     function PartnerStaffOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/partner_staffs";
-        this.baseUrl = "http://localhost:4000/api/v1/partner_staffs";
+        this.baseUrl = "http://localhost:5000/api/v1/partner_staffs";
     }
     // ROLE: PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.getAuthenticatedPartnerStaffInfo = function () {
@@ -1748,7 +1748,7 @@ var PartnerStaffOperation = /** @class */ (function () {
 exports.PartnerStaffOperation = PartnerStaffOperation;
 var ShippersOperation = /** @class */ (function () {
     function ShippersOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/shippers";
+        this.baseUrl = "http://localhost:5000/api/v1/shippers";
     }
     ShippersOperation.prototype.getTask = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1825,12 +1825,35 @@ exports.ShippersOperation = ShippersOperation;
 var ShipmentsOperation = /** @class */ (function () {
     function ShipmentsOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/shipments";
-        this.baseUrl = "http://localhost:4000/api/v1/shipments";
+        this.baseUrl = "http://localhost:5000/api/v1/shipments";
     }
+    ShipmentsOperation.prototype.check = function (condition) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_72;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/check?shipment_id=").concat(condition.shipment_id), {
+                                withCredentials: true,
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data.error, existed: data.existed, message: data.message }];
+                    case 2:
+                        error_72 = _a.sent();
+                        console.log("Error checking exist shipment: ", error_72.response.data);
+                        return [2 /*return*/, error_72.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.create = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_72;
+            var response, data, error_73;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1843,9 +1866,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_72 = _a.sent();
-                        console.log("Error creating partner staff: ", error_72.response.data);
-                        return [2 /*return*/, error_72.response.data];
+                        error_73 = _a.sent();
+                        console.log("Error creating shipment: ", error_73.response.data);
+                        return [2 /*return*/, error_73.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1853,7 +1876,7 @@ var ShipmentsOperation = /** @class */ (function () {
     };
     ShipmentsOperation.prototype.getOrdersFromShipment = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_73;
+            var response, data, error_74;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1866,9 +1889,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
-                        error_73 = _a.sent();
-                        console.log("Error getting orders from shipment: ", error_73.response.data);
-                        return [2 /*return*/, error_73.response.data];
+                        error_74 = _a.sent();
+                        console.log("Error getting orders from shipment: ", error_74.response.data);
+                        return [2 /*return*/, error_74.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1877,7 +1900,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.addOrdersToShipment = function (condition, info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_74;
+            var response, data, error_75;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1890,9 +1913,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_74 = _a.sent();
-                        console.log("Error adding orders to shipment: ", error_74.response.data);
-                        return [2 /*return*/, error_74.response.data];
+                        error_75 = _a.sent();
+                        console.log("Error adding orders to shipment: ", error_75.response.data);
+                        return [2 /*return*/, error_75.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1901,7 +1924,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.deleteOrderFromShipment = function (condition, info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_75;
+            var response, data, error_76;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1914,9 +1937,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_75 = _a.sent();
-                        console.log("Error deleting order from shipment: ", error_75.response.data);
-                        return [2 /*return*/, error_75.response.data];
+                        error_76 = _a.sent();
+                        console.log("Error deleting order from shipment: ", error_76.response.data);
+                        return [2 /*return*/, error_76.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1925,7 +1948,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.confirmCreate = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_76;
+            var response, data, error_77;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1938,9 +1961,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_76 = _a.sent();
-                        console.log("Error confirming creat shipment: ", error_76.response.data);
-                        return [2 /*return*/, error_76.response.data];
+                        error_77 = _a.sent();
+                        console.log("Error confirming creat shipment: ", error_77.response.data);
+                        return [2 /*return*/, error_77.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1949,7 +1972,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.get = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_77;
+            var response, data, error_78;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1962,9 +1985,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
-                        error_77 = _a.sent();
-                        console.log("Error getting shipments: ", error_77.response.data);
-                        return [2 /*return*/, error_77.response.data];
+                        error_78 = _a.sent();
+                        console.log("Error getting shipments: ", error_78.response.data);
+                        return [2 /*return*/, error_78.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1973,7 +1996,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.delete = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_78;
+            var response, data, error_79;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1986,9 +2009,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_78 = _a.sent();
-                        console.log("Error deleting shipment: ", error_78.response.data);
-                        return [2 /*return*/, error_78.response.data];
+                        error_79 = _a.sent();
+                        console.log("Error deleting shipment: ", error_79.response.data);
+                        return [2 /*return*/, error_79.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1997,7 +2020,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.decompose = function (condition, info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_79;
+            var response, data, error_80;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2010,9 +2033,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_79 = _a.sent();
-                        console.log("Error decomposing shipment: ", error_79.response.data);
-                        return [2 /*return*/, error_79.response.data];
+                        error_80 = _a.sent();
+                        console.log("Error decomposing shipment: ", error_80.response.data);
+                        return [2 /*return*/, error_80.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2021,7 +2044,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: AGENCY_MANAGER, AGENCY_TELLER
     ShipmentsOperation.prototype.receive = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_80;
+            var response, data, error_81;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2034,9 +2057,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_80 = _a.sent();
-                        console.log("Error receiving shipment: ", error_80.response.data);
-                        return [2 /*return*/, error_80.response.data];
+                        error_81 = _a.sent();
+                        console.log("Error receiving shipment: ", error_81.response.data);
+                        return [2 /*return*/, error_81.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2045,7 +2068,7 @@ var ShipmentsOperation = /** @class */ (function () {
     // ROLE: SHIPPER, AGENCY_SHIPPER, PARTNER_SHIPPER
     ShipmentsOperation.prototype.undertake = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_81;
+            var response, data, error_82;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2058,9 +2081,9 @@ var ShipmentsOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_81 = _a.sent();
-                        console.log("Error undertaking shipment: ", error_81.response.data);
-                        return [2 /*return*/, error_81.response.data];
+                        error_82 = _a.sent();
+                        console.log("Error undertaking shipment: ", error_82.response.data);
+                        return [2 /*return*/, error_82.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2071,11 +2094,11 @@ var ShipmentsOperation = /** @class */ (function () {
 exports.ShipmentsOperation = ShipmentsOperation;
 var OrdersOperation = /** @class */ (function () {
     function OrdersOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/orders";
+        this.baseUrl = "http://localhost:5000/api/v1/orders";
     }
     OrdersOperation.prototype.get = function (conditions) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_82;
+            var response, data, error_83;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2088,9 +2111,9 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
-                        error_82 = _a.sent();
-                        console.log("Error getting orders: ", error_82.response.data);
-                        return [2 /*return*/, error_82.response.data];
+                        error_83 = _a.sent();
+                        console.log("Error getting orders: ", error_83.response.data);
+                        return [2 /*return*/, error_83.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2098,7 +2121,7 @@ var OrdersOperation = /** @class */ (function () {
     };
     OrdersOperation.prototype.checkExist = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_83;
+            var response, data, error_84;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2111,9 +2134,9 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, exist: data.existed, message: data.message }];
                     case 2:
-                        error_83 = _a.sent();
-                        console.log("Error checking exist order: ", error_83.response.data);
-                        return [2 /*return*/, error_83.response.data];
+                        error_84 = _a.sent();
+                        console.log("Error checking exist order: ", error_84.response.data);
+                        return [2 /*return*/, error_84.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2134,7 +2157,7 @@ var OrdersOperation = /** @class */ (function () {
     };
     OrdersOperation.prototype.update = function (info, condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_84;
+            var response, data, error_85;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2147,9 +2170,9 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_84 = _a.sent();
-                        console.log("Error updating order: ", error_84.response.data);
-                        return [2 /*return*/, error_84.response.data];
+                        error_85 = _a.sent();
+                        console.log("Error updating order: ", error_85.response.data);
+                        return [2 /*return*/, error_85.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2157,7 +2180,7 @@ var OrdersOperation = /** @class */ (function () {
     };
     OrdersOperation.prototype.cancel = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_85;
+            var response, data, error_86;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2170,9 +2193,9 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_85 = _a.sent();
-                        console.log("Error canceling order: ", error_85.response.data);
-                        return [2 /*return*/, error_85.response.data];
+                        error_86 = _a.sent();
+                        console.log("Error canceling order: ", error_86.response.data);
+                        return [2 /*return*/, error_86.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2183,11 +2206,11 @@ var OrdersOperation = /** @class */ (function () {
 exports.OrdersOperation = OrdersOperation;
 var ScheduleOperation = /** @class */ (function () {
     function ScheduleOperation() {
-        this.baseUrl = "http://localhost:4000/api/v1/schedules";
+        this.baseUrl = "http://localhost:5000/api/v1/schedules";
     }
     ScheduleOperation.prototype.get = function (conditions) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_86;
+            var response, data, error_87;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2200,9 +2223,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, data: data.data, message: data.message }];
                     case 2:
-                        error_86 = _a.sent();
-                        console.log("Error getting tasks: ", error_86.response.data);
-                        return [2 /*return*/, error_86.response.data];
+                        error_87 = _a.sent();
+                        console.log("Error getting tasks: ", error_87.response.data);
+                        return [2 /*return*/, error_87.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2210,7 +2233,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.create = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_87;
+            var response, data, error_88;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2223,9 +2246,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_87 = _a.sent();
-                        console.log("Error creating new tasks: ", error_87.response.data);
-                        return [2 /*return*/, error_87.response.data];
+                        error_88 = _a.sent();
+                        console.log("Error creating new tasks: ", error_88.response.data);
+                        return [2 /*return*/, error_88.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2233,7 +2256,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.update = function (info, condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_88;
+            var response, data, error_89;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2246,9 +2269,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_88 = _a.sent();
-                        console.log("Error updating tasks: ", error_88.response.data);
-                        return [2 /*return*/, error_88.response.data];
+                        error_89 = _a.sent();
+                        console.log("Error updating tasks: ", error_89.response.data);
+                        return [2 /*return*/, error_89.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2256,7 +2279,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.deleteTask = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_89;
+            var response, data, error_90;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2269,9 +2292,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_89 = _a.sent();
-                        console.log("Error deleting tasks: ", error_89.response.data);
-                        return [2 /*return*/, error_89.response.data];
+                        error_90 = _a.sent();
+                        console.log("Error deleting tasks: ", error_90.response.data);
+                        return [2 /*return*/, error_90.response.data];
                     case 3: return [2 /*return*/];
                 }
             });

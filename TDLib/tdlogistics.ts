@@ -12,17 +12,14 @@ socket.on("connect", () => {
 
 socket.on("notifyError", message => {
     // showing custome notification on UI
-    console.log(message)
 });
 
 socket.on("notifySuccessCreatedNewOrder", message => {
     // showing custome notification on UI
-    console.log(message)
 });
 
 socket.on("notifyFailCreatedNewOrder", message => {
     // showing custome notification on UI
-    console.log(message)
 });
 
 class UsersAuthenticate {
@@ -635,7 +632,7 @@ export interface UpdatingVehicleCondition {
 }
 
 export interface AddingShipmentsToVehicleInfo {
-    order_ids: Object,
+    shipment_ids: Object,
 }
 
 export interface AddingShipmentsToVehicleCondition {
@@ -643,7 +640,7 @@ export interface AddingShipmentsToVehicleCondition {
 }
 
 export interface DeletingShipmentsFromVehicleInfo {
-    order_ids: Object,
+    shipment_ids: Object,
 }
 
 export interface DeletingShipmentsFromVehicleCondition {
@@ -768,7 +765,7 @@ class VehicleOperation {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, info: data.info, message: data.message };
         } catch (error: any) {
             console.log("Error adding shipments to vehicle: ", error.response.data);
             return error.response.data;
@@ -782,7 +779,7 @@ class VehicleOperation {
             });
 
             const data = response.data;
-            return { error: data.error, message: data.message };
+            return { error: data.error, info: data.info, message: data.message };
         } catch (error: any) {
             console.log("Error deleting shipments from vehicle: ", error.response.data);
             return error.response.data;
@@ -1842,6 +1839,20 @@ class ShipmentsOperation {
 		this.baseUrl = "http://localhost:4000/api/v1/shipments";
 	}
 
+    async check(condition: ShipmentID) {
+        try {
+			const response = await axios.get(`${this.baseUrl}/check?shipment_id=${condition.shipment_id}`, {
+				withCredentials: true,
+			});
+
+			const data = response.data;
+			return { error: data.error, existed: data.existed, message: data.message };
+		} catch (error: any) {
+			console.log("Error checking exist shipment: ", error.response.data);
+			return error.response.data;
+		}
+    }
+
     // ROLE: ADMIN, MANAGER, TELLER, AGENCY_MANAGER, AGENCY_TELLER
 	async create(info: CreatingShipmentInfo) {
 		try {
@@ -1852,7 +1863,7 @@ class ShipmentsOperation {
 			const data = response.data;
 			return { error: data.error, message: data.message };
 		} catch (error: any) {
-			console.log("Error creating partner staff: ", error.response.data);
+			console.log("Error creating shipment: ", error.response.data);
 			return error.response.data;
 		}
 	}
@@ -1997,15 +2008,15 @@ export interface CheckingExistOrderCondition {
 }
 
 export interface GettingOrdersConditions {
-    name_receiver?: string,
-    phone_receiver?: string,
-    province_source?: string,
-    district_source?: string,
-    ward_source?: string,
-    province_dest?: string,
-    district_dest?: string,
-    ward_dest?: string,
-    service_type?: string,
+    name_receiver: string,
+    phone_receiver: string,
+    province_source: string,
+    district_source: string,
+    ward_source: string,
+    province_dest: string,
+    district_dest: string,
+    ward_dest: string,
+    service_type: number,
 }
 
 export interface CreatingOrderInformation {
