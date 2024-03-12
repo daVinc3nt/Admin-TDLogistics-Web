@@ -1744,7 +1744,7 @@ class PartnerStaffOperation {
 }
   
 export interface GettingTasksCondition {
-	option: number,
+	option?: number,
 }
 
 export interface ConfirmingCompletedTaskInfo {
@@ -2130,10 +2130,10 @@ class OrdersOperation {
 }
 
 export interface GettingTasksCondition {
-    task: string,
-    priority: number,
-    deadline: string,
-    completed: boolean,
+    task?: string,
+    priority?: number,
+    deadline?: string,
+    completed?: boolean,
 }
 
 export interface CreatingNewTaskInfo {
