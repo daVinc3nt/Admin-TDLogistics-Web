@@ -159,6 +159,11 @@ const DetailVehicle: React.FC<DetailVehicleProps> = ({
     console.log(Info.shipment_ids);
     const response = await vehicle.addShipments(Info, condition);
     console.log(response);
+        if (response.info.acceptedNumber == 0) {
+      // setError2("Lô hàng đã tồn tại trong phương tiện");
+      alert("Lô hàng đã tồn tại trong phương tiện");
+      return;
+    }
     if (response.error == true) {
       setError2(response.message);
       alert(response.message);
