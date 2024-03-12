@@ -6,7 +6,7 @@ import Provider from "./Theme/Provider";
 import {
   NotifyIcon,
   GlobseIcon
-} from "../components/Icons"
+} from "./Icons"
 import LangSelector from "@/components/LangSelector/LangSelector";
 import { FaCarSide } from "react-icons/fa";
 interface LayoutProps {

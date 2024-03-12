@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/TableUI/checkbox";
 import { FormattedMessage, useIntl } from "react-intl";
 export type Order = {
   // Địa chỉ nguồn
+  service_type: number
   detail_source: string;
   district_source: string;
   province_source: string;
@@ -160,9 +161,9 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
   },
-  //mass
+  //type
   {
-    accessorKey: "mass",
+    accessorKey: "service_type",
 
     header: ({ column }) => {
       return (

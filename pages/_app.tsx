@@ -20,30 +20,32 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [info, setInfo] = useState(null)
   const router =useRouter()
   const [value, setValue] = useState(false);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await staff.getAuthenticatedStaffInfo();
-  //     setInfo(res.data);
-  //   };
-  //   fetchData();
-  // }, []);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setValue((prevValue) => !prevValue);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-  // useEffect(() => {
-  //   console.log("cái này dùng để check xem còn cookie không")
-  //   if(!Cookies.get("connect.sid"))
-  //   {
-  //     if(router.pathname != "/log" && router.pathname != "/")
-  //     {
-  //       router.push("/log")
-  //     }
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await staff.getAuthenticatedStaffInfo();
+      setInfo(res.data);
+    };
+    fetchData();
+  }, []);
 
-  //   }
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prevValue) => !prevValue);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    console.log("cái này dùng để check xem còn cookie không")
+    if(!Cookies.get("connect.sid"))
+    {
+      if(router.pathname != "/log" && router.pathname != "/")
+      {
+        router.push("/log")
+      }
+    }
+  }, [value]);
+  
   useEffect(() => {
     console.log(info)
   }, [info]);

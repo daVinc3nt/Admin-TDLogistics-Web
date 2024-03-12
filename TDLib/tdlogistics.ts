@@ -238,19 +238,19 @@ export interface CreatingAgencyInfo {
     user_salary: number,
 
     type: string,
-    level: string,
+    level: number,
     postal_code: string,
     agency_name: string,
     province: string,
     district: string,
     town: string,
     detail_address: string,
-    latitude: string,
-    longitude: string,
-    managed_wards: string,
+    latitude: number,
+    longitude: number,
+    managed_wards: string[],
     phone_number: string,
     email: string,
-    commission_rate: string,
+    commission_rate: number,
     bin: string,
     bank: string,
 }
@@ -2008,15 +2008,15 @@ export interface CheckingExistOrderCondition {
 }
 
 export interface GettingOrdersConditions {
-    name_receiver: string,
-    phone_receiver: string,
-    province_source: string,
-    district_source: string,
-    ward_source: string,
-    province_dest: string,
-    district_dest: string,
-    ward_dest: string,
-    service_type: number,
+    name_receiver?: string,
+    phone_receiver?: string,
+    province_source?: string,
+    district_source?: string,
+    ward_source?: string,
+    province_dest?: string,
+    district_dest?: string,
+    ward_dest?: string,
+    service_type?: number,
 }
 
 export interface CreatingOrderInformation {

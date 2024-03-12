@@ -7,6 +7,7 @@ import { User, Pencil } from "lucide-react";
 import { FormattedMessage } from "react-intl";
 import { Order } from "./column";
 import { OrdersOperation, UpdatingOrderCondition, UpdatingOrderInfo } from "@/TDLib/tdlogistics";
+import HorizontalLinearAlternativeLabelStepper from "@/components/Common/Timeline";
 interface Props {
   onClose: () => void;
   dataInitial: Order
@@ -78,7 +79,8 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
     >
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 bg-[#14141a] rounded-xl p-4 overflow-y-auto
+        className={`relative w-[98%] sm:w-9/12 bg-white
+        dark:bg-[#14141a] rounded-xl p-4 overflow-y-auto
           ${isShaking ? "animate-shake" : ""}`}
         initial={{ scale: 0 }}
         animate={{ scale: isVisible ? 1 : 0 }}
@@ -96,7 +98,8 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
             <IoMdClose className="w-5/6 h-5/6 " />
           </Button>
         </div>
-        <div className="h-screen_3/5 border border-[#545e7b] mt-4 flex flex-col bg-[#14141a] p-2 rounded-md text-white place-content-center">
+        <div className="h-screen_3/5 border border-[#545e7b] mt-4 flex flex-col bg-white
+         dark:bg-[#14141a] p-2 rounded-md text-black dark:text-white place-content-center">
           <div className="grid grid-cols-2 overflow-y-scroll">
             {/* order id và hình ảnh */}
             <div>
@@ -116,13 +119,15 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
                   </div>
                     <div>{data.order_id}</div>
                 </div>
-                <div id="order_id" className="flex gap-5">
+
+                <div id="service_type" className="flex gap-5">
                   <div className="font-bold text-base">
                     Loại hình gửi
                   </div>
-                    <div>{data.container}</div>
+                    <div>{data.service_type}</div>
                 </div>
-                <div id="order_id" className="flex gap-5">
+
+                <div id="order_time" className="flex gap-5">
                   <div className="font-bold text-base">
                     Thời gian gửi
                   </div>
@@ -288,6 +293,7 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
                     </div>
                       <div>{data.name_sender}</div>
                   </div>
+
                   <div id="source" className="flex ">
                     <div className=" w-1/3 font-bold text-base">
                       Địa chỉ gửi hàng
@@ -296,6 +302,7 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
                         {data.detail_source}, {data.ward_source}, {data.district_source}, {data.province_source}
                       </div>
                   </div>
+
                   <div id="destination" className="flex ">
                     <div className=" w-1/3 font-bold text-base">
                       Địa chỉ giao hàng
@@ -308,6 +315,11 @@ const DetailStaff: React.FC<Props> = ({ onClose, dataInitial }) => {
               </div>
             </div>
           </div>
+            { data.journey.length !== 0 ? 
+            <div className="p-10">
+              <HorizontalLinearAlternativeLabelStepper stage={data.journey}/> 
+            </div>
+            : <></> }
         </div>
 
         <div className="w-full flex">

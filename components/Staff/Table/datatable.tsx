@@ -260,7 +260,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       <div className="flex items-center justify-center space-x-2 py-4">
-        <button
+        <Button
           className={`text-xs md:text-sm justify-self-start rounded-lg border
            border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 
            hover:text-white hover:shadow-md focus:outline-none font-normal text-black dark:text-white
@@ -274,7 +274,7 @@ export function DataTable<TData, TValue>({
           <FormattedMessage id="Delete" />{" "}
           {table.getFilteredSelectedRowModel().rows.length}/
           {table.getFilteredRowModel().rows.length}
-        </button>
+        </Button>
         <Button
           variant="light"
           size="sm"

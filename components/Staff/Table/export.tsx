@@ -24,11 +24,10 @@ async function getData(info:any): Promise<any> {
   // console.log(res1)
   // console.log(data)
   // console.log(res1)
-  console.log(res.data)
+  console.log("ne",res.data)
   
   return res.data;
 }
-
 export default async function DemoPage(info:any) {
   // const test = useContext(UserContext)
   const data = await getData(info);

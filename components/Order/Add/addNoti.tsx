@@ -4,10 +4,10 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/react";
 import CustomDropdown from "./dropdown";
 import { FaMapMarkedAlt } from "react-icons/fa";
-import MapNoti from "./MapRender/mapNoti";
 import { FormattedMessage, useIntl } from "react-intl";
 import axios from "axios";
 import { CreatingOrderInformation, OrdersOperation } from "@/TDLib/tdlogistics";
+import MapExport from "@/components/Maprender/Mapexport";
 interface City {
   Id: string;
   Name: string;
@@ -24,34 +24,12 @@ interface Ward {
   Id: string;
   Name: string;
 }
-const orderInformation: CreatingOrderInformation = {
-    name_receiver: "NguyenVanB",
-    phone_number_receiver: "0787919943",
-    mass: 24,
-    height: 30,
-    width: 25,
-    length: 60,
-    province_source: "Thành phố Hồ Chí Minh",
-    district_source: "Quận 1",
-    ward_source: "Phường Phạm Ngũ Lão",
-    detail_source: "Đường tỉnh 52, tổ 6 Khu phố Hiệp Hòa",
-    province_dest: "Tỉnh An Giang", 
-    district_dest: "Thành phố Long Xuyên",
-    ward_dest: "20 Nguyễn Huệ",
-    detail_dest: "20 Lý Thái Tổ",
-    long_source: 107.271563,
-    lat_source: 10.477812,
-    long_destination: 105.442062,
-    lat_destination: 10.377187,
-    COD: 32000,
-    service_type: 1
-
-};
 interface AddNotificationProps {
   onClose: () => void;
 }
 
 const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
+
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -60,16 +38,73 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity_src, setselectedCity_src] = useState("");
   const [selectedDistrict_src, setselectedDistrict_src] = useState("");
-
   const [selectedCity_dest, setselectedCity_dest] = useState("");
   const [selectedDistrict_dest, setselectedDistrict_dest] = useState("");
-
-  
-
-
-
   const intl = useIntl();
+  const [checkmissing, setCheckmissing] = useState({
+    user_fullname: false,
+    username: false,
+    user_password: false,
+    user_date_of_birth: false,
+    user_cccd: false,
+    user_phone_number: false,
+    user_email: false,
+    user_position: false,
+    user_bank: false,
+    user_bin: false,
+    user_salary: false,
+    user_province: false,
+    user_district: false,
+    user_town: false,
+    user_detail_address: false,
 
+    type: false,
+    level: false,
+    postal_code: false,
+    phone_number: false,
+    email: false,
+    province: false,
+    district: false,
+    town: false,
+    detail_address: false,
+    bank: false,
+    bin: false,
+    commission_rate: false,
+    latitude: false,
+    longitude: false,
+    managed_wards: false,
+    agency_name: false,
+    // revenue: false,
+  });
+  const [orderData, setOrderData] = useState({
+  name_receiver: "",
+  phone_number_receiver: "",
+  mass: 0,
+  height: 0,
+  width: 0,
+  length: 0,
+  province_source: "",
+  district_source: "",
+  ward_source: "",
+  detail_source: "",
+  province_dest: "",
+  district_dest: "",
+  ward_dest: "",
+  detail_dest: "",
+  long_source: 100,
+  lat_source: 100,
+  long_destination: 100,
+  lat_destination: 100,
+  COD: 0,
+  service_type: 0,
+  });
+  const handleUpdateLocation = (lat: number, lng: number) => {
+    setOrderData((prevAddressInfo) => ({
+      ...prevAddressInfo,
+      latitude: lat,
+      longitude: lng,
+    }));
+  };
 
   // chỗ này dùng để trích xuất thành phố đã được chọn để đưa ra quận huyện tương ứng
   const selectedCity_srcObj = cities.find((city) => city.Id === selectedCity_src);
@@ -136,77 +171,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
   const handleSubmit = () => {
     console.log(orderData)
     const action =new OrdersOperation()
-    action.create(orderInformation)
+    action.create(orderData)
     }
-
-  const openModal = (type) => {
-    setType(type);
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const [checkmissing, setCheckmissing] = useState({
-    user_fullname: false,
-    username: false,
-    user_password: false,
-    user_date_of_birth: false,
-    user_cccd: false,
-    user_phone_number: false,
-    user_email: false,
-    user_position: false,
-    user_bank: false,
-    user_bin: false,
-    user_salary: false,
-    user_province: false,
-    user_district: false,
-    user_town: false,
-    user_detail_address: false,
-
-    type: false,
-    level: false,
-    postal_code: false,
-    phone_number: false,
-    email: false,
-    province: false,
-    district: false,
-    town: false,
-    detail_address: false,
-    bank: false,
-    bin: false,
-    commission_rate: false,
-    latitude: false,
-    longitude: false,
-    managed_wards: false,
-    agency_name: false,
-    // revenue: false,
-  });
-
-  const [orderData, setOrderData] = useState({
-  name_receiver: "",
-  phone_receiver: "",
-  mass: 0,
-  height: 0,
-  width: 0,
-  length: 0,
-  province_source: "",
-  district_source: "",
-  ward_source: "",
-  detail_source: "",
-  province_dest: "",
-  district_dest: "",
-  ward_dest: "",
-  detail_dest: "",
-  long_source: 100,
-  lat_source: 100,
-  long_destination: 100,
-  lat_destination: 100,
-  COD: 0,
-  service_type: 0,
-  });
-
   const handleClickOutside = (event: MouseEvent) => {
     if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
       setIsShaking(true);
@@ -215,7 +181,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       }, 300);
     }
   };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -223,17 +188,14 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-
   const handleClose = () => {
     setIsVisible(false);
   };
-
   const handleAnimationComplete = () => {
     if (!isVisible) {
       onClose();
     }
   };
-
   const handleInputChange = (key: string, value: any, type: string ="string") => {
 
     if(type == "number")
@@ -248,7 +210,17 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       }));
     }
   }; 
-
+  const checkvalidaddress = () => {
+    if (
+      orderData.province_dest &&
+      orderData.district_dest &&
+      orderData.ward_dest &&
+      orderData.detail_dest
+    ) {
+      return true;
+    }
+    return false;
+  }; //dung de render map
   return (
     <motion.div
       className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 text-[#545e7b]`}
@@ -257,19 +229,22 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
       onAnimationComplete={handleAnimationComplete}
       style={{ backdropFilter: "blur(12px)" }}
     >
-      {modalIsOpen && <MapNoti onClose={closeModal} type={type}/>}
       <motion.div
         ref={notificationRef}
-        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-[#14141a] rounded-xl p-4 overflow-y-auto ${isShaking ? 'animate-shake' : ''}`}
+        className={`relative w-[98%] sm:w-9/12 lg:w-1/2 bg-white
+        dark:bg-[#14141a] rounded-xl p-4 overflow-y-auto ${isShaking ? 'animate-shake' : ''}`}
         initial={{ scale: 0 }} animate={{ scale: isVisible ? 1 : 0 }} exit={{ scale: 0 }} transition={{ duration: 0.5 }}
       >
         <div className="relative items-center justify-center flex-col flex h-10 w-full border-b-2 border-[#545e7b]">
-          <div className="font-bold text-lg sm:text-2xl pb-2 text-white w-full text-center"><FormattedMessage id="order.add"/></div>
+          <div className="font-bold text-lg sm:text-2xl pb-2 text-black dark:text-white w-full text-center"><FormattedMessage id="order.add"/></div>
           <Button className="absolute right-0 w-8 h-8 rounded-full mb-2 hover:bg-gray-300" onClick={handleClose}>
             <IoMdClose className="w-5/6 h-5/6"/>
           </Button>
         </div>
-        <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-[#14141a] p-2 rounded-md text-white">
+        <div className="h-screen_4/5 overflow-y-scroll border border-[#545e7b] mt-4 
+        no-scrollbar flex flex-col items-center bg-white
+        dark:bg-[#14141a] p-2 rounded-md text-black
+        dark:text-white">
           <div className="w-2/3 sm:w-10/12 mt-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
             <div className="flex gap-3 mt-3">
@@ -332,11 +307,10 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
           <div className="w-2/3 sm:w-10/12 mt-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
             
-            <div className="flex gap-3 mt-3">
-              <select
+            <div className="flex gap-3">
+              <select id="city"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_province ? "border-red-500" : ""}`}
-                id="city"
                 aria-label=".form-select-sm"
                 value={selectedCity_src}
                 onChange={e => handleCityChange("source",e, "province_source")}
@@ -351,11 +325,10 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
                 ))}
               </select>
 
-              <select
+              <select id="user_district"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_district ? "border-red-500" : ""}
                 `}
-                id="user_district"
                 aria-label=".form-select-sm"
                 value={selectedDistrict_src}
                 onChange={e => handleDistrictChange("source", e, "district_source")}
@@ -370,10 +343,9 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
                 ))}
               </select>
               
-              <select
+              <select id="ward"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_town ? "border-red-500" : ""}`}
-                id="ward"
                 aria-label=".form-select-sm"
                 onChange={(e) =>
                   handleInputChange(
@@ -392,8 +364,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
                 ))}
               </select>
 
-              <input
-                type=""
+              <input id="detail_source"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
                 placeholder="Số nhà- tên đường"
@@ -404,7 +375,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="w-2/3 sm:w-10/12 mt-6">
+          <div className="w-2/3 sm:w-10/12 my-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
             <div className="flex gap-3 mt-3">
               <select
@@ -477,6 +448,17 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
               />
             </div>
           </div>
+          {checkvalidaddress() && (
+              <MapExport
+                province={orderData.province_dest}
+                district={orderData.district_dest}
+                town={orderData.ward_dest}
+                detailadress={orderData.detail_dest}
+                latitude={orderData.lat_destination}
+                longitude={orderData.long_destination}
+                onUpdateLocation={handleUpdateLocation}
+              />
+            )}
         </div>
         <Button 
         onClick={handleSubmit}

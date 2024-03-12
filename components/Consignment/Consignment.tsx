@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
 import DemoPage from "api/getConsignment";
-import LoadingSkeleton from "components/LoadingSkeleton/loadingSkeleton";
+import LoadingSkeleton from "@/components/LoadingSkeleton/loadingSkeleton";
 import { FormattedMessage } from "react-intl";
 
 const ConsignmentMenu = () => {

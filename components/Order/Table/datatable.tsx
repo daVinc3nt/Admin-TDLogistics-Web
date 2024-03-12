@@ -28,6 +28,7 @@ import { Input } from "./input";
 import AddNoti from "../Add/addNoti";
 import BasicPopover from "@/components/Common/Popover";
 import Filter from "@/components/Common/Filters";
+import { CancelingOrderCondition, OrdersOperation } from "@/TDLib/tdlogistics";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,7 +37,7 @@ interface DataTableProps<TData, TValue> {
   cancel: number;
   pending: number;
 }
-
+const order = new OrdersOperation()
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -87,6 +88,33 @@ export function DataTable<TData, TValue>({
       </Button>
     );
   }
+  const handleDeleteRowsSelected = async () => {
+    table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
+      const condition:  CancelingOrderCondition = {
+        order_id: (row.original as any).order_id,
+      };
+      const error = await order.cancel(condition);
+      if (error) {
+        alert(error.message);
+      }
+    });
+  };
+  const confirmDelete = () => {
+    return window.confirm("Are you sure you want to delete?");
+  };
+  const deleteRows = () => {
+    // Gọi hàm confirmDelete và lưu kết quả vào biến result
+    const result = confirmDelete();
+    // Nếu result là true, tức là người dùng nhấn yes
+    if (result) {
+      // Gọi hàm handleDeleteRowsSelected để xóa các hàng đã chọn
+      handleDeleteRowsSelected();
+    }
+    // Nếu result là false, tức là người dùng nhấn no
+    else {
+      // Không làm gì cả
+    }
+  };
   return (
     <div>
       <div className="mt-10 uppercase sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
@@ -116,10 +144,10 @@ export function DataTable<TData, TValue>({
               id="consSearch"
               type="text"
               value={
-                (table.getColumn("orderId")?.getFilterValue() as string) ?? ""
+                (table.getColumn("order_id")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("orderId")?.setFilterValue(event.target.value)
+                table.getColumn("order_id")?.setFilterValue(event.target.value)
               }
               className={`peer h-10 self-center w-full border border-gray-600 rounded focus:outline-none focus:border-blue-500 truncate bg-transparent
                     text-left placeholder-transparent pl-3 pt-2 pr-12 text-sm text-white`}
@@ -162,9 +190,9 @@ export function DataTable<TData, TValue>({
             </DropdownMenu>
           </Dropdown>
           <BasicPopover icon={<FilterAltIcon />} >
-            <Filter type="range" column={table.getColumn("mass")} table={table} title="Mass" />
+            <Filter type="range" column={table.getColumn("service_type")} table={table} title="Mass" />
             <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
-            <Filter type="selection" options={{ Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4 }} column={table.getColumn("status")} table={table} title="Status" />
+            <Filter type="selection" options={{ Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4 }} column={table.getColumn("status_code")} table={table} title="Status" />
           </BasicPopover>
           <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
             <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
@@ -235,14 +263,29 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-center space-x-2 py-4">
         <Button
+          className={`text-xs md:text-sm justify-self-start rounded-lg border
+           border-gray-600 px-4 py-2 bg-transparent hover:bg-gray-700 
+           hover:text-white hover:shadow-md focus:outline-none font-normal text-black dark:text-white
+          ${
+            table.getFilteredSelectedRowModel().rows.length > 0
+              ? "border-red-500"
+              : "border-gray-600"
+          }`}
+          onClick={deleteRows}
+        >
+          <FormattedMessage id="Delete" />{" "}
+          {table.getFilteredSelectedRowModel().rows.length}/
+          {table.getFilteredRowModel().rows.length}
+        </Button>
+        <Button
           variant="light"
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="prev" />}</span>
         </Button>
@@ -272,9 +315,9 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
           className="px-2 py-[0.15rem] mb-0.5 w-12 sm:w-16 bg-transparent 
-          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-white hover:bg-black
+          drop-shadow-md hover:drop-shadow-xl hover:bg-opacity-30 hover:text-white border border-black dark:border-white hover:bg-black
           hover:shadow-md md:text-base focus:outline-none font-normal
-          text-white rounded-md text-sm text-center me-2"
+          text-black dark:text-white rounded-md text-sm text-center me-2"
         >
           <span>{<FormattedMessage id="next" />}</span>
         </Button>

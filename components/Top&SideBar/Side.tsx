@@ -8,6 +8,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 import Item from "./ForSideBar/Item";
 import SubItems from "./ForSideBar/SubItems"; 
 import { LogoutOutlined, KeyboardDoubleArrowLeft }from '@mui/icons-material';
+import Cookies from "js-cookie";
+import { Logout } from "./ForSideBar/Logout";
 interface MyComponentProps {
   toggleCollapseMobile: boolean;
 }
@@ -140,7 +142,9 @@ export default function Side({menuItems, toggleCollapseMobile }) {
       </div>
 
       <div className={`${getNavItemClasses({})}`}>
-        <div className="flex py-4 px-3 items-center w-full h-full text-[#545e7b] hover:bg-red-200 dark:hover:bg-black hover:text-[#e1201c]">
+        <button
+        onClick={Logout}
+        className="flex py-4 px-3 items-center w-full h-full text-[#545e7b] hover:bg-red-200 dark:hover:bg-black hover:text-[#e1201c]">
           <div style={ !toggleCollapse? { width: "2.5rem" }: { width: "0rem" }}>
             <LogoutOutlined />
           </div>
@@ -153,7 +157,7 @@ export default function Side({menuItems, toggleCollapseMobile }) {
               <FormattedMessage id="Sidebar.option11"/>
             </span>
           )}
-        </div>
+        </button>
       </div>
     </div>
     
@@ -215,13 +219,15 @@ export default function Side({menuItems, toggleCollapseMobile }) {
             <LogoutOutlined />
           </div>}
           {!toggleCollapseMobile && (
-            <span
-              className={classNames(
-                "text-md font-medium"
-              )}
-            >
-             <FormattedMessage id="Sidebar.option11"/>
-            </span>
+            <button>
+              <span
+                className={classNames(
+                  "text-md font-medium"
+                )}
+              >
+              <FormattedMessage id="Sidebar.option11"/>
+              </span>
+            </button>
           )}
         </div>
       </div>
