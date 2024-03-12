@@ -1084,14 +1084,14 @@ var StaffsOperation = /** @class */ (function () {
         });
     };
     // ROLE: any.
-    StaffsOperation.prototype.findAvatar = function (conditions) {
+    StaffsOperation.prototype.findAvatar = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
             var response, data, error_42;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_avatar"), conditions, {
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_avatar?staff_id=").concat(condition.staff_id), {
                                 withCredentials: true,
                             })];
                     case 1:
@@ -1370,14 +1370,14 @@ var BusinessOperation = /** @class */ (function () {
             });
         });
     };
-    BusinessOperation.prototype.findContract = function (conditions) {
+    BusinessOperation.prototype.findContract = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
             var response, data, error_54;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_contract"), conditions, {
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_contract?business_id=").concat(condition.business_id), {
                                 withCredentials: true,
                             })];
                     case 1:
@@ -1386,7 +1386,7 @@ var BusinessOperation = /** @class */ (function () {
                         return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
                     case 2:
                         error_54 = _a.sent();
-                        console.log("Error finding partner staff: ", error_54.response.data);
+                        console.log("Error finding contract: ", error_54.response.data);
                         return [2 /*return*/, error_54.response.data];
                     case 3: return [2 /*return*/];
                 }

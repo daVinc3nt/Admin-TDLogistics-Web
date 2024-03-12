@@ -238,19 +238,19 @@ export interface CreatingAgencyInfo {
     user_salary: number,
 
     type: string,
-    level: number,
+    level: string,
     postal_code: string,
     agency_name: string,
     province: string,
     district: string,
     town: string,
     detail_address: string,
-    latitude: number,
-    longitude: number,
-    managed_wards: string[],
+    latitude: string,
+    longitude: string,
+    managed_wards: string,
     phone_number: string,
     email: string,
-    commission_rate: number,
+    commission_rate: string,
     bin: string,
     bank: string,
 }
@@ -1063,9 +1063,9 @@ class StaffsOperation {
 	}
 
 	// ROLE: any.
-	async findAvatar (conditions: FindingAvatarCondition) {
+	async findAvatar (condition: FindingAvatarCondition) {
 		try {
-			const response: AxiosResponse = await axios.post(`${this.baseUrl}/get_avatar`, conditions, {
+			const response: AxiosResponse = await axios.get(`${this.baseUrl}/get_avatar?staff_id=${condition.staff_id}`, {
 				withCredentials: true,
 			});
 
@@ -1392,16 +1392,16 @@ class BusinessOperation {
 			} 
 	}
 
-	async findContract(conditions: FindingContractCondition) {
+	async findContract(condition: FindingContractCondition) {
 		try {
-			const response = await axios.post(`${this.baseUrl}/get_contract`, conditions, {
+			const response = await axios.get(`${this.baseUrl}/get_contract?business_id=${condition.business_id}`, {
 				withCredentials: true,
 			});
 
 			const data = response.data;
 			return { error: data.error, data: data.data, message: data.message };
 		} catch (error: any) {
-			console.log("Error finding partner staff: ", error.response.data);
+			console.log("Error finding contract: ", error.response.data);
 			return error.response.data;
 		}
 	}
@@ -1752,7 +1752,7 @@ export interface ConfirmingCompletedTaskInfo {
 }
 
 export interface GettingHistoryInfo {
-	option: number,
+	option?: number,
 }
 
 class ShippersOperation {
@@ -2129,7 +2129,7 @@ class OrdersOperation {
     }
 }
 
-export interface GettingTasksCondition {
+export interface GettingTasksConditions {
     task?: string,
     priority?: number,
     deadline?: string,
@@ -2158,7 +2158,7 @@ class ScheduleOperation {
         this.baseUrl = "http://localhost:4000/api/v1/schedules";
     }
 
-    async get(conditions: GettingTasksCondition) {
+    async get(conditions: GettingTasksConditions) {
         try {
             const response: AxiosResponse = await axios.post(`${this.baseUrl}/search`, conditions, {
                 withCredentials: true
