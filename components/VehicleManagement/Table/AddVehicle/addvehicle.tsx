@@ -303,7 +303,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
                 ${checkmissing.max_load ? "border-red-500" : ""}`}
                   placeholder="VD: Kg"
                   onChange={(e) =>
-                    handleInputChange("max_load", parseInt(e.target.value))
+                    handleInputChange("max_load", e.target.value)
                   }
                 />
               </div>
