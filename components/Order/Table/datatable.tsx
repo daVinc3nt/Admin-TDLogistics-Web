@@ -21,11 +21,18 @@ import {
 } from "./table";
 import React from "react";
 import { TbMinusVertical } from "react-icons/tb";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Input } from "./input";
 import AddNoti from "../Add/addNoti";
+import AddFile from "../Add/addNoti2";
 import BasicPopover from "@/components/Common/Popover";
 import Filter from "@/components/Common/Filters";
 import { CancelingOrderCondition, OrdersOperation } from "@/TDLib/tdlogistics";
@@ -37,21 +44,22 @@ interface DataTableProps<TData, TValue> {
   cancel: number;
   pending: number;
 }
-const order = new OrdersOperation()
+const order = new OrdersOperation();
 export function DataTable<TData, TValue>({
   columns,
   data,
   done,
   cancel,
-  pending
+  pending,
 }: DataTableProps<TData, TValue>) {
   const intl = useIntl();
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const openModal = () => {
@@ -61,6 +69,17 @@ export function DataTable<TData, TValue>({
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  const [modalIsOpen2, setModalIsOpen2] = React.useState(false);
+
+  const openModal2 = () => {
+    setModalIsOpen2(true);
+  };
+
+  const closeModal2 = () => {
+    setModalIsOpen2(false);
+  };
+
   const table = useReactTable({
     data,
     columns,
@@ -78,7 +97,6 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-
   });
   const paginationButtons = [];
   for (let i = 0; i < table.getPageCount(); i++) {
@@ -90,7 +108,7 @@ export function DataTable<TData, TValue>({
   }
   const handleDeleteRowsSelected = async () => {
     table.getFilteredSelectedRowModel().rows.forEach(async (row) => {
-      const condition:  CancelingOrderCondition = {
+      const condition: CancelingOrderCondition = {
         order_id: (row.original as any).order_id,
       };
       const error = await order.cancel(condition);
@@ -115,26 +133,27 @@ export function DataTable<TData, TValue>({
       // Không làm gì cả
     }
   };
+
   return (
     <div>
       <div className="mt-10 uppercase sticky flex items-center justify-center font-extrabold gap-32 text-3xl">
         <div>
-          <div className="text-lg">{<FormattedMessage id="order.status.done" />}</div>
-          <div className="text-green-600 text-center">
-            {done}
+          <div className="text-lg">
+            {<FormattedMessage id="order.status.done" />}
           </div>
+          <div className="text-green-600 text-center">{done}</div>
         </div>
         <div>
-          <div className="text-lg">{<FormattedMessage id="order.status.ongoing" />}</div>
-          <div className="text-yellow-600 text-center">
-            {pending}
+          <div className="text-lg">
+            {<FormattedMessage id="order.status.ongoing" />}
           </div>
+          <div className="text-yellow-600 text-center">{pending}</div>
         </div>
         <div>
-          <div className="text-lg">{<FormattedMessage id="order.status.cancel" />}</div>
-          <div className="text-red-600 text-center">
-            {cancel}
+          <div className="text-lg">
+            {<FormattedMessage id="order.status.cancel" />}
           </div>
+          <div className="text-red-600 text-center">{cancel}</div>
         </div>
       </div>
       <div className="flex items-center py-4 px-4">
@@ -176,7 +195,10 @@ export function DataTable<TData, TValue>({
               aria-labelledby="dropdownMenuButton"
             >
               {[10, 20, 30, 40, 50].map((pageSize, index) => (
-                <DropdownItem key={pageSize} textValue={`Show ${pageSize} items per page`}>
+                <DropdownItem
+                  key={pageSize}
+                  textValue={`Show ${pageSize} items per page`}
+                >
                   <Button
                     onClick={() => table.setPageSize(pageSize)}
                     variant="bordered"
@@ -189,21 +211,62 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenu>
           </Dropdown>
-          <BasicPopover icon={<FilterAltIcon />} >
-            <Filter type="range" column={table.getColumn("service_type")} table={table} title="Mass" />
-            <Filter type="search" column={table.getColumn("pickupLocation")} table={table} title="Origin" />
-            <Filter type="selection" options={{ Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4 }} column={table.getColumn("status_code")} table={table} title="Status" />
+          <BasicPopover icon={<FilterAltIcon />}>
+            <Filter
+              type="range"
+              column={table.getColumn("service_type")}
+              table={table}
+              title="Mass"
+            />
+            <Filter
+              type="search"
+              column={table.getColumn("pickupLocation")}
+              table={table}
+              title="Origin"
+            />
+            <Filter
+              type="selection"
+              options={{ Done: 3, OnGoing: 1, PickingUp: 2, Cancelled: 4 }}
+              column={table.getColumn("status_code")}
+              table={table}
+              title="Status"
+            />
           </BasicPopover>
-          <div className="flex-grow h-10 flex mt-4 sm:mt-0 justify-center sm:justify-end">
-            <Button className="text-xs md:text-sm border border-gray-600 rounded sm:ml-2 w-full sm:w-32 text-center h-full"
-              onClick={openModal}>
-              <FormattedMessage id="order.AddButton" />
-            </Button>
-            {modalIsOpen && <AddNoti onClose={closeModal} />}
-          </div>
         </div>
-
+        <Dropdown className="z-30">
+          <DropdownTrigger>
+            <Button
+              className="text-xs md:text-base border border-gray-600 rounded ml-2 w-36 h-10 text-center"
+              aria-label="Show items per page"
+            >
+              Thêm đơn hàng
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            className="dark:bg-[#1a1b23] bg-white border border-gray-300 rounded w-26"
+            aria-labelledby="dropdownMenuButton"
+          >
+            <DropdownItem>
+              <Button
+                className="text-center  dark:text-white w-36"
+                onClick={openModal}
+              >
+                Thêm đơn lẻ
+              </Button>
+            </DropdownItem>
+            <DropdownItem>
+              <Button
+                className="text-center  dark:text-white w-36"
+                onClick={openModal2}
+              >
+                Thêm hàng loạt
+              </Button>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
+      {modalIsOpen && <AddNoti onClose={closeModal} />}
+      {modalIsOpen2 && <AddFile onClose={closeModal2} />}
       <div className="rounded-md border border-gray-700">
         <table>
           <TableHeader>
@@ -212,19 +275,16 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        :
-                        (
-                          <>
-                            <div>
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                            </div>
-                          </>
-                        )}
+                      {header.isPlaceholder ? null : (
+                        <>
+                          <div>
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                          </div>
+                        </>
+                      )}
                     </TableHead>
                   );
                 })}
@@ -236,7 +296,9 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-gray-700 ${row.getIsSelected() ? 'bg-gray-300 dark:bg-gray-700' : ''}`}
+                  className={`border-gray-700 ${
+                    row.getIsSelected() ? "bg-gray-300 dark:bg-gray-700" : ""
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -290,10 +352,12 @@ export function DataTable<TData, TValue>({
           <span>{<FormattedMessage id="prev" />}</span>
         </Button>
         <span className="flex items-center gap-1">
-          <div className="text-xs md:text-base">{<FormattedMessage id="page" />}</div>
+          <div className="text-xs md:text-base">
+            {<FormattedMessage id="page" />}
+          </div>
           <strong className="text-xs md:text-base whitespace-nowrap">
-            {table.getState().pagination.pageIndex + 1} <FormattedMessage id="of" /> {" "}
-            {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1}{" "}
+            <FormattedMessage id="of" /> {table.getPageCount()}
           </strong>
         </span>
         <TbMinusVertical className="text-xl text-gray-700" />
