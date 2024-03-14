@@ -30,7 +30,7 @@ async function getData(): Promise<any> {
   }
 }
 
-export default async function DemoPage() {
+export default async function DemoPage(reloadData) {
   const data = await getData();
-  return <DataTable columns={columns} data={data} />;
+  return <DataTable columns={columns} data={data} reloadData={reloadData} />;
 }

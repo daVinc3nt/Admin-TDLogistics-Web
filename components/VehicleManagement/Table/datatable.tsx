@@ -41,11 +41,13 @@ import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  reloadData?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  reloadData,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -98,6 +100,7 @@ export function DataTable<TData, TValue>({
         alert(error.message);
       }
     });
+    reloadData();
   };
   const confirmDelete = () => {
     return window.confirm("Are you sure you want to delete?");
@@ -188,7 +191,9 @@ export function DataTable<TData, TValue>({
             >
               <FormattedMessage id="Vehicle.AddButton" />
             </Button>
-            {modalIsOpen && <AddVehicle onClose={closeModal} />}
+            {modalIsOpen && (
+              <AddVehicle onClose={closeModal} reloadData={reloadData} />
+            )}
           </div>
         </div>
       </div>

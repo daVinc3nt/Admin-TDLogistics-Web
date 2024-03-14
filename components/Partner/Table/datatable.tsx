@@ -40,6 +40,7 @@ import BasicPopover from "@/components/Common/Popover";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  reloadData?: () => void;
 }
 interface DeletingTransportPartnerCondition {
   transport_partner_id: string;
@@ -48,6 +49,7 @@ interface DeletingTransportPartnerCondition {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  reloadData,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -104,6 +106,7 @@ export function DataTable<TData, TValue>({
       if (error) {
         alert(error.message);
       }
+      reloadData();
     });
   };
   const confirmDelete = () => {
@@ -206,7 +209,9 @@ export function DataTable<TData, TValue>({
             >
               <FormattedMessage id="TransportPartner.AddButton" />
             </Button>
-            {modalIsOpen && <AddPartner onClose={closeModal} />}
+            {modalIsOpen && (
+              <AddPartner onClose={closeModal} reloadData={reloadData} />
+            )}
           </div>
         </div>
       </div>

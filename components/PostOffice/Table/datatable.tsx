@@ -39,11 +39,13 @@ import { AgencyOperation, DeletingAgencyCondition } from "@/TDLib/tdlogistics";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  reloadData?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  reloadData,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -93,6 +95,7 @@ export function DataTable<TData, TValue>({
         alert(error.message);
       }
     });
+    reloadData();
   };
   const confirmDelete = () => {
     return window.confirm("Are you sure you want to delete?");
@@ -206,7 +209,9 @@ export function DataTable<TData, TValue>({
             >
               <FormattedMessage id="PostOffice.AddButton" />
             </Button>
-            {modalIsOpen && <AddOffice onClose={closeModal} />}
+            {modalIsOpen && (
+              <AddOffice onClose={closeModal} reloadData={reloadData} />
+            )}
           </div>
         </div>
       </div>

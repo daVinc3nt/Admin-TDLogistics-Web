@@ -37,7 +37,7 @@ async function getData(): Promise<any> {
   }
 }
 
-export default async function DemoPage() {
+export default async function DemoPage(reloadData) {
   const data = await getData();
   const role = await getRole();
   if (
@@ -45,7 +45,7 @@ export default async function DemoPage() {
     role === "MANAGER" ||
     role === "HUMAN_RESOURCE_MANAGER"
   ) {
-    return <DataTable columns={columns} data={data} />;
+    return <DataTable columns={columns} data={data} reloadData={reloadData} />;
   } else {
     return (
       <div className="flex place-content-center">

@@ -1,17 +1,20 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DemoPage from "./Table/export";
 import LoadingSkeleton from "../LoadingSkeleton/loadingSkeleton";
 import { FormattedMessage } from "react-intl";
 const PostOfficeMenu = () => {
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
 
-  useEffect(() => {
-    const fetchDemoPage = async () => {
-      const result = await DemoPage();
-      setDemoPage(result);
-    };
+  const reloadData = useCallback(() => {
+    fetchDemoPage();
+  }, []);
+  const fetchDemoPage = async () => {
+    const result = await DemoPage(reloadData);
+    setDemoPage(result);
+  };
 
+  useEffect(() => {
     fetchDemoPage();
   }, []);
   return (

@@ -1,19 +1,23 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DemoPage from "./Table/export";
 import LoadingSkeleton from "../LoadingSkeleton/loadingSkeleton";
 import { FormattedMessage } from "react-intl";
 const PartnerMenu = () => {
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
 
-  useEffect(() => {
-    const fetchDemoPage = async () => {
-      const result = await DemoPage();
-      setDemoPage(result);
-    };
-
+  const reloadData = useCallback(() => {
     fetchDemoPage();
   }, []);
+  const fetchDemoPage = async () => {
+    const result = await DemoPage(reloadData);
+    setDemoPage(result);
+  };
+
+  useEffect(() => {
+    fetchDemoPage();
+  }, []);
+
   return (
     <div className="h-[calc(100vh-3rem)] content-center overflow-y-hidden flex flex-col ">
       <div className="h-full items-center w-full left-0 right-0 overflow-y-scroll no-scrollbar">
