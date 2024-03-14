@@ -10,10 +10,14 @@ import {
   CreatingTransportPartnerByAdminInfo,
   CreatingTransportPartnerByAgencyInfo,
   StaffsOperation,
+  AdministrativeOperation,
+  AdministrativeInfo,
 } from "@/TDLib/tdlogistics";
+import { set } from "date-fns";
 interface AddPartnerProps {
   onClose: () => void;
 }
+
 interface City {
   Id: string;
   Name: string;
@@ -33,10 +37,6 @@ interface Ward {
 const staff = new StaffsOperation();
 
 const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
-  const [cities, setCities] = useState<City[]>([]);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-
   const [citiesPartner, setCitiesPartner] = useState<City[]>([]);
   const [selectedCityPartner, setSelectedCityPartner] = useState("");
   const [selectedDistrictPartner, setSelectedDistrictPartner] = useState("");
@@ -122,17 +122,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   }, []);
 
   useEffect(() => {
-    const fetchCities = async () => {
-      const response = await axios.get(
-        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
-      );
-      setCities(response.data);
-    };
-
-    fetchCities();
-  }, []);
-
-  useEffect(() => {
     const fetchCitiesPartner = async () => {
       const response = await axios.get(
         "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
@@ -195,24 +184,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
       [key]: value,
     }));
   };
-  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(event.target.value);
-    setSelectedDistrict("");
-    handleInputChange(
-      "user_province",
-      cities.find((city) => city.Id === event.target.value).Name
-    );
-  };
-
-  const handleDistrictChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedDistrict(event.target.value);
-    handleInputChange(
-      "user_district",
-      districts.find((district) => district.Id === event.target.value).Name
-    );
-  };
 
   const handleCityChangePartner = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -234,14 +205,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
         .Name
     );
   };
-
-  const selectedCityObj = cities.find((city) => city.Id === selectedCity);
-  const districts = selectedCityObj ? selectedCityObj.Districts : [];
-
-  const selectedDistrictObj = districts.find(
-    (district) => district.Id === selectedDistrict
-  );
-  const wards = selectedDistrictObj ? selectedDistrictObj.Wards : [];
 
   const selectedCityObjPartner = citiesPartner.find(
     (city) => city.Id === selectedCityPartner
@@ -360,7 +323,53 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
     }
   };
   // console.log(PartnerData);
-  // console.log(checkmissing);
+  const a: AdministrativeInfo = {
+    province: "",
+  };
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedWard, setSelectedWard] = useState("");
+
+  const adminOperation = new AdministrativeOperation();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await adminOperation.get({});
+      console.log("Tỉnh", response);
+      setProvinces(response.data);
+    };
+    fetchData();
+  }, []);
+
+  const handleProvinceChange = async (e) => {
+    setSelectedProvince(e.target.value);
+    a.province = e.target.value;
+    handleInputChange("user_province", e.target.value);
+    console.log(a);
+    const response = await adminOperation.get(a);
+    console.log("Quận", response);
+    setDistricts(response.data);
+  };
+
+  const handleDistrictChange = async (e) => {
+    setSelectedDistrict(e.target.value);
+    a.province = selectedProvince;
+    a.district = e.target.value;
+    handleInputChange("user_district", e.target.value);
+    console.log(a);
+    const response = await adminOperation.get(a);
+    console.log("Xã", response);
+    setWards(response.data);
+  };
+  const handleWardChange = (e) => {
+    setSelectedWard(e.target.value);
+    handleInputChange("user_town", e.target.value);
+  };
+
   return (
     <motion.div
       className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-60 z-50 `}
@@ -392,6 +401,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             <IoMdClose className="w-5/6 h-5/6" />
           </Button>
         </div>
+
         <div className="h-screen_3/5 overflow-y-scroll border border-[#545e7b] mt-4 no-scrollbar flex flex-col items-center bg-white dark:bg-[#14141a] p-2 rounded-md dark:text-white">
           <div className="w-[98%] sm:w-10/12">
             <h1 className="font-semibold pb-2 text-center dark:text-white">
@@ -467,15 +477,15 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ${checkmissing.user_province ? "border-red-500" : ""}`}
                 id="city"
                 aria-label=".form-select-sm"
-                value={selectedCity}
-                onChange={handleCityChange}
+                value={selectedProvince}
+                onChange={handleProvinceChange}
               >
-                <option value="">
+                <option value="Bình Định">
                   {intl.formatMessage({ id: "Choose Province" })}
                 </option>
-                {cities.map((city) => (
-                  <option key={city.Id} value={city.Id}>
-                    {city.Name}
+                {provinces.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
                   </option>
                 ))}
               </select>
@@ -488,12 +498,12 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 value={selectedDistrict}
                 onChange={handleDistrictChange}
               >
-                <option value="">
+                <option value="Hoài Ân">
                   {intl.formatMessage({ id: "Choose District" })}
                 </option>
                 {districts.map((district) => (
-                  <option key={district.Id} value={district.Id}>
-                    {district.Name}
+                  <option key={district} value={district}>
+                    {district}
                   </option>
                 ))}
               </select>
@@ -502,19 +512,15 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ${checkmissing.user_town ? "border-red-500" : ""}`}
                 id="ward"
                 aria-label=".form-select-sm"
-                onChange={(e) =>
-                  handleInputChange(
-                    "user_town",
-                    wards.find((ward) => ward.Id === e.target.value).Name
-                  )
-                }
+                value={selectedWard}
+                onChange={(e) => handleWardChange(e)}
               >
-                <option value="">
+                <option value="Tăng Bạt Hổ">
                   {intl.formatMessage({ id: "Choose Ward" })}
                 </option>
                 {wards.map((ward) => (
-                  <option key={ward.Id} value={ward.Id}>
-                    {ward.Name}
+                  <option key={ward} value={ward}>
+                    {ward}
                   </option>
                 ))}
               </select>
@@ -762,6 +768,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
             </div>
           </div>
         </div>
+
         <Button
           className="w-full rounded-lg mt-5 mb-1 py-3 border-green-700 hover:bg-green-700 text-green-500
         bg-transparent drop-shadow-md hover:drop-shadow-xl hover:text-white border hover:shadow-md"
