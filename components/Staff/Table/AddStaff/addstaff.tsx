@@ -233,7 +233,6 @@ const AddStaff: React.FC<AddStaffProps> = ({ onClose, info }) => {
     if (isAdmin)
     staff.createByAgency(Staffdata)
     else {
-    console.log("hello")
     staff.createByAdmin(Staffdata)
     }
     // if (

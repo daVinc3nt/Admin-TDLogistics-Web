@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import DemoPage from "./Table/export";
 import LoadingSkeleton from "../LoadingSkeleton/loadingSkeleton";
 import {useIntl } from "react-intl"
 import { FormattedMessage } from "react-intl";
+import { SocketContext } from "@/Context/SocketContext/SocketContext";
 const OrderList = () => {
+  const {socket} = useContext(SocketContext)
   const intl =useIntl();
   const [demoPage, setDemoPage] = useState(<LoadingSkeleton />);
   const fetchDemoPage = async () => {
-    const result = await DemoPage();
+    const result = await DemoPage(socket);
     setDemoPage(result);
   };
   useEffect(() => {

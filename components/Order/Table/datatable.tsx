@@ -43,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   done: number;
   cancel: number;
   pending: number;
+  socket: any;
 }
 const order = new OrdersOperation();
 export function DataTable<TData, TValue>({
@@ -51,6 +52,7 @@ export function DataTable<TData, TValue>({
   done,
   cancel,
   pending,
+  socket
 }: DataTableProps<TData, TValue>) {
   const intl = useIntl();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -265,7 +267,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </Dropdown>
       </div>
-      {modalIsOpen && <AddNoti onClose={closeModal} />}
+      {modalIsOpen && <AddNoti onClose={closeModal}    socket={socket}/>}
       {modalIsOpen2 && <AddFile onClose={closeModal2} />}
       <div className="rounded-md border border-gray-700">
         <table>

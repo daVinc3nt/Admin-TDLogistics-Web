@@ -6,7 +6,7 @@ import CustomDropdown from "./dropdown";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { FormattedMessage, useIntl } from "react-intl";
 import axios from "axios";
-import { CreatingOrderInformation, OrdersOperation } from "@/TDLib/tdlogistics";
+import { CreatingOrderByAdminAndAgencyInformation, OrdersOperation } from "@/TDLib/tdlogistics";
 import MapExport from "@/components/Maprender/Mapexport";
 interface City {
   Id: string;
@@ -26,9 +26,36 @@ interface Ward {
 }
 interface AddNotificationProps {
   onClose: () => void;
+  socket: any;
 }
 
-const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
+
+const shipment = {
+  name_sender: "Trần Vĩ Quang",
+  phone_number_sender: "0908440828",
+  name_receiver: "Lữ Xuân Minh",
+  phone_number_receiver: "0908440838",
+  mass: 10, // Khối lượng
+  height: 10, // Chiều cao
+  width: 10, // Chiều rộng
+  length: 10, // Chiều dài
+  province_source: "Thành phố Hồ Chí Minh",
+  district_source: "Quận Bình Tân",
+  ward_source: "Phường An Lạc",
+  detail_source: "1234",
+  province_dest: "Tỉnh Bà Rịa - Vũng Tàu",
+  district_dest: "Huyện Đất Đỏ",
+  ward_dest: "Thị trấn Đất Đỏ",
+  detail_dest: "123",
+  long_source: 50, // Kinh độ điểm gửi hàng
+  lat_source: 50, // Vĩ độ điểm gửi hàng
+  long_destination: 40, // Kinh độ điểm nhận hàng
+  lat_destination: 40, // Vĩ độ điểm nhận hàng
+  COD: 100, // Số tiền thu hộ (nếu có)
+  service_type: "CPN"
+};
+
+const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) => {
 
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -77,6 +104,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
     // revenue: false,
   });
   const [orderData, setOrderData] = useState({
+  name_sender: "",
+  phone_number_sender: "",
   name_receiver: "",
   phone_number_receiver: "",
   mass: 0,
@@ -96,8 +125,12 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
   long_destination: 100,
   lat_destination: 100,
   COD: 0,
-  service_type: 0,
+  service_type: "",
   });
+
+
+
+
   const handleUpdateLocation = (lat: number, lng: number) => {
     setOrderData((prevAddressInfo) => ({
       ...prevAddressInfo,
@@ -171,8 +204,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose }) => {
   const handleSubmit = () => {
     console.log(orderData)
     const action =new OrdersOperation()
-    action.create(orderData)
-    }
+    action.createByAdminAndAgency(socket, orderData)
+  }
   const handleClickOutside = (event: MouseEvent) => {
     if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
       setIsShaking(true);

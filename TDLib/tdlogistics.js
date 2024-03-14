@@ -36,25 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScheduleOperation = exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.VehicleOperation = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
+exports.AdministrativeOperation = exports.ScheduleOperation = exports.OrdersOperation = exports.ShipmentsOperation = exports.ShippersOperation = exports.PartnerStaffOperation = exports.BusinessOperation = exports.VehicleOperation = exports.StaffsOperation = exports.TransportPartnersOperation = exports.AgencyOperation = exports.UsersOperation = exports.StaffsAuthenticate = exports.UsersAuthenticate = void 0;
 var axios_1 = require("axios");
-var socket_io_client_1 = require("socket.io-client");
 var FormData = require("form-data");
-var socket = (0, socket_io_client_1.io)("http://localhost:4000", {
-    withCredentials: true,
-});
-socket.on("connect", function () {
-    console.log("Connected to server.");
-});
-socket.on("notifyError", function (message) {
-    // showing custome notification on UI
-});
-socket.on("notifySuccessCreatedNewOrder", function (message) {
-    // showing custome notification on UI
-});
-socket.on("notifyFailCreatedNewOrder", function (message) {
-    // showing custome notification on UI
-});
+// socket.on("connect", () => {
+//     console.log("Connected to server.");
+// });
+// socket.on("notifyError", message => {
+//     // showing custome notification on UI
+// });
+// socket.on("notifySuccessCreatedNewOrder", message => {
+//     // showing custome notification on UI
+// });
+// socket.on("notifyFailCreatedNewOrder", message => {
+//     // showing custome notification on UI
+// });
 var UsersAuthenticate = /** @class */ (function () {
     function UsersAuthenticate() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
@@ -86,7 +82,7 @@ var UsersAuthenticate = /** @class */ (function () {
             });
         });
     };
-    UsersAuthenticate.prototype.verifyOTP = function (phoneNumber, email, otp) {
+    UsersAuthenticate.prototype.verifyOTP = function (phoneNumber, otp) {
         return __awaiter(this, void 0, void 0, function () {
             var response, data, error_2;
             return __generator(this, function (_a) {
@@ -95,7 +91,6 @@ var UsersAuthenticate = /** @class */ (function () {
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/verify_otp"), {
                                 phone_number: phoneNumber,
-                                email: email,
                                 otp: otp,
                             }, {
                                 withCredentials: true,
@@ -204,7 +199,7 @@ var StaffsAuthenticate = /** @class */ (function () {
 }());
 exports.StaffsAuthenticate = StaffsAuthenticate;
 var UsersOperation = /** @class */ (function () {
-    function UsersOperation(phoneNumber) {
+    function UsersOperation() {
         // this.baseUrl = "https://tdlogistics.govt.hu/api/v1/users";
         this.baseUrl = "http://localhost:4000/api/v1/users";
     }
@@ -1084,24 +1079,25 @@ var StaffsOperation = /** @class */ (function () {
         });
     };
     // ROLE: any.
-    StaffsOperation.prototype.findAvatar = function (condition) {
+    StaffsOperation.prototype.getAvatar = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_42;
+            var response, blob, imgUrl, error_42;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_avatar?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
+                                responseType: 'arraybuffer',
                             })];
                     case 1:
                         response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                        blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        imgUrl = URL.createObjectURL(blob);
+                        return [2 /*return*/, imgUrl];
                     case 2:
                         error_42 = _a.sent();
-                        console.log("Error finding partner staff: ", error_42.response.data);
-                        return [2 /*return*/, error_42.response.data];
+                        console.error("Error getting avatar: ", error_42);
+                        throw error_42;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1372,22 +1368,23 @@ var BusinessOperation = /** @class */ (function () {
     };
     BusinessOperation.prototype.findContract = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_54;
+            var response, blob, fileUrl, error_54;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_contract?business_id=").concat(condition.business_id), {
-                                withCredentials: true,
+                                responseType: 'arraybuffer',
                             })];
                     case 1:
                         response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                        blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        fileUrl = URL.createObjectURL(blob);
+                        return [2 /*return*/, fileUrl];
                     case 2:
                         error_54 = _a.sent();
-                        console.log("Error finding contract: ", error_54.response.data);
-                        return [2 /*return*/, error_54.response.data];
+                        console.error("Error getting contract: ", error_54);
+                        throw error_54;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1674,22 +1671,23 @@ var PartnerStaffOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.findPartnerStaffAvatar = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_66;
+            var response, blob, fileUrl, error_66;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_avatar?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_avatar?staff_id=").concat(condition.staff_id), {
+                                responseType: 'arraybuffer',
                             })];
                     case 1:
                         response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                        blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        fileUrl = URL.createObjectURL(blob);
+                        return [2 /*return*/, fileUrl];
                     case 2:
                         error_66 = _a.sent();
-                        console.log("Error finding partner staff: ", error_66.response.data);
-                        return [2 /*return*/, error_66.response.data];
+                        console.error("Error getting avatar: ", error_66);
+                        throw error_66;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1698,22 +1696,23 @@ var PartnerStaffOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.findPartnerStaffLicenseBefore = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_67;
+            var response, blob, fileUrl, error_67;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_license_before?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_license_before?staff_id=").concat(condition.staff_id), {
+                                responseType: 'arraybuffer',
                             })];
                     case 1:
                         response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                        blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        fileUrl = URL.createObjectURL(blob);
+                        return [2 /*return*/, fileUrl];
                     case 2:
                         error_67 = _a.sent();
-                        console.log("Error finding partner staff: ", error_67.response.data);
-                        return [2 /*return*/, error_67.response.data];
+                        console.error("Error getting license front: ", error_67);
+                        throw error_67;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -1722,22 +1721,23 @@ var PartnerStaffOperation = /** @class */ (function () {
     // ROLE: ADMIN, MANAGER, HUMAN_RESOURCE_MANAGER, AGENCY_MANAGER, AGENCY_HUMAN_RESOURCE_MANAGER, PARTNER_DRIVER, PARTNER_SHIPPER
     PartnerStaffOperation.prototype.findPartnerStaffLicenseAfter = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_68;
+            var response, blob, fileUrl, error_68;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/get_license_after?staff_id=").concat(condition.staff_id), {
-                                withCredentials: true,
+                        return [4 /*yield*/, axios_1.default.get("".concat(this.baseUrl, "/get_license_after?staff_id=").concat(condition.staff_id), {
+                                responseType: 'arraybuffer',
                             })];
                     case 1:
                         response = _a.sent();
-                        data = response.data;
-                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                        blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        fileUrl = URL.createObjectURL(blob);
+                        return [2 /*return*/, fileUrl];
                     case 2:
                         error_68 = _a.sent();
-                        console.log("Error finding partner staff: ", error_68.response.data);
-                        return [2 /*return*/, error_68.response.data];
+                        console.error("Error getting license after: ", error_68);
+                        throw error_68;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2142,22 +2142,91 @@ var OrdersOperation = /** @class */ (function () {
             });
         });
     };
-    OrdersOperation.prototype.create = function (info) {
+    OrdersOperation.prototype.checkFileFormat = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var formData, response, data, error_85;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        formData = new FormData();
+                        formData.append("file", info.file);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/check_file_format"), formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                                withCredentials: true,
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data.error, valid: data.valid, message: data.message }];
+                    case 2:
+                        error_85 = _a.sent();
+                        console.error('Error checking file format:', error_85.response.data);
+                        return [2 /*return*/, error_85.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrdersOperation.prototype.createByUser = function (socket, info) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 try {
-                    socket.emit("notifyNewOrderFromUser", info);
+                    socket.emit("notifyNewOrder", info);
                 }
                 catch (error) {
-                    console.log("Error creating new order: ", error.response.data);
+                    console.log("Error creating new order: ", error);
                 }
                 return [2 /*return*/];
             });
         });
     };
+    OrdersOperation.prototype.createByAdminAndAgency = function (socket, info) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    socket.emit("notifyNewOrder", info);
+                }
+                catch (error) {
+                    console.log("Error creating new order: ", error);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    OrdersOperation.prototype.createByFile = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var formData, response, data, error_86;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        formData = new FormData();
+                        formData.append("file", info.file);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/create_by_file"), formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                                withCredentials: true,
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data.error, message: data.message }];
+                    case 2:
+                        error_86 = _a.sent();
+                        console.error('Error creating orders by file:', error_86.response.data);
+                        return [2 /*return*/, error_86.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     OrdersOperation.prototype.update = function (info, condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_85;
+            var response, data, error_87;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2170,9 +2239,9 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_85 = _a.sent();
-                        console.log("Error updating order: ", error_85.response.data);
-                        return [2 /*return*/, error_85.response.data];
+                        error_87 = _a.sent();
+                        console.log("Error updating order: ", error_87.response.data);
+                        return [2 /*return*/, error_87.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2180,7 +2249,7 @@ var OrdersOperation = /** @class */ (function () {
     };
     OrdersOperation.prototype.cancel = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_86;
+            var response, data, error_88;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2193,9 +2262,32 @@ var OrdersOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data.error, message: data.message }];
                     case 2:
-                        error_86 = _a.sent();
-                        console.log("Error canceling order: ", error_86.response.data);
-                        return [2 /*return*/, error_86.response.data];
+                        error_88 = _a.sent();
+                        console.log("Error canceling order: ", error_88.response.data);
+                        return [2 /*return*/, error_88.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrdersOperation.prototype.calculateFee = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_89;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/calculate_fee"), info, {
+                                withCredentials: true,
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data.error, data: data.data, message: data.message }];
+                    case 2:
+                        error_89 = _a.sent();
+                        console.log("Error calculating fee: ", error_89.response.data);
+                        return [2 /*return*/, error_89.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2210,7 +2302,7 @@ var ScheduleOperation = /** @class */ (function () {
     }
     ScheduleOperation.prototype.get = function (conditions) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_87;
+            var response, data, error_90;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2223,9 +2315,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, data: data.data, message: data.message }];
                     case 2:
-                        error_87 = _a.sent();
-                        console.log("Error getting tasks: ", error_87.response.data);
-                        return [2 /*return*/, error_87.response.data];
+                        error_90 = _a.sent();
+                        console.log("Error getting tasks: ", error_90.response.data);
+                        return [2 /*return*/, error_90.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2233,7 +2325,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.create = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_88;
+            var response, data, error_91;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2246,9 +2338,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_88 = _a.sent();
-                        console.log("Error creating new tasks: ", error_88.response.data);
-                        return [2 /*return*/, error_88.response.data];
+                        error_91 = _a.sent();
+                        console.log("Error creating new tasks: ", error_91.response.data);
+                        return [2 /*return*/, error_91.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2256,7 +2348,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.update = function (info, condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_89;
+            var response, data, error_92;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2269,9 +2361,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_89 = _a.sent();
-                        console.log("Error updating tasks: ", error_89.response.data);
-                        return [2 /*return*/, error_89.response.data];
+                        error_92 = _a.sent();
+                        console.log("Error updating tasks: ", error_92.response.data);
+                        return [2 /*return*/, error_92.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2279,7 +2371,7 @@ var ScheduleOperation = /** @class */ (function () {
     };
     ScheduleOperation.prototype.deleteTask = function (condition) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, data, error_90;
+            var response, data, error_93;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2292,9 +2384,9 @@ var ScheduleOperation = /** @class */ (function () {
                         data = response.data;
                         return [2 /*return*/, { error: data, message: data.message }];
                     case 2:
-                        error_90 = _a.sent();
-                        console.log("Error deleting tasks: ", error_90.response.data);
-                        return [2 /*return*/, error_90.response.data];
+                        error_93 = _a.sent();
+                        console.log("Error deleting tasks: ", error_93.response.data);
+                        return [2 /*return*/, error_93.response.data];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -2303,3 +2395,33 @@ var ScheduleOperation = /** @class */ (function () {
     return ScheduleOperation;
 }());
 exports.ScheduleOperation = ScheduleOperation;
+var AdministrativeOperation = /** @class */ (function () {
+    function AdministrativeOperation() {
+        this.baseUrl = "http://localhost:4000/api/v1/administrative";
+    }
+    AdministrativeOperation.prototype.get = function (conditions) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, data, error_94;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.post("".concat(this.baseUrl, "/search"), conditions, {
+                                withCredentials: true
+                            })];
+                    case 1:
+                        response = _a.sent();
+                        data = response.data;
+                        return [2 /*return*/, { error: data, data: data.data, message: data.message }];
+                    case 2:
+                        error_94 = _a.sent();
+                        console.log("Error getting tasks: ", error_94.response.data);
+                        return [2 /*return*/, error_94.response.data];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return AdministrativeOperation;
+}());
+exports.AdministrativeOperation = AdministrativeOperation;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Order, columns } from "./column";
 import { DataTable } from "./datatable";
 import { OrdersOperation } from "@/TDLib/tdlogistics";
+import { AnyNode } from "postcss";
 
 async function getData(): Promise<Order[]> {
   // Fetch data from your API here.
@@ -17,7 +18,7 @@ async function getData(): Promise<Order[]> {
   return orders;
 }
 
-export default async function DemoPage() {
+export default async function DemoPage(socket: AnyNode) {
   const data = await getData()
   let done = 0,pending = 0,cancel = 0;
   data.map((data)=>{
@@ -28,6 +29,6 @@ export default async function DemoPage() {
     else pending++;
   })
   return (
-      <DataTable cancel={cancel} done={done} pending={pending} columns={columns} data={data} />
+      <DataTable socket={socket} cancel={cancel} done={done} pending={pending} columns={columns} data={data} />
   );
 }

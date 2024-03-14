@@ -13,6 +13,32 @@ import "aos/dist/aos.css";
 import { Loading } from "@/components/Common/Loading";
 import { UserContext } from "@/Context/InfoContext/UserContext";
 import Cookies from "js-cookie";
+import { SocketContext } from "@/Context/SocketContext/SocketContext";
+import { io } from 'socket.io-client';
+
+const socket = io("http://localhost:4000", {
+    withCredentials: true,
+});
+
+socket.on("connect", () => {
+    console.log("Connected to server.");
+});
+socket.on("notifyError", message => {
+  alert(message)
+  // showing custome notification on UI
+});
+
+socket.on("notifySuccessCreatedNewOrder", message => {
+  alert(message)
+  // showing custome notification on UI
+});
+
+socket.on("notifyFailCreatedNewOrder", message => {
+  alert(message)
+  // showing custome notification on UI
+});
+socket.on("notifyNewOrderToAgency", (order) => {console.log(order)});
+
 const googleMapsLibraries: Libraries = ["places"];
 const staff = new StaffsOperation ()
 function MyApp({ Component, pageProps }: AppProps) {
@@ -63,6 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   return (
     <>
+    <SocketContext.Provider value={{socket}}>
     <UserContext.Provider value={{info, setInfo}}>
       <IntlProvider locale={locale} messages={messages[locale]}>
         <Wrapper>
@@ -70,6 +97,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Wrapper>
       </IntlProvider>
     </UserContext.Provider>
+    </SocketContext.Provider>
     </>
   );
 }
