@@ -120,10 +120,10 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
   district_dest: "",
   ward_dest: "",
   detail_dest: "",
-  long_source: 50,
-  lat_source: 50,
-  long_destination: 50,
-  lat_destination: 50,
+  long_source: 0,
+  lat_source: 0,
+  long_destination: 0,
+  lat_destination: 0,
   COD: 0,
   service_type: "",
   });
@@ -131,11 +131,19 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
 
 
 
-  const handleUpdateLocation = (lat: number, lng: number) => {
+  const handleUpdateLocation_d = (lat: number, lng: number) => {
     setOrderData((prevAddressInfo) => ({
       ...prevAddressInfo,
-      latitude: lat,
-      longitude: lng,
+      lat_destination: lat,
+      long_destination: lng,
+    }));
+  };
+
+  const handleUpdateLocation_s = (lat: number, lng: number) => {
+    setOrderData((prevAddressInfo) => ({
+      ...prevAddressInfo,
+      lat_source: lat,
+      long_source: lng,
     }));
   };
 
@@ -243,6 +251,17 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
       }));
     }
   }; 
+  const checkvalidaddress1 = () => {
+    if (
+      orderData.province_source &&
+      orderData.district_source &&
+      orderData.ward_source &&
+      orderData.detail_source
+    ) {
+      return true;
+    }
+    return false;
+  };
   const checkvalidaddress = () => {
     if (
       orderData.province_dest &&
@@ -279,7 +298,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
         dark:bg-[#14141a] p-2 rounded-md text-black
         dark:text-white">
           <div className="w-2/3 sm:w-10/12 mt-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="order.general"/></h1>
             <div className="flex flex-col gap-3 mt-3">
                 <div className="flex gap-3">
                   <input
@@ -333,7 +352,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
 
 
           <div className="w-2/3 sm:w-10/12 mt-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="order.send"/></h1>
             
             <div className="flex gap-3 mt-3">
             <input
@@ -436,7 +455,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
           </div>
 
           <div className="w-2/3 sm:w-10/12 my-6">
-            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="order.to"/></h1>
             <div className="flex gap-3 mt-3">
             <input
                 type="name_receiver"
@@ -521,20 +540,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                   handleInputChange("detail_dest", e.target.value)
                 }
               />
-              <input
-                type="lat_d"
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Lat_d"
-                onChange={(e) => handleInputChange("lat_destination", e.target.value, "number")}
-              />
-              <input
-                type="long_d"
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Long_d"
-                onChange={(e) => handleInputChange("long_destination", e.target.value, "number")}
-              />
             </div>
           </div>
           {checkvalidaddress() && (
@@ -545,7 +550,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                 detailadress={orderData.detail_dest}
                 latitude={orderData.lat_destination}
                 longitude={orderData.long_destination}
-                onUpdateLocation={handleUpdateLocation}
+                onUpdateLocation={handleUpdateLocation_d}
               />
             )}
         </div>
