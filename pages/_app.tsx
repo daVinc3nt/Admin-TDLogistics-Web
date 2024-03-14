@@ -13,12 +13,16 @@ import "aos/dist/aos.css";
 import { Loading } from "@/components/Common/Loading";
 import { UserContext } from "@/Context/InfoContext/UserContext";
 import Cookies from "js-cookie";
+import { createContext } from "react";
 const googleMapsLibraries: Libraries = ["places"];
-const staff = new StaffsOperation ()
+import { Socket, io } from "socket.io-client";
+const staff = new StaffsOperation();
+export const SocketContext = createContext<Socket | null>(null);
 function MyApp({ Component, pageProps }: AppProps) {
+  const socket = io("http://localhost:5000", { transports: ["websocket"] });
   const { locale } = useRouter();
-  const [info, setInfo] = useState(null)
-  const router =useRouter()
+  const [info, setInfo] = useState(null);
+  const router = useRouter();
   const [value, setValue] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -36,18 +40,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   useEffect(() => {
-    console.log("cái này dùng để check xem còn cookie không")
-    if(!Cookies.get("connect.sid"))
-    {
-      if(router.pathname != "/log" && router.pathname != "/")
-      {
-        router.push("/log")
+    console.log("cái này dùng để check xem còn cookie không");
+    if (!Cookies.get("connect.sid")) {
+      if (router.pathname != "/log" && router.pathname != "/") {
+        router.push("/log");
       }
     }
   }, [value]);
-  
+
   useEffect(() => {
-    console.log(info)
+    console.log(info);
   }, [info]);
   const messages = {
     vi,
@@ -63,13 +65,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   return (
     <>
-    <UserContext.Provider value={{info, setInfo}}>
-      <IntlProvider locale={locale} messages={messages[locale]}>
-        <Wrapper>
-          <Component {...pageProps} />
-        </Wrapper>
-      </IntlProvider>
-    </UserContext.Provider>
+      {" "}
+      <SocketContext.Provider value={socket}>
+        <UserContext.Provider value={{ info, setInfo }}>
+          <IntlProvider locale={locale} messages={messages[locale]}>
+            <Wrapper>
+              <Component {...pageProps} />
+            </Wrapper>
+          </IntlProvider>
+        </UserContext.Provider>
+      </SocketContext.Provider>
     </>
   );
 }

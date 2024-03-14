@@ -13,9 +13,10 @@ import { set } from "date-fns";
 const Userdata = "ADMIN";
 interface AddVehicleProps {
   onClose: () => void;
+  reloadData: () => void;
 }
 
-const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
+const AddVehicle: React.FC<AddVehicleProps> = ({ onClose, reloadData }) => {
   const staff = new StaffsOperation();
   const [role, setRole] = useState(null);
 
@@ -162,6 +163,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
             license_plate: "",
             max_load: 0,
           });
+          reloadData();
         }
       } else {
         const submit: CreatingVehicleByAgencyInfo = {
@@ -183,6 +185,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
             license_plate: "",
             max_load: 0,
           });
+          reloadData();
         }
       }
     }
@@ -303,7 +306,7 @@ const AddVehicle: React.FC<AddVehicleProps> = ({ onClose }) => {
                 ${checkmissing.max_load ? "border-red-500" : ""}`}
                   placeholder="VD: Kg"
                   onChange={(e) =>
-                    handleInputChange("max_load", parseInt(e.target.value))
+                    handleInputChange("max_load", e.target.value)
                   }
                 />
               </div>

@@ -16,6 +16,7 @@ import {
 import { set } from "date-fns";
 interface AddPartnerProps {
   onClose: () => void;
+  reloadData: () => void;
 }
 
 interface City {
@@ -36,11 +37,7 @@ interface Ward {
 }
 const staff = new StaffsOperation();
 
-const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
-  const [citiesPartner, setCitiesPartner] = useState<City[]>([]);
-  const [selectedCityPartner, setSelectedCityPartner] = useState("");
-  const [selectedDistrictPartner, setSelectedDistrictPartner] = useState("");
-
+const AddPartner: React.FC<AddPartnerProps> = ({ onClose, reloadData }) => {
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -121,17 +118,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchCitiesPartner = async () => {
-      const response = await axios.get(
-        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
-      );
-      setCitiesPartner(response.data);
-    };
-
-    fetchCitiesPartner();
-  }, []);
-
   const [isShaking, setIsShaking] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -184,40 +170,6 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
       [key]: value,
     }));
   };
-
-  const handleCityChangePartner = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedCityPartner(event.target.value);
-    setSelectedDistrictPartner("");
-    handleInputChange(
-      "province",
-      citiesPartner.find((city) => city.Id === event.target.value).Name
-    );
-  };
-  const handleDistrictChangePartner = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedDistrictPartner(event.target.value);
-    handleInputChange(
-      "district",
-      districtsPartner.find((district) => district.Id === event.target.value)
-        .Name
-    );
-  };
-
-  const selectedCityObjPartner = citiesPartner.find(
-    (city) => city.Id === selectedCityPartner
-  );
-  const districtsPartner = selectedCityObjPartner
-    ? selectedCityObjPartner.Districts
-    : [];
-  const selectedDistrictObjPartner = districtsPartner.find(
-    (district) => district.Id === selectedDistrictPartner
-  );
-  const wardsPartner = selectedDistrictObjPartner
-    ? selectedDistrictObjPartner.Wards
-    : [];
 
   const [Showpassword, setShowpassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -311,6 +263,36 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
           setError(response.message);
         } else {
           alert("Thêm đối tác thành công");
+          reloadData();
+          setPartnerData({
+            username: "",
+            user_password: "",
+            user_fullname: "",
+            user_phone_number: "",
+            user_email: "",
+            user_date_of_birth: "",
+            user_cccd: "",
+            user_province: "",
+            user_district: "",
+            user_town: "",
+            user_detail_address: "",
+            user_position: "",
+            user_bin: "",
+            user_bank: "",
+
+            // Transport partner information
+            agency_id: "",
+            tax_code: "",
+            transport_partner_name: "",
+            province: "",
+            district: "",
+            town: "",
+            detail_address: "",
+            phone_number: "",
+            email: "",
+            bin: "",
+            bank: "",
+          });
         }
       } else {
         const response = await partner.createByAgency(PartnerData);
@@ -318,6 +300,35 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
           setError(response.message);
         } else {
           alert("Thêm đối tác thành công");
+          reloadData();
+          setPartnerData({
+            username: "",
+            user_password: "",
+            user_fullname: "",
+            user_phone_number: "",
+            user_email: "",
+            user_date_of_birth: "",
+            user_cccd: "",
+            user_province: "",
+            user_district: "",
+            user_town: "",
+            user_detail_address: "",
+            user_position: "",
+            user_bin: "",
+            user_bank: "",
+
+            // Transport partner information
+            tax_code: "",
+            transport_partner_name: "",
+            province: "",
+            district: "",
+            town: "",
+            detail_address: "",
+            phone_number: "",
+            email: "",
+            bin: "",
+            bank: "",
+          });
         }
       }
     }
@@ -326,6 +337,10 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const a: AdministrativeInfo = {
     province: "",
   };
+  const b: AdministrativeInfo = {
+    province: "",
+  };
+
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -334,6 +349,14 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
 
+  const [provincesPartner, setProvincesPartner] = useState([]);
+  const [districtsPartner, setDistrictsPartner] = useState([]);
+  const [wardsPartner, setWardsPartner] = useState([]);
+
+  const [selectedProvincePartner, setSelectedProvincePartner] = useState("");
+  const [selectedDistrictPartner, setSelectedDistrictPartner] = useState("");
+  const [selectedWardPartner, setSelectedWardPartner] = useState("");
+
   const adminOperation = new AdministrativeOperation();
 
   useEffect(() => {
@@ -341,6 +364,7 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
       const response = await adminOperation.get({});
       console.log("Tỉnh", response);
       setProvinces(response.data);
+      setProvincesPartner(response.data);
     };
     fetchData();
   }, []);
@@ -368,6 +392,31 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
   const handleWardChange = (e) => {
     setSelectedWard(e.target.value);
     handleInputChange("user_town", e.target.value);
+  };
+
+  const handleCityChangePartner = async (e) => {
+    setSelectedProvincePartner(e.target.value);
+    b.province = e.target.value;
+    handleInputChange("province", e.target.value);
+    console.log(b);
+    const response = await adminOperation.get(b);
+    console.log("Quận", response);
+    setDistrictsPartner(response.data);
+  };
+
+  const handleDistrictChangePartner = async (e) => {
+    setSelectedDistrictPartner(e.target.value);
+    b.province = selectedProvincePartner;
+    b.district = e.target.value;
+    handleInputChange("district", e.target.value);
+    console.log(b);
+    const response = await adminOperation.get(b);
+    console.log("Xã", response);
+    setWardsPartner(response.data);
+  };
+  const handleWardChangePartner = (e) => {
+    setSelectedWardPartner(e.target.value);
+    handleInputChange("town", e.target.value);
   };
 
   return (
@@ -704,15 +753,15 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ${checkmissing.province ? "border-red-500" : ""}`}
                 id="city"
                 aria-label=".form-select-sm"
-                value={selectedCityPartner}
+                value={selectedProvincePartner}
                 onChange={handleCityChangePartner}
               >
                 <option value="">
                   {intl.formatMessage({ id: "Choose Province" })}
                 </option>
-                {citiesPartner.map((city) => (
-                  <option key={city.Id} value={city.Id}>
-                    {city.Name}
+                {provincesPartner.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
                   </option>
                 ))}
               </select>
@@ -729,8 +778,8 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                   {intl.formatMessage({ id: "Choose District" })}
                 </option>
                 {districtsPartner.map((district) => (
-                  <option key={district.Id} value={district.Id}>
-                    {district.Name}
+                  <option key={district} value={district}>
+                    {district}
                   </option>
                 ))}
               </select>
@@ -739,19 +788,15 @@ const AddPartner: React.FC<AddPartnerProps> = ({ onClose }) => {
                 ${checkmissing.town ? "border-red-500" : ""}`}
                 id="ward"
                 aria-label=".form-select-sm"
-                onChange={(e) =>
-                  handleInputChange(
-                    "town",
-                    wardsPartner.find((ward) => ward.Id === e.target.value).Name
-                  )
-                }
+                value={selectedWardPartner}
+                onChange={(e) => handleWardChangePartner(e)}
               >
                 <option value="">
                   {intl.formatMessage({ id: "Choose Ward" })}
                 </option>
                 {wardsPartner.map((ward) => (
-                  <option key={ward.Id} value={ward.Id}>
-                    {ward.Name}
+                  <option key={ward} value={ward}>
+                    {ward}
                   </option>
                 ))}
               </select>
