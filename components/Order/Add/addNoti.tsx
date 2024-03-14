@@ -128,7 +128,33 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
   service_type: "",
   });
 
-
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected to server.");
+    });
+    socket.on("notifyError", message => {
+      alert(message)
+      // showing custome notification on UI
+    });
+    
+    socket.on("notifySuccessCreatedNewOrder", message => {
+      alert(message)
+      // showing custome notification on UI
+    });
+    
+    socket.on("notifyFailCreatedNewOrder", message => {
+      alert(message)
+      // showing custome notification on UI
+    });
+    socket.on("notifyNewOrderToAgency", (order) => {console.log(order)});
+    // Dọn dẹp khi component bị hủy
+    return () => {
+      socket.off("connect");
+      socket.off("notifyError");
+      socket.off("notifySuccessCreatedNewOrder");
+      socket.off("notifyFailCreatedNewOrder");
+    };
+  }, []);
 
 
   const handleUpdateLocation_d = (lat: number, lng: number) => {

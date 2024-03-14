@@ -16,28 +16,10 @@ import Cookies from "js-cookie";
 import { SocketContext } from "@/Context/SocketContext/SocketContext";
 import { io } from 'socket.io-client';
 
-const socket = io("http://localhost:4000", {
-    withCredentials: true,
+const socket = io("http://localhost:5000", {
+  transports: ["websocket"],
+  withCredentials: true
 });
-
-socket.on("connect", () => {
-    console.log("Connected to server.");
-});
-socket.on("notifyError", message => {
-  alert(message)
-  // showing custome notification on UI
-});
-
-socket.on("notifySuccessCreatedNewOrder", message => {
-  alert(message)
-  // showing custome notification on UI
-});
-
-socket.on("notifyFailCreatedNewOrder", message => {
-  alert(message)
-  // showing custome notification on UI
-});
-socket.on("notifyNewOrderToAgency", (order) => {console.log(order)});
 
 const googleMapsLibraries: Libraries = ["places"];
 import { Socket} from "socket.io-client";
