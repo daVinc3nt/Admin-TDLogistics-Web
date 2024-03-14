@@ -92,20 +92,10 @@ const SigninForm = () => {
 
 
   const signIn = async () =>{
-    const {email, phoneNumber} = formValues;
+    const {email, pass} = formValues;
     handleEmail(email);
-    handleNum(phoneNumber);
     const {emailEr, phoneNumberEr} = formErrors;
-    if (role !== "Admin"){
-      if ( emailEr !== "" || phoneNumberEr !== "") {setshake(true);return;}
-      else {
-      setshowOtp(!showOtp);
-      await staffAuth();
-      }
-    }
-    else {
       await adAuth();
-    }
   } 
   const adAuth = async () =>
   {
