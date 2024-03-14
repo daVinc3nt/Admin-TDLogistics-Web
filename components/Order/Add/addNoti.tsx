@@ -120,10 +120,10 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
   district_dest: "",
   ward_dest: "",
   detail_dest: "",
-  long_source: 100,
-  lat_source: 100,
-  long_destination: 100,
-  lat_destination: 100,
+  long_source: 50,
+  lat_source: 50,
+  long_destination: 50,
+  lat_destination: 50,
   COD: 0,
   service_type: "",
   });
@@ -280,59 +280,54 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
         dark:text-white">
           <div className="w-2/3 sm:w-10/12 mt-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
-            <div className="flex gap-3 mt-3">
-            <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Tên người gửi"
-                onChange={(e) => handleInputChange("name_receiver", e.target.value)}
-              />
-            <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Số điện thoại người gửi"
-                onChange={(e) => handleInputChange("phone_receiver", e.target.value)}
-              />
-              
-            </div>
-            <div className="flex gap-3 mt-3">
-            <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Dài"
-                onChange={(e) => handleInputChange("length", e.target.value, "number")}
-              />
-            <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Rộng"
-                onChange={(e) => handleInputChange("width", e.target.value, "number")}
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bank ? "border-red-500" : ""}`}
-                placeholder="Cao"
-                onChange={(e) => handleInputChange("height", e.target.value, "number")}
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bin ? "border-red-500" : ""}`}
-                placeholder="khối lượng"
-                onChange={(e) => handleInputChange("mass", e.target.value, "number")}
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.bin ? "border-red-500" : ""}`}
-                placeholder="COD"
-                onChange={(e) => handleInputChange("COD", e.target.value, "number")}
-              />
+            <div className="flex flex-col gap-3 mt-3">
+                <div className="flex gap-3">
+                  <input
+                      type="length"
+                      className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                      ${checkmissing.bank ? "border-red-500" : ""}`}
+                      placeholder="Dài"
+                      onChange={(e) => handleInputChange("length", e.target.value, "number")}
+                    />
+                  <input
+                      type="width"
+                      className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                      ${checkmissing.bank ? "border-red-500" : ""}`}
+                      placeholder="Rộng"
+                      onChange={(e) => handleInputChange("width", e.target.value, "number")}
+                    />
+                  <input
+                      type="height"
+                      className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                      ${checkmissing.bank ? "border-red-500" : ""}`}
+                      placeholder="Cao"
+                      onChange={(e) => handleInputChange("height", e.target.value, "number")}
+                    />
+                  <input
+                    type="mass"
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                    ${checkmissing.bin ? "border-red-500" : ""}`}
+                    placeholder="khối lượng"
+                    onChange={(e) => handleInputChange("mass", e.target.value, "number")}
+                  />
+                </div>
+
+                <div className="flex gap-3">
+                  <input
+                    type="COD"
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                    ${checkmissing.bin ? "border-red-500" : ""}`}
+                    placeholder="COD"
+                    onChange={(e) => handleInputChange("COD", e.target.value, "number")}
+                  />
+                  <input
+                    type="service_type"
+                    className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                    ${checkmissing.bin ? "border-red-500" : ""}`}
+                    placeholder="Loại hình vận chuyển"
+                    onChange={(e) => handleInputChange("service_type", e.target.value)}
+                  />
+                </div>
             </div>          
           </div>
 
@@ -340,7 +335,25 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
           <div className="w-2/3 sm:w-10/12 mt-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
             
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-3">
+            <input
+                type="name_sender"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Tên người gửi"
+                onChange={(e) => handleInputChange("name_sender", e.target.value)}
+              />
+            <input
+                type="phone_number_sender"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Số điện thoại người gửi"
+                onChange={(e) => handleInputChange("phone_number_sender", e.target.value)}
+              />
+            </div>
+
+            <div className="flex gap-3 mt-3">
+              
               <select id="city"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
                 ${checkmissing.user_province ? "border-red-500" : ""}`}
@@ -405,11 +418,41 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                   handleInputChange("detail_source", e.target.value)
                 }
               />
+              <input
+                type="lat_s"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Lat_s"
+                onChange={(e) => handleInputChange("lat_source", e.target.value, "number")}
+              />
+              <input
+                type="long_s"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Long_s"
+                onChange={(e) => handleInputChange("long_source", e.target.value, "number")}
+              />
             </div>
           </div>
 
           <div className="w-2/3 sm:w-10/12 my-6">
             <h1 className="font-semibold pb-2 text-center"><FormattedMessage id="Consignment.Add.SubTitle2"/></h1>
+            <div className="flex gap-3 mt-3">
+            <input
+                type="name_receiver"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Tên người nhận"
+                onChange={(e) => handleInputChange("name_receiver", e.target.value)}
+              />
+            <input
+                type="phone_number_receiver"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Số điện thoại người nhận"
+                onChange={(e) => handleInputChange("phone_number_receiver", e.target.value)}
+              />
+            </div>
             <div className="flex gap-3 mt-3">
               <select
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -470,6 +513,20 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                 ))}
               </select>
 
+              <input
+                type="lat_d"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Lat_d"
+                onChange={(e) => handleInputChange("lat_destination", e.target.value, "number")}
+              />
+              <input
+                type="long_d"
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.bank ? "border-red-500" : ""}`}
+                placeholder="Long_d"
+                onChange={(e) => handleInputChange("long_destination", e.target.value, "number")}
+              />
               <input
                 type=""
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
