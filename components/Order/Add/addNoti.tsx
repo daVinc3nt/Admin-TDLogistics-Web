@@ -512,7 +512,15 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                   </option>
                 ))}
               </select>
-
+              <input
+                type=""
+                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
+                ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
+                placeholder="Số nhà- tên đường"
+                onChange={(e) =>
+                  handleInputChange("detail_dest", e.target.value)
+                }
+              />
               <input
                 type="lat_d"
                 className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
@@ -526,15 +534,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({ onClose, socket }) =>
                 ${checkmissing.bank ? "border-red-500" : ""}`}
                 placeholder="Long_d"
                 onChange={(e) => handleInputChange("long_destination", e.target.value, "number")}
-              />
-              <input
-                type=""
-                className={`text-xs md:text-sm border border-gray-600 rounded  dark:bg-[#14141a] h-10 p-2 w-full
-                ${checkmissing.user_detail_address ? "border-red-500" : ""}`}
-                placeholder="Số nhà- tên đường"
-                onChange={(e) =>
-                  handleInputChange("detail_dest", e.target.value)
-                }
               />
             </div>
           </div>
