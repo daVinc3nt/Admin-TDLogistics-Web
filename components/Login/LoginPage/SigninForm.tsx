@@ -12,7 +12,6 @@ interface FormValues {
   email?: string;
   phoneNumber?: string;
   otp?: string;
-  // optional
   role?: string;
   name?: string;
   pass?: string;
@@ -21,12 +20,13 @@ interface ErrorValues {
   emailEr: string;
   phoneNumberEr: string;
   nameEr: string;
+  passEr: string;
 }
 const SigninForm = () => {
   const welcome = <FormattedMessage id="signup.welcome.message" />
   const {info,setInfo} = useContext(UserContext);
   const initialValues: FormValues = {  email: "", phoneNumber: "", otp: "", name:"", pass:""};
-  const initialValues2: ErrorValues = { emailEr: "", phoneNumberEr: "" , nameEr: ""};
+  const initialValues2: ErrorValues = { emailEr: "", phoneNumberEr: "" , nameEr: "", passEr:""};
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [formErrors, setFormErrors] = useState<ErrorValues>(initialValues2);
   const [role, setRole]=useState("");
@@ -47,38 +47,12 @@ const SigninForm = () => {
 
 
 
-  const handleEmail = async (change: string) => {
-    const value = change;
-    const updatedFormValues = { ...formValues, email: value };
-    setFormValues(updatedFormValues);
-    validate(updatedFormValues, 2);
-  };
-
-
-
-
-
   const handlePass = async (change: string) => {
     const value = change;
     const updatedFormValues = { ...formValues, pass: value };
     setFormValues(updatedFormValues);
+    validate(updatedFormValues, 2);
   };
-
-
-
-
-
-  const handleNum = (change: string) => {
-    const value = change;
-    const updatedFormValues = { ...formValues, phoneNumber: value };
-    setFormValues(updatedFormValues);
-    validate(updatedFormValues, 3);
-  };
-
-
-
-
-
 
   const handleName = async (change: string) => {
     const value = change
@@ -92,11 +66,16 @@ const SigninForm = () => {
 
 
   const signIn = async () =>{
-    const {email, pass} = formValues;
-    handleEmail(email);
-    const {emailEr, phoneNumberEr} = formErrors;
+    const {name, pass} = formValues;
+    const {nameEr, passEr} = formErrors;
+    handleName(name);
+    console.log(nameEr)
+    handlePass(pass);
+    console.log(passEr)
+    if (nameEr || passEr) {setshake(true); return}
       await adAuth();
   } 
+
   const adAuth = async () =>
   {
     const {name, pass} = formValues;
@@ -126,42 +105,26 @@ const SigninForm = () => {
 
   const validate = (values: FormValues, type: number)=> {
     var errors: string = "";
-    const NameRegex =/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+)((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+){1,})$/i;
-    const EmailRegex =/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4}$/i;
-    const PhoneRegex = /^\d+$/;
-    if (role === "Admin")
+    // const NameRegex =/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+)((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]+){1,})$/i;
+    // const EmailRegex =/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4}$/i;
+    // const PhoneRegex = /^\d+$/;
+    if (type == 1)
     {
-      if (type == 1 && !values.name) {
-      formErrors.nameEr = "Thiếu tên mất rồi.";
+      if ( !values.name) {
+        formErrors.nameEr = "Thiếu tên mất rồi.";
+      }
+      else formErrors.nameEr ="";
     }
-    else if(!NameRegex.test(values.name.toLowerCase())) {
-      formErrors.nameEr = "Mình ghi đầy đủ họ tên bạn nhé!";
-    }}
-    else formErrors.nameEr ="";
+
     if (type == 2)
     {
-        if (!values.email) {
-        formErrors.emailEr = "Thêm email nữa nghen!";
-      } else if (!EmailRegex.test(values.email)) {
-        formErrors.emailEr = "Email không hợp lệ.";
-      }
-        else formErrors.emailEr ="";
+        if (!values.pass) {
+        formErrors.passEr = "Thiếu password nè";
+        }
+        else formErrors.passEr ="";
     }
-    if (type ==3 )
-    {
-      if (!values.phoneNumber) {
-      formErrors.phoneNumberEr = "Nhập số điện thoại vào nè!";
-    } else if (!PhoneRegex.test(values.phoneNumber)) {
-      formErrors.phoneNumberEr= "Số này không hợp lệ rồi!";
-    } else if (values.phoneNumber.length < 10) {
-      formErrors.phoneNumberEr = "Hình như bạn nhập thiếu số nào rồi!";
-    } else if (values.phoneNumber.length > 10) {
-      formErrors.phoneNumberEr = "Bạn mình ơi, dư số nào rồi!";
-    }
-      else formErrors.phoneNumberEr ="";
-    }
-    if (!formErrors.phoneNumberEr && !formErrors.emailEr)
-    {setshake(false);}
+    if (!formErrors.nameEr && !formErrors.passEr)
+    {;setshake(false);}
   };
 
   return (
@@ -193,7 +156,7 @@ const SigninForm = () => {
                   >
                     <FormattedMessage id="signup.username"/>
                   </label>
-                  {/* <p className="text-red-500 fixed mt-1 text-xxs sm:text-sm">{formErrors.emailEr}</p> */}
+                  <p className="text-red-500 fixed mt-1 text-xxs sm:text-sm">{formErrors.nameEr}</p>
                   </div>
                   <div className="mt-5 sm:mt-10 relative">
                     <input
@@ -208,16 +171,11 @@ const SigninForm = () => {
                     >
                       <FormattedMessage id="signup.password"/>
                     </label>
+                    <p className="text-red-500 fixed mt-1 text-xxs sm:text-sm">{formErrors.passEr}</p>
                     {/* <p className="text-red-500 fixed mt-2 text-xxs sm:text-sm">{formErrors.phoneNumberEr}</p> */}
                   </div>
                 </form>
-                <div className="flex gap-4">
-                <button
-                      onClick={e => setRole("")}
-                      className={buttonstyle2}
-                    >
-                      <FormattedMessage id="sms.getback" />
-                  </button>
+                <div className="flex">
                   <button
                       onClick={signIn}
                       className={buttonstyle}
