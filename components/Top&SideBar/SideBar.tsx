@@ -13,11 +13,18 @@ import {
   Folder,
   MapsHomeWork,
   LogoutOutlined,
-  Handshake
+  Handshake,
+  AccountBox,
 } from "@mui/icons-material";
 import { FormattedMessage } from "react-intl";
 import MenuHambuger from "./MenuHambuger";
 const SideItemData = [
+  {
+    id: 0,
+    title: "Tài khoản",
+    url: "/dashboard/account",
+    icon: <AccountBox className="scale-75 lg:block" />,
+  },
   {
     id: 1,
     title: <FormattedMessage id="Sidebar.option1" />,
