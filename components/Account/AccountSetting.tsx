@@ -7,17 +7,21 @@ import {
   AdministrativeInfo,
   UpdatingStaffCondition,
   AdministrativeOperation,
+  FindingAvatarCondition,
+  UpdatingAvatarStaffInfo,
 } from "@/TDLib/tdlogistics";
 import { Person } from "@mui/icons-material";
+import BackupIcon from "@mui/icons-material/Backup";
 import { user } from "@nextui-org/react";
 import { useIntl, FormattedMessage } from "react-intl";
+import { set } from "date-fns";
 const AccountSetting = (info) => {
   const intl = useIntl();
-  const staff_id = new String(info.info.staff_id);
-  console.log("staff_id", staff_id);
+  const [staff_id, setStaff_id] = useState("");
   const userOp2 = new StaffsOperation();
+  const [staffInfo, setStaffInfo] = useState([]);
 
-  const [userInfo, setUserInfo] = useState({});
+  const [avatar, setAvatar] = useState(null);
   const [Update, setUpdate] = useState({
     fullname: "",
     username: "",
@@ -36,7 +40,8 @@ const AccountSetting = (info) => {
     const fetchData = async () => {
       const res2 = await userOp2.getAuthenticatedStaffInfo();
       console.log("res2", res2);
-      setUserInfo(res2.data);
+      setStaff_id(res2.data.staff_id);
+      setStaffInfo(res2.data);
       setUpdate({
         fullname: res2.data.fullname,
         username: res2.data.username,
@@ -51,10 +56,17 @@ const AccountSetting = (info) => {
         town: res2.data.town,
         detail_address: res2.data.detail_address,
       });
+      const get: FindingAvatarCondition = {
+        staff_id: res2.data.staff_id,
+      };
+      console.log("get", get);
+      const url = await userOp2.getAvatar(get);
+      console.log("AVT", url);
+      setAvatar(url);
     };
     fetchData();
   }, []);
-  console.log("userinfo", userInfo);
+
   const [isEditInfo, setIsEditInfo] = useState(true);
   const [passwordInfo, setPasswordInfo] = useState({
     new_password: "",
@@ -114,10 +126,10 @@ const AccountSetting = (info) => {
     setIsEditInfo(!isEditInfo);
   };
   const handleUpdateInfo = async () => {
-    console.log("iddddd", userInfo.staff_id);
+    console.log("iddddd", staff_id);
     console.log("update", Update);
     const Staffcondition: UpdatingStaffCondition = {
-      staff_id: userInfo.staff_id,
+      staff_id: staff_id,
     };
     const response = await userOp2.update(Update, Staffcondition);
     console.log("response", response);
@@ -129,7 +141,11 @@ const AccountSetting = (info) => {
     setIsEditInfo(!isEditInfo);
   };
   const handleChangePassword = async () => {
-    const reponse = await userOp2.updatePassword(passwordInfo, staff_id);
+    const up: UpdatingStaffCondition = {
+      staff_id: staff_id,
+    };
+
+    const reponse = await userOp2.updatePassword(passwordInfo, up);
     console.log("reponse", reponse);
     if (reponse.error === false) {
       alert("Đổi mật khẩu thành công");
@@ -137,187 +153,169 @@ const AccountSetting = (info) => {
       alert("Đổi mật khẩu thất bại");
     }
   };
-
+  const [avaterUpload, setAvaterUpload] = useState(null);
+  const handleUpdateAvatar = async () => {
+    const staffInfo: UpdatingAvatarStaffInfo = {
+      avatarFile: avaterUpload,
+    };
+    const id: UpdatingStaffCondition = {
+      staff_id: staff_id,
+    };
+    const response = await userOp2.updateAvatar(staffInfo, id);
+    console.log("response", response);
+    if (response.error === false) {
+      alert("Cập nhật ảnh đại diện thành công");
+    } else {
+      alert("Cập nhật ảnh đại diện thất bại");
+    }
+  };
   return (
     <div className="flex flex-col gap-5  h-full bg-white pb-5">
       <div className="flex flex-col place-content-center mt-3">
         <div className="text-xl font-bold">Thông tin cá nhân</div>
-        <div className="flex flex-col text-xs font-base mt-3">
+        <div className="flex flex-col text-xs font-base gap-3 ">
           <div>
-            <div className="text-xs font-semibold">Ảnh đại diện :</div>
+            <div className="text-sm font-light">Ảnh đại diện :</div>
+            <div className=" flex flex-row place place-content-center  border-2 h-20 border-blue-200  rounded-lg mt-3">
+              {avatar && (
+                <div className="pl-5 py-2 w-20 h-20 ">
+                  <img
+                    src={avatar}
+                    alt="Avatar"
+                    className="h-14 bg-white border rounded"
+                  />
+                </div>
+              )}
+              {!avatar && (
+                <div className="pl-5 py-2 w-20 h-20 ">
+                  <Person className=" h-16 bg-white border rounded-xl" />
+                </div>
+              )}
+              <div className="flex-grow place-content-center ">
+                <label className="flex py-6">
+                  <BackupIcon className="h-6 w-6" />
+
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setAvaterUpload(file);
+                    }}
+                  />
+                  {avaterUpload && (
+                    <div className="ml-3 font-bold text-sm">
+                      {avaterUpload.name}
+                    </div>
+                  )}
+                  {!avaterUpload && (
+                    <div className="ml-3 font-bold text-sm">Tải ảnh lên</div>
+                  )}
+                </label>
+              </div>
+            </div>
           </div>
-          <Person className="w-32 h-32" />
+          <button
+            onClick={handleUpdateAvatar}
+            className="text-white place-items-center h-8 mt-2 w-20 font-bold rounded-lg bg-blue-500 hover:bg-blue-400"
+          >
+            Xác nhận
+          </button>
         </div>
+
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
-          <div className="flex flex-col text-xs font-base ">
+          <div className="flex flex-col text-xs font-base gap-3 gap-3">
             <div>
-              <div className="text-xs font-semibold">Họ và tên :</div>
+              <div className="text-sm font-light">Họ và tên :</div>
             </div>
             {!isEditInfo ? (
               <input
                 type="text"
-                className="flex place-content-center h-8 border  hover:bg-gray-100 focus:bg-slate-200 rounded-md w-full md:w-1/2 py-2 hover:border-gray-500 hover:shadow-md focus:outline-none pl-2 "
+                className="flex place-content-center text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2 "
                 placeholder="Nhập họ và tên mới"
-                value={userInfo.fullname}
+                value={Update.fullname}
               />
             ) : (
-              <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2">
-                {userInfo.fullname}{" "}
+              <div className="flex text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2">
+                {Update.fullname}{" "}
               </div>
             )}
           </div>
-          <div className="flex flex-col text-xs font-base ">
+          <div className="flex flex-col text-xs font-base gap-3 gap-3">
             <div>
-              <div className="text-xs font-semibold">Số điện thoại :</div>
+              <div className="text-sm font-light">Số điện thoại :</div>
             </div>
             {!isEditInfo ? (
               <input
                 type="text"
-                className="flex place-content-center h-8 border  hover:bg-gray-100 focus:bg-slate-200 rounded-md w-full md:w-1/2 py-2 hover:border-gray-500 hover:shadow-md focus:outline-none pl-2 "
+                className="flex place-content-center text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2"
                 placeholder="Nhập số điện thoại mới"
-                value={userInfo.phone_number}
+                value={Update.phone_number}
               />
             ) : (
-              <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2">
-                {userInfo.phone_number}
+              <div className="flex  text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2">
+                {Update.phone_number}
               </div>
             )}
           </div>
-          <div className="flex flex-col text-xs font-base">
+          <div className="flex flex-col text-xs font-base gap-3 ">
             <div>
-              <div className="text-xs font-semibold">CCCD :</div>
+              <div className="text-sm font-light">CCCD :</div>
             </div>
             {!isEditInfo ? (
               <div>
                 <input
                   type="text"
-                  className="flex place-content-center h-8 border  hover:bg-gray-100 focus:bg-slate-200 rounded-md w-full md:w-1/2 py-2 hover:border-gray-500 hover:shadow-md focus:outline-none pl-2 "
+                  className="flex place-content-center text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2"
                   placeholder="Nhập số CCCD mới"
-                  value={userInfo.cccd}
+                  value={staffInfo.cccd}
                 />
               </div>
             ) : (
-              <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2 ">
-                {userInfo.cccd}
+              <div className="flex text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2 ">
+                {staffInfo.cccd}
               </div>
             )}
           </div>
 
-          <div className="flex flex-col text-xs font-base">
+          <div className="flex flex-col text-xs font-base gap-3">
             <div>
-              <div className="text-xs font-semibold">Chức vụ :</div>
+              <div className="text-sm font-light">Chức vụ :</div>
             </div>
-            <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2">
-              {userInfo.position}
+            <div className="flex  text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2">
+              {Update.role}
             </div>
           </div>
-          <div className="flex flex-col text-xs font-base">
+          <div className="flex flex-col text-xs font-base gap-3">
             <div>
-              <div className="text-xs font-semibold">Email :</div>
+              <div className="text-sm font-light">Email :</div>
             </div>
             {!isEditInfo ? (
               <input
                 type="text"
-                className="flex place-content-center h-8 border  hover:bg-gray-100 focus:bg-slate-200 rounded-md w-full md:w-1/2 py-2 hover:border-gray-500 hover:shadow-md focus:outline-none pl-2 "
+                className="flex place-content-center text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2"
                 placeholder="Nhập email mới"
-                value={userInfo.email}
+                value={Update.email}
               />
             ) : (
-              <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2">
-                {userInfo.email}
+              <div className="flex  text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2">
+                {Update.email}
               </div>
             )}
           </div>
-          <div className="flex flex-col text-xs font-base">
+          <div className="flex flex-col text-xs font-base gap-3">
             <div>
-              <div className="text-xs font-semibold">Ngày sinh :</div>
+              <div className="text-sm font-light">Ngày sinh :</div>
             </div>
 
-            <div className="text-xs font-base w-full md:w-1/2 py-2 pl-2">
-              {userInfo.date_of_birth}
+            <div className="flex text-base h-8 font-normal border-b-blue-600 border-b  hover:bg-blue-50 focus:bg-blue-100 shadow-sm w-full  py-2 hover:border-blue-500 hover:shadow-md focus:outline-none pl-2">
+              {Update.date_of_birth}
             </div>
           </div>
-          <div className="flex flex-row text-xs font-base h-10 ">
-            <div className="text-xs font-semibold w-12">Địa chỉ:</div>
 
-            {!isEditInfo ? (
-              <div className="flex flex-row">
-                <select
-                  className={`text-xs  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
-                `}
-                  id="city"
-                  aria-label=".form-select-sm"
-                  value={selectedProvince}
-                  onChange={handleProvinceChange}
-                >
-                  <option value="Bình Định">
-                    {intl.formatMessage({ id: "Choose Province" })}
-                  </option>
-                  {provinces.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className={`text-xs  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
-                
-                `}
-                  id="user_district"
-                  aria-label=".form-select-sm"
-                  value={selectedDistrict}
-                  onChange={handleDistrictChange}
-                >
-                  <option value="Hoài Ân">
-                    {intl.formatMessage({ id: "Choose District" })}
-                  </option>
-                  {districts.map((user_district) => (
-                    <option key={user_district} value={user_district}>
-                      {user_district}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className={`text-xs  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
-                `}
-                  id="ward"
-                  aria-label=".form-select-sm"
-                  value={selectedWard}
-                  onChange={(e) => handleWardChange(e)}
-                >
-                  <option value="Tăng Bạt Hổ">
-                    {intl.formatMessage({ id: "Choose Ward" })}
-                  </option>
-                  {wards.map((ward) => (
-                    <option key={ward} value={ward}>
-                      {ward}
-                    </option>
-                  ))}
-                </select>
-
-                <input
-                  type=""
-                  className={`text-xs  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
-                `}
-                  placeholder="Số nhà- tên đường"
-                  onChange={(e) =>
-                    handleInputChange("user_detail_address", e.target.value)
-                  }
-                />
-              </div>
-            ) : (
-              <div className="text-xs font-base w-full ">
-                {userInfo.detail_address}
-                {userInfo.town}
-                {userInfo.district}
-                {userInfo.province}
-              </div>
-            )}
-          </div>
-
-          {/* <div className="flex flex-col text-xs font-base">
+          {/* <div className="flex flex-col text-xs font-base gap-3">
             <div>
-              <div className="text-xs font-semibold">Giới tính :</div>
+              <div className="text-sm font-light">Giới tính :</div>
             </div>
             {!isEditInfo ? (
               <input
@@ -329,9 +327,9 @@ const AccountSetting = (info) => {
               <div className="text-xs font-base w-1/2 py-2 pl-2">Nam</div>
             )}
           </div>
-          <div className="flex flex-col text-xs font-base">
+          <div className="flex flex-col text-xs font-base gap-3">
             <div>
-              <div className="text-xs font-semibold">Địa chỉ :</div>
+              <div className="text-sm font-light">Địa chỉ :</div>
             </div>
             {!isEditInfo ? (
               <input
@@ -345,6 +343,83 @@ const AccountSetting = (info) => {
               </div>
             )}
           </div> */}
+        </div>
+        <div className="flex flex-row text-xs font-base h-10 mt-3">
+          <div className="text-sm font-light w-20">Địa chỉ:</div>
+
+          {!isEditInfo ? (
+            <div className="flex flex-row w-full">
+              <select
+                className={` text-xs md:text-base  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
+                `}
+                id="city"
+                aria-label=".form-select-sm"
+                value={selectedProvince}
+                onChange={handleProvinceChange}
+              >
+                <option value="Bình Định">
+                  {intl.formatMessage({ id: "Choose Province" })}
+                </option>
+                {provinces.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+              <select
+                className={` text-xs md:text-base  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
+                
+                `}
+                id="user_district"
+                aria-label=".form-select-sm"
+                value={selectedDistrict}
+                onChange={handleDistrictChange}
+              >
+                <option value="Hoài Ân">
+                  {intl.formatMessage({ id: "Choose District" })}
+                </option>
+                {districts.map((user_district) => (
+                  <option key={user_district} value={user_district}>
+                    {user_district}
+                  </option>
+                ))}
+              </select>
+              <select
+                className={` text-xs md:text-base  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
+                `}
+                id="ward"
+                aria-label=".form-select-sm"
+                value={selectedWard}
+                onChange={(e) => handleWardChange(e)}
+              >
+                <option value="Tăng Bạt Hổ">
+                  {intl.formatMessage({ id: "Choose Ward" })}
+                </option>
+                {wards.map((ward) => (
+                  <option key={ward} value={ward}>
+                    {ward}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type=""
+                className={` text-xs md:text-base  border border-gray-600 rounded  dark:bg-[#14141a] h-7  w-full
+                `}
+                placeholder="Số nhà- tên đường"
+                onChange={(e) =>
+                  handleInputChange("user_detail_address", e.target.value)
+                }
+              />
+            </div>
+          ) : (
+            <div className="text-base font-base w-full ">
+              {Update.detail_address}
+              {Update.town}
+              {Update.district}
+              {Update.province}
+            </div>
+          )}
         </div>
         {!isEditInfo ? (
           <div className="flex place-content-center ">
@@ -374,17 +449,19 @@ const AccountSetting = (info) => {
       </div>
       <div className="flex flex-col place-content-center">
         <div className="text-xl font-bold">Cài đặt tài khoản</div>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-5 mt-3">
           <div>
-            <div className="flex flex-col text-xs font-base">
+            <div className="flex flex-col text-xs font-base gap-3">
               <div>
-                <div className="text-xs font-semibold">Tên đăng nhập :</div>
+                <div className="text-sm font-light">Tên đăng nhập :</div>
               </div>
-              <div className="text-xs font-base w-1/2 py-2 pl-2">nhacute</div>
+              <div className="text-base font-base w-1/2 pb-2 pl-2">
+                {staffInfo.username}
+              </div>
             </div>
-            <div className="flex flex-col text-xs font-base gap-2">
+            <div className="flex flex-col text-xs font-base gap-3 gap-3">
               <div>
-                <div className="text-xs font-semibold">Đổi mật khẩu :</div>
+                <div className="text-sm font-light">Đổi mật khẩu :</div>
               </div>
               <div>Mật khẩu mới</div>
               <input
@@ -412,7 +489,7 @@ const AccountSetting = (info) => {
             <div className="flex  mt-3 w-full md:w-1/2 place-content-center">
               <button
                 onClick={handleChangePassword}
-                className="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded"
+                className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
               >
                 Đổi mật khẩu
               </button>
